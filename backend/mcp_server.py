@@ -1,0 +1,505 @@
+"""MCP (Model Context Protocol) server for EigenTalk.
+
+Exposes every app feature as a tool so users can drive the editor from
+Claude, Codex or any other MCP client by pasting one URL.
+
+The protocol is implemented directly rather than via the official SDK: the
+SDK requires Python >= 3.10 and the local venv is 3.9, and we need bespoke
+OAuth anyway (Clerk has no Dynamic Client Registration). MCP over HTTP is
+JSON-RPC 2.0 with a small method set, so this stays small.
+
+Tools call the FastAPI route functions directly. Their `Depends(...)` are
+plain defaults, so passing `user=` and `db=` explicitly runs them normally
+and we inherit all the existing ownership and validation logic.
+"""
+import inspect
+import json
+from typing import Any, Awaitable, Callable, Dict, List, Optional
+
+from fastapi import APIRouter, Depends, Request
+from fastapi.responses import JSONResponse
+from sqlalchemy.ext.asyncio import AsyncSession
+
+from auth import get_current_user
+from database import get_db
+from models.schemas import (
+    ApplyEditsRequest,
+    ChatThreadCreate,
+    ChatThreadUpdate,
+    ExportRequest,
+    ProjectCreate,
+)
+from routers import projects as p
+
+PROTOCOL_VERSION = "2025-06-18"
+SERVER_INFO = {"name": "eigentalk", "title": "EigenTalk", "version": "1.0.0"}
+
+router = APIRouter(tags=["mcp"])
+
+
+# --------------------------------------------------------------------------
+# Tool registry
+# --------------------------------------------------------------------------
+
+Handler = Callable[..., Awaitable[Any]]
+_TOOLS: List[Dict[str, Any]] = []
+_HANDLERS: Dict[str, Handler] = {}
+
+
+def tool(
+    name: str,
+    description: str,
+    schema: Optional[Dict[str, Any]] = None,
+    *,
+    read_only: bool = False,
+    destructive: bool = False,
+):
+    """Register a handler as an MCP tool."""
+    def wrap(fn: Handler) -> Handler:
+        _TOOLS.append({
+            "name": name,
+            "description": description,
+            "inputSchema": schema or {"type": "object", "properties": {}},
+            "annotations": {
+                "readOnlyHint": read_only,
+                "destructiveHint": destructive,
+            },
+        })
+        _HANDLERS[name] = fn
+        return fn
+    return wrap
+
+
+def _obj(props: Dict[str, Any], required: Optional[List[str]] = None) -> Dict[str, Any]:
+    return {
+        "type": "object",
+        "properties": props,
+        "required": required or [],
+        "additionalProperties": False,
+    }
+
+
+PROJECT_ID = {"type": "integer", "description": "Project id (see list_projects)"}
+
+
+def _dump(value: Any) -> Any:
+    """Pydantic models / lists / scalars → JSON-safe structures."""
+    if hasattr(value, "model_dump"):
+        return json.loads(value.model_dump_json())
+    if isinstance(value, list):
+        return [_dump(v) for v in value]
+    if isinstance(value, dict):
+        return {k: _dump(v) for k, v in value.items()}
+    return value
+
+
+# --------------------------------------------------------------------------
+# Projects
+# --------------------------------------------------------------------------
+
+@tool("list_projects", "List all of the user's audio projects.", read_only=True)
+async def _list_projects(user, db):
+    return _dump(await p.list_projects(user=user, db=db))
+
+
+@tool(
+    "get_project",
+    "Get one project: name, duration, status, audio URL and active version.",
+    _obj({"project_id": PROJECT_ID}, ["project_id"]),
+    read_only=True,
+)
+async def _get_project(user, db, project_id: int):
+    return _dump(await p.get_project(project_id=project_id, user=user, db=db))
+
+
+@tool(
+    "create_project",
+    "Create an empty project. Audio must be added afterwards (see import_audio_from_url).",
+    _obj({
+        "name": {"type": "string", "description": "Project name"},
+        "duration": {"type": "string", "description": "Optional display duration, e.g. '3:42'"},
+    }, ["name"]),
+)
+async def _create_project(user, db, name: str, duration: Optional[str] = None):
+    payload = ProjectCreate(name=name, duration=duration)
+    return _dump(await p.create_project(payload=payload, user=user, db=db))
+
+
+@tool(
+    "delete_project",
+    "Permanently delete a project and all its versions. Cannot be undone.",
+    _obj({"project_id": PROJECT_ID}, ["project_id"]),
+    destructive=True,
+)
+async def _delete_project(user, db, project_id: int):
+    await p.delete_project(project_id=project_id, user=user, db=db)
+    return {"deleted": project_id}
+
+
+@tool(
+    "get_processing_status",
+    "Check whether a project's audio has been uploaded and transcribed yet.",
+    _obj({"project_id": PROJECT_ID}, ["project_id"]),
+    read_only=True,
+)
+async def _processing_status(user, db, project_id: int):
+    return _dump(await p.processing_status(project_id=project_id, user=user, db=db))
+
+
+# --------------------------------------------------------------------------
+# Transcript
+# --------------------------------------------------------------------------
+
+@tool(
+    "transcribe_project",
+    "Transcribe the project's audio with Whisper. Needed before any transcript editing.",
+    _obj({"project_id": PROJECT_ID}, ["project_id"]),
+)
+async def _transcribe(user, db, project_id: int):
+    return _dump(await p.transcribe_project(project_id=project_id, user=user, db=db))
+
+
+@tool(
+    "get_transcript",
+    "Get the transcript: full text plus per-word timings. Use word indexes here "
+    "when calling delete_words or replace_word.",
+    _obj({
+        "project_id": PROJECT_ID,
+        "include_words": {
+            "type": "boolean",
+            "description": "Include per-word timings and indexes (default true).",
+        },
+    }, ["project_id"]),
+    read_only=True,
+)
+async def _get_transcript(user, db, project_id: int, include_words: bool = True):
+    project = await p._get_owned_project(db, project_id, user)
+    t = project.transcript
+    if not t:
+        return {"transcribed": False, "hint": "Call transcribe_project first."}
+    out: Dict[str, Any] = {
+        "transcribed": True,
+        "text": t.get("text", ""),
+        "duration": t.get("duration"),
+        "language": t.get("language"),
+    }
+    if include_words:
+        out["segments"] = [
+            {
+                "segment_idx": si,
+                "start": seg.get("start"),
+                "text": seg.get("text"),
+                "words": [
+                    {"word_idx": wi, "text": w.get("text"), "start": w.get("start")}
+                    for wi, w in enumerate(seg.get("words") or [])
+                ],
+            }
+            for si, seg in enumerate(t.get("segments") or [])
+        ]
+    return out
+
+
+@tool(
+    "detect_fillers",
+    "Find filler words (um, uh, like, so) with their segment and word indexes.",
+    _obj({"project_id": PROJECT_ID}, ["project_id"]),
+    read_only=True,
+)
+async def _detect_fillers(user, db, project_id: int):
+    return _dump(await p.detect_fillers(project_id=project_id, user=user, db=db))
+
+
+# --------------------------------------------------------------------------
+# Editing
+# --------------------------------------------------------------------------
+
+@tool(
+    "remove_all_fillers",
+    "Detect and cut every filler word, saving the result as a new version.",
+    _obj({"project_id": PROJECT_ID}, ["project_id"]),
+)
+async def _remove_all_fillers(user, db, project_id: int):
+    fillers = await p.detect_fillers(project_id=project_id, user=user, db=db)
+    words = [{"segment_idx": f.segment_idx, "word_idx": f.word_idx} for f in fillers.fillers]
+    if not words:
+        return {"removed": 0, "message": "No filler words found."}
+    payload = ApplyEditsRequest(edits=[{"type": "delete", "words": words}])
+    version = await p.apply_edits(project_id=project_id, payload=payload, user=user, db=db)
+    return {"removed": len(words), "version": _dump(version)}
+
+
+@tool(
+    "delete_words",
+    "Cut specific words from the audio by index, saving a new version. "
+    "Get indexes from get_transcript.",
+    _obj({
+        "project_id": PROJECT_ID,
+        "words": {
+            "type": "array",
+            "description": "Words to remove.",
+            "items": _obj({
+                "segment_idx": {"type": "integer"},
+                "word_idx": {"type": "integer"},
+            }, ["segment_idx", "word_idx"]),
+        },
+    }, ["project_id", "words"]),
+)
+async def _delete_words(user, db, project_id: int, words: List[dict]):
+    payload = ApplyEditsRequest(edits=[{"type": "delete", "words": words}])
+    return _dump(await p.apply_edits(project_id=project_id, payload=payload, user=user, db=db))
+
+
+@tool(
+    "replace_word",
+    "Replace a word with new text, regenerated in the speaker's cloned voice "
+    "and spliced in. Falls back to a premade voice if cloning is unavailable.",
+    _obj({
+        "project_id": PROJECT_ID,
+        "segment_idx": {"type": "integer"},
+        "word_idx": {"type": "integer"},
+        "new_text": {"type": "string", "description": "Replacement word or short phrase"},
+    }, ["project_id", "segment_idx", "word_idx", "new_text"]),
+)
+async def _replace_word(user, db, project_id: int, segment_idx: int, word_idx: int, new_text: str):
+    payload = ApplyEditsRequest(edits=[{
+        "type": "replace",
+        "word": {"segment_idx": segment_idx, "word_idx": word_idx},
+        "new_text": new_text,
+    }])
+    return _dump(await p.apply_edits(project_id=project_id, payload=payload, user=user, db=db))
+
+
+@tool(
+    "remove_noise",
+    "Strip background noise with ElevenLabs Voice Isolator, saving a new version.",
+    _obj({"project_id": PROJECT_ID}, ["project_id"]),
+)
+async def _remove_noise(user, db, project_id: int):
+    return _dump(await p.denoise_project(project_id=project_id, user=user, db=db))
+
+
+@tool(
+    "clone_voice",
+    "Clone the speaker's voice from the project audio, so replaced words sound like them.",
+    _obj({"project_id": PROJECT_ID}, ["project_id"]),
+)
+async def _clone_voice(user, db, project_id: int):
+    return _dump(await p.clone_project_voice(project_id=project_id, user=user, db=db))
+
+
+# --------------------------------------------------------------------------
+# Versions & export
+# --------------------------------------------------------------------------
+
+@tool(
+    "list_versions",
+    "List every saved version of the project's audio, oldest first.",
+    _obj({"project_id": PROJECT_ID}, ["project_id"]),
+    read_only=True,
+)
+async def _list_versions(user, db, project_id: int):
+    return _dump(await p.list_versions(project_id=project_id, user=user, db=db))
+
+
+@tool(
+    "activate_version",
+    "Switch the project to a different saved version, including the original.",
+    _obj({
+        "project_id": PROJECT_ID,
+        "version_id": {"type": "integer", "description": "Version id from list_versions"},
+    }, ["project_id", "version_id"]),
+)
+async def _activate_version(user, db, project_id: int, version_id: int):
+    return _dump(await p.activate_version(
+        project_id=project_id, version_id=version_id, user=user, db=db
+    ))
+
+
+@tool(
+    "export_audio",
+    "Render a version to mp3, wav or m4a and return a download URL.",
+    _obj({
+        "project_id": PROJECT_ID,
+        "format": {"type": "string", "enum": ["mp3", "wav", "m4a"], "description": "Default mp3"},
+        "version_id": {"type": "integer", "description": "Defaults to the active version"},
+        "filename": {"type": "string", "description": "Without extension"},
+    }, ["project_id"]),
+    read_only=True,
+)
+async def _export(user, db, project_id: int, format: str = "mp3",
+                  version_id: Optional[int] = None, filename: Optional[str] = None):
+    payload = ExportRequest(format=format, version_id=version_id, filename=filename)
+    return _dump(await p.export_project(project_id=project_id, payload=payload, user=user, db=db))
+
+
+# --------------------------------------------------------------------------
+# Chat threads
+# --------------------------------------------------------------------------
+
+@tool(
+    "list_chat_threads",
+    "List saved assistant conversations for a project.",
+    _obj({"project_id": PROJECT_ID}, ["project_id"]),
+    read_only=True,
+)
+async def _list_threads(user, db, project_id: int):
+    return _dump(await p.list_threads(project_id=project_id, user=user, db=db))
+
+
+@tool(
+    "create_chat_thread",
+    "Start a new saved conversation inside a project.",
+    _obj({"project_id": PROJECT_ID, "title": {"type": "string"}}, ["project_id"]),
+)
+async def _create_thread(user, db, project_id: int, title: Optional[str] = None):
+    payload = ChatThreadCreate(title=title)
+    return _dump(await p.create_thread(project_id=project_id, payload=payload, user=user, db=db))
+
+
+@tool(
+    "rename_chat_thread",
+    "Rename a saved conversation.",
+    _obj({
+        "project_id": PROJECT_ID,
+        "thread_id": {"type": "integer"},
+        "title": {"type": "string"},
+    }, ["project_id", "thread_id", "title"]),
+)
+async def _rename_thread(user, db, project_id: int, thread_id: int, title: str):
+    payload = ChatThreadUpdate(title=title)
+    return _dump(await p.rename_thread(
+        project_id=project_id, thread_id=thread_id, payload=payload, user=user, db=db
+    ))
+
+
+@tool(
+    "delete_chat_thread",
+    "Delete a saved conversation and its messages.",
+    _obj({"project_id": PROJECT_ID, "thread_id": {"type": "integer"}},
+         ["project_id", "thread_id"]),
+    destructive=True,
+)
+async def _delete_thread(user, db, project_id: int, thread_id: int):
+    await p.delete_thread(project_id=project_id, thread_id=thread_id, user=user, db=db)
+    return {"deleted_thread": thread_id}
+
+
+@tool(
+    "get_chat_thread_messages",
+    "Read the messages in a saved conversation.",
+    _obj({"project_id": PROJECT_ID, "thread_id": {"type": "integer"}},
+         ["project_id", "thread_id"]),
+    read_only=True,
+)
+async def _thread_messages(user, db, project_id: int, thread_id: int):
+    return _dump(await p.list_thread_messages(
+        project_id=project_id, thread_id=thread_id, user=user, db=db
+    ))
+
+
+# --------------------------------------------------------------------------
+# JSON-RPC plumbing
+# --------------------------------------------------------------------------
+
+def _rpc_result(req_id: Any, result: Any) -> dict:
+    return {"jsonrpc": "2.0", "id": req_id, "result": result}
+
+
+def _rpc_error(req_id: Any, code: int, message: str) -> dict:
+    return {"jsonrpc": "2.0", "id": req_id, "error": {"code": code, "message": message}}
+
+
+async def _call_tool(name: str, args: dict, user: dict, db: AsyncSession) -> dict:
+    handler = _HANDLERS.get(name)
+    if handler is None:
+        return {
+            "content": [{"type": "text", "text": f"Unknown tool: {name}"}],
+            "isError": True,
+        }
+    try:
+        accepted = set(inspect.signature(handler).parameters)
+        clean = {k: v for k, v in (args or {}).items() if k in accepted}
+        value = await handler(user=user, db=db, **clean)
+        return {
+            "content": [{"type": "text", "text": json.dumps(value, indent=2, default=str)}],
+            "structuredContent": value if isinstance(value, dict) else {"result": value},
+        }
+    except Exception as exc:
+        # Surface the failure to the model rather than breaking the session,
+        # so it can correct itself (wrong id, missing transcript, no credits).
+        detail = getattr(exc, "detail", None) or str(exc)
+        return {
+            "content": [{"type": "text", "text": f"{type(exc).__name__}: {detail}"}],
+            "isError": True,
+        }
+
+
+async def _dispatch(body: dict, user: dict, db: AsyncSession) -> Optional[dict]:
+    method = body.get("method")
+    req_id = body.get("id")
+
+    if method == "initialize":
+        return _rpc_result(req_id, {
+            "protocolVersion": PROTOCOL_VERSION,
+            "capabilities": {"tools": {"listChanged": False}},
+            "serverInfo": SERVER_INFO,
+            "instructions": (
+                "EigenTalk edits audio through its transcript. Typical flow: "
+                "list_projects → get_transcript → detect_fillers / remove_all_fillers, "
+                "delete_words, replace_word or remove_noise → export_audio. "
+                "Every edit saves a new version; activate_version switches between them, "
+                "so edits are always reversible."
+            ),
+        })
+
+    if method in ("notifications/initialized", "notifications/cancelled"):
+        return None  # notifications get no response
+
+    if method == "ping":
+        return _rpc_result(req_id, {})
+
+    if method == "tools/list":
+        return _rpc_result(req_id, {"tools": _TOOLS})
+
+    if method == "tools/call":
+        params = body.get("params") or {}
+        result = await _call_tool(
+            params.get("name", ""), params.get("arguments") or {}, user, db
+        )
+        return _rpc_result(req_id, result)
+
+    return _rpc_error(req_id, -32601, f"Method not found: {method}")
+
+
+@router.post("/mcp")
+async def mcp_endpoint(
+    request: Request,
+    user: dict = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db),
+):
+    """Streamable HTTP transport. One JSON-RPC message per request."""
+    try:
+        body = await request.json()
+    except Exception:
+        return JSONResponse(_rpc_error(None, -32700, "Parse error"), status_code=400)
+
+    if isinstance(body, list):  # batch
+        out = []
+        for item in body:
+            resp = await _dispatch(item, user, db)
+            if resp is not None:
+                out.append(resp)
+        return JSONResponse(out) if out else JSONResponse(None, status_code=202)
+
+    resp = await _dispatch(body, user, db)
+    if resp is None:
+        return JSONResponse(None, status_code=202)
+    return JSONResponse(resp)
+
+
+@router.get("/mcp")
+async def mcp_get():
+    """No server-initiated streaming yet; clients fall back to POST-only."""
+    return JSONResponse(
+        _rpc_error(None, -32000, "SSE stream not supported; use POST"), status_code=405
+    )
