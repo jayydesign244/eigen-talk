@@ -94,13 +94,35 @@ def _dump(value: Any) -> Any:
     return value
 
 
+def _slim(value: Any) -> Any:
+    """Drop embedded transcripts from list payloads.
+
+    A transcript is ~20k characters. Returning one per project or per
+    version blows the caller's context on redundant data — listing five
+    versions came to 120k characters. Callers fetch it via get_transcript.
+    """
+    def strip(item: Any) -> Any:
+        if not isinstance(item, dict):
+            return item
+        if "transcript" not in item:
+            return item
+        out = {k: v for k, v in item.items() if k != "transcript"}
+        out["has_transcript"] = bool(item.get("transcript"))
+        return out
+
+    dumped = _dump(value)
+    if isinstance(dumped, list):
+        return [strip(i) for i in dumped]
+    return strip(dumped)
+
+
 # --------------------------------------------------------------------------
 # Projects
 # --------------------------------------------------------------------------
 
 @tool("list_projects", "List all of the user's audio projects.", read_only=True)
 async def _list_projects(user, db):
-    return _dump(await p.list_projects(user=user, db=db))
+    return _slim(await p.list_projects(user=user, db=db))
 
 
 @tool(
@@ -110,7 +132,7 @@ async def _list_projects(user, db):
     read_only=True,
 )
 async def _get_project(user, db, project_id: int):
-    return _dump(await p.get_project(project_id=project_id, user=user, db=db))
+    return _slim(await p.get_project(project_id=project_id, user=user, db=db))
 
 
 @tool(
@@ -157,7 +179,7 @@ async def _processing_status(user, db, project_id: int):
     _obj({"project_id": PROJECT_ID}, ["project_id"]),
 )
 async def _transcribe(user, db, project_id: int):
-    return _dump(await p.transcribe_project(project_id=project_id, user=user, db=db))
+    return _slim(await p.transcribe_project(project_id=project_id, user=user, db=db))
 
 
 @tool(
@@ -226,7 +248,7 @@ async def _remove_all_fillers(user, db, project_id: int):
         return {"removed": 0, "message": "No filler words found."}
     payload = ApplyEditsRequest(edits=[{"type": "delete", "words": words}])
     version = await p.apply_edits(project_id=project_id, payload=payload, user=user, db=db)
-    return {"removed": len(words), "version": _dump(version)}
+    return {"removed": len(words), "version": _slim(version)}
 
 
 @tool(
@@ -247,7 +269,7 @@ async def _remove_all_fillers(user, db, project_id: int):
 )
 async def _delete_words(user, db, project_id: int, words: List[dict]):
     payload = ApplyEditsRequest(edits=[{"type": "delete", "words": words}])
-    return _dump(await p.apply_edits(project_id=project_id, payload=payload, user=user, db=db))
+    return _slim(await p.apply_edits(project_id=project_id, payload=payload, user=user, db=db))
 
 
 @tool(
@@ -267,7 +289,7 @@ async def _replace_word(user, db, project_id: int, segment_idx: int, word_idx: i
         "word": {"segment_idx": segment_idx, "word_idx": word_idx},
         "new_text": new_text,
     }])
-    return _dump(await p.apply_edits(project_id=project_id, payload=payload, user=user, db=db))
+    return _slim(await p.apply_edits(project_id=project_id, payload=payload, user=user, db=db))
 
 
 @tool(
@@ -276,7 +298,7 @@ async def _replace_word(user, db, project_id: int, segment_idx: int, word_idx: i
     _obj({"project_id": PROJECT_ID}, ["project_id"]),
 )
 async def _remove_noise(user, db, project_id: int):
-    return _dump(await p.denoise_project(project_id=project_id, user=user, db=db))
+    return _slim(await p.denoise_project(project_id=project_id, user=user, db=db))
 
 
 @tool(
@@ -285,7 +307,7 @@ async def _remove_noise(user, db, project_id: int):
     _obj({"project_id": PROJECT_ID}, ["project_id"]),
 )
 async def _clone_voice(user, db, project_id: int):
-    return _dump(await p.clone_project_voice(project_id=project_id, user=user, db=db))
+    return _slim(await p.clone_project_voice(project_id=project_id, user=user, db=db))
 
 
 # --------------------------------------------------------------------------
@@ -299,7 +321,7 @@ async def _clone_voice(user, db, project_id: int):
     read_only=True,
 )
 async def _list_versions(user, db, project_id: int):
-    return _dump(await p.list_versions(project_id=project_id, user=user, db=db))
+    return _slim(await p.list_versions(project_id=project_id, user=user, db=db))
 
 
 @tool(
@@ -311,7 +333,7 @@ async def _list_versions(user, db, project_id: int):
     }, ["project_id", "version_id"]),
 )
 async def _activate_version(user, db, project_id: int, version_id: int):
-    return _dump(await p.activate_version(
+    return _slim(await p.activate_version(
         project_id=project_id, version_id=version_id, user=user, db=db
     ))
 
