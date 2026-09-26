@@ -16,12 +16,13 @@ import inspect
 import json
 from typing import Any, Awaitable, Callable, Dict, List, Optional
 
-from fastapi import APIRouter, Depends, Request
+from fastapi import APIRouter, Depends, HTTPException, Request
 from fastapi.responses import JSONResponse
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from auth import get_current_user
 from database import get_db
+from oauth_server import public_base_url, resolve_oauth_token
 from models.schemas import (
     ApplyEditsRequest,
     ChatThreadCreate,
@@ -471,10 +472,49 @@ async def _dispatch(body: dict, user: dict, db: AsyncSession) -> Optional[dict]:
     return _rpc_error(req_id, -32601, f"Method not found: {method}")
 
 
+async def mcp_user(request: Request, db: AsyncSession = Depends(get_db)) -> dict:
+    """Authenticate an MCP caller.
+
+    Prefers one of our own OAuth tokens; falls back to a Clerk JWT so the
+    web app and local testing keep working. A 401 carries WWW-Authenticate
+    so clients can discover where to authorize (RFC 9728).
+    """
+    header = request.headers.get("authorization") or ""
+    token = header[7:].strip() if header.lower().startswith("bearer ") else ""
+
+    def unauthorized(detail: str) -> HTTPException:
+        base = public_base_url(request)
+        return HTTPException(
+            status_code=401,
+            detail=detail,
+            headers={
+                "WWW-Authenticate": (
+                    'Bearer error="invalid_token", '
+                    f'resource_metadata="{base}/.well-known/oauth-protected-resource"'
+                )
+            },
+        )
+
+    if not token:
+        raise unauthorized("Missing bearer token")
+
+    resolved = await resolve_oauth_token(token, db)
+    if resolved is not None:
+        return resolved
+
+    try:
+        from fastapi.security import HTTPAuthorizationCredentials
+        return await get_current_user(
+            HTTPAuthorizationCredentials(scheme="Bearer", credentials=token)
+        )
+    except HTTPException:
+        raise unauthorized("Invalid or expired token")
+
+
 @router.post("/mcp")
 async def mcp_endpoint(
     request: Request,
-    user: dict = Depends(get_current_user),
+    user: dict = Depends(mcp_user),
     db: AsyncSession = Depends(get_db),
 ):
     """Streamable HTTP transport. One JSON-RPC message per request."""

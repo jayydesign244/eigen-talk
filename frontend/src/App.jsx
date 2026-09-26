@@ -9,6 +9,7 @@ import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
 import Processing from './pages/Processing'
 import Editor from './pages/Editor'
+import McpAuthorize from './pages/McpAuthorize'
 
 function SSOCallback() {
   const navigate = useNavigate()
@@ -61,6 +62,14 @@ export default function App() {
             element={
               <ProtectedRoute>
                 <Editor />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/mcp/authorize"
+            element={
+              <ProtectedRoute>
+                <McpAuthorize />
               </ProtectedRoute>
             }
           />

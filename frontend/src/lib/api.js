@@ -80,6 +80,25 @@ export async function detectFillers({ id, getToken } = {}) {
   return handleJson(res)
 }
 
+// OAuth endpoints live at the server root, not under /api.
+const ROOT_URL = API_URL.replace(/\/api\/?$/, '')
+
+export async function getConsentDetails({ requestId, getToken } = {}) {
+  const res = await fetch(`${ROOT_URL}/oauth/consent/${requestId}`, {
+    headers: { ...(await authHeaders(getToken)) },
+  })
+  return handleJson(res)
+}
+
+export async function submitConsent({ requestId, approve, getToken } = {}) {
+  const res = await fetch(`${ROOT_URL}/oauth/consent`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...(await authHeaders(getToken)) },
+    body: JSON.stringify({ request_id: requestId, approve }),
+  })
+  return handleJson(res)
+}
+
 export async function listThreads({ id, getToken } = {}) {
   const res = await fetch(`${API_URL}/projects/${id}/threads`, {
     headers: { ...(await authHeaders(getToken)) },

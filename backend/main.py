@@ -9,6 +9,7 @@ from fastapi.staticfiles import StaticFiles
 from sqlalchemy import text
 from routers import projects
 import mcp_server
+import oauth_server
 from auth import get_current_user, prefetch_jwks
 from database import engine, IS_SQLITE
 from models.db import Base
@@ -68,6 +69,7 @@ app.add_middleware(
 )
 
 app.include_router(projects.router, prefix="/api")
+app.include_router(oauth_server.router)
 app.include_router(mcp_server.router)
 
 # Local audio storage fallback — mounted only when Supabase isn't configured.
