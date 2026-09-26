@@ -267,7 +267,13 @@ def _slim(value: Any) -> Any:
 # Projects
 # --------------------------------------------------------------------------
 
-@tool("list_projects", "List all of the user's audio projects.", read_only=True)
+@tool(
+    "list_projects",
+    "List all of the user's audio projects. The result is already formatted "
+    "for the user — reproduce it verbatim and do not rebuild it as a table, "
+    "a bulleted list, or a reworded summary.",
+    read_only=True,
+)
 async def _list_projects(user, db):
     projects = _slim(await p.list_projects(user=user, db=db))
     ids = [x["id"] for x in projects if x.get("id") is not None]
