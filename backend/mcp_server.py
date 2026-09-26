@@ -17,19 +17,16 @@ import inspect
 import json
 import os
 import tempfile
-from datetime import datetime, timezone
 from typing import Any, Awaitable, Callable, Dict, List, Optional
 
 import httpx
 from fastapi import APIRouter, Depends, HTTPException, Request
 from fastapi.responses import JSONResponse
-from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from auth import get_current_user
 from database import get_db
 from oauth_server import public_base_url, resolve_oauth_token
-from models.db import AudioVersion
 from models.schemas import (
     ApplyEditsRequest,
     ChatThreadCreate,
@@ -168,57 +165,6 @@ async def _media_blocks(audio_url: str) -> List[Dict[str, Any]]:
     return blocks
 
 
-def _rel_time(iso: Optional[str]) -> str:
-    """'6h ago' from an ISO timestamp — easier to scan than a full date."""
-    if not iso:
-        return ""
-    try:
-        when = datetime.fromisoformat(iso.replace("Z", "+00:00"))
-    except ValueError:
-        return ""
-    secs = (datetime.now(timezone.utc) - when).total_seconds()
-    if secs < 60:
-        return "just now"
-    for size, unit in ((3600, "m"), (86400, "h"), (float("inf"), "d")):
-        if secs < size:
-            step = 60 if unit == "m" else 3600 if unit == "h" else 86400
-            return f"{int(secs // step)}{unit} ago"
-    return ""
-
-
-def _project_lines(projects: List[dict], counts: Dict[int, int]) -> str:
-    """Render projects as scannable cards rather than a JSON dump.
-
-    Returned alongside structuredContent, so the client shows this while
-    the model still reads real fields for follow-up calls.
-    """
-    if not projects:
-        return "No projects yet. Upload audio in the EigenTalk app to create one."
-
-    out = []
-    for proj in projects:
-        pid = proj.get("id")
-        bits = [f"id {pid}"]
-        n = counts.get(pid, 0)
-        if n:
-            bits.append(f"{n} version{'' if n == 1 else 's'}")
-        bits.append("transcript ready" if proj.get("has_transcript") else "no transcript")
-        rel = _rel_time(proj.get("updated_at"))
-        if rel:
-            bits.append(f"updated {rel}")
-
-        head = [proj.get("name") or "Untitled"]
-        if proj.get("duration"):
-            head.append(proj["duration"])
-        if proj.get("status"):
-            head.append(proj["status"])
-
-        out.append(f"● {' · '.join(head)}\n   {' · '.join(bits)}")
-
-    label = "project" if len(projects) == 1 else "projects"
-    return f"{len(projects)} {label}\n\n" + "\n\n".join(out)
-
-
 def _audio_url_of(value: Any) -> Optional[str]:
     if isinstance(value, dict):
         url = value.get("audio_url") or value.get("download_url")
@@ -269,21 +215,7 @@ def _slim(value: Any) -> Any:
 
 @tool("list_projects", "List all of the user's audio projects.", read_only=True)
 async def _list_projects(user, db):
-    projects = _slim(await p.list_projects(user=user, db=db))
-    ids = [x["id"] for x in projects if x.get("id") is not None]
-    counts: Dict[int, int] = {}
-    if ids:
-        rows = await db.execute(
-            select(AudioVersion.project_id, func.count(AudioVersion.id))
-            .where(AudioVersion.project_id.in_(ids))
-            .group_by(AudioVersion.project_id)
-        )
-        counts = {pid: n for pid, n in rows.all()}
-    return {
-        "_display": _project_lines(projects, counts),
-        "projects": projects,
-        "total": len(projects),
-    }
+    return _slim(await p.list_projects(user=user, db=db))
 
 
 @tool(
@@ -610,30 +542,18 @@ async def _call_tool(name: str, args: dict, user: dict, db: AsyncSession) -> dic
         clean = {k: v for k, v in (args or {}).items() if k in accepted}
         value = await handler(user=user, db=db, **clean)
 
-        # A handler can supply its own display text; the structured data still
-        # goes back untouched so the model can act on real fields.
-        display = None
-        if isinstance(value, dict) and "_display" in value:
-            value = dict(value)
-            display = value.pop("_display")
-
-        content: List[Dict[str, Any]] = [{
-            "type": "text",
-            "text": display if display else json.dumps(value, indent=2, default=str),
-        }]
+        content: List[Dict[str, Any]] = [
+            {"type": "text", "text": json.dumps(value, indent=2, default=str)}
+        ]
         if name in _MEDIA_TOOLS:
             url = _audio_url_of(value)
             if url:
                 content.extend(await _media_blocks(url))
 
-        result: Dict[str, Any] = {"content": content}
-        # Clients that see structuredContent may render it instead of the text
-        # block, so a tool that formats its own output sends text only.
-        if display is None:
-            result["structuredContent"] = (
-                value if isinstance(value, dict) else {"result": value}
-            )
-        return result
+        return {
+            "content": content,
+            "structuredContent": value if isinstance(value, dict) else {"result": value},
+        }
     except Exception as exc:
         # Surface the failure to the model rather than breaking the session,
         # so it can correct itself (wrong id, missing transcript, no credits).
