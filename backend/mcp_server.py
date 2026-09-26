@@ -165,6 +165,14 @@ async def _media_blocks(audio_url: str) -> List[Dict[str, Any]]:
     return blocks
 
 
+def _mmss(seconds: Any) -> Optional[str]:
+    """Seconds → '0:32'. Timestamps are what make a filler locatable."""
+    if not isinstance(seconds, (int, float)):
+        return None
+    total = int(seconds)
+    return f"{total // 60}:{total % 60:02d}"
+
+
 def _audio_url_of(value: Any) -> Optional[str]:
     if isinstance(value, dict):
         url = value.get("audio_url") or value.get("download_url")
@@ -322,7 +330,28 @@ async def _get_transcript(user, db, project_id: int, include_words: bool = True)
     read_only=True,
 )
 async def _detect_fillers(user, db, project_id: int):
-    return _dump(await p.detect_fillers(project_id=project_id, user=user, db=db))
+    found = await p.detect_fillers(project_id=project_id, user=user, db=db)
+    project = await p._get_owned_project(db, project_id, user)
+    segments = (project.transcript or {}).get("segments") or []
+
+    out = []
+    for ref in found.fillers:
+        item = {"segment_idx": ref.segment_idx, "word_idx": ref.word_idx}
+        try:
+            word = segments[ref.segment_idx]["words"][ref.word_idx]
+            item["text"] = (word.get("text") or "").strip()
+            item["at"] = _mmss(word.get("start"))
+        except (IndexError, KeyError, TypeError):
+            pass
+        out.append(item)
+
+    total_words = sum(len(s.get("words") or []) for s in segments)
+    return {
+        "fillers": out,
+        "total": found.total,
+        "total_words": total_words,
+        "percent": round(found.total / total_words * 100, 1) if total_words else None,
+    }
 
 
 # --------------------------------------------------------------------------
