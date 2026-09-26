@@ -9,6 +9,11 @@ import {
   detectFillers,
   applyEdits,
   removeNoise,
+  listThreads,
+  createThread,
+  renameThread,
+  deleteThread,
+  listThreadMessages,
   listVersions,
   activateVersion,
   cloneVoice,
@@ -432,6 +437,10 @@ export default function Editor() {
   const [exportHistory, setExportHistory] = useState([])
   const [showDiagnosis, setShowDiagnosis] = useState(true)
   const [messages, setMessages] = useState(INITIAL_MESSAGES)
+  const [threads, setThreads] = useState([])
+  const [activeThreadId, setActiveThreadId] = useState(null)
+  const [threadsOpen, setThreadsOpen] = useState(false)
+  const [renamingThreadId, setRenamingThreadId] = useState(null)
   const [inputText, setInputText] = useState('')
   const [isEditingName, setIsEditingName] = useState(false)
   const [projectName, setProjectName] = useState(project.name || 'podcast_episode_12')
@@ -504,6 +513,25 @@ export default function Editor() {
       }
     }
     run()
+    return () => { cancelled = true }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [project.id])
+
+  // Load saved conversations and reopen the most recent one.
+  useEffect(() => {
+    let cancelled = false
+    if (!project.id) return
+    listThreads({ id: project.id, getToken })
+      .then(async (list) => {
+        if (cancelled) return
+        setThreads(list || [])
+        if (list && list.length) {
+          setActiveThreadId(list[0].id)
+          const msgs = await listThreadMessages({ id: project.id, threadId: list[0].id, getToken })
+          if (!cancelled) setMessages((msgs || []).map(m => ({ role: m.role, text: m.content })))
+        }
+      })
+      .catch(() => { /* chat still usable unsaved */ })
     return () => { cancelled = true }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [project.id])
@@ -688,13 +716,74 @@ export default function Editor() {
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages])
 
+  const openThread = async (threadId) => {
+    setActiveThreadId(threadId)
+    setThreadsOpen(false)
+    try {
+      const msgs = await listThreadMessages({ id: project.id, threadId, getToken })
+      setMessages((msgs || []).map(m => ({ role: m.role, text: m.content })))
+    } catch {
+      setMessages([])
+    }
+  }
+
+  const handleNewThread = async () => {
+    if (!project.id) return
+    try {
+      const t = await createThread({ id: project.id, getToken })
+      setThreads(prev => [t, ...prev])
+      setActiveThreadId(t.id)
+      setMessages([])
+      setThreadsOpen(false)
+    } catch (err) {
+      setEditError(err.message)
+    }
+  }
+
+  const handleRenameThread = async (threadId, title) => {
+    setRenamingThreadId(null)
+    const clean = (title || '').trim()
+    if (!clean) return
+    try {
+      const updated = await renameThread({ id: project.id, threadId, title: clean, getToken })
+      setThreads(prev => prev.map(t => (t.id === threadId ? { ...t, title: updated.title } : t)))
+    } catch (err) {
+      setEditError(err.message)
+    }
+  }
+
+  const handleDeleteThread = async (threadId) => {
+    try {
+      await deleteThread({ id: project.id, threadId, getToken })
+      const left = threads.filter(t => t.id !== threadId)
+      setThreads(left)
+      if (activeThreadId === threadId) {
+        if (left.length) await openThread(left[0].id)
+        else { setActiveThreadId(null); setMessages([]) }
+      }
+    } catch (err) {
+      setEditError(err.message)
+    }
+  }
+
   const sendToAI = async (userText) => {
+    // Every conversation lives in a thread so it survives a reload.
+    let threadId = activeThreadId
+    if (!threadId && project.id) {
+      try {
+        const t = await createThread({ id: project.id, getToken })
+        threadId = t.id
+        setActiveThreadId(t.id)
+        setThreads(prev => [t, ...prev])
+      } catch { /* fall through — chat still works unsaved */ }
+    }
     const history = [...messages, { role: 'user', text: userText }]
     setMessages([...history, { role: 'ai', text: '' }])
     setIsStreaming(true)
     try {
       await streamChat({
         projectId: project.id || 1,
+        threadId,
         messages: history,
         getToken,
         onDelta: (delta) => {
@@ -714,6 +803,10 @@ export default function Editor() {
       })
     } finally {
       setIsStreaming(false)
+      // Pick up the server-derived title and message count.
+      if (project.id) {
+        try { setThreads(await listThreads({ id: project.id, getToken }) || []) } catch { /* non-fatal */ }
+      }
     }
   }
 
@@ -797,13 +890,94 @@ export default function Editor() {
         {/* LEFT PANEL — 30% */}
         <div className="w-[30%] min-w-[280px] border-r border-gray-200 flex flex-col bg-white">
           {/* Chat Header */}
-          <div className="px-4 py-3 border-b border-gray-100">
+          <div className="px-4 py-3 border-b border-gray-100 relative">
             <div className="flex items-center gap-2">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" className="text-accent-500">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" className="text-accent-500 flex-shrink-0">
                 <path d="M12 2L13.09 8.26L20 9L13.09 9.74L12 16L10.91 9.74L4 9L10.91 8.26L12 2Z" fill="currentColor" />
               </svg>
-              <span className="text-xs font-semibold text-gray-700">AI Assistant</span>
+              <button
+                onClick={() => setThreadsOpen(v => !v)}
+                className="flex items-center gap-1 min-w-0 text-xs font-semibold text-gray-700 hover:text-accent-600 transition-colors"
+                title="Switch conversation"
+              >
+                <span className="truncate max-w-[150px]">
+                  {threads.find(t => t.id === activeThreadId)?.title || 'AI Assistant'}
+                </span>
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} className="flex-shrink-0">
+                  <path d="M6 9l6 6 6-6" />
+                </svg>
+              </button>
+              <span className="ml-auto text-[11px] text-gray-400 flex-shrink-0">
+                {threads.length > 0 && `${threads.length} chat${threads.length === 1 ? '' : 's'}`}
+              </span>
+              <button
+                onClick={handleNewThread}
+                title="New chat"
+                className="flex-shrink-0 w-6 h-6 flex items-center justify-center rounded-md text-gray-400 hover:text-accent-600 hover:bg-accent-50 transition-colors"
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+                  <path d="M12 5v14M5 12h14" />
+                </svg>
+              </button>
             </div>
+
+            {threadsOpen && (
+              <>
+                <div className="fixed inset-0 z-10" onClick={() => setThreadsOpen(false)} />
+                <div className="absolute left-3 right-3 top-12 z-20 card shadow-modal py-1 max-h-72 overflow-y-auto">
+                  {threads.length === 0 ? (
+                    <p className="px-3 py-2 text-xs text-gray-400">No saved chats yet</p>
+                  ) : (
+                    threads.map(t => (
+                      <div
+                        key={t.id}
+                        className={`group flex items-center gap-1 px-2 py-1.5 hover:bg-gray-50 ${
+                          t.id === activeThreadId ? 'bg-accent-50' : ''
+                        }`}
+                      >
+                        {renamingThreadId === t.id ? (
+                          <input
+                            autoFocus
+                            defaultValue={t.title}
+                            onKeyDown={e => {
+                              if (e.key === 'Enter') handleRenameThread(t.id, e.target.value)
+                              if (e.key === 'Escape') setRenamingThreadId(null)
+                            }}
+                            onBlur={e => handleRenameThread(t.id, e.target.value)}
+                            className="flex-1 min-w-0 text-xs px-1 py-0.5 border border-accent-300 rounded"
+                          />
+                        ) : (
+                          <>
+                            <button
+                              onClick={() => openThread(t.id)}
+                              className="flex-1 min-w-0 text-left text-xs text-gray-700 truncate"
+                              title={t.title}
+                            >
+                              {t.title}
+                              <span className="ml-1.5 text-gray-400">{t.message_count}</span>
+                            </button>
+                            <button
+                              onClick={() => setRenamingThreadId(t.id)}
+                              title="Rename"
+                              className="opacity-0 group-hover:opacity-100 text-[10px] text-gray-400 hover:text-gray-700 px-1"
+                            >
+                              Rename
+                            </button>
+                            <button
+                              onClick={() => handleDeleteThread(t.id)}
+                              title="Delete"
+                              className="opacity-0 group-hover:opacity-100 text-[10px] text-gray-400 hover:text-red-500 px-1"
+                            >
+                              Delete
+                            </button>
+                          </>
+                        )}
+                      </div>
+                    ))
+                  )}
+                </div>
+              </>
+            )}
           </div>
 
           {/* Chat content */}

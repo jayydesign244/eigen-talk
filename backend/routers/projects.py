@@ -5,10 +5,10 @@ import json
 import re
 import tempfile
 import httpx
-from fastapi import APIRouter, HTTPException, UploadFile, File, Depends
+from fastapi import APIRouter, HTTPException, UploadFile, File, Depends, Response
 from fastapi.responses import StreamingResponse
 from openai import AsyncOpenAI
-from sqlalchemy import select
+from sqlalchemy import select, delete, func
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm.attributes import flag_modified
 
@@ -23,10 +23,14 @@ from models.schemas import (
     AudioVersionOut,
     FillersResponse,
     WordRef,
+    ChatThreadCreate,
+    ChatThreadUpdate,
+    ChatThreadOut,
+    ChatMessageOut,
 )
-from models.db import Project, AudioVersion
+from models.db import Project, AudioVersion, ChatThread, ChatMessage
 from auth import get_current_user
-from database import get_db
+from database import get_db, SessionLocal
 from storage import upload_audio as storage_upload, is_configured as storage_configured
 from services import audio_editor, fillers as fillers_service, voice as voice_service
 from typing import List, Optional, Tuple
@@ -315,6 +319,121 @@ async def transcribe_project(
     return ProjectOut.model_validate(project)
 
 
+async def _get_owned_thread(
+    db: AsyncSession, project_id: int, thread_id: int, user: dict
+) -> ChatThread:
+    await _get_owned_project(db, project_id, user)
+    result = await db.execute(
+        select(ChatThread).where(
+            ChatThread.id == thread_id, ChatThread.project_id == project_id
+        )
+    )
+    thread = result.scalar_one_or_none()
+    if not thread:
+        raise HTTPException(status_code=404, detail="Chat thread not found")
+    return thread
+
+
+def _derive_title(text: str) -> str:
+    """First user message becomes the thread title, trimmed to a line."""
+    clean = " ".join((text or "").split())
+    if not clean:
+        return "New chat"
+    return clean[:60] + ("…" if len(clean) > 60 else "")
+
+
+@router.get("/{project_id}/threads", response_model=List[ChatThreadOut])
+async def list_threads(
+    project_id: int,
+    user: dict = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db),
+):
+    await _get_owned_project(db, project_id, user)
+    counts = (
+        select(ChatMessage.thread_id, func.count(ChatMessage.id).label("n"))
+        .group_by(ChatMessage.thread_id)
+        .subquery()
+    )
+    result = await db.execute(
+        select(ChatThread, func.coalesce(counts.c.n, 0))
+        .outerjoin(counts, counts.c.thread_id == ChatThread.id)
+        .where(ChatThread.project_id == project_id)
+        .order_by(ChatThread.updated_at.desc())
+    )
+    out = []
+    for thread, n in result.all():
+        item = ChatThreadOut.model_validate(thread)
+        item.message_count = n
+        out.append(item)
+    return out
+
+
+@router.post("/{project_id}/threads", response_model=ChatThreadOut, status_code=201)
+async def create_thread(
+    project_id: int,
+    payload: ChatThreadCreate,
+    user: dict = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db),
+):
+    await _get_owned_project(db, project_id, user)
+    thread = ChatThread(project_id=project_id, title=(payload.title or "New chat")[:200])
+    db.add(thread)
+    await db.commit()
+    await db.refresh(thread)
+    return ChatThreadOut.model_validate(thread)
+
+
+@router.patch("/{project_id}/threads/{thread_id}", response_model=ChatThreadOut)
+async def rename_thread(
+    project_id: int,
+    thread_id: int,
+    payload: ChatThreadUpdate,
+    user: dict = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db),
+):
+    thread = await _get_owned_thread(db, project_id, thread_id, user)
+    title = (payload.title or "").strip()
+    if not title:
+        raise HTTPException(status_code=400, detail="Title cannot be empty")
+    thread.title = title[:200]
+    await db.commit()
+    await db.refresh(thread)
+    return ChatThreadOut.model_validate(thread)
+
+
+@router.delete("/{project_id}/threads/{thread_id}", status_code=204)
+async def delete_thread(
+    project_id: int,
+    thread_id: int,
+    user: dict = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db),
+):
+    thread = await _get_owned_thread(db, project_id, thread_id, user)
+    # SQLite doesn't enforce ON DELETE CASCADE by default — clear children first.
+    await db.execute(delete(ChatMessage).where(ChatMessage.thread_id == thread.id))
+    await db.delete(thread)
+    await db.commit()
+    return Response(status_code=204)
+
+
+@router.get(
+    "/{project_id}/threads/{thread_id}/messages", response_model=List[ChatMessageOut]
+)
+async def list_thread_messages(
+    project_id: int,
+    thread_id: int,
+    user: dict = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db),
+):
+    await _get_owned_thread(db, project_id, thread_id, user)
+    result = await db.execute(
+        select(ChatMessage)
+        .where(ChatMessage.thread_id == thread_id)
+        .order_by(ChatMessage.id)
+    )
+    return [ChatMessageOut.model_validate(m) for m in result.scalars().all()]
+
+
 @router.post("/{project_id}/chat")
 async def chat(
     project_id: int,
@@ -324,11 +443,27 @@ async def chat(
 ):
     project = await _get_owned_project(db, project_id, user)
 
+    thread: Optional[ChatThread] = None
+    if payload.thread_id is not None:
+        thread = await _get_owned_thread(db, project_id, payload.thread_id, user)
+
     messages = [{"role": "system", "content": _chat_system_prompt(project)}] + [
         {"role": m.role, "content": m.content} for m in payload.messages
     ]
 
+    latest_user = next(
+        (m.content for m in reversed(payload.messages) if m.role == "user"), ""
+    )
+    if thread is not None and latest_user:
+        db.add(ChatMessage(thread_id=thread.id, role="user", content=latest_user))
+        if thread.title == "New chat":
+            thread.title = _derive_title(latest_user)
+        await db.commit()
+
+    thread_id = thread.id if thread else None
+
     async def event_generator():
+        collected = []
         try:
             stream = await _get_openai_client().chat.completions.create(
                 model=OPENAI_MODEL,
@@ -338,7 +473,18 @@ async def chat(
             async for chunk in stream:
                 delta = chunk.choices[0].delta.content if chunk.choices else None
                 if delta:
+                    collected.append(delta)
                     yield f"data: {json.dumps({'delta': delta})}\n\n"
+            # Persist the reply only once it completed, so a half-streamed
+            # answer never gets stored as if it were whole.
+            if thread_id is not None and collected:
+                async with SessionLocal() as write_db:
+                    write_db.add(
+                        ChatMessage(
+                            thread_id=thread_id, role="ai", content="".join(collected)
+                        )
+                    )
+                    await write_db.commit()
             yield f"data: {json.dumps({'done': True})}\n\n"
         except Exception as exc:
             yield f"data: {json.dumps({'error': str(exc)})}\n\n"

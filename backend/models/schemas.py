@@ -139,6 +139,46 @@ class ChatMessage(BaseModel):
 
 class ChatRequest(BaseModel):
     messages: List[ChatMessage]
+    thread_id: Optional[int] = None
+
+
+class ChatThreadCreate(BaseModel):
+    title: Optional[str] = None
+
+
+class ChatThreadUpdate(BaseModel):
+    title: str
+
+
+class ChatThreadOut(BaseModel):
+    id: int
+    project_id: int
+    title: str
+    message_count: int = 0
+    created_at: datetime
+    updated_at: datetime
+
+    @field_serializer("created_at", "updated_at")
+    def _serialize_dt(self, value: datetime) -> datetime:
+        return _as_utc(value)
+
+    class Config:
+        from_attributes = True
+
+
+class ChatMessageOut(BaseModel):
+    id: int
+    thread_id: int
+    role: str
+    content: str
+    created_at: datetime
+
+    @field_serializer("created_at")
+    def _serialize_dt(self, value: datetime) -> datetime:
+        return _as_utc(value)
+
+    class Config:
+        from_attributes = True
 
 
 class ChatResponse(BaseModel):

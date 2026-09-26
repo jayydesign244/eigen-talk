@@ -80,6 +80,46 @@ export async function detectFillers({ id, getToken } = {}) {
   return handleJson(res)
 }
 
+export async function listThreads({ id, getToken } = {}) {
+  const res = await fetch(`${API_URL}/projects/${id}/threads`, {
+    headers: { ...(await authHeaders(getToken)) },
+  })
+  return handleJson(res)
+}
+
+export async function createThread({ id, title, getToken } = {}) {
+  const res = await fetch(`${API_URL}/projects/${id}/threads`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...(await authHeaders(getToken)) },
+    body: JSON.stringify({ title: title ?? null }),
+  })
+  return handleJson(res)
+}
+
+export async function renameThread({ id, threadId, title, getToken } = {}) {
+  const res = await fetch(`${API_URL}/projects/${id}/threads/${threadId}`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json', ...(await authHeaders(getToken)) },
+    body: JSON.stringify({ title }),
+  })
+  return handleJson(res)
+}
+
+export async function deleteThread({ id, threadId, getToken } = {}) {
+  const res = await fetch(`${API_URL}/projects/${id}/threads/${threadId}`, {
+    method: 'DELETE',
+    headers: { ...(await authHeaders(getToken)) },
+  })
+  if (!res.ok) throw new Error(`Delete failed (${res.status})`)
+}
+
+export async function listThreadMessages({ id, threadId, getToken } = {}) {
+  const res = await fetch(`${API_URL}/projects/${id}/threads/${threadId}/messages`, {
+    headers: { ...(await authHeaders(getToken)) },
+  })
+  return handleJson(res)
+}
+
 export async function removeNoise({ id, getToken } = {}) {
   const res = await fetch(`${API_URL}/projects/${id}/denoise`, {
     method: 'POST',
@@ -129,7 +169,7 @@ export async function activateVersion({ id, versionId, getToken } = {}) {
   return handleJson(res)
 }
 
-export async function streamChat({ projectId, messages, getToken, onDelta, signal }) {
+export async function streamChat({ projectId, threadId, messages, getToken, onDelta, signal }) {
   const token = await getToken()
   const res = await fetch(`${API_URL}/projects/${projectId}/chat`, {
     method: 'POST',
@@ -138,6 +178,7 @@ export async function streamChat({ projectId, messages, getToken, onDelta, signa
       ...(token ? { Authorization: `Bearer ${token}` } : {}),
     },
     body: JSON.stringify({
+      thread_id: threadId ?? null,
       messages: messages.map(m => ({
         role: m.role === 'ai' ? 'assistant' : m.role,
         content: m.text ?? m.content ?? '',
