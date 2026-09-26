@@ -8,6 +8,7 @@ import {
   getProject,
   detectFillers,
   applyEdits,
+  removeNoise,
   listVersions,
   activateVersion,
   cloneVoice,
@@ -26,7 +27,7 @@ const fmtMMSS = (s) => {
 }
 
 const QUICK_CHIPS = [
-  { icon: '🎙️', label: 'Clean up audio' },
+  { icon: '🎙️', label: 'Clean up audio', action: 'denoise' },
   { icon: '✂️', label: 'Remove filler words' },
   { icon: '🔊', label: 'Balance volume' },
   { icon: '🎤', label: 'Deeper voice' },
@@ -558,6 +559,16 @@ export default function Editor() {
 
   const isFillerWord = (si, wi) => fillerSet.has(`${si}-${wi}`)
 
+  const audioMeta = useMemo(() => {
+    if (!audioUrl) return null
+    const ext = audioUrl.split('?')[0].split('.').pop()
+    const parts = [
+      player.duration > 0 ? formatTime(player.duration) : project.duration,
+      ext && ext.length <= 4 ? ext.toUpperCase() : null,
+    ]
+    return parts.filter(Boolean).join(' · ') || null
+  }, [audioUrl, player.duration, project.duration])
+
   const handleRemoveAllFillers = () => {
     if (!fillerRefs.length) return
     pending.queueDeletes(fillerRefs)
@@ -566,6 +577,23 @@ export default function Editor() {
   const handleCancelEdits = () => {
     pending.clear()
     setEditError(null)
+  }
+
+  const handleRemoveNoise = async () => {
+    if (!project.id || applyingEdits) return
+    setApplyingEdits(true)
+    setEditError(null)
+    try {
+      const version = await removeNoise({ id: project.id, getToken })
+      setActiveVersionId(version.id)
+      if (version.audio_url) setAudioUrl(version.audio_url)
+      if (version.transcript) setTranscript(version.transcript)
+      setVersions(await listVersions({ id: project.id, getToken }) || [])
+    } catch (err) {
+      setEditError(err.message)
+    } finally {
+      setApplyingEdits(false)
+    }
   }
 
   const handleConfirmEdits = async () => {
@@ -699,7 +727,7 @@ export default function Editor() {
   const handleFixAll = () => {
     if (isStreaming) return
     setShowDiagnosis(false)
-    sendToAI('Fix all three issues: background noise, room reverb, and filler words.')
+    sendToAI('Remove the filler words from this audio.')
   }
 
   return (
@@ -742,7 +770,9 @@ export default function Editor() {
 
         {/* Right */}
         <div className="flex items-center gap-2 flex-shrink-0">
-          <span className="text-xs text-gray-400 hidden md:block">3:42 · MP3 · 8.4MB</span>
+          {audioMeta && (
+            <span className="text-xs text-gray-400 hidden md:block">{audioMeta}</span>
+          )}
           <button
             onClick={() => setShowCompare(true)}
             className="btn-ghost text-xs flex items-center gap-1.5 py-1.5"
@@ -779,31 +809,23 @@ export default function Editor() {
           {/* Chat content */}
           <div className="flex-1 overflow-y-auto px-4 py-4 space-y-4 min-h-0">
             {/* Diagnosis card */}
-            {showDiagnosis && (
+            {showDiagnosis && fillerRefs.length > 0 && (
               <div className="border border-accent-200 bg-accent-50/50 rounded-xl p-3.5 animate-fade-in">
                 <div className="flex items-start gap-2 mb-2.5">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" className="text-accent-500 mt-0.5 flex-shrink-0">
                     <path d="M12 2L13.09 8.26L20 9L13.09 9.74L12 16L10.91 9.74L4 9L10.91 8.26L12 2Z" fill="currentColor" />
                   </svg>
-                  <p className="text-xs font-medium text-gray-800">I found 3 things in your audio</p>
+                  <p className="text-xs font-medium text-gray-800">I found 1 thing in your audio</p>
                 </div>
                 <ul className="space-y-1.5 mb-3">
                   <li className="flex items-center gap-2 text-xs text-gray-600">
-                    <span className="w-2 h-2 bg-red-400 rounded-full flex-shrink-0" />
-                    Background noise — moderate throughout
-                  </li>
-                  <li className="flex items-center gap-2 text-xs text-gray-600">
                     <span className="w-2 h-2 bg-yellow-400 rounded-full flex-shrink-0" />
-                    Room reverb — light echo on voice
-                  </li>
-                  <li className="flex items-center gap-2 text-xs text-gray-600">
-                    <span className="w-2 h-2 bg-yellow-400 rounded-full flex-shrink-0" />
-                    34 filler words detected
+                    {fillerRefs.length} filler word{fillerRefs.length === 1 ? '' : 's'} detected
                   </li>
                 </ul>
                 <div className="flex items-center gap-2">
                   <button onClick={handleFixAll} className="btn-primary text-xs py-1 px-2.5">
-                    Fix all three
+                    Remove {fillerRefs.length === 1 ? 'it' : 'them'}
                   </button>
                   <button
                     onClick={() => setShowDiagnosis(false)}
@@ -845,13 +867,17 @@ export default function Editor() {
               {QUICK_CHIPS.map(chip => (
                 <button
                   key={chip.label}
+                  disabled={chip.action === 'denoise' && applyingEdits}
                   onClick={() => {
-                    setInputText(chip.label)
+                    if (chip.action === 'denoise') handleRemoveNoise()
+                    else setInputText(chip.label)
                   }}
-                  className="flex-shrink-0 flex items-center gap-1 text-xs bg-gray-50 hover:bg-accent-50 border border-gray-200 hover:border-accent-300 text-gray-600 hover:text-accent-600 px-2.5 py-1.5 rounded-full transition-colors"
+                  className="flex-shrink-0 flex items-center gap-1 text-xs bg-gray-50 hover:bg-accent-50 border border-gray-200 hover:border-accent-300 text-gray-600 hover:text-accent-600 px-2.5 py-1.5 rounded-full transition-colors disabled:opacity-50"
                 >
                   <span>{chip.icon}</span>
-                  <span>{chip.label}</span>
+                  <span>
+                    {chip.action === 'denoise' && applyingEdits ? 'Cleaning…' : chip.label}
+                  </span>
                 </button>
               ))}
             </div>
@@ -909,14 +935,6 @@ export default function Editor() {
               )}
             </div>
 
-            {/* Summary chips */}
-            <div className="flex flex-wrap gap-1.5 mb-4">
-              {['✓ Removed 14dB noise', '✓ Reduced reverb 40%', '✓ Cut 34 filler words', '↑ Quality: 42 → 87'].map(chip => (
-                <span key={chip} className="text-xs text-gray-500 bg-gray-50 border border-gray-100 px-2.5 py-1 rounded-full">
-                  {chip}
-                </span>
-              ))}
-            </div>
 
             {/* Playback controls */}
             <div className="flex items-center justify-between">
@@ -994,18 +1012,6 @@ export default function Editor() {
                 <span className="text-xs text-gray-400">Original</span>
               ) : (
                 <>
-                  <button
-                    onClick={() => handleActivateVersion(null)}
-                    disabled={applyingEdits}
-                    className={`flex-shrink-0 text-xs px-2.5 py-1 rounded-full border transition-colors ${
-                      activeVersionId == null
-                        ? 'bg-accent-500 text-white border-accent-500'
-                        : 'border-gray-200 text-gray-500 hover:border-gray-300 hover:text-gray-700'
-                    } disabled:opacity-50`}
-                    title="Original audio"
-                  >
-                    Original
-                  </button>
                   {versions.map(v => (
                     <button
                       key={v.id}

@@ -54,12 +54,56 @@ def _get_openai_client() -> AsyncOpenAI:
 
 SYSTEM_PROMPT = (
     "You are Sonicly, an AI audio editing assistant inside a web app. "
-    "The user is editing an audio recording (podcast, interview, voiceover). "
-    "Help them with: noise reduction, removing filler words (um, uh, like), "
-    "leveling volume, trimming silence, EQ/warmth adjustments, de-essing, and reverb. "
-    "Be concise and conversational. When the user asks for an edit, confirm what "
-    "you've applied in 1-2 sentences. If the user is unclear, ask one short follow-up."
+    "The user is editing an audio recording (podcast, interview, voiceover).\n\n"
+    "IMPORTANT: You are a text-only advisor. You cannot modify the user's audio. "
+    "Never say you have applied, removed, cleaned, adjusted or changed anything — "
+    "you have not, and claiming otherwise misleads the user into shipping an "
+    "unedited file. Instead, tell them which control to use.\n\n"
+    "What the app can actually do today:\n"
+    "- Remove background noise: the 'Clean up audio' button in the assistant panel.\n"
+    "- Remove filler words: the 'Remove all fillers' button above the transcript.\n"
+    "- Delete a single word: click it in the transcript.\n"
+    "- Replace a word: double-click it (regenerated in the user's voice).\n"
+    "- Revert: pick an earlier version chip under the player.\n"
+    "- Export: the Export button (MP3, WAV or M4A).\n\n"
+    "Volume levelling, EQ and pitch changes are NOT implemented. "
+    "If asked for one, say plainly that it isn't supported yet rather than pretending. "
+    "Be concise and conversational; if the user is unclear, ask one short follow-up."
 )
+
+
+def _chat_system_prompt(project) -> str:
+    """Give the model the transcript it's being asked about — without it the
+    assistant tells users it can't analyze their audio."""
+    transcript = project.transcript
+    if not transcript:
+        return SYSTEM_PROMPT + "\n\nThis project has no transcript yet."
+
+    parts = [SYSTEM_PROMPT]
+    text = (transcript.get("text") or "").strip()
+    if text:
+        parts.append(f"Transcript of the user's audio:\n{text[:6000]}")
+
+    try:
+        refs = fillers_service.find_fillers(transcript)
+    except Exception:
+        refs = []
+    if refs:
+        segments = transcript.get("segments") or []
+        found = []
+        for si, wi in refs:
+            try:
+                found.append(segments[si]["words"][wi]["text"].strip())
+            except (IndexError, KeyError, TypeError):
+                continue
+        if found:
+            parts.append(
+                f"Filler words already detected in this audio ({len(found)}): "
+                + ", ".join(f'"{w}"' for w in found)
+                + ". The user can remove them with the 'Remove all fillers' button."
+            )
+
+    return "\n\n".join(parts)
 
 
 def _user_id(user: dict) -> str:
@@ -278,9 +322,9 @@ async def chat(
     user: dict = Depends(get_current_user),
     db: AsyncSession = Depends(get_db),
 ):
-    await _get_owned_project(db, project_id, user)
+    project = await _get_owned_project(db, project_id, user)
 
-    messages = [{"role": "system", "content": SYSTEM_PROMPT}] + [
+    messages = [{"role": "system", "content": _chat_system_prompt(project)}] + [
         {"role": m.role, "content": m.content} for m in payload.messages
     ]
 
@@ -507,6 +551,29 @@ def _word_range(transcript: dict, si: int, wi: int, pad: float = 0.04) -> Option
         return None
 
 
+async def _snapshot_original(db: AsyncSession, project: Project) -> Optional[int]:
+    """Preserve the pre-edit audio as an 'Original' version before anything
+    overwrites project.audio_url. Without this the source becomes unreachable.
+    No-op once the project already has versions. Returns its id, if created.
+    """
+    existing = await db.execute(
+        select(AudioVersion.id).where(AudioVersion.project_id == project.id).limit(1)
+    )
+    if existing.scalar_one_or_none() is not None or not project.audio_url:
+        return None
+    original = AudioVersion(
+        project_id=project.id,
+        parent_id=None,
+        label="Original",
+        audio_url=project.audio_url,
+        transcript=project.transcript,
+        duration=(project.transcript or {}).get("duration"),
+    )
+    db.add(original)
+    await db.flush()
+    return original.id
+
+
 async def _ensure_voice_clone(project: Project, source_audio: bytes) -> Tuple[str, bool]:
     """Return (voice_id, used_fallback). Clones the user's voice from the
     source audio; if the ElevenLabs plan doesn't include Instant Voice
@@ -576,6 +643,69 @@ async def clone_project_voice(
     await db.commit()
     await db.refresh(project)
     return ProjectOut.model_validate(project)
+
+
+@router.post("/{project_id}/denoise", response_model=AudioVersionOut)
+async def denoise_project(
+    project_id: int,
+    user: dict = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db),
+):
+    """Run the active audio through ElevenLabs Voice Isolator and save the
+    cleaned result as a new version. Isolation preserves speech timing, so the
+    existing transcript stays valid against the output.
+    """
+    project = await _get_owned_project(db, project_id, user)
+    if not project.audio_url:
+        raise HTTPException(status_code=400, detail="Project has no audio to clean")
+    if not voice_service.is_configured():
+        raise HTTPException(
+            status_code=503, detail="ELEVENLABS_API_KEY not configured"
+        )
+
+    try:
+        async with httpx.AsyncClient(timeout=120.0) as client:
+            resp = await client.get(project.audio_url)
+            resp.raise_for_status()
+            source_bytes = resp.content
+    except httpx.HTTPError as exc:
+        raise HTTPException(status_code=502, detail=f"Fetch source audio: {exc}")
+
+    try:
+        cleaned = await voice_service.isolate_audio(source_bytes)
+    except voice_service.VoiceError as exc:
+        if exc.quota_exceeded:
+            raise HTTPException(status_code=402, detail=f"Not enough ElevenLabs credits: {exc}")
+        raise HTTPException(status_code=502, detail=f"Voice Isolator: {exc}")
+
+    try:
+        public_url = await storage_upload(
+            user_id=_user_id(user),
+            filename=f"denoised_{project_id}.mp3",
+            data=cleaned,
+            content_type="audio/mpeg",
+        )
+    except httpx.HTTPError as exc:
+        raise HTTPException(status_code=502, detail=f"Upload cleaned audio: {exc}")
+
+    original_version_id = await _snapshot_original(db, project)
+
+    version = AudioVersion(
+        project_id=project_id,
+        parent_id=project.active_version_id or original_version_id,
+        label="Noise removed",
+        audio_url=public_url,
+        transcript=project.transcript,
+        duration=(project.transcript or {}).get("duration"),
+    )
+    db.add(version)
+    await db.flush()
+
+    project.audio_url = public_url
+    project.active_version_id = version.id
+    await db.commit()
+    await db.refresh(version)
+    return AudioVersionOut.model_validate(version)
 
 
 @router.post("/{project_id}/edits/apply", response_model=AudioVersionOut)
@@ -748,9 +878,11 @@ async def apply_edits(
     if replace_refs and used_fallback_voice:
         default_label += " (premade voice)"
 
+    original_version_id = await _snapshot_original(db, project)
+
     version = AudioVersion(
         project_id=project_id,
-        parent_id=payload.parent_version_id,
+        parent_id=payload.parent_version_id or original_version_id,
         label=payload.label or default_label,
         audio_url=public_url,
         transcript=new_transcript,

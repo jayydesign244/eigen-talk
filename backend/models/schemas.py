@@ -1,7 +1,12 @@
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, field_serializer
 from typing import Any, Optional, List
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
+
+
+def _as_utc(value: datetime) -> datetime:
+    """Columns are naive UTC (datetime.utcnow); tag them so clients don't read them as local."""
+    return value.replace(tzinfo=timezone.utc) if value.tzinfo is None else value
 
 
 class ProjectStatus(str, Enum):
@@ -54,6 +59,10 @@ class ProjectOut(BaseModel):
     created_at: datetime
     updated_at: datetime
 
+    @field_serializer("created_at", "updated_at")
+    def _serialize_dt(self, value: datetime) -> datetime:
+        return _as_utc(value)
+
     class Config:
         from_attributes = True
 
@@ -67,6 +76,10 @@ class AudioVersionOut(BaseModel):
     transcript: Optional[dict] = None
     duration: Optional[float] = None
     created_at: datetime
+
+    @field_serializer("created_at")
+    def _serialize_dt(self, value: datetime) -> datetime:
+        return _as_utc(value)
 
     class Config:
         from_attributes = True

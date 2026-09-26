@@ -45,9 +45,17 @@ def _headers(extra: Optional[dict] = None) -> dict:
 
 class VoiceError(RuntimeError):
     """Raised when ElevenLabs returns an error or is not configured."""
-    def __init__(self, message: str, *, plan_upgrade_required: bool = False, status_code: Optional[int] = None):
+    def __init__(
+        self,
+        message: str,
+        *,
+        plan_upgrade_required: bool = False,
+        quota_exceeded: bool = False,
+        status_code: Optional[int] = None,
+    ):
         super().__init__(message)
         self.plan_upgrade_required = plan_upgrade_required
+        self.quota_exceeded = quota_exceeded
         self.status_code = status_code
 
 
@@ -66,9 +74,14 @@ def _parse_error(resp: httpx.Response) -> VoiceError:
         detail_status = detail.get("status") or ""
         detail_msg = detail.get("message") or detail_msg
         upgrade = detail.get("type") == "payment_required" or detail_status == "can_not_use_instant_voice_cloning"
+        # A key scoped without voices_write can't clone either — same user-visible
+        # outcome as an unsupported plan, so let callers use the premade voice.
+        if detail_status == "missing_permissions":
+            upgrade = True
     return VoiceError(
         detail_msg,
         plan_upgrade_required=upgrade,
+        quota_exceeded=detail_status == "quota_exceeded",
         status_code=resp.status_code,
     )
 
@@ -100,6 +113,28 @@ async def clone_voice(audio_bytes: bytes, name: str, content_type: str = "audio/
     if not voice_id:
         raise VoiceError(f"No voice_id in response: {body}")
     return voice_id
+
+
+async def isolate_audio(audio_bytes: bytes, content_type: str = "audio/mpeg") -> bytes:
+    """Strip background noise with ElevenLabs Voice Isolator.
+
+    Returns cleaned mp3 bytes. Speech timing is preserved, so the caller can
+    keep using the existing transcript against the result.
+    """
+    if not is_configured():
+        raise VoiceError("ELEVENLABS_API_KEY not configured")
+
+    async with httpx.AsyncClient(timeout=300.0) as client:
+        resp = await client.post(
+            f"{ELEVENLABS_BASE}/audio-isolation",
+            headers=_headers(),
+            files={"audio": ("source.mp3", audio_bytes, content_type)},
+        )
+    if resp.status_code >= 400:
+        raise _parse_error(resp)
+    if not resp.content:
+        raise VoiceError("Voice Isolator returned an empty response")
+    return resp.content
 
 
 async def synthesize(

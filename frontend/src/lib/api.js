@@ -80,6 +80,14 @@ export async function detectFillers({ id, getToken } = {}) {
   return handleJson(res)
 }
 
+export async function removeNoise({ id, getToken } = {}) {
+  const res = await fetch(`${API_URL}/projects/${id}/denoise`, {
+    method: 'POST',
+    headers: { ...(await authHeaders(getToken)) },
+  })
+  return handleJson(res)
+}
+
 export async function applyEdits({ id, edits, parentVersionId, label, getToken } = {}) {
   const res = await fetch(`${API_URL}/projects/${id}/edits/apply`, {
     method: 'POST',
