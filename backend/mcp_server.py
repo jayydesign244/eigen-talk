@@ -12,10 +12,14 @@ Tools call the FastAPI route functions directly. Their `Depends(...)` are
 plain defaults, so passing `user=` and `db=` explicitly runs them normally
 and we inherit all the existing ownership and validation logic.
 """
+import base64
 import inspect
 import json
+import os
+import tempfile
 from typing import Any, Awaitable, Callable, Dict, List, Optional
 
+import httpx
 from fastapi import APIRouter, Depends, HTTPException, Request
 from fastapi.responses import JSONResponse
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -31,6 +35,7 @@ from models.schemas import (
     ProjectCreate,
 )
 from routers import projects as p
+from services import audio_editor
 
 PROTOCOL_VERSION = "2025-06-18"
 SERVER_INFO = {"name": "eigentalk", "title": "EigenTalk", "version": "1.0.0"}
@@ -45,6 +50,7 @@ router = APIRouter(tags=["mcp"])
 Handler = Callable[..., Awaitable[Any]]
 _TOOLS: List[Dict[str, Any]] = []
 _HANDLERS: Dict[str, Handler] = {}
+_MEDIA_TOOLS: set = set()
 
 
 def tool(
@@ -54,8 +60,13 @@ def tool(
     *,
     read_only: bool = False,
     destructive: bool = False,
+    media: bool = False,
 ):
-    """Register a handler as an MCP tool."""
+    """Register a handler as an MCP tool.
+
+    `media=True` attaches a waveform image and a short audio preview to the
+    result, so the user can see and hear the edit instead of reading JSON.
+    """
     def wrap(fn: Handler) -> Handler:
         _TOOLS.append({
             "name": name,
@@ -67,6 +78,8 @@ def tool(
             },
         })
         _HANDLERS[name] = fn
+        if media:
+            _MEDIA_TOOLS.add(name)
         return fn
     return wrap
 
@@ -81,6 +94,86 @@ def _obj(props: Dict[str, Any], required: Optional[List[str]] = None) -> Dict[st
 
 
 PROJECT_ID = {"type": "integer", "description": "Project id (see list_projects)"}
+
+# A full render base64s to ~5MB, far past any client's limit. A waveform is
+# ~3KB and a short mono preview ~80KB, so send those and link the real file.
+PREVIEW_SECONDS = 15
+PREVIEW_BITRATE = "32k"
+
+
+async def _media_blocks(audio_url: str) -> List[Dict[str, Any]]:
+    """Waveform image + short audio preview + link to the full render."""
+    blocks: List[Dict[str, Any]] = [{
+        "type": "resource_link",
+        "uri": audio_url,
+        "name": "Full audio",
+        "mimeType": "audio/mpeg",
+        "annotations": {"audience": ["user"]},
+    }]
+
+    ffmpeg = audio_editor._ffmpeg_exe()
+    if not ffmpeg:
+        return blocks
+
+    try:
+        async with httpx.AsyncClient(timeout=60.0, follow_redirects=True) as client:
+            resp = await client.get(audio_url)
+            resp.raise_for_status()
+            source = resp.content
+    except Exception:
+        return blocks
+
+    with tempfile.TemporaryDirectory() as tmp:
+        src = os.path.join(tmp, "in.mp3")
+        with open(src, "wb") as fh:
+            fh.write(source)
+
+        wave = os.path.join(tmp, "wave.png")
+        try:
+            await audio_editor._run([
+                ffmpeg, "-y", "-loglevel", "error", "-i", src,
+                "-filter_complex", "showwavespic=s=640x120:colors=#6366f1",
+                "-frames:v", "1", wave,
+            ])
+            with open(wave, "rb") as fh:
+                blocks.append({
+                    "type": "image",
+                    "data": base64.b64encode(fh.read()).decode(),
+                    "mimeType": "image/png",
+                    "annotations": {"audience": ["user"], "priority": 0.8},
+                })
+        except Exception:
+            pass
+
+        preview = os.path.join(tmp, "preview.mp3")
+        try:
+            await audio_editor._run([
+                ffmpeg, "-y", "-loglevel", "error", "-i", src,
+                "-t", str(PREVIEW_SECONDS), "-ac", "1", "-b:a", PREVIEW_BITRATE,
+                preview,
+            ])
+            with open(preview, "rb") as fh:
+                blocks.append({
+                    "type": "audio",
+                    "data": base64.b64encode(fh.read()).decode(),
+                    "mimeType": "audio/mpeg",
+                    "annotations": {"audience": ["user"], "priority": 0.9},
+                })
+        except Exception:
+            pass
+
+    return blocks
+
+
+def _audio_url_of(value: Any) -> Optional[str]:
+    if isinstance(value, dict):
+        url = value.get("audio_url") or value.get("download_url")
+        if isinstance(url, str):
+            return url
+        nested = value.get("version")
+        if isinstance(nested, dict):
+            return nested.get("audio_url")
+    return None
 
 
 def _dump(value: Any) -> Any:
@@ -240,6 +333,7 @@ async def _detect_fillers(user, db, project_id: int):
     "remove_all_fillers",
     "Detect and cut every filler word, saving the result as a new version.",
     _obj({"project_id": PROJECT_ID}, ["project_id"]),
+    media=True,
 )
 async def _remove_all_fillers(user, db, project_id: int):
     fillers = await p.detect_fillers(project_id=project_id, user=user, db=db)
@@ -266,6 +360,7 @@ async def _remove_all_fillers(user, db, project_id: int):
             }, ["segment_idx", "word_idx"]),
         },
     }, ["project_id", "words"]),
+    media=True,
 )
 async def _delete_words(user, db, project_id: int, words: List[dict]):
     payload = ApplyEditsRequest(edits=[{"type": "delete", "words": words}])
@@ -282,6 +377,7 @@ async def _delete_words(user, db, project_id: int, words: List[dict]):
         "word_idx": {"type": "integer"},
         "new_text": {"type": "string", "description": "Replacement word or short phrase"},
     }, ["project_id", "segment_idx", "word_idx", "new_text"]),
+    media=True,
 )
 async def _replace_word(user, db, project_id: int, segment_idx: int, word_idx: int, new_text: str):
     payload = ApplyEditsRequest(edits=[{
@@ -296,6 +392,7 @@ async def _replace_word(user, db, project_id: int, segment_idx: int, word_idx: i
     "remove_noise",
     "Strip background noise with ElevenLabs Voice Isolator, saving a new version.",
     _obj({"project_id": PROJECT_ID}, ["project_id"]),
+    media=True,
 )
 async def _remove_noise(user, db, project_id: int):
     return _slim(await p.denoise_project(project_id=project_id, user=user, db=db))
@@ -331,6 +428,7 @@ async def _list_versions(user, db, project_id: int):
         "project_id": PROJECT_ID,
         "version_id": {"type": "integer", "description": "Version id from list_versions"},
     }, ["project_id", "version_id"]),
+    media=True,
 )
 async def _activate_version(user, db, project_id: int, version_id: int):
     return _slim(await p.activate_version(
@@ -443,8 +541,17 @@ async def _call_tool(name: str, args: dict, user: dict, db: AsyncSession) -> dic
         accepted = set(inspect.signature(handler).parameters)
         clean = {k: v for k, v in (args or {}).items() if k in accepted}
         value = await handler(user=user, db=db, **clean)
+
+        content: List[Dict[str, Any]] = [
+            {"type": "text", "text": json.dumps(value, indent=2, default=str)}
+        ]
+        if name in _MEDIA_TOOLS:
+            url = _audio_url_of(value)
+            if url:
+                content.extend(await _media_blocks(url))
+
         return {
-            "content": [{"type": "text", "text": json.dumps(value, indent=2, default=str)}],
+            "content": content,
             "structuredContent": value if isinstance(value, dict) else {"result": value},
         }
     except Exception as exc:
