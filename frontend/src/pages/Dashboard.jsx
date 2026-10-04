@@ -177,13 +177,13 @@ export default function Dashboard() {
   // Projects that already have a transcript open straight in the editor;
   // new uploads go through Processing, which runs transcription.
   const openProject = (project) => {
-    navigate(project.transcript ? '/editor' : '/processing', { state: { project } })
+    navigate(`${project.transcript ? '/editor' : '/processing'}?p=${project.id}`, { state: { project } })
   }
 
   const handleCreated = (project) => {
     setProjects((prev) => [project, ...prev])
     setDialog((d) => ({ ...d, open: false }))
-    navigate('/processing', { state: { project } })
+    navigate(`/processing?p=${project.id}`, { state: { project } })
   }
 
   const confirmDelete = async () => {

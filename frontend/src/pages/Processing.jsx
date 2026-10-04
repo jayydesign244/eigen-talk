@@ -3,7 +3,8 @@ import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom'
 import { AnimatePresence, motion } from 'motion/react'
 import { ArrowLeftIcon, ArrowRightIcon, CheckIcon, OctagonXIcon, RefreshCwIcon } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
-import { detectFillers, getProject, transcribeAudio } from '../lib/api'
+import { detectFillers, getProject } from '../lib/api'
+import { transcribeOnce } from '../lib/transcribe'
 import { Logo } from '@/components/brand/Logo'
 import { Waveform } from '@/components/audio/Waveform'
 import { Button } from '@/components/ui/button'
@@ -33,16 +34,6 @@ function useElapsed(running) {
   return s
 }
 
-// One transcription per project at a time, even if the effect re-runs
-// (React dev double-invokes effects; Clerk can hand us a new getToken).
-const inflight = new Map()
-function transcribeOnce(id, getToken) {
-  if (!inflight.has(id)) {
-    inflight.set(id, transcribeAudio({ id, getToken }).finally(() => inflight.delete(id)))
-  }
-  return inflight.get(id)
-}
-
 function wordCount(transcript) {
   return transcript?.segments?.reduce((acc, s) => acc + (s.words?.length || 0), 0) || 0
 }
@@ -56,7 +47,8 @@ export default function Processing() {
   const navigate = useNavigate()
   const location = useLocation()
   const { getToken } = useAuth()
-  const initial = location.state?.project
+  const pid = Number(new URLSearchParams(location.search).get('p')) || null
+  const initial = location.state?.project || (pid ? { id: pid } : null)
 
   const [step, setStep] = useState('upload')
   const [project, setProject] = useState(initial)
@@ -97,7 +89,7 @@ export default function Processing() {
         if (cancelled) return
         setDetails((d) => ({ ...d, fillers: res?.total ?? res?.fillers?.length ?? 0 }))
         setStep('ready')
-        navTimer.current = setTimeout(() => navigate('/editor', { state: { project: fresh }, replace: true }), 1400)
+        navTimer.current = setTimeout(() => navigate(`/editor?p=${initial.id}`, { state: { project: fresh }, replace: true }), 1400)
       } catch (err) {
         if (!cancelled) setError(explainError(err.message, 'Transcription didn’t finish'))
       }
@@ -212,7 +204,7 @@ export default function Processing() {
                 <div className="mt-3 flex flex-wrap gap-2">
                   {!error.fatal && <Button size="sm" onClick={() => setAttempt((a) => a + 1)}><RefreshCwIcon />Try again</Button>}
                   {!error.fatal && (
-                    <Button size="sm" variant="outline" onClick={() => navigate('/editor', { state: { project }, replace: true })}>Open editor anyway</Button>
+                    <Button size="sm" variant="outline" onClick={() => navigate(`/editor?p=${initial.id}`, { state: { project }, replace: true })}>Open editor anyway</Button>
                   )}
                   <Button size="sm" variant="ghost" asChild><Link to="/dashboard">Back to projects</Link></Button>
                 </div>
@@ -222,7 +214,7 @@ export default function Processing() {
             <div className="mt-6 flex items-center gap-4">
               <Progress value={progress} className="flex-1" tone={step === 'ready' ? 'success' : 'brand'} />
               {step === 'ready' ? (
-                <Button size="sm" onClick={() => navigate('/editor', { state: { project }, replace: true })}>Open editor<ArrowRightIcon /></Button>
+                <Button size="sm" onClick={() => navigate(`/editor?p=${initial.id}`, { state: { project }, replace: true })}>Open editor<ArrowRightIcon /></Button>
               ) : (
                 <span className="text-[12px] text-muted-foreground">Keep this tab open</span>
               )}
