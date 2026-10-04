@@ -17,6 +17,7 @@ import inspect
 import json
 import os
 import tempfile
+from datetime import datetime, timezone
 from typing import Any, Awaitable, Callable, Dict, List, Optional
 
 import httpx
@@ -175,6 +176,56 @@ def _mmss(seconds: Any) -> Optional[str]:
     return f"{total // 60}:{total % 60:02d}"
 
 
+def _dur(seconds: Any) -> Optional[str]:
+    """95.97999999999999 -> '1:36'. Raw floats leak precision artifacts."""
+    if not isinstance(seconds, (int, float)):
+        return None
+    total = round(seconds)
+    return f"{total // 60}:{total % 60:02d}"
+
+
+def _ago(iso: Optional[str]) -> Optional[str]:
+    """ISO timestamp -> '3h ago'. Relative reads faster than a date."""
+    if not iso:
+        return None
+    try:
+        when = datetime.fromisoformat(iso.replace("Z", "+00:00"))
+    except ValueError:
+        return None
+    secs = (datetime.now(timezone.utc) - when).total_seconds()
+    if secs < 60:
+        return "just now"
+    if secs < 3600:
+        return f"{int(secs // 60)}m ago"
+    if secs < 86400:
+        return f"{int(secs // 3600)}h ago"
+    return f"{int(secs // 86400)}d ago"
+
+
+def _tidy_version(v: dict, active_id: Optional[int] = None) -> dict:
+    """One version, readable. The URL is 150 chars of noise in a list."""
+    out = {
+        "id": v.get("id"),
+        "label": v.get("label"),
+        "duration": _dur(v.get("duration")),
+        "created": _ago(v.get("created_at")),
+    }
+    if v.get("parent_id"):
+        out["built_on"] = v["parent_id"]
+    if active_id is not None and v.get("id") == active_id:
+        out["active"] = True
+    return out
+
+
+def _tidy_thread(t: dict) -> dict:
+    return {
+        "id": t.get("id"),
+        "title": t.get("title"),
+        "messages": t.get("message_count", 0),
+        "updated": _ago(t.get("updated_at")),
+    }
+
+
 def _audio_url_of(value: Any) -> Optional[str]:
     if isinstance(value, dict):
         url = value.get("audio_url") or value.get("download_url")
@@ -281,7 +332,11 @@ async def _get_project(user, db, project_id: int):
 )
 async def _create_project(user, db, name: str, duration: Optional[str] = None):
     payload = ProjectCreate(name=name, duration=duration)
-    return _dump(await p.create_project(payload=payload, user=user, db=db))
+    proj = _dump(await p.create_project(payload=payload, user=user, db=db))
+    return {
+        "created": {"id": proj.get("id"), "name": proj.get("name")},
+        "next": "Add audio in the EigenTalk app, then call transcribe_project.",
+    }
 
 
 @tool(
@@ -292,7 +347,8 @@ async def _create_project(user, db, name: str, duration: Optional[str] = None):
 )
 async def _delete_project(user, db, project_id: int):
     await p.delete_project(project_id=project_id, user=user, db=db)
-    return {"deleted": project_id}
+    return {"deleted": True, "project_id": project_id,
+            "note": "The project and all its versions are gone permanently."}
 
 
 @tool(
@@ -315,7 +371,15 @@ async def _processing_status(user, db, project_id: int):
     _obj({"project_id": PROJECT_ID}, ["project_id"]),
 )
 async def _transcribe(user, db, project_id: int):
-    return _slim(await p.transcribe_project(project_id=project_id, user=user, db=db))
+    proj = _slim(await p.transcribe_project(project_id=project_id, user=user, db=db))
+    full = await p._get_owned_project(db, project_id, user)
+    segments = (full.transcript or {}).get("segments") or []
+    return {
+        "transcribed": bool(segments),
+        "word_count": sum(len(sg.get("words") or []) for sg in segments),
+        "duration": proj.get("duration"),
+        "next": "Call get_transcript to read it, or detect_fillers to find filler words.",
+    }
 
 
 @tool(
@@ -404,9 +468,27 @@ async def _remove_all_fillers(user, db, project_id: int):
     words = [{"segment_idx": f.segment_idx, "word_idx": f.word_idx} for f in fillers.fillers]
     if not words:
         return {"removed": 0, "message": "No filler words found."}
+
+    # Resolve the words before editing — afterwards the indexes point at a
+    # new transcript and no longer identify what was taken out.
+    segments = (await p._get_owned_project(db, project_id, user)).transcript or {}
+    segs = segments.get("segments") or []
+    removed_text = []
+    for f in fillers.fillers:
+        try:
+            removed_text.append(segs[f.segment_idx]["words"][f.word_idx]["text"].strip())
+        except (IndexError, KeyError, TypeError):
+            continue
+
     payload = ApplyEditsRequest(edits=[{"type": "delete", "words": words}])
-    version = await p.apply_edits(project_id=project_id, payload=payload, user=user, db=db)
-    return {"removed": len(words), "version": _slim(version)}
+    version = _slim(await p.apply_edits(project_id=project_id, payload=payload, user=user, db=db))
+    return {
+        "removed": len(words),
+        "words": removed_text,
+        "new_version": {"id": version.get("id"), "label": version.get("label")},
+        "duration": _dur(version.get("duration")),
+        "audio_url": version.get("audio_url"),
+    }
 
 
 @tool(
@@ -428,7 +510,13 @@ async def _remove_all_fillers(user, db, project_id: int):
 )
 async def _delete_words(user, db, project_id: int, words: List[dict]):
     payload = ApplyEditsRequest(edits=[{"type": "delete", "words": words}])
-    return _slim(await p.apply_edits(project_id=project_id, payload=payload, user=user, db=db))
+    v = _slim(await p.apply_edits(project_id=project_id, payload=payload, user=user, db=db))
+    return {
+        "deleted": len(words),
+        "new_version": {"id": v.get("id"), "label": v.get("label")},
+        "duration": _dur(v.get("duration")),
+        "audio_url": v.get("audio_url"),
+    }
 
 
 @tool(
@@ -449,7 +537,14 @@ async def _replace_word(user, db, project_id: int, segment_idx: int, word_idx: i
         "word": {"segment_idx": segment_idx, "word_idx": word_idx},
         "new_text": new_text,
     }])
-    return _slim(await p.apply_edits(project_id=project_id, payload=payload, user=user, db=db))
+    v = _slim(await p.apply_edits(project_id=project_id, payload=payload, user=user, db=db))
+    return {
+        "replaced_with": new_text,
+        "new_version": {"id": v.get("id"), "label": v.get("label")},
+        "duration": _dur(v.get("duration")),
+        "voice": "premade fallback" if "premade" in (v.get("label") or "") else "cloned voice",
+        "audio_url": v.get("audio_url"),
+    }
 
 
 @tool(
@@ -459,7 +554,13 @@ async def _replace_word(user, db, project_id: int, segment_idx: int, word_idx: i
     media=True,
 )
 async def _remove_noise(user, db, project_id: int):
-    return _slim(await p.denoise_project(project_id=project_id, user=user, db=db))
+    v = _slim(await p.denoise_project(project_id=project_id, user=user, db=db))
+    return {
+        "cleaned": True,
+        "new_version": {"id": v.get("id"), "label": v.get("label")},
+        "duration": _dur(v.get("duration")),
+        "audio_url": v.get("audio_url"),
+    }
 
 
 @tool(
@@ -468,7 +569,14 @@ async def _remove_noise(user, db, project_id: int):
     _obj({"project_id": PROJECT_ID}, ["project_id"]),
 )
 async def _clone_voice(user, db, project_id: int):
-    return _slim(await p.clone_project_voice(project_id=project_id, user=user, db=db))
+    proj = _slim(await p.clone_project_voice(project_id=project_id, user=user, db=db))
+    premade = proj.get("voice_provider") == voice_service.FALLBACK_VOICE_PROVIDER
+    return {
+        "voice_ready": bool(proj.get("voice_id")),
+        "voice": "premade fallback voice" if premade else "cloned from this audio",
+        "note": ("Cloning was unavailable, so word replacement will use a stock voice."
+                 if premade else "Replaced words will sound like the speaker."),
+    }
 
 
 # --------------------------------------------------------------------------
@@ -482,7 +590,12 @@ async def _clone_voice(user, db, project_id: int):
     read_only=True,
 )
 async def _list_versions(user, db, project_id: int):
-    return _slim(await p.list_versions(project_id=project_id, user=user, db=db))
+    rows = _slim(await p.list_versions(project_id=project_id, user=user, db=db))
+    project = await p._get_owned_project(db, project_id, user)
+    return {
+        "versions": [_tidy_version(v, project.active_version_id) for v in rows],
+        "total": len(rows),
+    }
 
 
 @tool(
@@ -495,9 +608,17 @@ async def _list_versions(user, db, project_id: int):
     media=True,
 )
 async def _activate_version(user, db, project_id: int, version_id: int):
-    return _slim(await p.activate_version(
+    updated = _slim(await p.activate_version(
         project_id=project_id, version_id=version_id, user=user, db=db
     ))
+    label = next(
+        (v.label for v in (await p.list_versions(project_id=project_id, user=user, db=db))
+         if v.id == version_id), None)
+    return {
+        "switched_to": {"id": version_id, "label": label},
+        "duration": updated.get("duration"),
+        "audio_url": updated.get("audio_url"),
+    }
 
 
 @tool(
@@ -514,7 +635,14 @@ async def _activate_version(user, db, project_id: int, version_id: int):
 async def _export(user, db, project_id: int, format: str = "mp3",
                   version_id: Optional[int] = None, filename: Optional[str] = None):
     payload = ExportRequest(format=format, version_id=version_id, filename=filename)
-    return _dump(await p.export_project(project_id=project_id, payload=payload, user=user, db=db))
+    r = _dump(await p.export_project(project_id=project_id, payload=payload, user=user, db=db))
+    size = r.get("size_bytes")
+    return {
+        "filename": r.get("filename"),
+        "format": format,
+        "size": f"{round(size / 1_048_576, 1)} MB" if isinstance(size, (int, float)) else None,
+        "download_url": r.get("download_url"),
+    }
 
 
 # --------------------------------------------------------------------------
@@ -528,7 +656,8 @@ async def _export(user, db, project_id: int, format: str = "mp3",
     read_only=True,
 )
 async def _list_threads(user, db, project_id: int):
-    return _dump(await p.list_threads(project_id=project_id, user=user, db=db))
+    rows = _dump(await p.list_threads(project_id=project_id, user=user, db=db))
+    return {"threads": [_tidy_thread(t) for t in rows], "total": len(rows)}
 
 
 @tool(
@@ -538,7 +667,8 @@ async def _list_threads(user, db, project_id: int):
 )
 async def _create_thread(user, db, project_id: int, title: Optional[str] = None):
     payload = ChatThreadCreate(title=title)
-    return _dump(await p.create_thread(project_id=project_id, payload=payload, user=user, db=db))
+    t = _dump(await p.create_thread(project_id=project_id, payload=payload, user=user, db=db))
+    return {"created": _tidy_thread(t)}
 
 
 @tool(
@@ -552,9 +682,10 @@ async def _create_thread(user, db, project_id: int, title: Optional[str] = None)
 )
 async def _rename_thread(user, db, project_id: int, thread_id: int, title: str):
     payload = ChatThreadUpdate(title=title)
-    return _dump(await p.rename_thread(
+    t = _dump(await p.rename_thread(
         project_id=project_id, thread_id=thread_id, payload=payload, user=user, db=db
     ))
+    return {"renamed": _tidy_thread(t)}
 
 
 @tool(
@@ -566,7 +697,7 @@ async def _rename_thread(user, db, project_id: int, thread_id: int, title: str):
 )
 async def _delete_thread(user, db, project_id: int, thread_id: int):
     await p.delete_thread(project_id=project_id, thread_id=thread_id, user=user, db=db)
-    return {"deleted_thread": thread_id}
+    return {"deleted": True, "thread_id": thread_id}
 
 
 @tool(
@@ -577,9 +708,16 @@ async def _delete_thread(user, db, project_id: int, thread_id: int):
     read_only=True,
 )
 async def _thread_messages(user, db, project_id: int, thread_id: int):
-    return _dump(await p.list_thread_messages(
+    rows = _dump(await p.list_thread_messages(
         project_id=project_id, thread_id=thread_id, user=user, db=db
     ))
+    return {
+        "messages": [
+            {"role": m.get("role"), "text": m.get("content"), "sent": _ago(m.get("created_at"))}
+            for m in rows
+        ],
+        "total": len(rows),
+    }
 
 
 # --------------------------------------------------------------------------
