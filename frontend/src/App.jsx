@@ -1,20 +1,29 @@
-import { useEffect } from 'react'
+import { Suspense, lazy, useEffect } from 'react'
 import { BrowserRouter, Routes, Route, Navigate, useNavigate } from 'react-router-dom'
 import { AuthProvider, isClerkConfigured } from './context/AuthContext'
 import { ThemeProvider } from './components/theme-provider'
 import { TooltipProvider } from './components/ui/tooltip'
 import { Toaster } from './components/ui/sonner'
 import { AuthenticateWithRedirectCallback, useUser } from '@clerk/clerk-react'
+import { MotionConfig } from 'motion/react'
 import ProtectedRoute from './components/ProtectedRoute'
 import { Spinner } from './components/ui/spinner'
-import Landing from './pages/Landing'
-import SignUp from './pages/SignUp'
-import Login from './pages/Login'
-import Dashboard from './pages/Dashboard'
-import Processing from './pages/Processing'
-import Editor from './pages/Editor'
-import McpAuthorize from './pages/McpAuthorize'
-import DesignSystem from './pages/design-system/DesignSystem'
+const Landing = lazy(() => import('./pages/Landing'))
+const SignUp = lazy(() => import('./pages/SignUp'))
+const Login = lazy(() => import('./pages/Login'))
+const Dashboard = lazy(() => import('./pages/Dashboard'))
+const Processing = lazy(() => import('./pages/Processing'))
+const Editor = lazy(() => import('./pages/Editor'))
+const McpAuthorize = lazy(() => import('./pages/McpAuthorize'))
+const DesignSystem = lazy(() => import('./pages/design-system/DesignSystem'))
+
+function RouteFallback() {
+  return (
+    <div className="flex min-h-dvh items-center justify-center bg-background" aria-busy="true">
+      <Spinner className="size-5 text-brand" />
+    </div>
+  )
+}
 
 function SSOCallback() {
   const navigate = useNavigate()
@@ -37,10 +46,12 @@ function SSOCallback() {
 
 export default function App() {
   return (
+    <MotionConfig reducedMotion="user">
     <ThemeProvider>
     <TooltipProvider delayDuration={250}>
     <AuthProvider>
-      <BrowserRouter>
+      <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+        <Suspense fallback={<RouteFallback />}>
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/signup" element={<SignUp />} />
@@ -83,10 +94,12 @@ export default function App() {
           />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
+        </Suspense>
       </BrowserRouter>
       <Toaster />
     </AuthProvider>
     </TooltipProvider>
     </ThemeProvider>
+    </MotionConfig>
   )
 }
