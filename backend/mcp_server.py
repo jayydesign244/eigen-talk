@@ -22,11 +22,13 @@ from typing import Any, Awaitable, Callable, Dict, List, Optional
 import httpx
 from fastapi import APIRouter, Depends, HTTPException, Request
 from fastapi.responses import JSONResponse
+from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from auth import get_current_user
 from database import get_db
 from oauth_server import public_base_url, resolve_oauth_token
+from models.db import AudioVersion
 from models.schemas import (
     ApplyEditsRequest,
     ChatThreadCreate,
@@ -35,7 +37,7 @@ from models.schemas import (
     ProjectCreate,
 )
 from routers import projects as p
-from services import audio_editor
+from services import audio_editor, fillers as fillers_service, voice as voice_service
 
 PROTOCOL_VERSION = "2025-06-18"
 SERVER_INFO = {"name": "eigentalk", "title": "EigenTalk", "version": "1.0.0"}
@@ -233,7 +235,40 @@ async def _list_projects(user, db):
     read_only=True,
 )
 async def _get_project(user, db, project_id: int):
-    return _slim(await p.get_project(project_id=project_id, user=user, db=db))
+    out = _slim(await p.get_project(project_id=project_id, user=user, db=db))
+    project = await p._get_owned_project(db, project_id, user)
+
+    versions = (await db.execute(
+        select(AudioVersion.id, AudioVersion.label)
+        .where(AudioVersion.project_id == project_id)
+        .order_by(AudioVersion.id)
+    )).all()
+    out["version_count"] = len(versions)
+
+    # A bare active_version_id means nothing without its label.
+    active_id = out.pop("active_version_id", None)
+    label = next((lbl for vid, lbl in versions if vid == active_id), None)
+    out["active_version"] = (
+        {"id": active_id, "label": label} if active_id else {"id": None, "label": "Original"}
+    )
+
+    transcript = project.transcript or {}
+    segments = transcript.get("segments") or []
+    if segments:
+        out["word_count"] = sum(len(s.get("words") or []) for s in segments)
+        try:
+            out["filler_count"] = len(fillers_service.find_fillers(transcript))
+        except Exception:
+            pass
+
+    voice_id = out.pop("voice_id", None)
+    provider = out.pop("voice_provider", None)
+    if voice_id:
+        out["voice"] = (
+            "premade fallback voice" if provider == voice_service.FALLBACK_VOICE_PROVIDER
+            else "cloned from this audio"
+        )
+    return out
 
 
 @tool(
