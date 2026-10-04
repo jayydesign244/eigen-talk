@@ -598,3 +598,9 @@
 @utility scroll-fade-b {
   mask-image: linear-gradient(to bottom, #000 calc(100% - 24px), transparent);
 }
+
+/* Legacy landing: keep its original rounded corners (radius tokens are 0 in the new system). */
+.legacy .btn-primary,
+.legacy .btn-ghost { border-radius: 0.5rem; }
+.legacy .card { border-radius: 0.75rem; }
+.legacy .rounded-full { border-radius: 9999px; }

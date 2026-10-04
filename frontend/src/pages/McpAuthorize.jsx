@@ -1,13 +1,27 @@
 import { useEffect, useState } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
+import { motion } from 'motion/react'
+import { BotIcon, CheckIcon, EyeIcon, OctagonXIcon, PencilLineIcon, ShieldCheckIcon } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
 import { getConsentDetails, submitConsent } from '../lib/api'
+import { explainError } from '../lib/errors'
+import { Logo, LogoMark } from '@/components/brand/Logo'
+import { Button } from '@/components/ui/button'
+import { Skeleton } from '@/components/ui/skeleton'
+import { Spinner } from '@/components/ui/spinner'
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
+import { rise, stagger } from '@/lib/motion'
 
-const SCOPE_LABELS = {
-  'eigentalk:read': 'Read your projects, transcripts and versions',
-  'eigentalk:write': 'Edit audio, apply changes and export files',
+const SCOPES = {
+  'eigentalk:read': { icon: EyeIcon, title: 'Read your projects', body: 'Projects, transcripts and versions' },
+  'eigentalk:write': { icon: PencilLineIcon, title: 'Edit on your behalf', body: 'Apply edits, clean audio and export files' },
 }
 
+/**
+ * OAuth consent for MCP clients (Claude, Cursor, …) asking to act on a
+ * Sonicly account. Shows who is asking, exactly what they get, and where
+ * the user will be sent back to.
+ */
 export default function McpAuthorize() {
   const [params] = useSearchParams()
   const requestId = params.get('request_id')
@@ -17,14 +31,17 @@ export default function McpAuthorize() {
   const [error, setError] = useState(null)
   const [busy, setBusy] = useState(null) // 'approve' | 'deny'
 
+  useEffect(() => { document.title = 'Authorize access — Sonicly' }, [])
+
   useEffect(() => {
     if (!requestId) {
-      setError('This link is missing an authorization request.')
+      setError({ title: 'This link is incomplete', body: 'It’s missing an authorization request. Start the connection again from the app that sent you here.', fatal: true })
       return
     }
     getConsentDetails({ requestId, getToken })
       .then(setDetails)
-      .catch(() => setError('This authorization request has expired or already been used.'))
+      .catch(() => setError({ title: 'This request has expired', body: 'Authorization links work once and expire quickly. Start the connection again from the app that sent you here.', fatal: true }))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [requestId])
 
   const decide = async (approve) => {
@@ -32,83 +49,114 @@ export default function McpAuthorize() {
     setError(null)
     try {
       const { redirect_to } = await submitConsent({ requestId, approve, getToken })
-      // Hand control back to the app that asked for access.
       window.location.href = redirect_to
     } catch (err) {
-      setError(err.message)
+      setError(explainError(err.message, 'Couldn’t complete the request'))
       setBusy(null)
     }
   }
 
+  const account = details?.account_email || user?.email
+
   return (
-    <div className="min-h-screen bg-surface flex items-center justify-center px-4">
-      <div className="card w-full max-w-md p-6">
-        <div className="flex items-center gap-2 mb-5">
-          <div className="w-8 h-8 bg-accent-500 rounded-lg flex items-center justify-center">
-            <svg width="16" height="16" viewBox="0 0 32 32" fill="none">
-              <rect x="6" y="14" width="2" height="4" rx="1" fill="white" />
-              <rect x="10" y="10" width="2" height="12" rx="1" fill="white" />
-              <rect x="14" y="8" width="2" height="16" rx="1" fill="white" />
-              <rect x="18" y="11" width="2" height="10" rx="1" fill="white" />
-            </svg>
-          </div>
-          <span className="font-semibold text-gray-900">EigenTalk</span>
-        </div>
+    <div className="flex min-h-dvh flex-col bg-background">
+      <header className="flex h-16 items-center border-b border-border px-4 sm:px-6">
+        <Link to="/dashboard" aria-label="Sonicly"><Logo /></Link>
+      </header>
 
-        {error && !details ? (
-          <>
-            <h1 className="text-lg font-semibold text-gray-900 mb-2">Can’t authorize</h1>
-            <p className="text-sm text-gray-500">{error}</p>
-          </>
-        ) : !details ? (
-          <p className="text-sm text-gray-400">Loading…</p>
-        ) : (
-          <>
-            <h1 className="text-lg font-semibold text-gray-900 mb-1">
-              Connect {details.client_name}?
-            </h1>
-            <p className="text-sm text-gray-500 mb-5">
-              It will be able to act on your EigenTalk account
-              {user?.email ? <> as <span className="text-gray-700">{user.email}</span></> : null}.
-            </p>
-
-            <ul className="space-y-2 mb-6">
-              {(details.scopes || []).map(s => (
-                <li key={s} className="flex items-start gap-2 text-sm text-gray-600">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                       strokeWidth={2} className="text-accent-500 mt-0.5 flex-shrink-0">
-                    <path d="M20 6L9 17l-5-5" />
-                  </svg>
-                  {SCOPE_LABELS[s] || s}
-                </li>
+      <main className="flex flex-1 items-center justify-center px-4 py-12">
+        <motion.div variants={stagger(0.06)} initial="hidden" animate="show" className="w-full max-w-md">
+          {/* Who is connecting to whom */}
+          <motion.div variants={rise} className="flex items-center justify-center gap-3" aria-hidden="true">
+            <span className="plunk edge-card flex size-14 items-center justify-center border border-border bg-card"><BotIcon className="size-6" /></span>
+            <span className="flex items-center gap-1">
+              {[0, 1, 2].map((i) => (
+                <motion.span
+                  key={i}
+                  className="size-1.5 bg-muted-foreground"
+                  animate={{ opacity: [0.25, 1, 0.25] }}
+                  transition={{ duration: 1.2, repeat: Infinity, delay: i * 0.2 }}
+                />
               ))}
-            </ul>
+              <ShieldCheckIcon className="mx-1 size-4 text-brand-ink" />
+              {[0, 1, 2].map((i) => (
+                <motion.span
+                  key={i}
+                  className="size-1.5 bg-muted-foreground"
+                  animate={{ opacity: [0.25, 1, 0.25] }}
+                  transition={{ duration: 1.2, repeat: Infinity, delay: 0.6 + i * 0.2 }}
+                />
+              ))}
+            </span>
+            <LogoMark className="plunk edge-card size-14" />
+          </motion.div>
 
-            {error && <p className="text-sm text-red-500 mb-4">{error}</p>}
-
-            <div className="flex gap-2">
-              <button
-                onClick={() => decide(true)}
-                disabled={!!busy}
-                className="btn-primary flex-1 disabled:opacity-50"
-              >
-                {busy === 'approve' ? 'Connecting…' : 'Allow'}
-              </button>
-              <button
-                onClick={() => decide(false)}
-                disabled={!!busy}
-                className="btn-ghost flex-1 disabled:opacity-50"
-              >
-                Cancel
-              </button>
+          {error?.fatal ? (
+            <motion.div variants={rise} className="mt-8 text-center">
+              <h1 className="font-display text-4xl leading-tight">{error.title}</h1>
+              <p className="mt-3 text-sm text-muted-foreground">{error.body}</p>
+              <Button asChild variant="outline" className="mt-8"><Link to="/dashboard">Go to your projects</Link></Button>
+            </motion.div>
+          ) : !details ? (
+            <div className="mt-8 space-y-4" aria-busy="true">
+              <Skeleton className="mx-auto h-9 w-3/4" />
+              <Skeleton className="mx-auto h-4 w-1/2" />
+              <Skeleton className="mt-6 h-40 w-full" />
             </div>
+          ) : (
+            <>
+              <motion.div variants={rise} className="mt-8 text-center">
+                <h1 className="font-display text-4xl leading-tight">
+                  Connect <span className="underline decoration-brand decoration-[3px] underline-offset-[6px]">{details.client_name}</span>?
+                </h1>
+                <p className="mt-3 text-sm text-muted-foreground">
+                  It wants access to your Sonicly account{account ? <> as <span className="font-bold text-foreground">{account}</span></> : null}.
+                </p>
+              </motion.div>
 
-            <p className="text-xs text-gray-400 mt-4">
-              You can revoke access at any time from your EigenTalk settings.
-            </p>
-          </>
-        )}
-      </div>
+              <motion.div variants={rise} className="mt-8 border border-border bg-card">
+                <p className="text-caps border-b border-border px-4 py-3 text-muted-foreground">It will be able to</p>
+                <ul className="divide-y divide-border">
+                  {(details.scopes || []).map((s) => {
+                    const scope = SCOPES[s] || { icon: CheckIcon, title: s, body: 'Custom permission' }
+                    const Icon = scope.icon
+                    return (
+                      <li key={s} className="flex items-start gap-3 px-4 py-3.5">
+                        <span className="flex size-8 shrink-0 items-center justify-center bg-foreground text-background"><Icon className="size-4" /></span>
+                        <span>
+                          <span className="block text-sm font-bold">{scope.title}</span>
+                          <span className="block text-[13px] text-muted-foreground">{scope.body}</span>
+                        </span>
+                      </li>
+                    )
+                  })}
+                </ul>
+                <p className="border-t border-border px-4 py-3 text-[12px] text-muted-foreground">It can’t see your password or payment details.</p>
+              </motion.div>
+
+              {error && (
+                <Alert variant="destructive" className="mt-4">
+                  <OctagonXIcon />
+                  <AlertTitle>{error.title}</AlertTitle>
+                  <AlertDescription>{error.body}</AlertDescription>
+                </Alert>
+              )}
+
+              <motion.div variants={rise} className="mt-6 grid gap-3">
+                <Button size="lg" variant="brand" onClick={() => decide(true)} disabled={Boolean(busy)}>
+                  {busy === 'approve' ? <><Spinner />Connecting</> : `Allow ${details.client_name}`}
+                </Button>
+                <Button size="lg" variant="ghost" onClick={() => decide(false)} disabled={Boolean(busy)}>
+                  {busy === 'deny' ? <><Spinner />Cancelling</> : 'Cancel'}
+                </Button>
+              </motion.div>
+              <motion.p variants={rise} className="mt-6 text-center text-[12px] text-muted-foreground">
+                You’ll be sent back to {details.client_name} after you choose.
+              </motion.p>
+            </>
+          )}
+        </motion.div>
+      </main>
     </div>
   )
 }

@@ -6,6 +6,7 @@ import { TooltipProvider } from './components/ui/tooltip'
 import { Toaster } from './components/ui/sonner'
 import { AuthenticateWithRedirectCallback, useUser } from '@clerk/clerk-react'
 import ProtectedRoute from './components/ProtectedRoute'
+import { Spinner } from './components/ui/spinner'
 import Landing from './pages/Landing'
 import SignUp from './pages/SignUp'
 import Login from './pages/Login'
@@ -24,8 +25,8 @@ function SSOCallback() {
   }, [isLoaded, isSignedIn, navigate])
 
   return (
-    <div className="min-h-screen bg-surface flex items-center justify-center">
-      <div className="text-sm text-gray-400">Signing you in…</div>
+    <div className="flex min-h-dvh items-center justify-center bg-background">
+      <div className="flex items-center gap-2 text-[13px] font-semibold text-muted-foreground"><Spinner className="text-brand" />Signing you in…</div>
       <AuthenticateWithRedirectCallback
         signInFallbackRedirectUrl="/dashboard"
         signUpFallbackRedirectUrl="/dashboard"

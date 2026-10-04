@@ -1,5 +1,7 @@
 import { Navigate, useLocation } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
+import { LogoMark } from '@/components/brand/Logo'
+import { Spinner } from '@/components/ui/spinner'
 
 export default function ProtectedRoute({ children }) {
   const { isAuthenticated, loading } = useAuth()
@@ -7,13 +9,10 @@ export default function ProtectedRoute({ children }) {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-surface flex items-center justify-center">
-        <div className="flex items-center gap-2 text-sm text-gray-400">
-          <svg className="spinner" width="16" height="16" viewBox="0 0 24 24" fill="none">
-            <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" strokeOpacity="0.2" />
-            <path d="M12 2a10 10 0 0110 10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-          </svg>
-          Loading...
+      <div className="flex min-h-dvh items-center justify-center bg-background" aria-busy="true">
+        <div className="flex flex-col items-center gap-4 text-muted-foreground">
+          <LogoMark className="size-10 animate-pop" />
+          <span className="flex items-center gap-2 text-[13px] font-semibold"><Spinner className="text-brand" />Loading your studio…</span>
         </div>
       </div>
     )
