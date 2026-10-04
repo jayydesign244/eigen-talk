@@ -1,8 +1,20 @@
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/api'
 
-async function authHeaders(getToken) {
-  const token = getToken ? await getToken() : null
+async function authHeaders(getToken, fresh = false) {
+  const token = getToken ? await getToken(fresh ? { skipCache: true } : undefined) : null
   return token ? { Authorization: `Bearer ${token}` } : {}
+}
+
+/**
+ * fetch with the Clerk session token. A tab that sat idle can hold a stale
+ * cached token, so a 401 is retried once with a freshly minted one.
+ */
+async function authedFetch(url, init = {}, getToken) {
+  const send = async (fresh) =>
+    fetch(url, { ...init, headers: { ...(init.headers || {}), ...(await authHeaders(getToken, fresh)) } })
+  let res = await send(false)
+  if (res.status === 401 && getToken) res = await send(true)
+  return res
 }
 
 async function handleJson(res) {
@@ -15,68 +27,59 @@ async function handleJson(res) {
 }
 
 export async function listProjects({ getToken } = {}) {
-  const res = await fetch(`${API_URL}/projects/`, {
-    headers: { ...(await authHeaders(getToken)) },
-  })
+  const res = await authedFetch(`${API_URL}/projects/`, {}, getToken)
   return handleJson(res)
 }
 
 export async function createProject({ name, duration, getToken } = {}) {
-  const res = await fetch(`${API_URL}/projects/`, {
+  const res = await authedFetch(`${API_URL}/projects/`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json', ...(await authHeaders(getToken)) },
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ name, ...(duration ? { duration } : {}) }),
-  })
+  }, getToken)
   return handleJson(res)
 }
 
 export async function deleteProject({ id, getToken } = {}) {
-  const res = await fetch(`${API_URL}/projects/${id}`, {
+  const res = await authedFetch(`${API_URL}/projects/${id}`, {
     method: 'DELETE',
-    headers: { ...(await authHeaders(getToken)) },
-  })
+  }, getToken)
   return handleJson(res)
 }
 
 export async function uploadAudio({ id, file, getToken } = {}) {
   const form = new FormData()
   form.append('file', file)
-  const res = await fetch(`${API_URL}/projects/${id}/upload`, {
+  const res = await authedFetch(`${API_URL}/projects/${id}/upload`, {
     method: 'POST',
-    headers: { ...(await authHeaders(getToken)) },
     body: form,
-  })
+  }, getToken)
   return handleJson(res)
 }
 
 export async function getProject({ id, getToken } = {}) {
-  const res = await fetch(`${API_URL}/projects/${id}`, {
-    headers: { ...(await authHeaders(getToken)) },
-  })
+  const res = await authedFetch(`${API_URL}/projects/${id}`, {}, getToken)
   return handleJson(res)
 }
 
 export async function transcribeAudio({ id, getToken } = {}) {
-  const res = await fetch(`${API_URL}/projects/${id}/transcribe`, {
+  const res = await authedFetch(`${API_URL}/projects/${id}/transcribe`, {
     method: 'POST',
-    headers: { ...(await authHeaders(getToken)) },
-  })
+  }, getToken)
   return handleJson(res)
 }
 
 export async function cloneVoice({ id, getToken } = {}) {
-  const res = await fetch(`${API_URL}/projects/${id}/voice/clone`, {
+  const res = await authedFetch(`${API_URL}/projects/${id}/voice/clone`, {
     method: 'POST',
-    headers: { ...(await authHeaders(getToken)) },
-  })
+  }, getToken)
   return handleJson(res)
 }
 
 export async function detectFillers({ id, getToken } = {}) {
-  const res = await fetch(`${API_URL}/projects/${id}/fillers`, {
+  const res = await authedFetch(`${API_URL}/projects/${id}/fillers`, {
     method: 'POST',
-    headers: { ...(await authHeaders(getToken)) },
-  })
+  }, getToken)
   return handleJson(res)
 }
 
@@ -84,118 +87,103 @@ export async function detectFillers({ id, getToken } = {}) {
 const ROOT_URL = API_URL.replace(/\/api\/?$/, '')
 
 export async function getConsentDetails({ requestId, getToken } = {}) {
-  const res = await fetch(`${ROOT_URL}/oauth/consent/${requestId}`, {
-    headers: { ...(await authHeaders(getToken)) },
-  })
+  const res = await authedFetch(`${ROOT_URL}/oauth/consent/${requestId}`, {}, getToken)
   return handleJson(res)
 }
 
 export async function submitConsent({ requestId, approve, getToken } = {}) {
-  const res = await fetch(`${ROOT_URL}/oauth/consent`, {
+  const res = await authedFetch(`${ROOT_URL}/oauth/consent`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json', ...(await authHeaders(getToken)) },
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ request_id: requestId, approve }),
-  })
+  }, getToken)
   return handleJson(res)
 }
 
 export async function listThreads({ id, getToken } = {}) {
-  const res = await fetch(`${API_URL}/projects/${id}/threads`, {
-    headers: { ...(await authHeaders(getToken)) },
-  })
+  const res = await authedFetch(`${API_URL}/projects/${id}/threads`, {}, getToken)
   return handleJson(res)
 }
 
 export async function createThread({ id, title, getToken } = {}) {
-  const res = await fetch(`${API_URL}/projects/${id}/threads`, {
+  const res = await authedFetch(`${API_URL}/projects/${id}/threads`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json', ...(await authHeaders(getToken)) },
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ title: title ?? null }),
-  })
+  }, getToken)
   return handleJson(res)
 }
 
 export async function renameThread({ id, threadId, title, getToken } = {}) {
-  const res = await fetch(`${API_URL}/projects/${id}/threads/${threadId}`, {
+  const res = await authedFetch(`${API_URL}/projects/${id}/threads/${threadId}`, {
     method: 'PATCH',
-    headers: { 'Content-Type': 'application/json', ...(await authHeaders(getToken)) },
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ title }),
-  })
+  }, getToken)
   return handleJson(res)
 }
 
 export async function deleteThread({ id, threadId, getToken } = {}) {
-  const res = await fetch(`${API_URL}/projects/${id}/threads/${threadId}`, {
+  const res = await authedFetch(`${API_URL}/projects/${id}/threads/${threadId}`, {
     method: 'DELETE',
-    headers: { ...(await authHeaders(getToken)) },
-  })
+  }, getToken)
   if (!res.ok) throw new Error(`Delete failed (${res.status})`)
 }
 
 export async function listThreadMessages({ id, threadId, getToken } = {}) {
-  const res = await fetch(`${API_URL}/projects/${id}/threads/${threadId}/messages`, {
-    headers: { ...(await authHeaders(getToken)) },
-  })
+  const res = await authedFetch(`${API_URL}/projects/${id}/threads/${threadId}/messages`, {}, getToken)
   return handleJson(res)
 }
 
 export async function removeNoise({ id, getToken } = {}) {
-  const res = await fetch(`${API_URL}/projects/${id}/denoise`, {
+  const res = await authedFetch(`${API_URL}/projects/${id}/denoise`, {
     method: 'POST',
-    headers: { ...(await authHeaders(getToken)) },
-  })
+  }, getToken)
   return handleJson(res)
 }
 
 export async function applyEdits({ id, edits, parentVersionId, label, getToken } = {}) {
-  const res = await fetch(`${API_URL}/projects/${id}/edits/apply`, {
+  const res = await authedFetch(`${API_URL}/projects/${id}/edits/apply`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json', ...(await authHeaders(getToken)) },
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       edits,
       parent_version_id: parentVersionId ?? null,
       label: label ?? null,
     }),
-  })
+  }, getToken)
   return handleJson(res)
 }
 
 export async function listVersions({ id, getToken } = {}) {
-  const res = await fetch(`${API_URL}/projects/${id}/versions`, {
-    headers: { ...(await authHeaders(getToken)) },
-  })
+  const res = await authedFetch(`${API_URL}/projects/${id}/versions`, {}, getToken)
   return handleJson(res)
 }
 
 export async function exportProject({ id, format, versionId, filename, getToken } = {}) {
-  const res = await fetch(`${API_URL}/projects/${id}/export`, {
+  const res = await authedFetch(`${API_URL}/projects/${id}/export`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json', ...(await authHeaders(getToken)) },
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       format,
       version_id: versionId ?? null,
       filename: filename ?? null,
     }),
-  })
+  }, getToken)
   return handleJson(res)
 }
 
 export async function activateVersion({ id, versionId, getToken } = {}) {
-  const res = await fetch(`${API_URL}/projects/${id}/versions/${versionId}/activate`, {
+  const res = await authedFetch(`${API_URL}/projects/${id}/versions/${versionId}/activate`, {
     method: 'POST',
-    headers: { ...(await authHeaders(getToken)) },
-  })
+  }, getToken)
   return handleJson(res)
 }
 
 export async function streamChat({ projectId, threadId, messages, getToken, onDelta, signal }) {
-  const token = await getToken()
-  const res = await fetch(`${API_URL}/projects/${projectId}/chat`, {
+  const res = await authedFetch(`${API_URL}/projects/${projectId}/chat`, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
-    },
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       thread_id: threadId ?? null,
       messages: messages.map(m => ({
@@ -204,7 +192,7 @@ export async function streamChat({ projectId, threadId, messages, getToken, onDe
       })),
     }),
     signal,
-  })
+  }, getToken)
 
   if (!res.ok) {
     const detail = await res.text().catch(() => '')
