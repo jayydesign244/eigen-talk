@@ -48,7 +48,7 @@ export default function Landing() {
   const { isAuthenticated, user, signOut } = useAuth()
 
   return (
-    <div className="min-h-screen bg-white flex flex-col">
+    <div className="legacy min-h-screen bg-white flex flex-col">
       {/* Nav */}
       <nav className="fixed top-0 left-0 right-0 z-50 border-b border-gray-100 bg-white/90 backdrop-blur-sm">
         <div className="max-w-6xl mx-auto px-6 h-14 flex items-center justify-between">

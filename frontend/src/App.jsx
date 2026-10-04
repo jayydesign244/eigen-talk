@@ -1,6 +1,9 @@
 import { useEffect } from 'react'
 import { BrowserRouter, Routes, Route, Navigate, useNavigate } from 'react-router-dom'
 import { AuthProvider, isClerkConfigured } from './context/AuthContext'
+import { ThemeProvider } from './components/theme-provider'
+import { TooltipProvider } from './components/ui/tooltip'
+import { Toaster } from './components/ui/sonner'
 import { AuthenticateWithRedirectCallback, useUser } from '@clerk/clerk-react'
 import ProtectedRoute from './components/ProtectedRoute'
 import Landing from './pages/Landing'
@@ -10,6 +13,7 @@ import Dashboard from './pages/Dashboard'
 import Processing from './pages/Processing'
 import Editor from './pages/Editor'
 import McpAuthorize from './pages/McpAuthorize'
+import DesignSystem from './pages/design-system/DesignSystem'
 
 function SSOCallback() {
   const navigate = useNavigate()
@@ -32,12 +36,15 @@ function SSOCallback() {
 
 export default function App() {
   return (
+    <ThemeProvider>
+    <TooltipProvider delayDuration={250}>
     <AuthProvider>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/design-system/*" element={<DesignSystem />} />
           {isClerkConfigured() && (
             <Route path="/sso-callback" element={<SSOCallback />} />
           )}
@@ -76,6 +83,9 @@ export default function App() {
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </BrowserRouter>
+      <Toaster />
     </AuthProvider>
+    </TooltipProvider>
+    </ThemeProvider>
   )
 }
