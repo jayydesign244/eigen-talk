@@ -21,7 +21,7 @@ function InputGroup({ className, ...props }) {
       "has-[[data-slot=input-group-control]:focus-visible]:border-foreground has-[[data-slot=input-group-control]:focus-visible]:shadow-[inset_0_-2px_0_0_var(--foreground)]",
 
       // Error state.
-      "has-[[data-slot][aria-invalid=true]]:border-destructive",
+      "has-[[data-slot][aria-invalid=true]]:border-destructive has-[[data-slot][aria-invalid=true]]:shadow-[inset_0_-2px_0_0_var(--destructive)]",
 
       className
     )}
@@ -110,7 +110,7 @@ function InputGroupInput({
   return <Input
     data-slot="input-group-control"
     className={cn(
-      "flex-1 border-0 bg-transparent shadow-none hover:border-0 focus-visible:shadow-none",
+      "flex-1 border-0 bg-transparent shadow-none hover:border-0 focus-visible:shadow-none aria-invalid:shadow-none",
       className
     )}
     {...props}
@@ -123,7 +123,7 @@ function InputGroupTextarea({
   return <Textarea
     data-slot="input-group-control"
     className={cn(
-      "flex-1 resize-none border-0 bg-transparent py-3 shadow-none hover:border-0 focus-visible:shadow-none",
+      "flex-1 resize-none border-0 bg-transparent py-3 shadow-none hover:border-0 focus-visible:shadow-none aria-invalid:shadow-none",
       className
     )}
     {...props}
