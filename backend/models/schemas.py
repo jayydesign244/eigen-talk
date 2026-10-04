@@ -188,9 +188,10 @@ class ChatResponse(BaseModel):
 
 class ProcessingStatus(BaseModel):
     project_id: int
-    step: str
-    progress: float
+    step: str  # awaiting_audio | transcribing | ready
     complete: bool
+    has_audio: bool = False
+    has_transcript: bool = False
 
 
 class ExportRequest(BaseModel):

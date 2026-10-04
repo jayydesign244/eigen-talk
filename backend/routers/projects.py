@@ -498,12 +498,23 @@ async def processing_status(
     user: dict = Depends(get_current_user),
     db: AsyncSession = Depends(get_db),
 ):
-    await _get_owned_project(db, project_id, user)
+    project = await _get_owned_project(db, project_id, user)
+    has_audio = bool(project.audio_url)
+    has_transcript = bool(project.transcript)
+    if not has_audio:
+        step = "awaiting_audio"
+    elif not has_transcript:
+        step = "transcribing"
+    else:
+        step = "ready"
+    # No progress figure: transcription is one blocking call, so any
+    # percentage would be invented.
     return ProcessingStatus(
         project_id=project_id,
-        step="transcribing",
-        progress=0.75,
-        complete=False,
+        step=step,
+        complete=step == "ready",
+        has_audio=has_audio,
+        has_transcript=has_transcript,
     )
 
 
