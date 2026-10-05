@@ -192,3 +192,12 @@ export function PropsTable({ rows }) {
     </div>
   )
 }
+
+/** Marks components added in the latest batch so they're easy to find. */
+export function NewBadge({ className }) {
+  return (
+    <span className={cn('inline-flex animate-pop items-center bg-brand px-1.5 py-[2px] text-[9px] leading-none font-extrabold tracking-[0.12em] text-brand-foreground uppercase', className)}>
+      New
+    </span>
+  )
+}

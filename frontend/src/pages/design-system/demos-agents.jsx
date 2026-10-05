@@ -17,7 +17,7 @@ import { WebSearch } from '@/components/ui/web-search'
 import { AgentLimitsCard } from '@/components/ui/agent-limits-card'
 import { NotificationCenter } from '@/components/ui/notification-center'
 import { StatCards } from '@/components/ui/stat-cards'
-import { PageHeader, Preview, PropsTable, Section, Usage } from './kit'
+import { NewBadge, PageHeader, Preview, PropsTable, Section, Usage } from './kit'
 
 /** Re-runs a scripted sequence of state changes; returns [state, replay]. */
 function useScript(steps, initial) {
@@ -42,7 +42,7 @@ function AgentThinkingPage() {
   const [since] = useState(() => Date.now())
   return (
     <>
-      <PageHeader eyebrow="Agents" title="Agent thinking" description="The line that sits above a composer while the agent works: an indicator, a shimmering label and an elapsed timer. Four indicators, all drawn on the square grid." />
+      <PageHeader eyebrow={<span className="inline-flex items-center gap-2">Agents<NewBadge /></span>} title="Agent thinking" description="The line that sits above a composer while the agent works: an indicator, a shimmering label and an elapsed timer. Four indicators, all drawn on the square grid." />
       <Section title="Variants">
         <Preview center={false} contentClassName="grid gap-5 sm:grid-cols-2">
           <AgentThinking variant="wave" label="Thinking" since={since} />
@@ -87,7 +87,7 @@ function ComposerPage() {
   const send = (t) => { toast(`Sent: “${t}”`); setValue(''); setWorking(true); setTimeout(() => setWorking(false), 2500) }
   return (
     <>
-      <PageHeader eyebrow="Agents" title="Composer" description="The single-line chat composer: an add menu, the prompt, an optional model menu, dictation and send, with a status strip underneath. The mic uses the browser’s own speech recognition when available." />
+      <PageHeader eyebrow={<span className="inline-flex items-center gap-2">Agents<NewBadge /></span>} title="Composer" description="The single-line chat composer: an add menu, the prompt, an optional model menu, dictation and send, with a status strip underneath. The mic uses the browser’s own speech recognition when available." />
       <Section title="Default">
         <Preview>
           {(s) => (
@@ -143,7 +143,7 @@ function ComposerPanelPage() {
   const [working, setWorking] = useState(false)
   return (
     <>
-      <PageHeader eyebrow="Agents" title="Composer panel" description="The taller, two-row composer for agent surfaces: the prompt on top, controls below — add menu, a permission picker, a model picker, dictation and send — plus a status tab hanging off the top edge." />
+      <PageHeader eyebrow={<span className="inline-flex items-center gap-2">Agents<NewBadge /></span>} title="Composer panel" description="The taller, two-row composer for agent surfaces: the prompt on top, controls below — add menu, a permission picker, a model picker, dictation and send — plus a status tab hanging off the top edge." />
       <Section title="Default">
         <Preview>
           <div className="w-full max-w-xl">
@@ -215,7 +215,7 @@ function ComposerAttachmentsPage() {
   useEffect(() => { run(); return clearAll }, []) // eslint-disable-line react-hooks/exhaustive-deps
   return (
     <>
-      <PageHeader eyebrow="Agents" title="Composer attachments" description="A strip of 56px tiles above the prompt. Queued files land one after another; a square ring draws clockwise around each tile as it uploads, then the percentage gives way to the dismiss." />
+      <PageHeader eyebrow={<span className="inline-flex items-center gap-2">Agents<NewBadge /></span>} title="Composer attachments" description="A strip of 56px tiles above the prompt. Queued files land one after another; a square ring draws clockwise around each tile as it uploads, then the percentage gives way to the dismiss." />
       <Section title="Upload queue">
         <Replay onClick={run} />
         <Preview single>
@@ -239,7 +239,7 @@ function ComposerLoaderPage() {
   const [active, setActive] = useState(true)
   return (
     <>
-      <PageHeader eyebrow="Agents" title="Composer loader" description="Wraps a composer while the agent works: an iridescent band travels the rim at constant speed, drawn from the NeoPOP accent palette, with a faint aqua bloom behind it. Toggling fades the effect in and out." />
+      <PageHeader eyebrow={<span className="inline-flex items-center gap-2">Agents<NewBadge /></span>} title="Composer loader" description="Wraps a composer while the agent works: an iridescent band travels the rim at constant speed, drawn from the NeoPOP accent palette, with a faint aqua bloom behind it. Toggling fades the effect in and out." />
       <Section title="Toggle">
         <div className="mb-4"><Button variant="outline" size="sm" onClick={() => setActive((a) => !a)}>{active ? 'Stop' : 'Start'} loader</Button></div>
         <Preview>
@@ -289,7 +289,7 @@ function AgentProgressPage() {
   }))
   return (
     <>
-      <PageHeader eyebrow="Agents" title="Agent progress" description="A collapsible block for multi-step work. Steps arrive with a soft stagger, the active step’s ring and the header ring move together, progress survives being minimised, and the header reports total time at the end. Sonicly’s Processing screen uses it." />
+      <PageHeader eyebrow={<span className="inline-flex items-center gap-2">Agents<NewBadge /></span>} title="Agent progress" description="A collapsible block for multi-step work. Steps arrive with a soft stagger, the active step’s ring and the header ring move together, progress survives being minimised, and the header reports total time at the end. Sonicly’s Processing screen uses it." />
       <Section title="Live">
         <Replay onClick={replay} />
         <Preview single>
@@ -326,7 +326,7 @@ function TaskListPage() {
   const [s, replay] = useScript(events, () => ({ tasks: [], running: true, t0: Date.now() }))
   return (
     <>
-      <PageHeader eyebrow="Agents" title="Task list" description="A streaming log of what the agent actually did. Tasks and steps reveal one at a time with a short blur and lift; a running task shimmers until its steps land; when the run ends it folds into one line. Sonicly’s assistant logs applied edits with it." />
+      <PageHeader eyebrow={<span className="inline-flex items-center gap-2">Agents<NewBadge /></span>} title="Task list" description="A streaming log of what the agent actually did. Tasks and steps reveal one at a time with a short blur and lift; a running task shimmers until its steps land; when the run ends it folds into one line. Sonicly’s assistant logs applied edits with it." />
       <Section title="Live">
         <Replay onClick={replay} />
         <Preview single center={false}>
@@ -353,7 +353,7 @@ function WebSearchPage() {
   )
   return (
     <>
-      <PageHeader eyebrow="Agents" title="Web search" description="The research log: every query the agent ran and every page it opened. A search that found something lists its sources as overlapping square site marks, so a thread is recognisable without reading a domain." />
+      <PageHeader eyebrow={<span className="inline-flex items-center gap-2">Agents<NewBadge /></span>} title="Web search" description="The research log: every query the agent ran and every page it opened. A search that found something lists its sources as overlapping square site marks, so a thread is recognisable without reading a domain." />
       <Section title="Live">
         <Replay onClick={replay} />
         <Preview single center={false}>
@@ -369,7 +369,7 @@ function WebSearchPage() {
 function AgentLimitsPage() {
   return (
     <>
-      <PageHeader eyebrow="Agents" title="Agent limits card" description="The agent budget: a context-window bar segmented by bucket with a used / max readout, and plan limits with reset times. Open the context row to see the breakdown and free space." />
+      <PageHeader eyebrow={<span className="inline-flex items-center gap-2">Agents<NewBadge /></span>} title="Agent limits card" description="The agent budget: a context-window bar segmented by bucket with a used / max readout, and plan limits with reset times. Open the context row to see the breakdown and free space." />
       <Section title="Example">
         <Preview>
           <AgentLimitsCard
@@ -409,7 +409,7 @@ function NotificationCenterPage() {
   const [items, setItems] = useState(seed)
   return (
     <>
-      <PageHeader eyebrow="Agents" title="Notification center" description="An activity inbox: filter tabs with counts and a sliding rule, grouped timeline, unread markers, avatar or status tiles, inline actions, mark-all-read and an empty state. The app’s top bar uses it for project activity." />
+      <PageHeader eyebrow={<span className="inline-flex items-center gap-2">Agents<NewBadge /></span>} title="Notification center" description="An activity inbox: filter tabs with counts and a sliding rule, grouped timeline, unread markers, avatar or status tiles, inline actions, mark-all-read and an empty state. The app’s top bar uses it for project activity." />
       <Section title="Example">
         <Preview single>
           <div className="w-full max-w-sm border border-border pop-float">
@@ -438,7 +438,7 @@ function NotificationCenterPage() {
 function StatCardsPage() {
   return (
     <>
-      <PageHeader eyebrow="Agents" title="Stat cards" description="KPI cards for dashboard headers in two looks: the compact ruled row the dashboard uses, and a footer variant with an icon tile, an info tooltip, a display value and a footer band with the comparison and a delta pill." />
+      <PageHeader eyebrow={<span className="inline-flex items-center gap-2">Agents<NewBadge /></span>} title="Stat cards" description="KPI cards for dashboard headers in two looks: the compact ruled row the dashboard uses, and a footer variant with an icon tile, an info tooltip, a display value and a footer band with the comparison and a delta pill." />
       <Section title="Compact">
         <Preview center={false}>
           <StatCards className="w-full" items={[
@@ -464,16 +464,16 @@ function StatCardsPage() {
 }
 
 export const AGENT_DEMOS = [
-  { slug: 'agent-limits-card', title: 'Agent Limits Card', Page: AgentLimitsPage },
-  { slug: 'agent-progress', title: 'Agent Progress', Page: AgentProgressPage },
-  { slug: 'agent-thinking', title: 'Agent Thinking', Page: AgentThinkingPage },
-  { slug: 'composer', title: 'Composer', Page: ComposerPage },
-  { slug: 'composer-attachments', title: 'Composer Attachments', Page: ComposerAttachmentsPage },
-  { slug: 'composer-loader', title: 'Composer Loader', Page: ComposerLoaderPage },
-  { slug: 'composer-panel', title: 'Composer Panel', Page: ComposerPanelPage },
-  { slug: 'notification-center', title: 'Notification Center', Page: NotificationCenterPage },
-  { slug: 'stat-cards', title: 'Stat Cards', Page: StatCardsPage },
-  { slug: 'task-list', title: 'Task List', Page: TaskListPage },
-  { slug: 'web-search', title: 'Web Search', Page: WebSearchPage },
+  { slug: 'agent-limits-card', title: 'Agent Limits Card', isNew: true, Page: AgentLimitsPage },
+  { slug: 'agent-progress', title: 'Agent Progress', isNew: true, Page: AgentProgressPage },
+  { slug: 'agent-thinking', title: 'Agent Thinking', isNew: true, Page: AgentThinkingPage },
+  { slug: 'composer', title: 'Composer', isNew: true, Page: ComposerPage },
+  { slug: 'composer-attachments', title: 'Composer Attachments', isNew: true, Page: ComposerAttachmentsPage },
+  { slug: 'composer-loader', title: 'Composer Loader', isNew: true, Page: ComposerLoaderPage },
+  { slug: 'composer-panel', title: 'Composer Panel', isNew: true, Page: ComposerPanelPage },
+  { slug: 'notification-center', title: 'Notification Center', isNew: true, Page: NotificationCenterPage },
+  { slug: 'stat-cards', title: 'Stat Cards', isNew: true, Page: StatCardsPage },
+  { slug: 'task-list', title: 'Task List', isNew: true, Page: TaskListPage },
+  { slug: 'web-search', title: 'Web Search', isNew: true, Page: WebSearchPage },
 ]
 

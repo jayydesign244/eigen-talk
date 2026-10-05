@@ -11,7 +11,7 @@ import { Sheet, SheetContent, SheetTitle, SheetTrigger } from '@/components/ui/s
 import { Kbd } from '@/components/ui/kbd'
 import { cn } from '@/lib/utils'
 import { ease } from '@/lib/motion'
-import { PreviewModeContext } from './kit'
+import { NewBadge, PreviewModeContext } from './kit'
 import { FOUNDATIONS, OverviewPage } from './foundations'
 import { ACTION_DEMOS } from './demos-actions'
 import { FORM_DEMOS } from './demos-forms'
@@ -37,7 +37,7 @@ function NavItem({ to, children, end }) {
       end={end}
       className={({ isActive }) =>
         cn(
-          'flex h-8 items-center px-3 text-[13px] font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground',
+          'flex h-8 items-center gap-2 px-3 text-[13px] font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground',
           isActive && 'bg-foreground font-bold text-background hover:bg-foreground hover:text-background'
         )
       }
@@ -49,6 +49,7 @@ function NavItem({ to, children, end }) {
 
 function Nav({ onNavigate }) {
   const [q, setQ] = useState('')
+  const [onlyNew, setOnlyNew] = useState(false)
   const inputRef = useRef(null)
   useEffect(() => {
     const onKey = (e) => {
@@ -60,7 +61,8 @@ function Nav({ onNavigate }) {
     document.addEventListener('keydown', onKey)
     return () => document.removeEventListener('keydown', onKey)
   }, [])
-  const filtered = COMPONENTS.filter((c) => c.title.toLowerCase().includes(q.toLowerCase()))
+  const newCount = COMPONENTS.filter((c) => c.isNew).length
+  const filtered = COMPONENTS.filter((c) => c.title.toLowerCase().includes(q.toLowerCase()) && (!onlyNew || c.isNew))
   return (
     <nav className="flex h-full flex-col" onClick={(e) => e.target.closest('a') && onNavigate?.()}>
       <Link to="/design-system" className={cn('flex h-14 shrink-0 items-center gap-2.5 border-b border-border px-4', onNavigate && 'pr-14')}>
@@ -89,10 +91,28 @@ function Nav({ onNavigate }) {
           </div>
         )}
         <div className="space-y-0.5">
-          <p className="text-caps flex justify-between px-3 pb-2 text-[9px] text-muted-foreground">
-            Components <span className="tabular">{filtered.length}</span>
-          </p>
-          {filtered.map((c) => <NavItem key={c.slug} to={`/design-system/components/${c.slug}`}>{c.title}</NavItem>)}
+          <div className="flex items-center justify-between gap-2 px-3 pb-2">
+            <p className="text-caps text-[9px] text-muted-foreground">
+              Components <span className="tabular">{filtered.length}</span>
+            </p>
+            <button
+              type="button"
+              aria-pressed={onlyNew}
+              onClick={() => setOnlyNew((v) => !v)}
+              className={cn(
+                'text-caps inline-flex items-center gap-1 border px-1.5 py-[3px] text-[9px] transition-colors outline-hidden focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-ring',
+                onlyNew ? 'border-brand bg-brand text-brand-foreground' : 'border-border text-muted-foreground hover:border-foreground hover:text-foreground'
+              )}
+            >
+              {onlyNew ? 'Show all' : `New only · ${newCount}`}
+            </button>
+          </div>
+          {filtered.map((c) => (
+            <NavItem key={c.slug} to={`/design-system/components/${c.slug}`}>
+              {c.title}
+              {c.isNew && <NewBadge className="ml-auto" />}
+            </NavItem>
+          ))}
           {!filtered.length && <p className="px-3 py-2 text-[13px] text-muted-foreground">No match for “{q}”.</p>}
         </div>
       </div>
