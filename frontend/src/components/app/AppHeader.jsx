@@ -17,6 +17,7 @@ import {
 } from '@/components/ui/command'
 import { Kbd, KbdGroup } from '@/components/ui/kbd'
 import { relativeTime } from '@/lib/format'
+import { ActivityBell } from '@/components/app/ActivityBell'
 
 export function useDisplayName() {
   const { user } = useAuth()
@@ -136,6 +137,7 @@ export function AppHeader({ projects, onNewProject, onRecord, onOpenProject }) {
           <span className="truncate">Search projects…</span>
           <KbdGroup className="ml-auto hidden sm:inline-flex"><Kbd>⌘</Kbd><Kbd>K</Kbd></KbdGroup>
         </button>
+        <ActivityBell projects={projects} onOpenProject={onOpenProject} />
         <Button variant="ghost" size="icon-sm" onClick={toggleTheme} aria-label={`Switch to ${resolvedTheme === 'dark' ? 'light' : 'dark'} mode`} className="hidden sm:inline-flex">
           {resolvedTheme === 'dark' ? <SunIcon /> : <MoonIcon />}
         </Button>

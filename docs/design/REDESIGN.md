@@ -48,6 +48,25 @@ The landing page was skipped as agreed. It still renders in its original style.
 - **Focus rings:** Tailwind v4's `outline-hidden` silently disabled focus rings, so focus now uses `outline-solid`. All controls show a visible ring.
 - **Smaller download:** routes are lazy-loaded, so the main bundle no longer carries the design-system site.
 
+### 4. Agent components (from BoardUI's list)
+
+Eleven more components, inspired by boardui.com's list. They're built from scratch in the NeoPOP system; no BoardUI Pro code was copied. They live in `frontend/src/components/ui/`, with pages at `/design-system` (the site now has 75 components):
+
+**Agent Limits Card · Agent Progress · Agent Thinking · Composer · Composer Attachments · Composer Loader · Composer Panel · Notification Center · Stat Cards · Task List · Web Search**
+
+Where the app uses them:
+- **Dashboard:**
+  - Stat Cards form the stats row.
+  - Notification Center is the new **Activity** bell in the top bar. It's built from real project events (created, ready to edit, exported, needs audio), with unread state remembered per browser.
+- **Processing:** Agent Progress shows the real transcription steps and reports the total time when done.
+- **Editor assistant:**
+  - Composer Panel, with a version/word-count status tab, replaces the message box. Its mic dictates through the browser's own speech recognition.
+  - Composer Loader lights the rim while the AI replies.
+  - Agent Thinking replaces the "thinking…" line.
+  - Task List logs every applied edit or noise cleanup, with its steps, the new version and how long it took.
+
+Web Search, Agent Limits and Composer Attachments are in the design system only. The app has no web search, usage-limit data or chat attachments yet, so wiring them in would mean showing fake data.
+
 ## ⚠️ Needs you
 
 1. **Your OpenAI account is out of credits.** The API returns `insufficient_quota`, so **transcription and AI chat fail** until you add credits. $0 was spent. The app now explains this clearly instead of showing raw JSON.

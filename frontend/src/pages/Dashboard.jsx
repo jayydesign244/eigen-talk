@@ -11,6 +11,7 @@ import { listProjects, deleteProject } from '../lib/api'
 import { AppHeader, useDisplayName } from '@/components/app/AppHeader'
 import { NewProjectDialog } from '@/components/projects/NewProjectDialog'
 import { ProjectCard, ProjectRow } from '@/components/projects/ProjectCard'
+import { StatCards } from '@/components/ui/stat-cards'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Badge } from '@/components/ui/badge'
@@ -34,17 +35,6 @@ const SORTS = {
 
 function readPref(key, fallback) {
   try { return localStorage.getItem(key) || fallback } catch { return fallback }
-}
-
-/** Big NeoPOP-style number with a caps label. */
-function Stat({ label, value, sub }) {
-  return (
-    <div className="min-w-0 border-l border-border pl-5 first:border-l-0 first:pl-0">
-      <p className="text-caps text-muted-foreground">{label}</p>
-      <p className="mt-2 text-4xl leading-none font-extrabold tracking-tight tabular">{value}</p>
-      {sub && <p className="mt-1.5 truncate text-[12px] text-muted-foreground">{sub}</p>}
-    </div>
-  )
 }
 
 function QuickAction({ icon: Icon, title, body, onClick, tone = 'default', kbd }) {
@@ -232,12 +222,15 @@ export default function Dashboard() {
 
         {/* Stats */}
         {hasProjects && (
-          <motion.section variants={rise} initial="hidden" animate="show" className="mt-12 grid grid-cols-2 gap-y-6 border-y border-border py-6 md:grid-cols-4">
-            <Stat label="Projects" value={stats.count} />
-            <Stat label="Audio" value={stats.minutes} sub="across all projects" />
-            <Stat label="Ready to edit" value={stats.ready} sub="transcribed" />
-            <Stat label="Exported" value={stats.exported} />
-          </motion.section>
+          <StatCards
+            className="mt-12"
+            items={[
+              { label: 'Projects', value: stats.count },
+              { label: 'Audio', value: stats.minutes, caption: 'across all projects' },
+              { label: 'Ready to edit', value: stats.ready, caption: 'transcribed', info: 'Projects with a transcript you can edit right away.' },
+              { label: 'Exported', value: stats.exported, caption: 'downloaded at least once' },
+            ]}
+          />
         )}
 
         {/* Projects */}

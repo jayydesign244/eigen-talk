@@ -19,8 +19,9 @@ import { OVERLAY_DEMOS } from './demos-overlays'
 import { NAVIGATION_DEMOS } from './demos-navigation'
 import { DATA_DEMOS } from './demos-data'
 import { CHAT_DEMOS } from './demos-chat'
+import { AGENT_DEMOS } from './demos-agents'
 
-const COMPONENTS = [...ACTION_DEMOS, ...FORM_DEMOS, ...OVERLAY_DEMOS, ...NAVIGATION_DEMOS, ...DATA_DEMOS, ...CHAT_DEMOS]
+const COMPONENTS = [...ACTION_DEMOS, ...FORM_DEMOS, ...OVERLAY_DEMOS, ...NAVIGATION_DEMOS, ...DATA_DEMOS, ...CHAT_DEMOS, ...AGENT_DEMOS]
   .sort((a, b) => a.title.localeCompare(b.title))
 
 const ORDER = [

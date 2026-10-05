@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link, Navigate, useLocation } from 'react-router-dom'
 import { AnimatePresence, motion } from 'motion/react'
 import {
-  ArrowLeftIcon, CheckIcon, ChevronDownIcon, DownloadIcon, HistoryIcon, KeyboardIcon, PanelRightOpenIcon, PauseIcon,
+  ArrowLeftIcon, AudioLinesIcon, CheckIcon, ChevronDownIcon, DownloadIcon, HistoryIcon, KeyboardIcon, PanelRightOpenIcon, PauseIcon,
   PlayIcon, RotateCcwIcon, RotateCwIcon, ScissorsIcon, SplitIcon, Undo2Icon, Volume2Icon, VolumeXIcon, XIcon,
 } from 'lucide-react'
 import { toast } from 'sonner'
@@ -91,6 +91,7 @@ export default function Editor() {
   const [isEditingName, setIsEditingName] = useState(false)
   const [projectName, setProjectName] = useState(project?.name || 'Untitled')
   const [isStreaming, setIsStreaming] = useState(false)
+  const [thinkingSince, setThinkingSince] = useState(null)
   const [volume, setVolumeState] = useState(80)
   const [muted, setMuted] = useState(false)
   const [rate, setRateState] = useState('1')
@@ -174,7 +175,7 @@ export default function Editor() {
         if (list?.length) {
           setActiveThreadId(list[0].id)
           const msgs = await listThreadMessages({ id: project.id, threadId: list[0].id, getToken: token })
-          if (!cancelled) setMessages((msgs || []).map((m) => ({ role: m.role, text: m.content })))
+          if (!cancelled) setMessages((prev) => [...(msgs || []).map((m) => ({ role: m.role, text: m.content })), ...prev.filter((m) => m.role === 'task')])
         }
       })
       .catch(() => {})
@@ -237,17 +238,35 @@ export default function Editor() {
     toast(`${fillerRefs.length} filler word${fillerRefs.length === 1 ? '' : 's'} marked`, { description: 'Review them in the transcript, then apply.' })
   }
 
+  // Agent work (applied edits, noise cleanup) is logged in the assistant as a
+  // live task list, so there's a record of what changed and how long it took.
+  const startTask = (title, steps) => {
+    const id = `task-${Date.now()}`
+    const since = Date.now()
+    setMessages((prev) => [...prev, { role: 'task', id, since, running: true, tasks: [{ id: 't', title, status: 'running', steps }] }])
+    const finish = ({ ok, steps: more = [], summary, doneTitle }) => {
+      const secs = ((Date.now() - since) / 1000).toFixed(1)
+      setMessages((prev) => prev.map((m) => (m.id === id
+        ? { ...m, running: false, summary: `${summary} · ${secs}s`, tasks: m.tasks.map((t) => ({ ...t, title: ok && doneTitle ? doneTitle : t.title, status: ok ? 'done' : 'error', steps: [...t.steps, ...more] })) }
+        : m)))
+    }
+    return finish
+  }
+
   const handleRemoveNoise = async () => {
     if (!project?.id || denoising) return
     setDenoising(true)
-    const id = toast.loading('Cleaning up background noise…')
+    if (!isLarge) setMobileAssistant(true)
+    const finish = startTask('Cleaning up background noise', [{ id: 's1', text: 'Sending audio to the noise remover', chips: [{ label: activeVersion?.label || 'Original', icon: HistoryIcon }] }])
     try {
       const version = await removeNoise({ id: project.id, getToken: token })
       refreshAfterVersion(version)
-      toast.success('Noise reduced', { id, description: `Saved as “${version.label}”.` })
+      finish({ ok: true, summary: 'Noise reduced', doneTitle: 'Cleaned up background noise', steps: [{ id: 's2', text: 'Saved as', chips: [{ label: version.label, icon: HistoryIcon }] }] })
+      toast.success('Noise reduced', { description: `Saved as “${version.label}”.` })
     } catch (err) {
       const e = explainError(err.message, 'Couldn’t clean up the audio')
-      toast.error(e.title, { id, description: e.body })
+      finish({ ok: false, summary: 'Noise cleanup failed', steps: [{ id: 's2', text: e.title }] })
+      toast.error(e.title, { description: e.body })
     } finally {
       setDenoising(false)
     }
@@ -256,17 +275,29 @@ export default function Editor() {
   const handleConfirmEdits = async () => {
     if (!pending.count || !project?.id || applyingEdits) return
     setApplyingEdits(true)
+    const n = pending.count
+    const describe = [
+      pending.deleteCount && `Cutting ${pending.deleteCount} word${pending.deleteCount === 1 ? '' : 's'}`,
+      pending.replaceCount && `Re-voicing ${pending.replaceCount} word${pending.replaceCount === 1 ? '' : 's'}`,
+    ].filter(Boolean)
+    const finish = startTask(`Applying ${n} edit${n === 1 ? '' : 's'}`, describe.map((text, i) => ({ id: `d${i}`, text })))
     try {
       const version = await applyEdits({ id: project.id, edits: pending.serialize(), parentVersionId: activeVersionId, getToken: token })
-      const n = pending.count
       pending.clear()
       refreshAfterVersion(version)
+      finish({
+        ok: true,
+        summary: `Applied ${n} edit${n === 1 ? '' : 's'}`,
+        doneTitle: `Applied ${n} edit${n === 1 ? '' : 's'}`,
+        steps: [{ id: 'saved', text: `Rendered ${formatDuration(version.duration) || 'new'} audio and saved`, chips: [{ label: version.label, icon: HistoryIcon }] }],
+      })
       toast.success(`${n} edit${n === 1 ? '' : 's'} applied`, {
         description: `New version: ${version.label}`,
         action: { label: 'Compare', onClick: () => setShowCompare(true) },
       })
     } catch (err) {
       const e = explainError(err.message, 'Couldn’t apply your edits')
+      finish({ ok: false, summary: 'Edits not applied', steps: [{ id: 'err', text: e.title }] })
       toast.error(e.title, { description: e.body })
     } finally {
       setApplyingEdits(false)
@@ -323,7 +354,7 @@ export default function Editor() {
     setActiveThreadId(threadId)
     try {
       const msgs = await listThreadMessages({ id: project.id, threadId, getToken: token })
-      setMessages((msgs || []).map((m) => ({ role: m.role, text: m.content })))
+      setMessages((prev) => [...(msgs || []).map((m) => ({ role: m.role, text: m.content })), ...prev.filter((m) => m.role === 'task')])
     } catch {
       setMessages([])
     }
@@ -334,7 +365,7 @@ export default function Editor() {
       const t = await createThread({ id: project.id, getToken: token })
       setThreads((prev) => [t, ...prev])
       setActiveThreadId(t.id)
-      setMessages([])
+      setMessages((prev) => prev.filter((m) => m.role === 'task'))
     } catch (err) {
       toast.error('Couldn’t start a conversation', { description: explainError(err.message).body })
     }
@@ -359,7 +390,7 @@ export default function Editor() {
       setThreads(left)
       if (activeThreadId === threadId) {
         if (left.length) await openThread(left[0].id)
-        else { setActiveThreadId(null); setMessages([]) }
+        else { setActiveThreadId(null); setMessages((prev) => prev.filter((m) => m.role === 'task')) }
       }
       toast('Conversation deleted')
     } catch (err) {
@@ -377,9 +408,10 @@ export default function Editor() {
         setThreads((prev) => [t, ...prev])
       } catch { /* chat still works unsaved */ }
     }
-    const history = [...messages.filter((m) => !m.error), { role: 'user', text: userText }]
+    const history = [...messages.filter((m) => !m.error && m.role !== 'task'), { role: 'user', text: userText }]
     setMessages([...messages, { role: 'user', text: userText }, { role: 'ai', text: '' }])
     setIsStreaming(true)
+    setThinkingSince(Date.now())
     try {
       await streamChat({
         projectId: project.id,
@@ -448,6 +480,11 @@ export default function Editor() {
       denoising={denoising}
       onClose={() => (isLarge ? setAssistantOpen(false) : setMobileAssistant(false))}
       transcriptReady={transcriptState === 'ready'}
+      thinkingSince={thinkingSince}
+      statusItems={transcriptState === 'ready' ? [
+        { icon: HistoryIcon, label: activeVersion?.label || 'Original' },
+        { icon: AudioLinesIcon, label: `${wordCount} words · ${fmtClock(player.duration || transcript?.duration)}` },
+      ] : []}
     />
   )
 

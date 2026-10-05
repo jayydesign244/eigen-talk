@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom'
 import { AnimatePresence, motion } from 'motion/react'
-import { ArrowLeftIcon, ArrowRightIcon, CheckIcon, OctagonXIcon, RefreshCwIcon } from 'lucide-react'
+import { ArrowLeftIcon, ArrowRightIcon, OctagonXIcon, RefreshCwIcon } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
 import { detectFillers, getProject } from '../lib/api'
 import { transcribeOnce } from '../lib/transcribe'
@@ -10,8 +10,7 @@ import { Waveform } from '@/components/audio/Waveform'
 import { Button } from '@/components/ui/button'
 import { Progress } from '@/components/ui/progress'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
-import { Spinner } from '@/components/ui/spinner'
-import { cn } from '@/lib/utils'
+import { AgentProgress } from '@/components/ui/agent-progress'
 import { ease } from '@/lib/motion'
 import { explainError } from '@/lib/errors'
 
@@ -56,6 +55,8 @@ export default function Processing() {
   const [error, setError] = useState(null)
   const [attempt, setAttempt] = useState(0)
   const navTimer = useRef(null)
+  const startedAt = useRef(Date.now())
+  const [doneIn, setDoneIn] = useState(null)
   const tokenRef = useRef(getToken)
   tokenRef.current = getToken
   const elapsed = useElapsed(step === 'transcribe' && !error)
@@ -89,6 +90,7 @@ export default function Processing() {
         if (cancelled) return
         setDetails((d) => ({ ...d, fillers: res?.total ?? res?.fillers?.length ?? 0 }))
         setStep('ready')
+        setDoneIn(`${((Date.now() - startedAt.current) / 1000).toFixed(1)}s`)
         navTimer.current = setTimeout(() => navigate(`/editor?p=${initial.id}`, { state: { project: fresh }, replace: true }), 1400)
       } catch (err) {
         if (!cancelled) setError(explainError(err.message, 'Transcription didn’t finish'))
@@ -163,31 +165,16 @@ export default function Processing() {
           </div>
 
           {/* Steps */}
-          <ol className="mt-8 border-t border-border" aria-live="polite">
-            {STEPS.map((s, i) => {
-              const state = error && i === index ? 'error' : i < index || step === 'ready' ? 'done' : i === index ? 'active' : 'pending'
-              const detail = detailFor(s.id)
-              return (
-                <li key={s.id} className={cn('flex items-center gap-3 border-b border-border py-3.5 transition-opacity duration-300', state === 'pending' && 'opacity-40')}>
-                  <span
-                    className={cn(
-                      'flex size-6 shrink-0 items-center justify-center border transition-colors',
-                      state === 'done' && 'border-success bg-success text-background',
-                      state === 'active' && 'border-foreground text-brand',
-                      state === 'error' && 'border-destructive bg-destructive text-destructive-foreground',
-                      state === 'pending' && 'border-input'
-                    )}
-                  >
-                    {state === 'done' && <CheckIcon className="size-3.5 animate-pop" strokeWidth={3.5} />}
-                    {state === 'active' && <Spinner className="size-3.5" />}
-                    {state === 'error' && <OctagonXIcon className="size-3.5" />}
-                  </span>
-                  <span className={cn('text-[15px]', state === 'active' ? 'font-bold' : 'font-medium')}>{s.label}</span>
-                  {detail && <span className="ml-auto font-mono text-[12px] text-muted-foreground tabular">{detail}</span>}
-                </li>
-              )
-            })}
-          </ol>
+          <AgentProgress
+            className="mt-8"
+            duration={step === 'ready' && doneIn ? doneIn : undefined}
+            steps={STEPS.map((st, i) => ({
+              id: st.id,
+              label: st.label,
+              status: error && i === index ? 'error' : i < index || step === 'ready' ? 'done' : i === index ? 'active' : 'pending',
+              detail: detailFor(st.id) || undefined,
+            }))}
+          />
 
           {error ? (
             <Alert variant="destructive" className="mt-6 animate-rise">

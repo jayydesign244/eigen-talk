@@ -604,3 +604,100 @@
 .legacy .btn-ghost { border-radius: 0.5rem; }
 .legacy .card { border-radius: 0.75rem; }
 .legacy .rounded-full { border-radius: 9999px; }
+
+/* ─── Agent & composer motion ──────────────────────────────────── */
+
+/* Text that shimmers while work is in progress. */
+@utility text-shimmer {
+  background-image: linear-gradient(
+    90deg,
+    var(--muted-foreground) 0%,
+    var(--muted-foreground) 35%,
+    var(--foreground) 50%,
+    var(--muted-foreground) 65%,
+    var(--muted-foreground) 100%
+  );
+  background-size: 250% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: text-shimmer 1.8s linear infinite;
+}
+@keyframes text-shimmer {
+  from { background-position: 125% 0; }
+  to { background-position: -125% 0; }
+}
+
+/* Composer loader: an iridescent band travelling the rim. */
+@property --rim-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+@keyframes rim-spin {
+  to { --rim-angle: 360deg; }
+}
+.composer-rim {
+  position: absolute;
+  inset: -2px;
+  padding: 2px;
+  pointer-events: none;
+  background: conic-gradient(
+    from var(--rim-angle),
+    transparent 0deg,
+    transparent 230deg,
+    #9772ff 270deg,
+    #ff426f 300deg,
+    #ffcb45 325deg,
+    var(--brand) 345deg,
+    #ffffff 352deg,
+    transparent 360deg
+  );
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: rim-spin 2.4s linear infinite;
+  transition: opacity 0.4s ease;
+}
+.composer-rim-bloom {
+  position: absolute;
+  inset: -4px;
+  padding: 4px;
+  pointer-events: none;
+  background: conic-gradient(
+    from var(--rim-angle),
+    transparent 0deg,
+    transparent 280deg,
+    color-mix(in srgb, var(--brand) 55%, transparent) 345deg,
+    transparent 360deg
+  );
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  filter: blur(5px);
+  animation: rim-spin 2.4s linear infinite;
+  transition: opacity 0.4s ease;
+}
+
+/* Agent thinking indicators */
+@keyframes think-wave {
+  0%, 100% { opacity: 0.18; transform: scale(0.7); }
+  50% { opacity: 1; transform: scale(1); }
+}
+@keyframes think-orbit {
+  0%, 100% { opacity: 0.18; }
+  12% { opacity: 1; }
+  40% { opacity: 0.18; }
+}
+@keyframes think-twinkle {
+  0%, 100% { opacity: 0.15; transform: scale(0.5) rotate(0deg); }
+  50% { opacity: 1; transform: scale(1) rotate(45deg); }
+}
+@keyframes think-infinity {
+  to { stroke-dashoffset: -100; }
+}
+
+/* Square progress ring that draws clockwise around an upload tile. */
+@keyframes tile-ring {
+  from { stroke-dashoffset: 100; }
+}

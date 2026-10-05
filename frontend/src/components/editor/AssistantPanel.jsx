@@ -1,15 +1,18 @@
 import { useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion } from 'motion/react'
 import {
-  ArrowUpIcon, CheckIcon, ChevronDownIcon, MessageSquarePlusIcon, OctagonXIcon, PanelRightCloseIcon, PencilIcon,
+  CheckIcon, ChevronDownIcon, MessageSquarePlusIcon, OctagonXIcon, PanelRightCloseIcon, PencilIcon,
   ScissorsIcon, SparklesIcon, TrashIcon, Volume2Icon, Wand2Icon, XIcon,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { Message, MessageAvatar, MessageContent } from '@/components/ui/message'
 import { Bubble, BubbleContent } from '@/components/ui/bubble'
-import { Marker, MarkerContent, MarkerIcon } from '@/components/ui/marker'
-import { Spinner } from '@/components/ui/spinner'
+import { AgentThinking } from '@/components/ui/agent-thinking'
+import { ComposerLoader } from '@/components/ui/composer-loader'
+import { ComposerPanel } from '@/components/ui/composer-panel'
+import { ComposerStatus } from '@/components/ui/composer'
+import { TaskList } from '@/components/ui/task-list'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 import { cn } from '@/lib/utils'
 
@@ -76,43 +79,25 @@ function ThreadSwitcher({ threads, activeThreadId, onOpen, onNew, onRename, onDe
   )
 }
 
-function Composer({ disabled, streaming, onSend, prefill }) {
+function AssistantComposer({ disabled, streaming, onSend, prefill, statusItems, actions }) {
   const [text, setText] = useState('')
-  const ref = useRef(null)
   useEffect(() => {
-    if (prefill?.text) {
-      setText(prefill.text)
-      requestAnimationFrame(() => ref.current?.focus())
-    }
+    if (prefill?.text) setText(prefill.text)
   }, [prefill])
-  const send = () => {
-    const t = text.trim()
-    if (!t || streaming) return
-    setText('')
-    onSend(t)
-  }
   return (
-    <div className="border border-input bg-card transition-[border-color,box-shadow] focus-within:border-foreground focus-within:shadow-[inset_0_-2px_0_0_var(--foreground)]">
-      <textarea
-        ref={ref}
+    <ComposerLoader active={streaming}>
+      <ComposerPanel
         value={text}
-        onChange={(e) => setText(e.target.value)}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send() }
-        }}
-        rows={2}
+        onChange={setText}
+        onSubmit={(t) => { setText(''); onSend(t) }}
+        working={streaming}
         disabled={disabled}
-        placeholder={streaming ? 'Sonicly is replying…' : 'Describe a change, e.g. “cut the long pauses”'}
-        className="field-sizing-content max-h-40 min-h-16 w-full resize-none bg-transparent px-3 pt-3 text-sm outline-hidden placeholder:text-muted-foreground/80 disabled:opacity-60"
-        aria-label="Message Sonicly"
+        placeholder={disabled ? 'Upload audio to start editing with AI' : 'Describe a change, e.g. “cut the long pauses”'}
+        statusTab={statusItems?.length ? <ComposerStatus className="w-full px-0" items={statusItems} /> : undefined}
+        addItems={actions}
+        hint="Enter to send"
       />
-      <div className="flex items-center gap-2 px-2 pb-2">
-        <span className="pl-1 text-[11px] text-muted-foreground">Enter to send · ⇧ Enter for a new line</span>
-        <Button size="icon-sm" className="ml-auto" onClick={send} disabled={!text.trim() || streaming} aria-label="Send">
-          {streaming ? <Spinner /> : <ArrowUpIcon />}
-        </Button>
-      </div>
-    </div>
+    </ComposerLoader>
   )
 }
 
@@ -124,7 +109,7 @@ export function AssistantPanel({
   threads, activeThreadId, onOpenThread, onNewThread, onRenameThread, onDeleteThread,
   messages, isStreaming, onSend,
   fillerCount, showDiagnosis, onReviewFillers, onDismissDiagnosis,
-  onDenoise, denoising, onClose, transcriptReady,
+  onDenoise, denoising, onClose, transcriptReady, statusItems, thinkingSince,
 }) {
   const endRef = useRef(null)
   const [prefill, setPrefill] = useState(null)
@@ -210,10 +195,20 @@ export function AssistantPanel({
               </Message>
             )
           }
-          if (last && isStreaming && !m.text) {
+          if (m.role === 'task') {
             return (
-              <Marker key={i}><MarkerIcon><Spinner className="text-brand" /></MarkerIcon><MarkerContent>Sonicly is thinking…</MarkerContent></Marker>
+              <TaskList
+                key={m.id || i}
+                tasks={m.tasks}
+                running={m.running}
+                since={m.since}
+                summary={m.summary}
+                className="border-l-2 border-border pl-3"
+              />
             )
+          }
+          if (last && isStreaming && !m.text) {
+            return <AgentThinking key={i} variant="wave" label="Thinking" since={thinkingSince} />
           }
           return (
             <Message key={i}>
@@ -240,7 +235,14 @@ export function AssistantPanel({
             </button>
           ))}
         </div>
-        <Composer disabled={!transcriptReady} streaming={isStreaming} onSend={onSend} prefill={prefill} />
+        <AssistantComposer
+          disabled={!transcriptReady}
+          streaming={isStreaming}
+          onSend={onSend}
+          prefill={prefill}
+          statusItems={statusItems}
+          actions={chips.map(({ icon, label, run, disabled }) => ({ icon, label, onSelect: run, disabled: disabled || !transcriptReady }))}
+        />
       </div>
     </div>
   )
