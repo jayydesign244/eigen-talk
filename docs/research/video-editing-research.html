@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Video Editing Roadmap</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap">
+<style>
+/* A long-form research report: one readable column, tables for comparisons, quiet chrome. */
+:root {
+  --bg: #F5F5F2; --card: #FFFFFF; --fg: #18181B; --muted: #5E5E66; --line: #E2E2DD; --chip: #ECECE7;
+  --accent: #12706C; --accent-soft: #DFF1EF; --warn: #8A5A00; --warn-soft: #FBF0D9; --bad: #9B1C1C; --bad-soft: #FBE4E4;
+  --p1: #12706C; --p2: #4B4FC4; --p3: #9A3F8F;
+  --ui: "Schibsted Grotesk", "Helvetica Neue", Arial, sans-serif;
+  --mono: "Geist Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #111113; --card: #18181B; --fg: #EDEDEE; --muted: #A1A1A9; --line: #2A2A2F; --chip: #222226;
+  --accent: #2CE6E0; --accent-soft: #0F2E2D; --warn: #F2C063; --warn-soft: #2C2412; --bad: #F59A9A; --bad-soft: #2E1515;
+  --p1: #2CE6E0; --p2: #9EA2FF; --p3: #E79BDC; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #111113; --card: #18181B; --fg: #EDEDEE; --muted: #A1A1A9; --line: #2A2A2F; --chip: #222226;
+  --accent: #2CE6E0; --accent-soft: #0F2E2D; --warn: #F2C063; --warn-soft: #2C2412; --bad: #F59A9A; --bad-soft: #2E1515;
+  --p1: #2CE6E0; --p2: #9EA2FF; --p3: #E79BDC; color-scheme: dark }
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--bg); color: var(--fg); font-family: var(--ui); font-size: 16px; line-height: 1.6; }
+.wrap { max-width: 980px; margin: 0 auto; padding: 48px 16px 96px; }
+h1, h2, h3, h4 { text-wrap: balance; line-height: 1.2; margin: 0; }
+h1 { font-size: clamp(30px, 5.5vw, 46px); letter-spacing: -.02em; font-weight: 700; }
+h2 { font-size: clamp(22px, 3.4vw, 30px); letter-spacing: -.015em; font-weight: 700; margin-top: 64px; scroll-margin-top: 16px; }
+h3 { font-size: 19px; font-weight: 650; margin-top: 32px; }
+h4 { font-size: 13px; font-family: var(--mono); letter-spacing: .07em; text-transform: uppercase; color: var(--muted); font-weight: 500; margin: 20px 0 8px; }
+p { margin: 12px 0; max-width: 72ch; }
+a { color: var(--accent); }
+a:focus-visible { outline: 2px solid var(--fg); outline-offset: 2px; }
+ul, ol { padding-left: 22px; margin: 12px 0; }
+li { margin: 4px 0; max-width: 72ch; }
+code { font-family: var(--mono); font-size: .88em; background: var(--chip); padding: 1px 5px; border-radius: 4px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.lede { font-size: 18px; color: var(--muted); max-width: 66ch; }
+.muted { color: var(--muted); }
+
+header { display: grid; gap: 14px; }
+nav.toc { margin-top: 28px; display: flex; flex-wrap: wrap; gap: 8px; }
+nav.toc a { text-decoration: none; color: var(--fg); font-size: 13px; padding: 6px 12px; border-radius: 999px; background: var(--chip); }
+nav.toc a:hover { background: var(--line); }
+
+.card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 20px; margin: 16px 0; }
+.grid { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); margin: 16px 0; }
+.grid .card { margin: 0; }
+.card h3 { margin-top: 0; }
+.card p:first-of-type { margin-top: 6px; }
+.callout { border-radius: 12px; padding: 16px 20px; margin: 16px 0; border: 1px solid transparent; }
+.callout.ok { background: var(--accent-soft); }
+.callout.warn { background: var(--warn-soft); }
+.callout.bad { background: var(--bad-soft); }
+.callout strong:first-child { display: block; margin-bottom: 4px; }
+.callout p { margin: 6px 0; }
+
+.tbl { width: 100%; overflow-x: auto; margin: 16px 0; border: 1px solid var(--line); border-radius: 12px; background: var(--card); }
+table { border-collapse: collapse; width: 100%; font-size: 14px; min-width: 640px; }
+th, td { text-align: left; vertical-align: top; padding: 10px 12px; border-bottom: 1px solid var(--line); }
+th { font-weight: 600; font-size: 12px; font-family: var(--mono); letter-spacing: .05em; text-transform: uppercase; color: var(--muted); background: var(--chip); }
+tr:last-child td { border-bottom: 0; }
+td.num { font-family: var(--mono); white-space: nowrap; }
+
+.phase { border-left: 4px solid var(--c); padding-left: 18px; margin-top: 40px; }
+.phase .tag { display: inline-block; font-family: var(--mono); font-size: 12px; padding: 2px 8px; border-radius: 999px; background: var(--chip); color: var(--c); font-weight: 500; }
+.pill { display: inline-block; font-family: var(--mono); font-size: 11px; padding: 1px 7px; border-radius: 999px; border: 1px solid var(--line); color: var(--muted); margin-left: 4px; white-space: nowrap; }
+
+/* Slider panel mock */
+.mock { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 18px; max-width: 420px; }
+.mock .prompt { font-size: 14px; background: var(--chip); border-radius: 8px; padding: 8px 12px; margin-bottom: 14px; }
+.mock .row { display: grid; grid-template-columns: 120px 1fr 64px; gap: 10px; align-items: center; font-size: 13px; margin: 10px 0; }
+.mock .bar { height: 6px; border-radius: 3px; background: var(--line); position: relative; }
+.mock .bar i { position: absolute; inset: 0 auto 0 0; background: var(--accent); border-radius: 3px; }
+.mock .bar b { position: absolute; top: 50%; width: 14px; height: 14px; border-radius: 50%; background: var(--fg); transform: translate(-50%, -50%); }
+.mock .val { font-family: var(--mono); font-size: 12px; text-align: right; color: var(--muted); }
+.mock .btns { display: flex; gap: 8px; margin-top: 14px; flex-wrap: wrap; }
+.mock .btns span { font-size: 12px; padding: 5px 10px; border-radius: 6px; border: 1px solid var(--line); }
+.mock .btns span.primary { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+@media (max-width: 480px) { .mock .row { grid-template-columns: 96px 1fr 52px; } }
+
+footer { margin-top: 72px; border-top: 1px solid var(--line); padding-top: 20px; font-size: 13px; color: var(--muted); }
+footer li { max-width: none; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <span class="eyebrow">Sonicly · Research · 5 Oct 2026</span>
+  <h1>Video editing: what to build, in what order</h1>
+  <p class="lede">What Adobe Podcast, Descript, CapCut, invideo and the newer AI editors offer, what a non-technical creator actually needs, and a three-phase plan for Sonicly. Also covers the "prompt opens a settings panel" idea and what's blocking voice cloning.</p>
+</header>
+
+<nav class="toc" aria-label="Sections">
+  <a href="#tldr">TL;DR</a>
+  <a href="#shipped">What shipped tonight</a>
+  <a href="#landscape">Competitors</a>
+  <a href="#phases">Phases 1–3</a>
+  <a href="#panel">Prompt → settings panel</a>
+  <a href="#effects">Audio effect specs</a>
+  <a href="#arch">Architecture</a>
+  <a href="#voice">Voice cloning</a>
+  <a href="#decisions">Decisions needed</a>
+  <a href="#sources">Sources</a>
+</nav>
+
+<h2 id="tldr">TL;DR</h2>
+<ul>
+  <li><strong>Video upload is built</strong>, Adobe Podcast style. You edit the audio through the transcript, the video preview follows every cut, and export gives an MP4 in original, 16:9, 9:16 or 1:1.</li>
+  <li><strong>Two things block real use right now:</strong> the OpenAI account has <strong>no credits</strong>, so transcription fails. The ElevenLabs key <strong>can't clone voices</strong>: every past "replace word" fell back to a stock voice. See <a href="#voice">Voice cloning</a>.</li>
+  <li><strong>Phase 1</strong> should stay script-first, like Descript. Add captions, reframing, auto-zoom, scene transitions, titles, music with ducking, color presets and an audio-effects panel. No full timeline yet. This is what makes a talking-head video look finished.</li>
+  <li><strong>Phase 2</strong> adds a real multi-track timeline (CapCut-style), stock B-roll, keyframes, visual effects, AI clipping and translation.</li>
+  <li><strong>Phase 3</strong> is AI-native creation: an agent that does the rough cut, generative video and B-roll, avatars, lip-synced dubbing.</li>
+  <li><strong>The settings-panel idea is the differentiator.</strong> Every prompt-driven edit becomes an <em>effect card</em> with real sliders the user can tune. Descript does this partly (Studio Sound shows up with an Intensity slider after you apply it). Nobody does it for every AI action.</li>
+</ul>
+
+<h2 id="shipped">What shipped tonight: video upload, audio-only editing</h2>
+<p>Built to match how Adobe Podcast Studio handles video. Aside opened Adobe's sample video project and confirmed it: deleting text cuts <em>both</em> the audio and the video. There's no timeline and no visual tools; you only reshape the picture at export (16:9 / 9:16 / 1:1, 720p or 1080p).</p>
+<div class="grid">
+  <div class="card"><h3>Upload</h3><p>MP4, MOV, M4V, WebM, MKV, 3GP. The original is kept untouched. The audio is pulled out as an MP3 for transcription and editing. A small 540p preview copy is made so iPhone HEVC files play in Chrome and seeking is fast.</p></div>
+  <div class="card"><h3>Edit</h3><p>Cuts, filler removal, re-voiced words and noise removal all work as before. Each version now stores a <em>timeline</em>: where each piece of the edited audio comes from in the original video. The preview player follows it frame by frame and jumps over cuts.</p></div>
+  <div class="card"><h3>Export</h3><p>MP4 (H.264 + AAC), re-cut from the full-quality original. Shape: Original / 16:9 / 9:16 / 1:1. Quality 720p or 1080p. Framing: Fill (crop) or Fit (bars). Audio-only exports still work. The MCP <code>export_audio</code> tool accepts all of the same options.</p></div>
+</div>
+<div class="callout ok">
+  <strong>Verified on a test video</strong>
+  <p>I ran two rounds of cuts, the second one on an already-edited version. Frames grabbed from the exported MP4 right after each cut were within one frame (33 ms) of the expected source time, and the export length matched the audio exactly (6.56 s). In the browser, playback jumped over both cuts. Plain audio projects behave as before.</p>
+</div>
+<div class="callout warn">
+  <strong>Fixed along the way: a bug in the existing editor</strong>
+  <p>After an edit, word timestamps weren't shifted, so a <em>second</em> edit on an edited version cut at the old positions, which is the wrong audio. Timestamps are now moved into the new audio's time on every edit. This also keeps the word highlight in sync during playback.</p>
+</div>
+<div class="callout warn">
+  <strong>Known limits of this first version</strong>
+  <ul>
+    <li><strong>Supabase's free plan caps each file at 50 MB.</strong> Bigger videos will fail to upload until the bucket limit is raised (Pro plan) or we move video to Cloudflare R2 (already planned in TECH_PLAN).</li>
+    <li><strong>Upload and export run inside the web request, with no background job yet.</strong> That's fine for short clips; a 30-minute 1080p export can take minutes. Background jobs are the first Phase 1 infrastructure task.</li>
+    <li><strong>Whisper accepts at most 25 MB of audio</strong> (about 17 minutes at the MP3 bitrate we use). This limit already applied to audio uploads.</li>
+  </ul>
+</div>
+
+<h2 id="landscape">The competitive landscape</h2>
+<p>Three camps: <strong>script-first</strong> editors (Adobe Podcast, Descript) for talking-head and podcast video; <strong>timeline-first</strong> editors (CapCut, Veed, Kapwing) for social video; and <strong>prompt-first</strong> AI generators and agents (invideo AI, ChatCut, Kapwing AI, Opus Clip). Sonicly already sits in the first camp. The plan is to grow toward the other two without losing the "edit it like a doc" simplicity.</p>
+
+<div class="tbl"><table>
+  <thead><tr><th>Product</th><th>Model</th><th>Video features worth copying</th><th>Price (monthly, billed yearly)</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Adobe Podcast Studio</strong></td><td>Script-first, audio-focused</td><td>Transcript cuts both audio and video. Enhance Speech with only 2 sliders (Speech %, Background %). Music packs (intro/outro/transition/background, long and short). Export reframes to 16:9 / 9:16 / 1:1 with burned-in captions in 8 themes. Audiograms. Clip export from a text selection.</td><td>Free (30-min projects, 2 downloads a day); Premium</td></tr>
+    <tr><td><strong>Descript</strong></td><td>Script + scenes + timeline</td><td>Scenes (type "/" to start one), 12 layouts, 17 transitions, 22 visual effects, 35 caption presets with word highlighting, Studio Sound (one Intensity slider), Eye Contact, green screen, auto multicam, Underlord AI chat with a model picker, 30+ prompt templates.</td><td>$16 / $24 / $50 per seat</td></tr>
+    <tr><td><strong>CapCut</strong></td><td>Timeline-first, mobile and web</td><td>Auto-edit (pacing, transitions, beat sync), auto captions in 130+ languages, 269 text-to-speech voices, avatars, AI style transfer, a huge trending-template library. The free tier is generous.</td><td>Free; Pro</td></tr>
+    <tr><td><strong>invideo AI</strong></td><td>Prompt-first generator</td><td>"Magic Box" edit commands: change pace or visual effects, swap media, add or remove transitions, mute or lower the voiceover, change narrator accent, "increase background music to 80%", subtitle style, creative direction. Voice clone, avatars, generative models.</td><td>$9 / $18 / $40 (credits)</td></tr>
+    <tr><td><strong>ChatCut</strong></td><td>Agent + real timeline</td><td>The agent analyses the clips, removes retakes and filler, sequences, captions, adds B-roll and music, and <em>leaves an editable timeline behind</em>. Works from inside ChatGPT and Claude, which is close to our MCP approach.</td><td>Paid tiers</td></tr>
+    <tr><td><strong>Kapwing AI</strong></td><td>Prompt + timeline</td><td>"Plan mode" shows a scene-by-scene storyboard before generating; you keep editing in chat or on the timeline.</td><td>Paid tiers</td></tr>
+    <tr><td><strong>Opus Clip / Vizard / Submagic</strong></td><td>Repurposing</td><td>Long video to short clips with a "viral score", speaker-tracking reframe, animated captions with emojis, AI B-roll, scheduled publishing.</td><td>Opus $15–29; Vizard ~$15–20; Submagic ~$12</td></tr>
+    <tr><td><strong>Veed / Riverside / HeyGen</strong></td><td>Mixed</td><td>Veed: transcript cutting, silence removal, eye contact, dubbing, brand kit. Riverside: Magic Clips with a viral score, 4K and 48 kHz recording. HeyGen: avatars, voice clones, video translation.</td><td>Various</td></tr>
+  </tbody>
+</table></div>
+
+<h3>What Descript actually exposes, as a reference spec</h3>
+<p>Aside went through every panel in your Descript account. These lists are the best checklist for "basic editing a non-technical person can do":</p>
+<div class="grid">
+  <div class="card"><h4>Transitions (17)</h4><p>None, Smart, Fade, Blur, Clock wipe, Color dip, Cross-zoom, Crossfade, Double wipe, Flip, Move out, Push/pull, Scale, Shake, Shape wipe, Split, Wipe. Settings: duration, direction, feather, easing.</p></div>
+  <div class="card"><h4>Visual effects (22)</h4><p>AI: Eye Contact, Green screen, Skin smoothing, Portrait lighting, Uplighting, Blur background, Center active speaker. Standard: Ascii, Blur, Chroma key, Color tone, Film grain, Glow, Infrared, Invert, Pixelate, Selective color, Threshold, VHS, Vignette, Zoom blur.</p></div>
+  <div class="card"><h4>Color</h4><p>Presets: Neutral, Warm, Cool, Pop, B&amp;W. Seven sliders from −100 to +100: Saturation, Temperature, Tint, Exposure, Contrast, Highlights, Shadows. Plus a white-balance picker.</p></div>
+  <div class="card"><h4>Audio effects</h4><p>Studio Sound (Intensity 0–100, default 70), ducking (Amount %), Compressor, Limiter, 5-band EQ, 10-band Graphic EQ, high-pass and low-pass, low and high shelf, Reverb, plus a few creative ones (Bitcrusher, Distortion, Flanger).</p></div>
+  <div class="card"><h4>Captions</h4><p>35 presets across karaoke, bold and clean styles. Active-word highlight (fill, stroke, background), styling for upcoming words, per-speaker styles, line animation.</p></div>
+  <div class="card"><h4>Animation</h4><p>"Zoom and pan" and Ken Burns presets. In/out animations: Fade, Slide, Scale, Spin, Wipe, Blur. Text animations: Pop, Bounce, Typewriter-style reveal and more. Custom keyframes for position, scale, rotation, crop and opacity.</p></div>
+</div>
+<div class="callout bad">
+  <strong>Heads-up from the Descript exploration</strong>
+  <p>Clicking "Studio Sound" in Descript's AI Tools panel applies it immediately and charges credits. The research agent clicked it once and it used <strong>3 of the account's 4 free AI credits</strong>. The edit was undone, but the credits weren't refunded. Takeaway for Sonicly: never charge for a one-click AI action without showing its cost first.</p>
+</div>
+
+<h2 id="phases">The plan: three phases</h2>
+<p>The guiding rule: <strong>every phase ships something a creator can publish.</strong> Phase 1 makes a talking-head video look finished without a timeline. Phase 2 opens up real editing. Phase 3 lets AI do the heavy lifting.</p>
+
+<div class="phase" style="--c: var(--p1)">
+  <span class="tag">Phase 1 · Basic · "Descript-lite"</span>
+  <h3>Make talking-head video look finished</h3>
+  <p class="muted">Stays script-first. Adds a <em>scene</em> concept (a block of transcript with its own look) and a property panel, but no multi-track timeline.</p>
+  <h4>Infrastructure first</h4>
+  <ul>
+    <li>A background job queue for upload processing and exports, with progress shown in the UI <span class="pill">blocker for long videos</span></li>
+    <li>Video storage on Cloudflare R2, or a raised Supabase file limit</li>
+    <li>A project "edit document" (JSON): scenes, overlays, captions and effects, stored per version, so every visual choice is non-destructive and can be undone</li>
+    <li>A browser preview that draws captions, titles and color on top of the video in real time (canvas/CSS), so sliders feel instant and only the final export renders on the server</li>
+  </ul>
+  <h4>Features</h4>
+  <ul>
+    <li><strong>Captions:</strong> burned in, 8–10 presets, active-word highlight, position, size and color. SRT/VTT export.</li>
+    <li><strong>Reframe:</strong> extend today's 9:16 / 1:1 export with a draggable crop position and safe-area guides. Later, auto-center on the speaker's face.</li>
+    <li><strong>Auto zoom / punch-in:</strong> slow zoom on emphasis or at scene starts, with a Zoom amount slider. The cheapest way to make talking heads feel edited.</li>
+    <li><strong>Scenes and transitions:</strong> split by typing "/" in the transcript. Six transitions: Cut, Fade, Crossfade, Dip to color, Slide, Zoom. Each has a duration.</li>
+    <li><strong>Text:</strong> title card, lower-third (speaker name), and a text overlay with 5 animation styles.</li>
+    <li><strong>Music:</strong> royalty-free library plus your own uploads, with auto-ducking under speech. Intro and outro stingers.</li>
+    <li><strong>Color:</strong> 5 presets plus Brightness, Contrast, Saturation and Warmth sliders.</li>
+    <li><strong>Audio polish:</strong> Remove silences and shorten gaps (max-gap slider), loudness normalize to −14/−16 LUFS, and an <a href="#effects">audio-effects panel</a>. Noise removal gets a Strength slider instead of being on/off.</li>
+    <li><strong>Clip export:</strong> select text, export just that section as video, audio or audiogram.</li>
+    <li><strong>The prompt → settings panel</strong> (<a href="#panel">spec below</a>), starting with audio effects, captions and color.</li>
+  </ul>
+</div>
+
+<div class="phase" style="--c: var(--p2)">
+  <span class="tag">Phase 2 · Intermediate · "CapCut-like"</span>
+  <h3>Real editing for social video</h3>
+  <ul>
+    <li><strong>Multi-track timeline:</strong> video, B-roll, text, music and SFX tracks. Trim, split, reorder, and switch between storyboard and timeline views. The transcript stays linked to the main track.</li>
+    <li><strong>Stock media:</strong> Pexels and Pixabay video and images (free APIs), GIPHY stickers, a sound-effects library, and B-roll suggested from the transcript.</li>
+    <li><strong>Keyframes and animation:</strong> position, scale, rotation and opacity with easing. Ken Burns on stills.</li>
+    <li><strong>Visual effects:</strong> blur, vignette, film grain, glitch/VHS, glow, chroma key, background removal (green screen without a green screen).</li>
+    <li><strong>Speed:</strong> constant speed changes and speed ramps. Freeze frame.</li>
+    <li><strong>Layouts:</strong> split screen, picture-in-picture, two-speaker layouts, and auto multicam switching.</li>
+    <li><strong>Templates and brand kit:</strong> fonts, colors, logo, intro/outro, saved caption style.</li>
+    <li><strong>AI repurposing:</strong> find highlights, make N short clips with a score, auto-reframe with speaker tracking.</li>
+    <li><strong>Translation:</strong> translated captions, then dubbing in the user's cloned voice (needs voice cloning working).</li>
+    <li><strong>Publishing:</strong> hand clips straight to the social-publishing module already in PRODUCT_VISION.</li>
+  </ul>
+</div>
+
+<div class="phase" style="--c: var(--p3)">
+  <span class="tag">Phase 3 · Advanced · AI-native</span>
+  <h3>Let the AI make the first cut</h3>
+  <ul>
+    <li><strong>Editing agent</strong> (Underlord / ChatCut style): "make a 60-second Reel about pricing from this episode" produces a plan, then an editable timeline. Exposed over MCP too, so Claude or ChatGPT can drive it.</li>
+    <li><strong>Generative media:</strong> text-to-image and text-to-video B-roll (Veo / Kling / Seedance-class models via API), AI music.</li>
+    <li><strong>Avatars and faceless video:</strong> a script plus the user's cloned voice and an avatar produce a video.</li>
+    <li><strong>Lip-synced dubbing</strong> in 20+ languages.</li>
+    <li><strong>Regenerate:</strong> heal jump cuts or change spoken words in video, with the mouth re-synced.</li>
+    <li><strong>Pro features:</strong> 4K export, timeline export (Premiere XML, FCPXML), live collaboration and comments, motion tracking.</li>
+  </ul>
+</div>
+
+<h2 id="panel">Prompt → settings panel ("effect cards")</h2>
+<p>The idea: when a user types <em>"make my voice a bit thinner"</em>, the AI shouldn't just do something and hand back a file. It should apply a <strong>named effect with real parameters</strong>, and the user should see those parameters as sliders they can keep adjusting. That turns a black-box prompt into a starting point.</p>
+
+<div class="grid" style="align-items:start">
+  <div class="mock" role="img" aria-label="Mock of an effect card: Voice tone, with sliders for pitch, formant, low cut, warmth and presence">
+    <div class="prompt">“make my voice a bit thinner”</div>
+    <strong>Voice tone</strong> <span class="pill">applied to whole track</span>
+    <div class="row"><span>Pitch</span><span class="bar"><i style="width:58%"></i><b style="left:58%"></b></span><span class="val">+1.5 st</span></div>
+    <div class="row"><span>Formant</span><span class="bar"><i style="width:62%"></i><b style="left:62%"></b></span><span class="val">+1.0</span></div>
+    <div class="row"><span>Low cut</span><span class="bar"><i style="width:36%"></i><b style="left:36%"></b></span><span class="val">180 Hz</span></div>
+    <div class="row"><span>Warmth</span><span class="bar"><i style="width:30%"></i><b style="left:30%"></b></span><span class="val">−4 dB</span></div>
+    <div class="row"><span>Presence</span><span class="bar"><i style="width:64%"></i><b style="left:64%"></b></span><span class="val">+3 dB</span></div>
+    <div class="btns"><span>A/B compare</span><span>Reset</span><span>Remove</span><span class="primary">Done</span></div>
+  </div>
+  <div>
+    <h3 style="margin-top:0">How it works</h3>
+    <ol>
+      <li><strong>An effect registry:</strong> each effect (Voice tone, EQ, Compressor, Reverb, Noise removal, Ducking, Captions style, Color, Zoom…) is defined once, with a JSON schema for its parameters: type, range, default, unit, label.</li>
+      <li><strong>The LLM picks effects through tool calls.</strong> The chat model gets the registry as tools and calls <code>apply_effect("voice_tone", {pitch: 1.5, formant: 1, low_cut_hz: 180, warmth_db: -4, presence_db: 3})</code>. It never renders anything itself; it only picks parameters.</li>
+      <li><strong>The panel is generated from the schema</strong>, so adding an effect to the registry automatically gives it sliders, the MCP tool and the prompt support.</li>
+      <li><strong>Live preview:</strong> EQ, gain, compression and reverb preview instantly in the browser (Web Audio API). Pitch and formant need a short server render (ffmpeg <code>rubberband</code>), triggered when the slider is released.</li>
+      <li><strong>Nothing is destructive:</strong> effects stack on the version as data. Turning one off, reordering or removing it never re-processes the source. Export renders the stack once.</li>
+      <li><strong>The chat reply says what changed:</strong> "Raised pitch 1.5 semitones and cut the low end at 180 Hz. Tweak below." This fixes today's "the assistant can only advise" limitation in a way that stays honest.</li>
+    </ol>
+  </div>
+</div>
+
+<h2 id="effects">Phase 1 audio effects: parameter specs</h2>
+<p>Every one of these can be built with ffmpeg filters we already ship (<code>imageio-ffmpeg</code>), plus the ElevenLabs isolator we already use. No new vendors.</p>
+<div class="tbl"><table>
+  <thead><tr><th>Effect</th><th>Sliders (range · default)</th><th>ffmpeg building blocks</th><th>Example prompts</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Voice tone</strong></td><td>Pitch −6…+6 st · 0; Formant −3…+3 · 0; Low cut 20–300 Hz · 20; Warmth (200 Hz) −12…+12 dB · 0; Presence (4 kHz) −12…+12 dB · 0</td><td><code>rubberband</code> (pitch, formant preserved/shifted), <code>highpass</code>, <code>equalizer</code></td><td>"deeper voice", "thinner", "less boomy"</td></tr>
+    <tr><td><strong>Clean up</strong></td><td>Strength 0–100% · 70; Keep background 0–100% · 10</td><td>ElevenLabs isolator output mixed back with the original (<code>amix</code> weights), like Adobe's Speech/Background sliders</td><td>"remove the AC hum but keep some room"</td></tr>
+    <tr><td><strong>Level &amp; punch</strong></td><td>Target loudness −24…−12 LUFS · −16; Compression 0–100% · 40; Limiter ceiling −3…0 dB · −1</td><td><code>loudnorm</code>, <code>acompressor</code>, <code>alimiter</code></td><td>"make it louder and more even"</td></tr>
+    <tr><td><strong>EQ</strong></td><td>5 bands: frequency, gain ±12 dB, width; or presets (Radio, Warm, Bright, Phone)</td><td><code>equalizer</code> ×5</td><td>"sound like a phone call"</td></tr>
+    <tr><td><strong>De-ess</strong></td><td>Amount 0–100% · 50; Frequency 4–10 kHz · 6.5</td><td><code>deesser</code></td><td>"too many harsh S sounds"</td></tr>
+    <tr><td><strong>Room / reverb</strong></td><td>Mix 0–100% · 15; Room size; Decay</td><td><code>aecho</code> (or a convolution reverb with an impulse response via <code>afir</code>)</td><td>"sound like a big hall"</td></tr>
+    <tr><td><strong>Silence trimming</strong></td><td>Max gap 0.2–2 s · 0.6; Threshold −60…−30 dB · −45</td><td>Transcript gaps plus <code>silencedetect</code>, reusing our cut pipeline</td><td>"tighten the pauses"</td></tr>
+    <tr><td><strong>Music ducking</strong></td><td>Duck amount 0–30 dB · 12; Attack and release</td><td><code>sidechaincompress</code></td><td>"music quieter when I talk"</td></tr>
+    <tr><td><strong>Speed</strong></td><td>0.5–2× · 1, pitch kept</td><td><code>atempo</code> / <code>rubberband</code> (video: <code>setpts</code>)</td><td>"speed it up 10%"</td></tr>
+  </tbody>
+</table></div>
+
+<h2 id="arch">Architecture notes</h2>
+<div class="grid">
+  <div class="card"><h3>Preview vs. export</h3><p>Preview in the browser, export on the server. The edit document (JSON) drives both. For the preview, a <code>&lt;video&gt;</code> element with canvas/CSS overlays works for Phase 1. For Phase 2's multi-track compositing, evaluate the <strong>Remotion</strong> player plus server rendering, or WebCodecs.</p></div>
+  <div class="card"><h3>Rendering options</h3><p><strong>ffmpeg</strong> (what we use now): free and deterministic, but complex graphs get hard to maintain. <strong>Remotion</strong>: React compositions, the same code for preview and render, but needs a licence at company scale. <strong>Shotstack</strong>: hosted JSON-to-video, about $0.20–0.40 per rendered minute, no servers. Recommendation: ffmpeg for Phase 1, then decide between Remotion and Shotstack before Phase 2.</p></div>
+  <div class="card"><h3>Jobs &amp; storage</h3><p>Exports and video imports must move to a job queue (Arq or RQ on Redis, or Railway workers) with progress events. Store video on R2 (free egress). Keep the 540p preview proxy we already generate; it's what makes scrubbing fast.</p></div>
+  <div class="card"><h3>Agent-native</h3><p>Every effect and edit is a registry entry, which automatically means a REST route, an MCP tool and a slider panel. That keeps the CLAUDE.md rule ("every feature gets both a REST route and an MCP tool") cheap to follow as the feature count grows.</p></div>
+</div>
+
+<h2 id="voice">Voice cloning: status and plan</h2>
+<div class="callout bad">
+  <strong>Not enabled, so I skipped building it, as you asked</strong>
+  <p>Checked tonight: the ElevenLabs key lacks the <code>voices_read</code> and <code>user_read</code> permissions, and the database shows <strong>every word replacement so far fell back to the stock "premade" voice</strong>. No real clone has ever been created. The likely causes are a key without voice permissions, a Free plan (Instant Voice Cloning needs Starter, about $5/month, or higher), or both.</p>
+</div>
+<h3>What to enable</h3>
+<ol>
+  <li>ElevenLabs plan: <strong>Starter or higher</strong> for Instant Voice Cloning. Creator or higher for Professional Voice Cloning, which sounds noticeably better from about 30+ minutes of audio.</li>
+  <li>Create a new API key with permissions for <strong>Voices (read + write)</strong>, <strong>Text to Speech</strong>, <strong>Audio Isolation</strong> and <strong>User (read)</strong>, and put it in <code>backend/.env</code> as <code>ELEVENLABS_API_KEY</code>.</li>
+  <li>Tell me when it's done, and I'll build the flow below.</li>
+</ol>
+<h3>The flow we'll build</h3>
+<ol>
+  <li><strong>Voice setup page:</strong> the user reads 3–4 short on-screen paragraphs (about 60–90 seconds in total, phonetically varied), recorded in the browser with a live level meter and a too-quiet/too-loud warning. A spoken consent line ("I, [name], consent to Sonicly creating a voice clone of my voice") is recorded too; Descript requires the same.</li>
+  <li><strong>Clone:</strong> the samples go to ElevenLabs IVC. The resulting <code>voice_id</code> is stored on the <em>user</em>, not the project, so every project can use it.</li>
+  <li><strong>Script to audio:</strong> the user pastes or uploads a script (.txt or .docx). It's split at sentence boundaries and generated in chunks (with ElevenLabs request stitching, so the tone stays continuous), then joined into a new project with its transcript already built. That means everything else (cuts, effects, export) works on it immediately.</li>
+  <li><strong>Voice settings card</strong> (the same effect-card pattern): Stability, Similarity, Style exaggeration, Speed, plus a per-line "regenerate" button.</li>
+  <li>REST routes plus MCP tools (<code>create_voice</code>, <code>generate_from_script</code>), following the repo's conventions.</li>
+</ol>
+
+<h2 id="decisions">Decisions I need from you</h2>
+<ol>
+  <li><strong>Top up OpenAI credits.</strong> Transcription is down for every new upload (audio and video) until then.</li>
+  <li><strong>Enable ElevenLabs cloning</strong> (plan plus key permissions above). Then I build the voice clone feature.</li>
+  <li><strong>Video storage:</strong> raise the Supabase file limit (Pro plan), or move video to Cloudflare R2? R2 is cheaper for video (free egress) and is already in the tech plan.</li>
+  <li><strong>Phase 1 scope:</strong> approve the list above, or tell me what to cut or add. My suggested build order: job queue, captions, reframe and zoom, effect cards (audio), music with ducking, transitions and titles.</li>
+  <li><strong>Pricing gates:</strong> which Phase 1 features are free and which are paid? Competitors gate 1080p, watermark removal, AI credits and stock media.</li>
+</ol>
+
+<footer>
+  <h3 id="sources" style="margin:0 0 8px">Sources</h3>
+  <p>Hands-on: Adobe Podcast Studio (sample video project, Premium account) and Descript web app (Free account, "Kishanux_3" project), both explored through the Aside browser on 5 Oct 2026. The invideo AI editor couldn't be opened hands-on (the browser agent didn't return a report), so its section relies on public pages.</p>
+  <ul>
+    <li><a href="https://helpx.adobe.com/podcast/technical-requirements.html">Adobe Podcast technical requirements</a></li>
+    <li><a href="https://help.invideo.io/en/articles/9387692-what-is-magic-box-and-how-to-use-it">invideo: What is Magic Box</a> · <a href="https://help.invideo.io/en/articles/11393999-how-do-i-apply-my-cloned-voice-to-an-existing-video">applying a cloned voice</a> · <a href="https://invideo.io/pricing">invideo pricing</a></li>
+    <li><a href="https://chatcut.io/features/text-based-editing">ChatCut text-based editing</a> · <a href="https://www.kapwing.com/ai/copilot">Kapwing AI copilot</a></li>
+    <li><a href="https://www.capcut.com/resource/ai-captioning">CapCut AI captioning</a> · <a href="https://bibigpt.co/en/features/capcut-2026-ai-suite-explained">CapCut 2026 AI suite explained</a> · <a href="https://www.descript.com/compare/descript-vs-capcut">Descript vs CapCut</a></li>
+    <li><a href="https://morphic.com/resources/tools/best-ai-video-editors">The 8 best AI video editors in 2026</a> · <a href="https://dupple.com/learn/best-ai-video-editors">Best AI video editors (Dupple)</a> · <a href="https://chatcut.io/blog/best-ai-video-editor-2026">Best AI video editor 2026 (ChatCut)</a></li>
+    <li><a href="https://www.castmagic.io/blog/opus-clip-alternatives">OpusClip alternatives</a> · <a href="https://techsy.io/en/blog/opusclip-vs-vizard">OpusClip vs Vizard</a> · <a href="https://riverside.com/blog/invideo-ai-alternative">Riverside: invideo alternatives</a></li>
+    <li><a href="https://motionbox.io/blog/best-json2video-alternatives-in-2026">JSON-to-video tools 2026</a> · <a href="https://www.wireflow.ai/blog/best-remotion-alternatives-in-2026">Remotion alternatives</a> · <a href="https://thegtmdirectory.com/compare/ffmpeg-vs-remotion">ffmpeg vs Remotion</a></li>
+    <li><a href="https://breakfastquay.com/rubberband/usage.txt">Rubber Band (pitch and formant)</a> · <a href="https://ffmpeg.org/doxygen/8.0/af__rubberband_8c_source.html">ffmpeg rubberband filter</a></li>
+  </ul>
+</footer>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,414 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Audio Effects</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap">
+<style>
+/* Long-form research report: one readable column, dense reference tables, quiet chrome. */
+:root {
+  --bg: #F5F5F2; --card: #FFFFFF; --fg: #18181B; --muted: #5E5E66; --line: #E2E2DD; --chip: #ECECE7;
+  --accent: #12706C; --accent-soft: #DFF1EF; --warn: #8A5A00; --warn-soft: #FBF0D9; --bad: #9B1C1C; --bad-soft: #FBE4E4;
+  --t1: #12706C; --t2: #4B4FC4; --t3: #8A5A00; --t0: #8C8C94;
+  --ui: "Schibsted Grotesk", "Helvetica Neue", Arial, sans-serif;
+  --mono: "Geist Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #111113; --card: #18181B; --fg: #EDEDEE; --muted: #A1A1A9; --line: #2A2A2F; --chip: #222226;
+  --accent: #2CE6E0; --accent-soft: #0F2E2D; --warn: #F2C063; --warn-soft: #2C2412; --bad: #F59A9A; --bad-soft: #2E1515;
+  --t1: #2CE6E0; --t2: #9EA2FF; --t3: #F2C063; --t0: #7A7A82; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #111113; --card: #18181B; --fg: #EDEDEE; --muted: #A1A1A9; --line: #2A2A2F; --chip: #222226;
+  --accent: #2CE6E0; --accent-soft: #0F2E2D; --warn: #F2C063; --warn-soft: #2C2412; --bad: #F59A9A; --bad-soft: #2E1515;
+  --t1: #2CE6E0; --t2: #9EA2FF; --t3: #F2C063; --t0: #7A7A82; color-scheme: dark }
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--bg); color: var(--fg); font-family: var(--ui); font-size: 16px; line-height: 1.6; }
+.wrap { max-width: 1040px; margin: 0 auto; padding: 48px 16px 96px; }
+h1, h2, h3, h4 { text-wrap: balance; line-height: 1.2; margin: 0; }
+h1 { font-size: clamp(30px, 5.5vw, 46px); letter-spacing: -.02em; font-weight: 700; }
+h2 { font-size: clamp(22px, 3.4vw, 30px); letter-spacing: -.015em; font-weight: 700; margin-top: 64px; scroll-margin-top: 16px; }
+h3 { font-size: 19px; font-weight: 650; margin-top: 32px; scroll-margin-top: 16px; }
+h4 { font-size: 13px; font-family: var(--mono); letter-spacing: .07em; text-transform: uppercase; color: var(--muted); font-weight: 500; margin: 20px 0 8px; }
+p { margin: 12px 0; max-width: 74ch; }
+a { color: var(--accent); }
+a:focus-visible { outline: 2px solid var(--fg); outline-offset: 2px; }
+ul, ol { padding-left: 22px; margin: 12px 0; }
+li { margin: 4px 0; max-width: 74ch; }
+code { font-family: var(--mono); font-size: .86em; background: var(--chip); padding: 1px 5px; border-radius: 4px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.lede { font-size: 18px; color: var(--muted); max-width: 70ch; }
+.muted { color: var(--muted); }
+header { display: grid; gap: 14px; }
+
+nav.toc { margin-top: 28px; display: flex; flex-wrap: wrap; gap: 8px; }
+nav.toc a { text-decoration: none; color: var(--fg); font-size: 13px; padding: 6px 12px; border-radius: 999px; background: var(--chip); }
+nav.toc a:hover { background: var(--line); }
+
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin: 24px 0; }
+.stat { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; }
+.stat b { display: block; font-size: 30px; line-height: 1.1; letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
+.stat span { font-size: 13px; color: var(--muted); }
+
+.card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 20px; margin: 16px 0; }
+.grid { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); margin: 16px 0; }
+.grid .card { margin: 0; }
+.card h3 { margin-top: 0; }
+.callout { border-radius: 12px; padding: 16px 20px; margin: 16px 0; }
+.callout.ok { background: var(--accent-soft); }
+.callout.warn { background: var(--warn-soft); }
+.callout.bad { background: var(--bad-soft); }
+.callout strong:first-child { display: block; margin-bottom: 4px; }
+.callout p, .callout li { margin: 6px 0; }
+
+.tbl { width: 100%; overflow-x: auto; margin: 16px 0; border: 1px solid var(--line); border-radius: 12px; background: var(--card); }
+table { border-collapse: collapse; width: 100%; font-size: 13.5px; min-width: 760px; }
+th, td { text-align: left; vertical-align: top; padding: 9px 12px; border-bottom: 1px solid var(--line); }
+th { font-weight: 600; font-size: 11.5px; font-family: var(--mono); letter-spacing: .05em; text-transform: uppercase; color: var(--muted); background: var(--chip); position: sticky; top: 0; }
+tr:last-child td { border-bottom: 0; }
+td:first-child { font-weight: 600; white-space: nowrap; }
+td.p { font-size: 13px; }
+td code { white-space: nowrap; }
+tr.grp td { background: var(--chip); font-family: var(--mono); font-size: 11.5px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); font-weight: 500; }
+
+.tier { display: inline-block; font-family: var(--mono); font-size: 11px; font-weight: 500; padding: 1px 8px; border-radius: 999px; border: 1px solid currentColor; white-space: nowrap; }
+.t1 { color: var(--t1); } .t2 { color: var(--t2); } .t3 { color: var(--t3); } .t0 { color: var(--t0); }
+.legend { display: flex; flex-wrap: wrap; gap: 10px 18px; font-size: 13px; color: var(--muted); margin: 12px 0; }
+
+/* Macro slider panel mock */
+.mock { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 18px; }
+.mock .prompt { font-size: 14px; background: var(--chip); border-radius: 8px; padding: 8px 12px; margin-bottom: 14px; }
+.mock .row { display: grid; grid-template-columns: 70px 1fr 70px; gap: 10px; align-items: center; font-size: 12.5px; margin: 11px 0; }
+.mock .row span:last-child { text-align: right; }
+.mock .bar { height: 6px; border-radius: 3px; background: var(--line); position: relative; }
+.mock .bar b { position: absolute; top: 50%; width: 14px; height: 14px; border-radius: 50%; background: var(--fg); transform: translate(-50%, -50%); }
+.mock .bar i { position: absolute; left: 50%; top: 0; bottom: 0; background: var(--accent); border-radius: 3px; }
+.mock .adv { margin-top: 14px; border-top: 1px solid var(--line); padding-top: 10px; font-size: 12.5px; color: var(--muted); }
+.mock .adv div { display: flex; justify-content: space-between; font-family: var(--mono); font-size: 11.5px; margin: 4px 0; }
+.mock .btns { display: flex; gap: 8px; margin-top: 14px; flex-wrap: wrap; }
+.mock .btns span { font-size: 12px; padding: 5px 10px; border-radius: 6px; border: 1px solid var(--line); }
+.mock .btns span.primary { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+
+.flow { display: grid; gap: 8px; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); margin: 16px 0; counter-reset: s; }
+.flow div { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; font-size: 14px; counter-increment: s; }
+.flow div::before { content: counter(s); display: inline-flex; width: 22px; height: 22px; border-radius: 50%; background: var(--fg); color: var(--bg); font-size: 12px; font-weight: 600; align-items: center; justify-content: center; margin-bottom: 6px; }
+.flow b { display: block; }
+.flow span { color: var(--muted); font-size: 13px; }
+
+footer { margin-top: 72px; border-top: 1px solid var(--line); padding-top: 20px; font-size: 13px; color: var(--muted); }
+footer li { max-width: none; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <span class="eyebrow">Sonicly · Research · 5 Oct 2026</span>
+  <h1>Every audio setting the AI needs to know</h1>
+  <p class="lede">A full inventory of Audacity's menus (Effect, Generate, Analyze, Tracks, Tools), the AI-only tools Audacity doesn't have, and which settings our AI should control. Also covers how to turn them into the prompt → sliders panel without overwhelming people.</p>
+</header>
+
+<div class="stats" aria-label="Key numbers">
+  <div class="stat"><b>~55</b><span>effects across Audacity 3.x and 4, plus about 20 Apple AU plugins</span></div>
+  <div class="stat"><b>~210</b><span>individual settings in those effects</span></div>
+  <div class="stat"><b>22</b><span>effects recommended for the AI's v1 "effect registry"</span></div>
+  <div class="stat"><b>~80</b><span>parameters in that v1 set</span></div>
+  <div class="stat"><b>6</b><span>simple "character" sliders shown to users first</span></div>
+</div>
+
+<nav class="toc" aria-label="Sections">
+  <a href="#tldr">TL;DR</a>
+  <a href="#how">How the AI uses settings</a>
+  <a href="#effect">Effect menu (full)</a>
+  <a href="#other">Generate · Analyze · Tracks · Tools</a>
+  <a href="#beyond">Beyond Audacity (AI tools)</a>
+  <a href="#registry">Recommended v1 registry</a>
+  <a href="#macros">Character sliders</a>
+  <a href="#recipes">Prompt → recipe examples</a>
+  <a href="#ears">The AI's "ears"</a>
+  <a href="#tech">Can we build it?</a>
+  <a href="#plan">Plan &amp; effort</a>
+  <a href="#sources">Sources</a>
+</nav>
+
+<h2 id="tldr">TL;DR</h2>
+<ul>
+  <li><strong>The menus in your screenshots hold about 55 effects and 210 settings.</strong> Only about a third of them matter for voice and podcast editing. The rest are music tools (Paulstretch, Vocoder), lab tools (DTMF tones, Chirp) or editing plumbing (Invert, DC offset).</li>
+  <li><strong>"AI learns the settings" isn't model training.</strong> We give the AI a structured catalogue: every effect, every parameter with its range and unit, a plain-English description of what it does to a voice, plus about 50 worked prompt → setting examples. The model then picks values through tool calls. This works with today's models and needs no training data.</li>
+  <li><strong>The AI also needs to measure the audio first</strong> (loudness, pitch, how bright or muddy, noise, echo), so "make it warmer" adapts to <em>this</em> recording instead of applying the same preset every time.</li>
+  <li><strong>Don't show users 80 sliders.</strong> Show 6 <em>character</em> sliders (Thin↔Full, Dark↔Bright, Close↔Roomy and so on) that each move several real settings, with an "Advanced" section that shows the exact effects underneath. This is the invideo-style panel, adapted for audio.</li>
+  <li><strong>About 90% of it can be built with what we already ship (ffmpeg).</strong> The one gap is quality pitch and formant shifting, which voice changes like thinner/deeper need. That needs Spotify's free <code>pedalboard</code> library (built on Rubber Band). A few things only AI models can do (remove echo, change who you sound like) and need ElevenLabs or similar.</li>
+</ul>
+
+<h2 id="how">How the AI uses these settings</h2>
+<div class="flow">
+  <div><b>Understand</b><span>"Make my voice a little thinner" becomes a goal: less low-end weight, slightly higher, more forward.</span></div>
+  <div><b>Measure</b><span>Analyse this recording: pitch, low-end energy, brightness, loudness, noise.</span></div>
+  <div><b>Choose</b><span>Pick effects from the registry and set values that suit those measurements.</span></div>
+  <div><b>Preview</b><span>Render a 10–20 s preview; EQ and volume preview instantly in the browser.</span></div>
+  <div><b>Show panel</b><span>Character sliders plus the exact settings used, all adjustable.</span></div>
+  <div><b>Save</b><span>"Done" saves a new version. The settings stay editable and can be undone.</span></div>
+</div>
+<p>The important design choice: <strong>effects are stored as data, not baked in.</strong> Each version keeps an ordered list like <code>[{effect: "high_pass", freq_hz: 140}, {effect: "low_shelf", freq_hz: 250, gain_db: -4}, …]</code>. Turning one off, reordering or nudging a slider re-renders from the original, so quality never degrades from repeated edits. This is the same idea as Audacity's "realtime effects" stack.</p>
+
+<h2 id="effect">The Effect menu: everything in it</h2>
+<div class="legend">
+  <span><span class="tier t1">Tier 1</span> AI v1: core voice editing</span>
+  <span><span class="tier t2">Tier 2</span> AI v2: creative and voice-character effects</span>
+  <span><span class="tier t3">Tier 3</span> later or specialist</span>
+  <span><span class="tier t0">Skip</span> not useful for our users</span>
+</div>
+<p class="muted">Settings and ranges are from the official Audacity manual. Effects marked <em>3.x</em> exist in Audacity 3 (your screenshots) but were merged or removed in Audacity 4; their settings are listed without exact ranges where the manual no longer documents them. "Build with" is how we'd implement it.</p>
+
+<div class="tbl"><table>
+<thead><tr><th>Effect</th><th>Settings (range · default)</th><th>What it does to a voice</th><th>Build with</th><th>AI</th></tr></thead>
+<tbody>
+<tr class="grp"><td colspan="5">Volume and Compression</td></tr>
+<tr><td>Amplify</td><td class="p">Amplification dB · New peak dB (linked) · Allow clipping</td><td>Louder or quieter overall</td><td><code>volume</code></td><td><span class="tier t1">Tier 1</span></td></tr>
+<tr><td>Compressor</td><td class="p">Threshold −60…0 dB · −12; Ratio 1…100 · 4; Knee 0…30 dB · 6; Make-up −30…30 dB · 9; Attack 0…200 ms · 3; Release 0…1000 ms · 100; Lookahead 0…100 ms · 3</td><td>Evens out loud and soft words; "punchier", "radio-like", "more consistent"</td><td><code>acompressor</code></td><td><span class="tier t1">Tier 1</span></td></tr>
+<tr><td>Limiter</td><td class="p">Threshold −30…0 dB · −6; Output −30…0 dB · −1; Knee 0…10 dB · 2; Lookahead 0…50 ms · 1; Release 0…1000 ms · 20</td><td>Stops peaks clipping; the last safety step</td><td><code>alimiter</code></td><td><span class="tier t1">Tier 1</span></td></tr>
+<tr><td>Loudness Normalization</td><td class="p">Mode LUFS / RMS; Target −145…0 · −23 LUFS; Stereo independent; Mono as dual-mono</td><td>Hits platform loudness (Spotify −14, Apple −16, broadcast −23)</td><td><code>loudnorm</code></td><td><span class="tier t1">Tier 1</span></td></tr>
+<tr><td>Normalize</td><td class="p">Remove DC offset ✓; Peak to ≤0 dB · −1; Stereo independent</td><td>Sets the peak level</td><td><code>volume</code> + <code>astats</code></td><td><span class="tier t1">Tier 1</span></td></tr>
+<tr><td>Auto Duck <span class="muted">3.x</span></td><td class="p">Duck amount dB; Max pause s; Outer and inner fade down/up s; Threshold dB</td><td>Music dips automatically when someone talks</td><td><code>sidechaincompress</code></td><td><span class="tier t1">Tier 1</span></td></tr>
+
+<tr class="grp"><td colspan="5">Fading</td></tr>
+<tr><td>Fade In / Fade Out</td><td class="p">No settings; length = selection</td><td>Smooth start or end</td><td><code>afade</code></td><td><span class="tier t1">Tier 1</span></td></tr>
+<tr><td>Adjustable Fade</td><td class="p">Type Up/Down/S-curve; Mid-fade −100…100 %; Start/End as % or dB; 12 presets (linear, exponential, log, cosine, S)</td><td>Shaped fades for music beds</td><td><code>afade curve=…</code></td><td><span class="tier t2">Tier 2</span></td></tr>
+<tr><td>Crossfade Clips</td><td class="p">No settings</td><td>Smooth joins at edit points (we already do 40 ms)</td><td><code>acrossfade</code></td><td><span class="tier t1">Tier 1</span></td></tr>
+<tr><td>Crossfade Tracks</td><td class="p">Type Constant gain / power 1 / power 2 / Custom; Curve 0…1; Direction</td><td>Music transitions between tracks</td><td><code>acrossfade</code></td><td><span class="tier t2">Tier 2</span></td></tr>
+<tr><td>Studio Fade Out</td><td class="p">No settings (fade plus low-pass sweep to 100 Hz)</td><td>Pro-sounding outro fade</td><td><code>afade</code> + <code>lowpass</code></td><td><span class="tier t2">Tier 2</span></td></tr>
+
+<tr class="grp"><td colspan="5">Pitch and Tempo</td></tr>
+<tr><td>Change Pitch</td><td class="p">From/To note; Semitones; Cents; From/To Hz; Percent; High-quality stretch</td><td><strong>Higher or lower voice without changing speed.</strong> Core of thinner/deeper.</td><td><code>pedalboard</code> (Rubber Band)</td><td><span class="tier t1">Tier 1</span></td></tr>
+<tr><td>Change Tempo <span class="muted">3.x</span></td><td class="p">Percent; BPM from/to; Length from/to; High-quality</td><td>Talk faster or slower, same pitch</td><td><code>atempo</code> / <code>pedalboard</code></td><td><span class="tier t1">Tier 1</span></td></tr>
+<tr><td>Change Speed <span class="muted">3.x</span></td><td class="p">Percent; Speed multiplier; RPM from/to; Length</td><td>Tape-style: faster also means higher (chipmunk)</td><td><code>asetrate</code>+<code>aresample</code></td><td><span class="tier t2">Tier 2</span></td></tr>
+<tr><td>Sliding Stretch</td><td class="p">Initial/Final tempo −90…500 %; Initial/Final pitch −12…12 st</td><td>Gradual slow-down, "tape stop", dramatic ramps</td><td><code>pedalboard</code></td><td><span class="tier t3">Tier 3</span></td></tr>
+<tr><td>Paulstretch</td><td class="p">Stretch factor ≥1 · 10; Time resolution s · 0.25</td><td>Ambient drones (music only)</td><td>custom</td><td><span class="tier t0">Skip</span></td></tr>
+
+<tr class="grp"><td colspan="5">EQ and Filters</td></tr>
+<tr><td>Bass and Treble</td><td class="p">Bass −30…30 dB; Treble −30…30 dB; Output −30…30 dB; Auto-preserve loudness</td><td>Quick warm or bright</td><td><code>bass</code> / <code>treble</code></td><td><span class="tier t1">Tier 1</span></td></tr>
+<tr><td>Graphic EQ</td><td class="p">31 one-third-octave faders, 20 Hz–20 kHz; Reset; Invert</td><td>Fine tone shaping</td><td><code>superequalizer</code> / <code>firequalizer</code></td><td><span class="tier t2">Tier 2</span></td></tr>
+<tr><td>Filter Curve EQ</td><td class="p">Freely drawn curve (points: freq, gain); Linear/log scale; Invert</td><td>Surgical fixes</td><td><code>firequalizer</code></td><td><span class="tier t2">Tier 2</span></td></tr>
+<tr><td>High-pass Filter</td><td class="p">Frequency Hz · 1000; Roll-off 6/12/24/36/48 dB/oct · 6</td><td>Removes rumble. <strong>Raising it = thinner.</strong></td><td><code>highpass</code></td><td><span class="tier t1">Tier 1</span></td></tr>
+<tr><td>Low-pass Filter</td><td class="p">Frequency Hz · 1000; Roll-off 6…48 dB/oct</td><td>Removes hiss. Lowering it = muffled, "through a wall"</td><td><code>lowpass</code></td><td><span class="tier t1">Tier 1</span></td></tr>
+<tr><td>Notch Filter</td><td class="p">Frequency Hz · 60; Q 0.1…1000 · 1</td><td>Kills mains hum (50/60 Hz) or a whine</td><td><code>bandreject</code></td><td><span class="tier t1">Tier 1</span></td></tr>
+<tr><td>Shelf Filter</td><td class="p">Type Low/High shelf; Freq 10…10000 Hz · 1000; Amount −72…72 dB · −6</td><td>Broad warmth or air without cutting</td><td><code>lowshelf</code> / <code>highshelf</code></td><td><span class="tier t1">Tier 1</span></td></tr>
+<tr><td>Classic Filters <span class="muted">3.x</span></td><td class="p">Type Butterworth / Chebyshev I/II; Order; Pass/Stop; Cutoff; Ripple</td><td>Engineering filters</td><td><code>aiir</code></td><td><span class="tier t0">Skip</span></td></tr>
+
+<tr class="grp"><td colspan="5">Noise Removal and Repair</td></tr>
+<tr><td>Noise Reduction</td><td class="p">Noise profile (learned from a selection); Reduction 0…48 dB · 6; Sensitivity 0.01…24 · 6; Freq smoothing 0…12 bands · 6; Output: cleaned / noise only</td><td>Removes steady hiss, fan, AC</td><td><code>afftdn</code> / <code>anlmdn</code> / <code>arnndn</code>; ElevenLabs isolator (have)</td><td><span class="tier t1">Tier 1</span></td></tr>
+<tr><td>Noise Gate</td><td class="p">Threshold −96…−6 dB · −40; Freq above 0…10 kHz; Reduction −100…0 dB · −24; Attack 1…1000 ms · 10; Hold 0…2000 ms · 50; Decay 10…4000 ms · 100</td><td>Silences noise between phrases</td><td><code>agate</code></td><td><span class="tier t1">Tier 1</span></td></tr>
+<tr><td>Click Removal</td><td class="p">Threshold 0…900 · 200; Max spike width 0…40 · 20</td><td>Mouth clicks, crackle</td><td><code>adeclick</code></td><td><span class="tier t1">Tier 1</span></td></tr>
+<tr><td>Clip Fix</td><td class="p">Clipping threshold 0…100 % · 95; Reduce amplitude −30…0 dB · −9</td><td>Repairs distorted, too-loud recordings</td><td><code>adeclip</code></td><td><span class="tier t1">Tier 1</span></td></tr>
+<tr><td>Repair</td><td class="p">No settings; ≤128 samples</td><td>One tiny glitch</td><td>custom (interpolate)</td><td><span class="tier t3">Tier 3</span></td></tr>
+
+<tr class="grp"><td colspan="5">Delay and Reverb</td></tr>
+<tr><td>Reverb</td><td class="p">Room size 0…100 % · 75; Stereo width 0…100 · 100; Pre-delay 0…200 ms · 10; Damping 0…100 · 50; Reverberance 0…100 · 50; Low tone 0…100 · 100; High tone 0…100 · 100; Wet gain −20…10 dB · −1; Dry gain −20…10 dB · −1; Wet only</td><td>"Sound like a hall, church, bathroom"; adds space to a dry voice</td><td><code>pedalboard.Reverb</code> or <code>afir</code> + impulse responses</td><td><span class="tier t2">Tier 2</span></td></tr>
+<tr><td>Delay</td><td class="p">Type Regular / Bouncing ball / Reverse; Level per echo −30…1 dB · −6; Time 0…5 s · 0.3; Pitch method; Pitch per echo −2…2 st; Echoes 1…30 · 5; Allow duration change</td><td>Echo / slap-back, "canyon"</td><td><code>aecho</code></td><td><span class="tier t2">Tier 2</span></td></tr>
+<tr><td>Echo <span class="muted">3.x</span></td><td class="p">Delay time s; Decay factor 0…1</td><td>Simple echo</td><td><code>aecho</code></td><td><span class="tier t2">Tier 2</span></td></tr>
+
+<tr class="grp"><td colspan="5">Distortion and Modulation</td></tr>
+<tr><td>Distortion <span class="muted">3.x</span></td><td class="p">11 types (hard/soft clip, soft/medium/hard overdrive, cubic, even harmonics, expand-compress, leveller, rectifier, hard limiter); DC block; Threshold dB; Noise floor dB; Parameter 1 &amp; 2; Repeats</td><td>Megaphone, walkie-talkie, "angry", lo-fi</td><td><code>asoftclip</code> / <code>pedalboard.Distortion</code></td><td><span class="tier t2">Tier 2</span></td></tr>
+<tr><td>Phaser <span class="muted">3.x</span></td><td class="p">Stages 2…24; Dry/Wet; LFO freq Hz; LFO phase °; Depth; Feedback %; Output gain</td><td>Swirly, sci-fi</td><td><code>aphaser</code></td><td><span class="tier t3">Tier 3</span></td></tr>
+<tr><td>Tremolo</td><td class="p">Waveform Sine/Triangle/Saw/Inv-saw/Square; Phase −180…180°; Wet 1…100 % · 40; Freq 0.001…1000 Hz · 4</td><td>Wobble, robotic pulsing</td><td><code>tremolo</code></td><td><span class="tier t3">Tier 3</span></td></tr>
+<tr><td>Wahwah <span class="muted">3.x</span></td><td class="p">LFO freq; Phase; Depth %; Resonance; Wah offset %; Output gain</td><td>Guitar effect</td><td>custom</td><td><span class="tier t0">Skip</span></td></tr>
+<tr><td>Vocoder</td><td class="p">Distance 1…120 · 20; Output channels; Bands 10…240 · 40; Carrier / White noise / Radar-needle amplitudes 0…100 %; Radar freq 1…100 Hz</td><td>Robot voice</td><td>custom / <code>pedalboard</code></td><td><span class="tier t2">Tier 2</span></td></tr>
+
+<tr class="grp"><td colspan="5">Special, Spectral, Legacy</td></tr>
+<tr><td>Truncate Silence</td><td class="p">Threshold −80…−20 dB · −20; Min duration s · 0.5; Action Truncate-to s · 0.5 <em>or</em> Compress-to 0…99.9 % · 50; Tracks independently</td><td><strong>Tightens long pauses.</strong> Huge for podcasts.</td><td>transcript gaps + <code>silencedetect</code> (our cut pipeline)</td><td><span class="tier t1">Tier 1</span></td></tr>
+<tr><td>Repeat <span class="muted">3.x</span></td><td class="p">Number of repeats</td><td>Loops (music beds)</td><td><code>aloop</code></td><td><span class="tier t3">Tier 3</span></td></tr>
+<tr><td>Reverse</td><td class="p">No settings</td><td>Backwards sound, reverse-reverb swell</td><td><code>areverse</code></td><td><span class="tier t3">Tier 3</span></td></tr>
+<tr><td>Invert · Remove DC offset</td><td class="p">No settings</td><td>Technical clean-up; apply automatically, never ask</td><td><code>aeval</code> / <code>dcshift</code></td><td><span class="tier t0">Auto</span></td></tr>
+<tr><td>Spectral Delete / Multi-tool / Parametric EQ / Shelves</td><td class="p">Time × frequency box from a spectrogram; Gain −24…24 dB (EQ, Shelves)</td><td>Remove a whistle, beep or cough in one spot</td><td><code>bandreject</code> on a time range</td><td><span class="tier t3">Tier 3</span></td></tr>
+<tr><td>Legacy Limiter</td><td class="p">Type Soft/Hard limit/clip; Input gain L/R 0…10 dB; Limit −10…0 dB · −3; Hold 1…50 ms · 10; Make-up</td><td>Replaced by Limiter</td><td>—</td><td><span class="tier t0">Skip</span></td></tr>
+
+<tr class="grp"><td colspan="5">Apple (Audio Unit plugins, macOS only)</td></tr>
+<tr><td>AU effects</td><td class="p">AUGraphicEQ, AUNBandEQ, AUParametricEQ, AUHi/Lowpass, AUBandpass, AUHigh/LowShelf, AUDynamicsProcessor, AUMultibandCompressor, AUPeakLimiter, AUMatrixReverb, AUReverb2, AUDelay, AUSampleDelay, AUDistortion, AUPitch, AUNewTimePitch, AURogerBeep, AUSoundIsolation…</td><td>Mostly duplicates of the above. Worth noting: <strong>multiband compressor</strong> and <strong>sound isolation</strong> (Apple's ML voice isolation).</td><td>Not usable on a server; take the ideas, not the plugins</td><td><span class="tier t2">ideas</span></td></tr>
+</tbody></table></div>
+
+<h2 id="other">Generate, Analyze, Tracks and Tools</h2>
+<div class="tbl"><table>
+<thead><tr><th>Item</th><th>Settings</th><th>Use for Sonicly</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr class="grp"><td colspan="4">Generate</td></tr>
+<tr><td>Silence</td><td class="p">Duration</td><td>"Add a 2-second pause here", room for a breath or a dramatic beat</td><td><span class="tier t1">Tier 1</span></td></tr>
+<tr><td>Tone</td><td class="p">Waveform, Frequency, Amplitude, Duration</td><td><strong>Bleep a swear word</strong> (1 kHz tone over the word). Users ask for this a lot.</td><td><span class="tier t1">Tier 1</span></td></tr>
+<tr><td>Noise</td><td class="p">Type White/Pink/Brown, Amplitude, Duration</td><td>"Room tone" to fill gaps after cuts so silence isn't dead</td><td><span class="tier t2">Tier 2</span></td></tr>
+<tr><td>Chirp · DTMF · Pluck · Rhythm Track · Risset Drum</td><td class="p">Musical or test-signal settings</td><td>Not relevant to creators; AI music or SFX libraries replace these</td><td><span class="tier t0">Skip</span></td></tr>
+<tr class="grp"><td colspan="4">Analyze: these become the AI's ears (see below)</td></tr>
+<tr><td>Contrast</td><td class="p">Foreground vs background level</td><td>Is speech clearly louder than music? (accessibility rule: ≥20 dB)</td><td><span class="tier t1">Tier 1</span></td></tr>
+<tr><td>Plot Spectrum</td><td class="p">Frequency analysis</td><td>Detects boomy, muddy, harsh, thin; drives EQ choices</td><td><span class="tier t1">Tier 1</span></td></tr>
+<tr><td>Find Clipping</td><td class="p">Start/stop thresholds</td><td>Auto-suggests Clip Fix</td><td><span class="tier t1">Tier 1</span></td></tr>
+<tr><td>Measure RMS</td><td class="p">—</td><td>Loudness check before and after</td><td><span class="tier t1">Tier 1</span></td></tr>
+<tr><td>Label Sounds</td><td class="p">Threshold, min silence/label length</td><td>Find pauses and sounds; we use the transcript instead</td><td><span class="tier t2">Tier 2</span></td></tr>
+<tr><td>Beat Finder</td><td class="p">Threshold</td><td>Sync cuts to music beats (video, Phase 2)</td><td><span class="tier t3">Tier 3</span></td></tr>
+<tr class="grp"><td colspan="4">Tracks</td></tr>
+<tr><td>Add New · Mix · Mute · Pan · Align · Sync-lock</td><td class="p">Mono/stereo/label tracks, mix-down, L/R pan, align start/end</td><td>Needed once projects have more than one layer: voice, music bed, intro, sound effects, a guest's mic. Phase 2 multi-track.</td><td><span class="tier t2">Tier 2</span></td></tr>
+<tr><td>Resample</td><td class="p">Sample rate</td><td>Automatic at export (44.1 / 48 kHz); never ask the user</td><td><span class="tier t0">Auto</span></td></tr>
+<tr class="grp"><td colspan="4">Tools</td></tr>
+<tr><td>Macros (Manager / Apply)</td><td class="p">Saved chains of effects</td><td><strong>This is "presets" and "brand sound".</strong> Save "My podcast voice" and apply it to every episode in one click, or automatically on upload.</td><td><span class="tier t1">Tier 1</span></td></tr>
+<tr><td>Nyquist Prompt</td><td class="p">Write custom DSP code</td><td>Tempting ("let the AI write code") but unsafe and unpredictable. Keep the AI on the registry.</td><td><span class="tier t0">Skip</span></td></tr>
+<tr><td>Regular Interval Labels · Sample Data Import/Export · Benchmark · Reset</td><td class="p">—</td><td>Developer and housekeeping tools</td><td><span class="tier t0">Skip</span></td></tr>
+</tbody></table></div>
+
+<h2 id="beyond">What Audacity can't do, but our users will ask for</h2>
+<p>Audacity is a 2000s-era DSP toolbox. The prompts creators actually type often need <em>AI audio models</em>, which Adobe Podcast, Descript, iZotope RX and ElevenLabs offer. These belong in the registry too, as "AI effects" with simple sliders.</p>
+<div class="tbl"><table>
+<thead><tr><th>Capability</th><th>Who offers it</th><th>User-facing sliders</th><th>How we'd get it</th><th>AI</th></tr></thead>
+<tbody>
+<tr><td>Voice isolation / Enhance speech</td><td>Adobe Enhance, Descript Studio Sound, ElevenLabs</td><td>Strength 0–100 %, Keep background 0–100 %</td><td>ElevenLabs isolator (<strong>already in the app</strong>), mixed back with the original for the sliders</td><td><span class="tier t1">Tier 1</span></td></tr>
+<tr><td>De-reverb (remove room echo)</td><td>iZotope RX, Adobe Enhance, Descript</td><td>Amount</td><td>AI model (ElevenLabs isolator removes some; dedicated models exist)</td><td><span class="tier t1">Tier 1</span></td></tr>
+<tr><td>De-breath, mouth de-click</td><td>iZotope RX, Descript</td><td>Breath reduction dB; Click sensitivity</td><td>Transcript/ML breath detection + gain; <code>adeclick</code></td><td><span class="tier t1">Tier 1</span></td></tr>
+<tr><td>De-esser</td><td>Audition, RX</td><td>Amount, Frequency 4–10 kHz</td><td><code>deesser</code></td><td><span class="tier t1">Tier 1</span></td></tr>
+<tr><td>Dialogue leveler / auto-level</td><td>Audition, Auphonic</td><td>Target, Max boost</td><td><code>speechnorm</code> / <code>dynaudnorm</code></td><td><span class="tier t1">Tier 1</span></td></tr>
+<tr><td>Dynamic EQ / multiband compression</td><td>Audition, RX</td><td>Per-band threshold</td><td><code>adynamicequalizer</code> / <code>mcompand</code></td><td><span class="tier t2">Tier 2</span></td></tr>
+<tr><td>EQ match / "Mic match" (sound like my other episode)</td><td>Adobe Podcast, RX</td><td>Match amount</td><td>Measure both spectra, build an EQ curve (<code>firequalizer</code>)</td><td><span class="tier t2">Tier 2</span></td></tr>
+<tr><td>Dialogue enhance / bass enhancer</td><td>Various</td><td>Amount</td><td><code>dialoguenhance</code>, <code>virtualbass</code>, <code>aexciter</code></td><td><span class="tier t2">Tier 2</span></td></tr>
+<tr><td>Voice changer (sound like someone else, change gender or age)</td><td>ElevenLabs Voice Changer, Descript</td><td>Target voice, Stability, Similarity</td><td>ElevenLabs speech-to-speech. <strong>Real voice transformation can't be done with EQ/pitch;</strong> it needs this.</td><td><span class="tier t2">Tier 2</span></td></tr>
+<tr><td>Music / stem separation</td><td>Adobe, Descript</td><td>Voice / Music / Noise levels</td><td>Demucs-class model or a provider API</td><td><span class="tier t3">Tier 3</span></td></tr>
+<tr><td>Pitch correction (auto-tune)</td><td>Melodyne, Auto-Tune</td><td>Speed, Key</td><td>Specialist DSP; low demand for talking audio</td><td><span class="tier t3">Tier 3</span></td></tr>
+</tbody></table></div>
+
+<h2 id="registry">Recommended v1 "effect registry" for the AI</h2>
+<p>22 effects and about 80 parameters. That covers roughly 90% of what podcasters and voiceover creators ask for, can be built with ffmpeg plus <code>pedalboard</code> plus the ElevenLabs isolator we already use, and is small enough for the model to use reliably.</p>
+<div class="grid">
+  <div class="card"><h4>Clean</h4><p>Voice isolation (Strength, Keep background) · Noise reduction (Amount, Sensitivity) · Noise gate (Threshold, Reduction, Attack, Hold, Release) · Hum removal (50/60 Hz, Harmonics) · Click removal (Sensitivity) · De-esser (Amount, Freq) · Clip repair (Threshold) · Breath reduction (Amount)</p></div>
+  <div class="card"><h4>Tone</h4><p>High-pass (Freq, Slope) · Low-pass (Freq, Slope) · Low shelf (Freq, Gain) · High shelf (Freq, Gain) · 5-band parametric EQ (Freq, Gain, Q × 5) · Presence boost (Gain)</p></div>
+  <div class="card"><h4>Voice character</h4><p>Pitch (semitones + cents) · Formant shift (−3…+3) · Speed / tempo (0.5–2×, keep pitch)</p></div>
+  <div class="card"><h4>Dynamics &amp; level</h4><p>Compressor (Threshold, Ratio, Attack, Release, Knee, Make-up) · Auto-level (Target, Max boost) · Loudness target (LUFS preset per platform) · Limiter (Ceiling, Release)</p></div>
+  <div class="card"><h4>Space</h4><p>Reverb (Room size, Damping, Pre-delay, Wet, Dry, Width) · Echo/Delay (Time, Feedback, Mix)</p></div>
+  <div class="card"><h4>Timing &amp; mix</h4><p>Silence trimming (Max pause, Threshold) · Fades (In, Out, Curve) · Music ducking (Amount, Attack, Release) · Bleep (word, tone Hz) · Insert pause (Duration)</p></div>
+</div>
+<p>Each registry entry holds: id, label, plain-English purpose, <em>perceptual notes</em> (e.g. "high-pass 120–180 Hz removes chest resonance, so the voice sounds thinner, younger, more 'phone-like' above 300 Hz"), parameters (type, min, max, default, unit, step, safe range), whether it previews live in the browser, and render cost. One definition automatically drives the AI tool, the slider UI, the REST route and the MCP tool.</p>
+
+<h2 id="macros">The panel: 6 character sliders over the real settings</h2>
+<p>Creators don't think in "low shelf at 250 Hz". They think "thinner" or "warmer". So the panel leads with <strong>character sliders</strong>. Each one moves several real settings at once, along a curve tuned by ear. Underneath, <em>Advanced</em> shows the exact effects for anyone who wants control, which also builds trust ("here's what the AI actually did").</p>
+<div class="grid" style="align-items:start">
+  <div class="mock" role="img" aria-label="Mock panel: six character sliders with Thin set toward thin, plus an advanced list of the underlying settings">
+    <div class="prompt">“make my voice a little thinner”</div>
+    <div class="row"><span>Thin</span><span class="bar"><i style="left:30%;right:50%"></i><b style="left:30%"></b></span><span>Full</span></div>
+    <div class="row"><span>Dark</span><span class="bar"><i style="left:50%;right:38%"></i><b style="left:62%"></b></span><span>Bright</span></div>
+    <div class="row"><span>Close</span><span class="bar"><b style="left:50%"></b></span><span>Roomy</span></div>
+    <div class="row"><span>Soft</span><span class="bar"><b style="left:50%"></b></span><span>Punchy</span></div>
+    <div class="row"><span>Lower</span><span class="bar"><i style="left:50%;right:42%"></i><b style="left:58%"></b></span><span>Higher</span></div>
+    <div class="row"><span>Natural</span><span class="bar"><b style="left:15%"></b></span><span>Effect</span></div>
+    <div class="adv"><strong>Advanced · 4 effects</strong>
+      <div><span>High-pass</span><span>160 Hz · 12 dB/oct</span></div>
+      <div><span>Low shelf 250 Hz</span><span>−4.5 dB</span></div>
+      <div><span>Presence 4 kHz</span><span>+2.5 dB</span></div>
+      <div><span>Pitch / formant</span><span>+1.0 st / +0.8</span></div>
+    </div>
+    <div class="btns"><span>A/B</span><span>Reset</span><span>Save as preset</span><span class="primary">Done</span></div>
+  </div>
+  <div>
+    <div class="tbl" style="margin-top:0"><table style="min-width:520px">
+      <thead><tr><th>Character slider</th><th>What it moves (from neutral)</th></tr></thead>
+      <tbody>
+        <tr><td>Thin ↔ Full</td><td>High-pass 40→200 Hz, low shelf ±6 dB at 200–300 Hz, slight formant shift</td></tr>
+        <tr><td>Dark ↔ Bright</td><td>High shelf ±6 dB at 6–8 kHz, presence ±4 dB at 3–5 kHz, low-pass when dark</td></tr>
+        <tr><td>Close ↔ Roomy</td><td>Reverb wet 0→35 %, room size, pre-delay; slight low cut when roomy</td></tr>
+        <tr><td>Soft ↔ Punchy</td><td>Compressor ratio 1.5→6, threshold, attack; make-up gain kept loudness-matched</td></tr>
+        <tr><td>Lower ↔ Higher</td><td>Pitch ±4 semitones with formant preserved (sounds like the same person)</td></tr>
+        <tr><td>Natural ↔ Effect</td><td>Global intensity: scales how far every applied effect is from neutral</td></tr>
+      </tbody>
+    </table></div>
+    <p class="muted">Every slider change is loudness-matched (output normalised to the same LUFS), so "brighter" never just means "louder". That's the classic trap that makes A/B comparisons dishonest.</p>
+  </div>
+</div>
+
+<h2 id="recipes">Prompt → recipe examples</h2>
+<p>About 50 of these, written and tuned by ear, become the AI's worked examples. A starter set:</p>
+<div class="tbl"><table>
+<thead><tr><th>User says</th><th>Recipe (starting point, adjusted to measurements)</th></tr></thead>
+<tbody>
+<tr><td>"thinner"</td><td>High-pass 150 Hz · low shelf 250 Hz −4 dB · presence +2 dB · pitch +1 st, formant +0.8</td></tr>
+<tr><td>"deeper" / "more bass"</td><td>Pitch −1.5 st (formant preserved) · low shelf 120 Hz +4 dB · high-pass 60 Hz</td></tr>
+<tr><td>"warmer"</td><td>Low shelf 200 Hz +3 dB · high shelf 8 kHz −2 dB · gentle compression 2:1</td></tr>
+<tr><td>"clearer" / "crisper"</td><td>High-pass 90 Hz · cut 300 Hz −3 dB (mud) · presence 4 kHz +3 dB · de-esser</td></tr>
+<tr><td>"less boomy" / "muddy"</td><td>Measure low-mid build-up, then cut 150–400 Hz −3…−6 dB, Q 1.2</td></tr>
+<tr><td>"radio voice" / "broadcast"</td><td>High-pass 80 · compressor 4:1 · presence +3 · de-esser · loudness −16 LUFS · limiter −1</td></tr>
+<tr><td>"sound like a phone call"</td><td>Band-pass 300–3400 Hz · light distortion · mono</td></tr>
+<tr><td>"megaphone" / "walkie-talkie"</td><td>Band-pass 500–3000 Hz · hard-clip distortion · (walkie: squelch noise at ends)</td></tr>
+<tr><td>"robot"</td><td>Vocoder with a 110 Hz carrier · or tremolo 50 Hz plus flat pitch</td></tr>
+<tr><td>"in a big hall / church"</td><td>Reverb room 90 %, reverberance 70, pre-delay 40 ms, wet 30 %</td></tr>
+<tr><td>"in a small room / bathroom"</td><td>Reverb room 20 %, damping 20, wet 25 %</td></tr>
+<tr><td>"underwater"</td><td>Low-pass 500 Hz · slow vibrato · light chorus</td></tr>
+<tr><td>"chipmunk" / "monster"</td><td>Pitch +7 st, formant +3 · or pitch −6 st, formant −2, plus distortion</td></tr>
+<tr><td>"louder" / "more even"</td><td>Auto-level · compressor 3:1 · loudness −14 (YouTube/Spotify) · limiter</td></tr>
+<tr><td>"remove the echo"</td><td>AI de-reverb (strength from measured reverb time)</td></tr>
+<tr><td>"remove the AC / fan noise"</td><td>Voice isolation 70 %, keep background 10 % · or spectral noise reduction 12 dB</td></tr>
+<tr><td>"there's a hum"</td><td>Detect 50 vs 60 Hz, then notch the fundamental plus 2–3 harmonics</td></tr>
+<tr><td>"too many S sounds"</td><td>De-esser, frequency from measured sibilance peak, amount 50 %</td></tr>
+<tr><td>"tighten the pauses"</td><td>Silence trimming: max pause 0.6 s, keep natural breathing</td></tr>
+<tr><td>"bleep the swear words"</td><td>Find profanity in the transcript, then 1 kHz tone over each word (or mute)</td></tr>
+<tr><td>"talk a bit faster"</td><td>Tempo 1.1× with pitch preserved (transcript timestamps rescaled)</td></tr>
+<tr><td>"make it sound like my last episode"</td><td>EQ match plus loudness match against the referenced project</td></tr>
+</tbody></table></div>
+
+<h2 id="ears">The AI's "ears": what to measure before choosing</h2>
+<p>Without measurements the AI applies the same preset blindly. With them it can say: "your voice already has little low end, so I cut less."</p>
+<div class="tbl"><table>
+<thead><tr><th>Measurement</th><th>Tells the AI</th><th>Build with</th></tr></thead>
+<tbody>
+<tr><td>Integrated loudness, true peak, loudness range</td><td>Too quiet or loud, too dynamic</td><td><code>ebur128</code>, <code>loudnorm</code> (print mode)</td></tr>
+<tr><td>RMS, peak, crest factor, clipped samples</td><td>Compression need, clipping</td><td><code>astats</code></td></tr>
+<tr><td>Noise floor and signal-to-noise ratio</td><td>How much clean-up, gate threshold</td><td><code>astats</code> on silent gaps (from the transcript)</td></tr>
+<tr><td>Spectral balance (energy in sub / low / low-mid / mid / presence / air bands, centroid, tilt)</td><td>Boomy, muddy, thin, harsh, dull</td><td><code>showspectrumpic</code> data or numpy FFT</td></tr>
+<tr><td>Speaking pitch (median f0, range)</td><td>Safe pitch-shift amount, voice type</td><td>Pitch tracker (librosa pyin / crepe)</td></tr>
+<tr><td>Hum peaks at 50/60 Hz and harmonics</td><td>Hum notch settings</td><td>FFT peak detection</td></tr>
+<tr><td>Sibilance energy (5–9 kHz bursts)</td><td>De-esser frequency and amount</td><td>Band energy over time</td></tr>
+<tr><td>Reverb amount (decay time estimate)</td><td>De-reverb strength</td><td>Decay analysis / ML estimate</td></tr>
+<tr><td>Speech rate, pauses (from the transcript)</td><td>Silence trimming, tempo</td><td>Whisper word timestamps (have)</td></tr>
+</tbody></table></div>
+<p>A <strong>closed loop</strong> makes it reliable: after rendering, measure again and check the goal was met (e.g. "thinner" means low-band energy dropped 3–6 dB and loudness is unchanged). If not, adjust once before showing the result.</p>
+
+<h2 id="tech">Can we build it? Yes: here's what's available</h2>
+<div class="callout ok">
+  <strong>Already available in our ffmpeg (checked on this machine)</strong>
+  <p><code>equalizer bass treble highpass lowpass lowshelf highshelf bandreject bandpass tiltshelf superequalizer firequalizer anequalizer adynamicequalizer acompressor mcompand alimiter loudnorm speechnorm dynaudnorm ebur128 astats agate deesser afftdn anlmdn arnndn adeclick adeclip aecho afir chorus aphaser tremolo vibrato flanger asoftclip acrusher aexciter dialoguenhance virtualbass stereowiden extrastereo sidechaincompress silencedetect silenceremove afade acrossfade areverse atempo asetrate</code></p>
+</div>
+<div class="callout warn">
+  <strong>Gap: high-quality pitch and formant shifting</strong>
+  <p>Neither our bundled ffmpeg nor the Homebrew one includes <code>rubberband</code>. Without it, a pitch shift either changes speed too (<code>asetrate</code>, chipmunk) or sounds rough. Fix: add Spotify's <strong><code>pedalboard</code></strong> Python package (free, open source). It ships Rubber Band built in, plus good Reverb, Compressor, Chorus, Distortion, Delay and Limiter. One <code>pip install</code>, no system dependency, works on Railway.</p>
+</div>
+<div class="grid">
+  <div class="card"><h3>Instant preview in the browser</h3><p>The Web Audio API can run EQ, shelves, filters, gain, compression and convolution reverb live while you drag a slider. That covers the Tone, Dynamics and Space groups. Pitch, formant, noise and AI effects need a short server render (about 1–3 s for a 15 s preview), triggered when you let go of the slider.</p></div>
+  <div class="card"><h3>Cost and speed</h3><p>All DSP effects run on our server, free per use. Only AI effects cost money: ElevenLabs isolation (already used), voice changer, and the OpenAI call that turns a prompt into a recipe (a fraction of a cent).</p></div>
+  <div class="card"><h3>Safety rails</h3><p>Every parameter has a "safe range" the AI must stay inside. Output is always loudness-matched and limited, so a bad AI guess can't blast someone's ears or clip. Every apply is a new version, so it's always undoable.</p></div>
+</div>
+
+<h2 id="plan">Suggested plan and effort</h2>
+<div class="tbl"><table>
+<thead><tr><th>Step</th><th>What</th><th>Effort</th></tr></thead>
+<tbody>
+<tr><td>1. Registry + engine</td><td>Effect registry (22 effects), render chain (ffmpeg + pedalboard), effects stored per version, loudness-matched output</td><td>2–3 days</td></tr>
+<tr><td>2. Analysis</td><td>Loudness, spectrum bands, noise floor, pitch, hum, sibilance → a compact "audio profile" for the AI</td><td>1–2 days</td></tr>
+<tr><td>3. Panel UI</td><td>6 character sliders + Advanced list (generated from the registry), A/B, reset, save as preset, live Web Audio preview</td><td>2–3 days</td></tr>
+<tr><td>4. AI wiring</td><td>Chat tool-calling over the registry + 50 tuned recipes + closed-loop check; the chips ("Warmer voice", "Balance volume") become real</td><td>2 days</td></tr>
+<tr><td>5. Presets &amp; MCP</td><td>"My podcast sound" presets (Audacity macros), auto-apply on upload, MCP tools for every effect</td><td>1 day</td></tr>
+<tr><td>Later</td><td>Voice changer (ElevenLabs speech-to-speech), de-reverb, EQ match, stems, multi-track (Tracks menu)</td><td>Phase 2</td></tr>
+</tbody></table></div>
+<div class="callout bad">
+  <strong>Blockers before step 4 can be tested</strong>
+  <p>OpenAI has no credits, so the prompt → recipe step can't run. Steps 1–3 (engine, analysis, sliders) don't need it and can be built and tested now.</p>
+</div>
+
+<footer>
+  <h3 id="sources" style="margin:0 0 8px">Sources</h3>
+  <ul>
+    <li>Official Audacity manual: <a href="https://www.audacityteam.org/manual/menu-bar/effect">Effect menu</a>, <a href="https://www.audacityteam.org/manual/effects">Effects index</a> and every individual effect page under it (settings, ranges and defaults quoted above); <a href="https://www.audacityteam.org/manual/menu-bar/generate">Generate</a>, <a href="https://www.audacityteam.org/manual/menu-bar/analyze">Analyze</a>, <a href="https://www.audacityteam.org/manual/menu-bar/tools">Tools</a>, <a href="https://www.audacityteam.org/manual/menu-bar/tracks">Tracks</a>.</li>
+    <li>Audacity 3.x-only effects (Auto Duck, Change Speed/Tempo, Echo, Distortion, Phaser, Wahwah, Repeat, Classic Filters) from the 3.x menus in your screenshots and the legacy manual at <a href="https://manual.audacityteam.org/man/effect_menu.html">manual.audacityteam.org</a>.</li>
+    <li>Spotify Pedalboard: <a href="https://engineering.atspotify.com/introducing-pedalboard-spotifys-audio-effects-library-for-python/">announcement</a>, <a href="https://spotify.github.io/pedalboard/reference/pedalboard.html">API reference</a>, <a href="https://pypi.org/project/pedalboard/0.9.2">PyPI</a>.</li>
+    <li>Rubber Band: <a href="https://breakfastquay.com/rubberband/usage.txt">usage</a>, <a href="https://ffmpeg.org/doxygen/8.0/af__rubberband_8c_source.html">ffmpeg filter source</a>.</li>
+    <li>ffmpeg filter availability: checked locally against <code>imageio-ffmpeg</code> 7.1 (what the backend uses) and Homebrew ffmpeg.</li>
+    <li>Adobe Podcast and Descript audio tools: hands-on exploration via Aside (see <a href="video-editing-research.html">video-editing-research.html</a>).</li>
+  </ul>
+</footer>
+
+</div>
+</body>
+</html>
