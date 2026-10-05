@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { motion } from 'motion/react'
-import { FileAudioIcon, OctagonXIcon, PencilIcon, PlayIcon, RefreshCwIcon, RotateCcwIcon, TrashIcon } from 'lucide-react'
+import { FileAudioIcon, MessageSquareQuoteIcon, OctagonXIcon, PencilIcon, PlayIcon, RefreshCwIcon, RotateCcwIcon, TrashIcon } from 'lucide-react'
 import {
   ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuLabel, ContextMenuSeparator, ContextMenuShortcut, ContextMenuTrigger,
 } from '@/components/ui/context-menu'
@@ -88,6 +88,7 @@ export function TranscriptView({
   onInlineChange,
   onCommitEdit,
   onCancelEdit,
+  onAttachLine,
 }) {
   const [menuWord, setMenuWord] = useState(null) // { si, wi, start, text }
 
@@ -194,6 +195,7 @@ export function TranscriptView({
           <ContextMenuLabel className="truncate normal-case tracking-normal">“{menuWord.text}”</ContextMenuLabel>
           <ContextMenuItem onSelect={() => onSeek(menuWord.start, { play: true })}><PlayIcon />Play from here<ContextMenuShortcut>⇧ click</ContextMenuShortcut></ContextMenuItem>
           <ContextMenuItem onSelect={() => onBeginEdit(menuWord.si, menuWord.wi, menuWord.text)}><PencilIcon />Rewrite word<ContextMenuShortcut>2× click</ContextMenuShortcut></ContextMenuItem>
+          {onAttachLine && <ContextMenuItem onSelect={() => onAttachLine(menuWord.si)}><MessageSquareQuoteIcon />Ask AI about this line</ContextMenuItem>}
           <ContextMenuSeparator />
           <ContextMenuItem variant={menuDeleted ? 'default' : 'destructive'} onSelect={() => pending.toggleDelete(menuWord.si, menuWord.wi)}>
             {menuDeleted ? <><RotateCcwIcon />Restore word</> : <><TrashIcon />Cut word</>}

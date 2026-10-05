@@ -15,9 +15,10 @@ function compact(n) {
  * row grows the card to show the per-bucket breakdown and free space.
  *
  * context: { used, max, buckets: [{ label, value, color }] }
- * limits:  [{ label, percent, resets }]
+ * limits:  [{ label, percent, resets?, detail? }]
+ * limitsTitle: heading over the limits, "Plan usage" by default.
  */
-function AgentLimitsCard({ context, limits = [], plan, className }) {
+function AgentLimitsCard({ context, limits = [], plan, limitsTitle = "Plan usage", className }) {
   const [open, setOpen] = useState(false);
   const pct = context ? Math.round((context.used / context.max) * 100) : 0;
   const free = context ? Math.max(0, context.max - context.used) : 0;
@@ -36,7 +37,7 @@ function AgentLimitsCard({ context, limits = [], plan, className }) {
               <span className="flex items-center gap-1.5 font-mono text-[12px] tabular">
                 <span className="font-bold">{compact(context.used)}</span>
                 <span className="text-muted-foreground">/ {compact(context.max)}</span>
-                <span className={cn("font-bold", pct > 85 ? "text-warning-ink" : "text-foreground")}>({pct}%)</span>
+                <span className={cn("font-bold", pct > 85 ? "text-warning-ink" : "text-foreground")}>({pct < 1 && context.used > 0 ? "<1" : pct}%)</span>
                 <ChevronDownIcon className={cn("size-3.5 text-muted-foreground transition-transform", open && "rotate-180")} />
               </span>
             </span>
@@ -80,7 +81,7 @@ function AgentLimitsCard({ context, limits = [], plan, className }) {
       )}
       {limits.length > 0 && (
         <div className="px-4 py-3.5">
-          <p className="text-caps text-muted-foreground">Plan usage{plan ? ` · ${plan}` : ""}</p>
+          <p className="text-caps text-muted-foreground">{limitsTitle}{plan ? ` · ${plan}` : ""}</p>
           <ul className="mt-3 space-y-3">
             {limits.map((l) => (
               <li key={l.label}>
@@ -88,6 +89,7 @@ function AgentLimitsCard({ context, limits = [], plan, className }) {
                   <span className="font-bold">{l.label}</span>
                   <span className="text-muted-foreground">
                     {l.resets && <>Resets {l.resets} · </>}
+                    {l.detail && <>{l.detail} · </>}
                     <span className={cn("font-mono font-bold tabular", l.percent > 85 ? "text-warning-ink" : "text-foreground")}>{l.percent}%</span>
                   </span>
                 </div>

@@ -13,6 +13,7 @@ import {
 } from '../lib/api'
 import { transcribeOnce } from '../lib/transcribe'
 import { explainError } from '../lib/errors'
+import { buildContext, estimateContext, lineAttachment, quotedPhrases, searchTranscript, toPanelMessages } from '../lib/chat-context'
 import { useAudioPlayer, formatTime } from '../hooks/useAudioPlayer'
 import { usePendingEdits } from '../hooks/usePendingEdits'
 import { useTheme } from '@/components/theme-provider'
@@ -86,6 +87,7 @@ export default function Editor() {
   const [exportHistory, setExportHistory] = useState([])
   const [showDiagnosis, setShowDiagnosis] = useState(true)
   const [messages, setMessages] = useState([])
+  const [attachments, setAttachments] = useState([])
   const [threads, setThreads] = useState([])
   const [activeThreadId, setActiveThreadId] = useState(null)
   const [isEditingName, setIsEditingName] = useState(false)
@@ -164,18 +166,20 @@ export default function Editor() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [project?.id])
 
-  // Saved conversations — reopen the most recent one.
+  // Saved conversations — reopen the most recent one, unless the user has
+  // already started chatting while the list was loading.
+  const chatStartedRef = useRef(false)
   useEffect(() => {
     if (!project?.id) return undefined
     let cancelled = false
     listThreads({ id: project.id, getToken: token })
       .then(async (list) => {
         if (cancelled) return
-        setThreads(list || [])
-        if (list?.length) {
+        setThreads((prev) => [...prev.filter((t) => !list?.some((x) => x.id === t.id)), ...(list || [])])
+        if (list?.length && !chatStartedRef.current) {
           setActiveThreadId(list[0].id)
           const msgs = await listThreadMessages({ id: project.id, threadId: list[0].id, getToken: token })
-          if (!cancelled) setMessages((prev) => [...(msgs || []).map((m) => ({ role: m.role, text: m.content })), ...prev.filter((m) => m.role === 'task')])
+          if (!cancelled && !chatStartedRef.current) setMessages((prev) => [...toPanelMessages(msgs || []), ...prev.filter((m) => m.role === 'task')])
         }
       })
       .catch(() => {})
@@ -351,16 +355,18 @@ export default function Editor() {
   /* ─── Conversations ────────────────────────────────────────── */
 
   const openThread = async (threadId) => {
+    chatStartedRef.current = true
     setActiveThreadId(threadId)
     try {
       const msgs = await listThreadMessages({ id: project.id, threadId, getToken: token })
-      setMessages((prev) => [...(msgs || []).map((m) => ({ role: m.role, text: m.content })), ...prev.filter((m) => m.role === 'task')])
+      setMessages((prev) => [...toPanelMessages(msgs || []), ...prev.filter((m) => m.role === 'task')])
     } catch {
       setMessages([])
     }
   }
 
   const handleNewThread = async () => {
+    chatStartedRef.current = true
     try {
       const t = await createThread({ id: project.id, getToken: token })
       setThreads((prev) => [t, ...prev])
@@ -398,7 +404,33 @@ export default function Editor() {
     }
   }
 
+  /* ─── Transcript context for the assistant ─────────────────── */
+
+  const showAssistant = () => (isLarge ? setAssistantOpen(true) : setMobileAssistant(true))
+
+  const attachLine = (si) => {
+    const line = lineAttachment(transcript, si)
+    if (!line) return
+    setAttachments((prev) => (prev.some((a) => a.id === line.id) ? prev : [...prev, line].slice(-6)))
+    showAssistant()
+  }
+
+  const attachLineAtPlayhead = () => {
+    const segs = transcript?.segments || []
+    const t = player.currentTime || 0
+    let si = segs.findIndex((seg, i) => t < (segs[i + 1]?.start ?? Infinity) && t >= seg.start)
+    if (si < 0) si = 0
+    attachLine(si)
+  }
+
+  const contextUsage = useMemo(() => estimateContext({
+    transcriptChars: (transcript?.text || '').trim().length,
+    fillerCount: fillerRefs.length,
+    messages,
+  }), [transcript, fillerRefs.length, messages])
+
   const sendToAI = async (userText) => {
+    chatStartedRef.current = true
     let threadId = activeThreadId
     if (!threadId && project?.id) {
       try {
@@ -408,8 +440,16 @@ export default function Editor() {
         setThreads((prev) => [t, ...prev])
       } catch { /* chat still works unsaved */ }
     }
-    const history = [...messages.filter((m) => !m.error && m.role !== 'task'), { role: 'user', text: userText }]
-    setMessages([...messages, { role: 'user', text: userText }, { role: 'ai', text: '' }])
+    // Quoted phrases are looked up in the transcript first, so the reply can
+    // point at real timestamps; attached lines travel with the message.
+    const searches = quotedPhrases(userText).map((phrase) => ({ phrase, hits: searchTranscript(transcript, phrase) }))
+    const content = userText + buildContext({ lines: attachments, searches })
+    const sent = { role: 'user', text: userText, content, attachments }
+    setAttachments([])
+    const history = [...messages, sent]
+      .filter((m) => !m.error && (m.role === 'user' || m.role === 'ai'))
+      .map((m) => ({ role: m.role, text: m.content || m.text }))
+    setMessages([...messages, sent, ...(searches.length ? [{ role: 'search', searches }] : []), { role: 'ai', text: '' }])
     setIsStreaming(true)
     setThinkingSince(Date.now())
     try {
@@ -481,6 +521,12 @@ export default function Editor() {
       onClose={() => (isLarge ? setAssistantOpen(false) : setMobileAssistant(false))}
       transcriptReady={transcriptState === 'ready'}
       thinkingSince={thinkingSince}
+      attachments={attachments}
+      onRemoveAttachment={(id) => setAttachments((prev) => prev.filter((a) => a.id !== id))}
+      onAttachPlayhead={attachLineAtPlayhead}
+      onSeek={player.seek}
+      contextUsage={contextUsage}
+      transcriptChars={(transcript?.text || '').trim().length}
       statusItems={transcriptState === 'ready' ? [
         { icon: HistoryIcon, label: activeVersion?.label || 'Original' },
         { icon: AudioLinesIcon, label: `${wordCount} words · ${fmtClock(player.duration || transcript?.duration)}` },
@@ -568,7 +614,7 @@ export default function Editor() {
             <Button
               variant="ghost"
               size="icon-sm"
-              onClick={() => (isLarge ? setAssistantOpen(true) : setMobileAssistant(true))}
+              onClick={showAssistant}
               aria-label="Show assistant"
             >
               <PanelRightOpenIcon />
@@ -615,6 +661,7 @@ export default function Editor() {
                 onInlineChange={(text) => setInlineEdit((s) => ({ ...s, text }))}
                 onCommitEdit={commitInlineEdit}
                 onCancelEdit={() => setInlineEdit(null)}
+                onAttachLine={transcriptState === 'ready' ? attachLine : undefined}
               />
             </div>
           </div>

@@ -39,9 +39,11 @@ const reveal = {
  * The research log: each step is a query the agent ran or a page it opened.
  * A search that found something lists its sources as overlapping site marks.
  *
- * steps: [{ id, type: 'search' | 'open', text, results?, sources?: [{ name, domain, color }] }]
+ * steps: [{ id, type: 'search' | 'open', text, results?, icon?, sources?: [{ name, domain, color }],
+ *          links?: [{ label, title?, onClick }] }]
+ * label / runningLabel: header text, e.g. "Searched the transcript" for a local search.
  */
-function WebSearch({ steps = [], running = false, since, className }) {
+function WebSearch({ steps = [], running = false, since, label, runningLabel = "Searching the web", className }) {
   const [open, setOpen] = useState(true);
   const searches = steps.filter((s) => s.type === "search").length;
   const isOpen = open || running;
@@ -54,7 +56,7 @@ function WebSearch({ steps = [], running = false, since, className }) {
         className="mb-1.5 flex items-center gap-2 text-[12px] font-semibold text-muted-foreground outline-hidden hover:text-foreground focus-visible:underline"
       >
         <SearchIcon className="size-3.5" />
-        {running ? "Searching the web" : `Ran ${searches} search${searches === 1 ? "" : "es"}`}
+        {running ? runningLabel : label || `Ran ${searches} search${searches === 1 ? "" : "es"}`}
         <ChevronDownIcon className={cn("size-3.5 transition-transform", isOpen && "rotate-180")} />
       </button>
       <AnimatePresence initial={false}>
@@ -64,13 +66,32 @@ function WebSearch({ steps = [], running = false, since, className }) {
               {steps.map((s) => (
                 <motion.li key={s.id} {...reveal} className="overflow-hidden">
                   <div className="flex items-start gap-2">
-                    {s.type === "search" ? <SearchIcon className="mt-0.5 size-3.5 shrink-0 text-muted-foreground" /> : <GlobeIcon className="mt-0.5 size-3.5 shrink-0 text-muted-foreground" />}
+                    {(() => {
+                      const Icon = s.icon || (s.type === "search" ? SearchIcon : GlobeIcon);
+                      return <Icon className="mt-0.5 size-3.5 shrink-0 text-muted-foreground" />;
+                    })()}
                     <span className="min-w-0 flex-1">
-                      <span className="text-foreground">{s.type === "search" ? `Searching for “${s.text}”` : s.text}</span>
+                      <span className="text-foreground">{s.type === "search" ? `${running ? "Searching" : "Searched"} for “${s.text}”` : s.text}</span>
                       {s.domain && <span className="ml-1.5 font-mono text-[11px] text-muted-foreground">{s.domain}</span>}
                     </span>
-                    {s.results !== undefined && <span className="shrink-0 font-mono text-[11px] text-muted-foreground tabular">{s.results} results</span>}
+                    {s.results !== undefined && <span className="shrink-0 font-mono text-[11px] text-muted-foreground tabular">{s.results} {s.results === 1 ? "result" : "results"}</span>}
                   </div>
+                  {s.links?.length > 0 && (
+                    <div className="mt-1.5 ml-5.5 flex flex-wrap gap-1">
+                      {s.links.map((l, i) => (
+                        <button
+                          key={i}
+                          type="button"
+                          onClick={l.onClick}
+                          title={l.title}
+                          aria-label={l.title}
+                          className="border border-border bg-muted px-1.5 py-[1px] font-mono text-[11px] tabular transition-colors outline-hidden hover:border-foreground focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-ring"
+                        >
+                          {l.label}
+                        </button>
+                      ))}
+                    </div>
+                  )}
                   {s.sources?.length > 0 && (
                     <div className="mt-1.5 ml-5.5 flex items-center gap-2">
                       <SiteMarks sources={s.sources} />

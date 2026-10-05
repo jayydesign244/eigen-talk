@@ -64,8 +64,11 @@ Where the app uses them:
   - Composer Loader lights the rim while the AI replies.
   - Agent Thinking replaces the "thinking…" line.
   - Task List logs every applied edit or noise cleanup, with its steps, the new version and how long it took.
+  - Composer Attachments: right-click a word → **Ask AI about this line**, or **+ → Attach line at playhead**. Attached lines show as tiles in the composer and on the sent message, and their text goes to the AI with the question.
+  - Web Search, as a **transcript search**: put a phrase in quotes ("cut every “you know”") and Sonicly finds it in the transcript first. It logs each search with its match count and clickable timestamps, and gives the AI those timestamps.
+  - Agent Limits Card: the gauge on the composer's status tab opens it. It shows an estimate of the AI's context (instructions, transcript, conversation) and how much of the transcript is sent. The backend sends only the first 6,000 characters, and the card warns when a transcript is longer.
 
-Web Search, Agent Limits and Composer Attachments are in the design system only. The app has no web search, usage-limit data or chat attachments yet, so wiring them in would mean showing fake data.
+All three use real data. Attachments and searches are saved inside the message text and rebuilt when a conversation is reopened. The backend's thread-title helper ignores that block.
 
 ## ⚠️ Needs you
 

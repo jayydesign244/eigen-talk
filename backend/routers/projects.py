@@ -336,7 +336,10 @@ async def _get_owned_thread(
 
 def _derive_title(text: str) -> str:
     """First user message becomes the thread title, trimmed to a line."""
-    clean = " ".join((text or "").split())
+    # The editor appends attached transcript lines after this marker; they
+    # belong to the prompt, not the title.
+    text = (text or "").split("\n\n[Context from the transcript]\n")[0]
+    clean = " ".join(text.split())
     if not clean:
         return "New chat"
     return clean[:60] + ("…" if len(clean) > 60 else "")

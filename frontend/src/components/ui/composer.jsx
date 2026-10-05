@@ -42,24 +42,32 @@ function useDictation(onText) {
   return { supported, listening, start, stop };
 }
 
-/** Square ring that fills to `value` (0–100), with the number beside it. */
+/** The small circular gauge used by ContextMeter. */
+function MeterRing({ value = 0, className }) {
+  const v = Math.max(0, Math.min(100, value));
+  return (
+    <svg viewBox="0 0 16 16" className={cn("size-3.5 -rotate-90", className)} aria-hidden="true">
+      <circle cx="8" cy="8" r="6" fill="none" stroke="currentColor" strokeOpacity="0.25" strokeWidth="2.5" />
+      <circle
+        cx="8" cy="8" r="6" fill="none"
+        stroke={v > 85 ? "var(--warning)" : "var(--brand)"}
+        strokeWidth="2.5"
+        pathLength="100"
+        strokeDasharray={`${v} 100`}
+        style={{ transition: "stroke-dasharray 0.4s ease" }}
+      />
+    </svg>
+  );
+}
+
+/** Ring that fills to `value` (0–100), with the number beside it. */
 function ContextMeter({ value = 0, label = "Context", className }) {
   const v = Math.max(0, Math.min(100, value));
   return (
     <Tooltip>
       <TooltipTrigger asChild>
         <span className={cn("inline-flex items-center gap-1.5 font-mono text-[11px] text-muted-foreground tabular", className)}>
-          <svg viewBox="0 0 16 16" className="size-3.5 -rotate-90" aria-hidden="true">
-            <circle cx="8" cy="8" r="6" fill="none" stroke="currentColor" strokeOpacity="0.25" strokeWidth="2.5" />
-            <circle
-              cx="8" cy="8" r="6" fill="none"
-              stroke={v > 85 ? "var(--warning)" : "var(--brand)"}
-              strokeWidth="2.5"
-              pathLength="100"
-              strokeDasharray={`${v} 100`}
-              style={{ transition: "stroke-dasharray 0.4s ease" }}
-            />
-          </svg>
+          <MeterRing value={v} />
           {Math.round(v)}%
         </span>
       </TooltipTrigger>
@@ -181,4 +189,4 @@ function Composer({
   );
 }
 
-export { Composer, ComposerMicButton, ComposerSendButton, ComposerStatus, ContextMeter, useDictation };
+export { Composer, ComposerMicButton, ComposerSendButton, ComposerStatus, ContextMeter, MeterRing, useDictation };

@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion } from 'motion/react'
 import {
-  CheckIcon, ChevronDownIcon, MessageSquarePlusIcon, OctagonXIcon, PanelRightCloseIcon, PencilIcon,
+  CheckIcon, ChevronDownIcon, MessageSquarePlusIcon, MessageSquareQuoteIcon, OctagonXIcon, PanelRightCloseIcon, PencilIcon,
   ScissorsIcon, SparklesIcon, TrashIcon, Volume2Icon, Wand2Icon, XIcon,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
@@ -11,7 +11,12 @@ import { Bubble, BubbleContent } from '@/components/ui/bubble'
 import { AgentThinking } from '@/components/ui/agent-thinking'
 import { ComposerLoader } from '@/components/ui/composer-loader'
 import { ComposerPanel } from '@/components/ui/composer-panel'
-import { ComposerStatus } from '@/components/ui/composer'
+import { ComposerStatus, MeterRing } from '@/components/ui/composer'
+import { ComposerAttachments } from '@/components/ui/composer-attachments'
+import { AgentLimitsCard } from '@/components/ui/agent-limits-card'
+import { WebSearch } from '@/components/ui/web-search'
+import { TRANSCRIPT_BUDGET } from '@/lib/chat-context'
+import { fmtClock } from '@/components/editor/TranscriptView'
 import { TaskList } from '@/components/ui/task-list'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 import { cn } from '@/lib/utils'
@@ -79,7 +84,48 @@ function ThreadSwitcher({ threads, activeThreadId, onOpen, onNew, onRename, onDe
   )
 }
 
-function AssistantComposer({ disabled, streaming, onSend, prefill, statusItems, actions }) {
+/** Status-tab gauge that opens the AI's context budget. */
+function ContextBudget({ usage, transcriptChars }) {
+  const pct = Math.round((usage.used / usage.max) * 100)
+  const seen = Math.min(transcriptChars, TRANSCRIPT_BUDGET)
+  const cut = transcriptChars > TRANSCRIPT_BUDGET
+  return (
+    <Popover>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <PopoverTrigger asChild>
+            <button
+              type="button"
+              aria-label={`AI context, ${pct}% used`}
+              className="inline-flex items-center gap-1.5 font-mono text-[11px] text-muted-foreground tabular outline-hidden hover:text-foreground focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-ring"
+            >
+              <MeterRing value={Math.max(pct, 2)} />
+              {pct < 1 ? '<1' : pct}%
+            </button>
+          </PopoverTrigger>
+        </TooltipTrigger>
+        <TooltipContent>What the AI can read</TooltipContent>
+      </Tooltip>
+      <PopoverContent align="end" side="top" className="w-80 p-0">
+        <AgentLimitsCard
+          className="max-w-none border-0"
+          context={usage}
+          limitsTitle="Transcript sent to the AI"
+          limits={[{
+            label: cut ? 'Only the start is sent' : 'Whole transcript',
+            percent: Math.min(100, Math.round((transcriptChars / TRANSCRIPT_BUDGET) * 100)),
+            detail: `${seen.toLocaleString()} / ${TRANSCRIPT_BUDGET.toLocaleString()} characters`,
+          }]}
+        />
+        <p className="border-t border-border px-4 py-2.5 text-[11px] text-muted-foreground">
+          Estimated at about 4 characters per token.{cut && ` The AI can’t see the last ${(transcriptChars - TRANSCRIPT_BUDGET).toLocaleString()} characters — attach a line to ask about it.`}
+        </p>
+      </PopoverContent>
+    </Popover>
+  )
+}
+
+function AssistantComposer({ disabled, streaming, onSend, prefill, statusItems, actions, attachments, onRemoveAttachment, contextUsage, transcriptChars }) {
   const [text, setText] = useState('')
   useEffect(() => {
     if (prefill?.text) setText(prefill.text)
@@ -92,8 +138,16 @@ function AssistantComposer({ disabled, streaming, onSend, prefill, statusItems, 
         onSubmit={(t) => { setText(''); onSend(t) }}
         working={streaming}
         disabled={disabled}
-        placeholder={disabled ? 'Upload audio to start editing with AI' : 'Describe a change, e.g. “cut the long pauses”'}
-        statusTab={statusItems?.length ? <ComposerStatus className="w-full px-0" items={statusItems} /> : undefined}
+        placeholder={disabled ? 'Upload audio to start editing with AI' : attachments?.length ? 'Ask about the attached lines' : 'Describe a change, e.g. cut every “you know”'}
+        statusTab={statusItems?.length ? (
+          <ComposerStatus
+            className="w-full px-0"
+            items={statusItems}
+            right={contextUsage && <ContextBudget usage={contextUsage} transcriptChars={transcriptChars} />}
+          />
+        ) : undefined}
+        attachments={attachments}
+        onRemoveAttachment={onRemoveAttachment}
         addItems={actions}
         hint="Enter to send"
       />
@@ -110,6 +164,7 @@ export function AssistantPanel({
   messages, isStreaming, onSend,
   fillerCount, showDiagnosis, onReviewFillers, onDismissDiagnosis,
   onDenoise, denoising, onClose, transcriptReady, statusItems, thinkingSince,
+  attachments, onRemoveAttachment, onAttachPlayhead, onSeek, contextUsage, transcriptChars,
 }) {
   const endRef = useRef(null)
   const [prefill, setPrefill] = useState(null)
@@ -176,8 +231,27 @@ export function AssistantPanel({
           if (m.role === 'user') {
             return (
               <Message key={i} align="end">
-                <MessageContent><Bubble><BubbleContent className="whitespace-pre-wrap">{m.text}</BubbleContent></Bubble></MessageContent>
+                <MessageContent className="items-end">
+                  {m.attachments?.length > 0 && <ComposerAttachments items={m.attachments} className="justify-end px-0 pt-0" />}
+                  <Bubble><BubbleContent className="whitespace-pre-wrap">{m.text}</BubbleContent></Bubble>
+                </MessageContent>
               </Message>
+            )
+          }
+          if (m.role === 'search') {
+            const total = m.searches.reduce((n, s) => n + s.hits.length, 0)
+            return (
+              <WebSearch
+                key={i}
+                label={`Searched the transcript · ${total} match${total === 1 ? '' : 'es'}`}
+                steps={m.searches.map((s, k) => ({
+                  id: String(k),
+                  type: 'search',
+                  text: s.phrase,
+                  results: s.hits.length,
+                  links: s.hits.slice(0, 8).map((t) => ({ label: fmtClock(t), title: `Play from ${fmtClock(t)}`, onClick: () => onSeek?.(t, { play: true }) })),
+                }))}
+              />
             )
           }
           if (m.error) {
@@ -241,7 +315,15 @@ export function AssistantPanel({
           onSend={onSend}
           prefill={prefill}
           statusItems={statusItems}
-          actions={chips.map(({ icon, label, run, disabled }) => ({ icon, label, onSelect: run, disabled: disabled || !transcriptReady }))}
+          actions={[
+            { icon: MessageSquareQuoteIcon, label: 'Attach line at playhead', onSelect: onAttachPlayhead, disabled: !transcriptReady },
+            { label: '-' },
+            ...chips.map(({ icon, label, run, disabled }) => ({ icon, label, onSelect: run, disabled: disabled || !transcriptReady })),
+          ]}
+          attachments={attachments}
+          onRemoveAttachment={onRemoveAttachment}
+          contextUsage={contextUsage}
+          transcriptChars={transcriptChars}
         />
       </div>
     </div>
