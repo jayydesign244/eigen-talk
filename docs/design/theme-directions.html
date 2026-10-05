@@ -1,0 +1,387 @@
+<title>Sonicly Theme Directions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&family=Hanken+Grotesk:wght@400;500;600&family=Archivo:wdth,wght@62..125,400..800&family=JetBrains+Mono:wght@400;500&family=Manrope:wght@400;500;600;700&family=Young+Serif&family=Figtree:wght@400;500;600&family=Unbounded:wght@500;700&family=Sora:wght@400;500;600&family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Bodoni+Moda:ital,opsz,wght@0,6..96,500;1,6..96,500&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a quiet neutral catalogue; each theme lives inside its own fully-specified mockup so the page chrome never competes. */
+:root {
+  --bg: #F5F5F2; --card: #FFFFFF; --fg: #18181B; --muted: #62626A; --line: #E2E2DD; --chip: #ECECE7;
+  --ui: "Schibsted Grotesk", "Helvetica Neue", Arial, sans-serif;
+  --mono-ui: "Geist Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #111113; --card: #18181B; --fg: #EDEDEE; --muted: #9B9BA3; --line: #2A2A2F; --chip: #222226; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #111113; --card: #18181B; --fg: #EDEDEE; --muted: #9B9BA3; --line: #2A2A2F; --chip: #222226; color-scheme: dark }
+
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--fg); font-family: var(--ui); font-size: 15px; line-height: 1.55; }
+.wrap { max-width: 1120px; margin: 0 auto; padding-inline: 20px; padding-block: 48px 80px; }
+h1, h2, h3 { text-wrap: balance; margin: 0; }
+a { color: inherit; }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--fg); outline-offset: 2px; }
+
+.eyebrow { font-family: var(--mono-ui); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+header.intro { display: grid; gap: 16px; max-width: 760px; }
+header.intro h1 { font-size: clamp(30px, 5vw, 46px); line-height: 1.08; font-weight: 700; letter-spacing: -.02em; }
+header.intro p { margin: 0; color: var(--muted); max-width: 62ch; }
+
+.meta-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; margin-top: 32px; }
+.meta { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 18px; display: grid; gap: 6px; align-content: start; min-width: 0; }
+.meta h3 { font-size: 14px; font-weight: 600; }
+.meta p, .meta li { margin: 0; color: var(--muted); font-size: 14px; }
+.meta ul { margin: 0; padding-left: 18px; display: grid; gap: 4px; }
+
+.pick { margin-top: 12px; background: var(--fg); color: var(--bg); border-radius: 12px; padding: 22px; display: grid; gap: 8px; }
+.pick .eyebrow { color: inherit; opacity: .7; }
+.pick h2 { font-size: 22px; font-weight: 700; letter-spacing: -.01em; }
+.pick p { margin: 0; max-width: 75ch; opacity: .85; }
+.pick a { font-weight: 600; }
+
+nav.jump { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 40px; }
+nav.jump a { text-decoration: none; font-size: 13px; padding: 6px 12px; border-radius: 999px; background: var(--chip); display: inline-flex; gap: 8px; align-items: center; }
+nav.jump i { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+
+section.theme { margin-top: 72px; display: grid; gap: 22px; scroll-margin-top: 24px; }
+.theme-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; align-items: end; border-bottom: 1px solid var(--line); padding-bottom: 14px; }
+.theme-head h2 { font-size: clamp(24px, 3.6vw, 32px); font-weight: 700; letter-spacing: -.02em; }
+.theme-head .tag { color: var(--muted); font-size: 15px; max-width: 52ch; }
+.tone { display: flex; gap: 6px; flex-wrap: wrap; }
+.tone span { font-size: 12px; padding: 3px 9px; border: 1px solid var(--line); border-radius: 999px; color: var(--muted); }
+
+.theme-body { display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr); gap: 28px; align-items: start; }
+@media (max-width: 880px) { .theme-body { grid-template-columns: minmax(0, 1fr); } }
+.spec { display: grid; gap: 20px; min-width: 0; }
+.spec h4 { margin: 0 0 8px; font-size: 12px; font-family: var(--mono-ui); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); font-weight: 500; }
+.swatches { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.sw { border: 1px solid var(--line); border-radius: 8px; overflow: hidden; background: var(--card); }
+.sw b { display: block; height: 38px; }
+.sw span { display: block; padding: 6px 8px; font-size: 11.5px; line-height: 1.3; }
+.sw em { font-style: normal; font-family: var(--mono-ui); color: var(--muted); font-size: 11px; }
+.type-row { display: grid; gap: 6px; }
+.type-row div { display: flex; justify-content: space-between; gap: 12px; align-items: baseline; border-bottom: 1px dashed var(--line); padding-bottom: 6px; }
+.type-row .s { font-size: 20px; line-height: 1.2; }
+.type-row small { color: var(--muted); font-size: 12px; white-space: nowrap; }
+.spec p { margin: 0; font-size: 14px; color: var(--muted); }
+.spec p strong { color: var(--fg); font-weight: 600; }
+.refs { display: flex; flex-wrap: wrap; gap: 6px; }
+.refs a { font-size: 12.5px; text-decoration: none; padding: 4px 10px; border-radius: 6px; background: var(--chip); }
+.refs a:hover { text-decoration: underline; }
+
+/* ---------- Shared mockup skeleton; every color comes from the theme class ---------- */
+.mock {
+  --m-radius: 8px; --m-pad: 14px;
+  background: var(--m-bg); color: var(--m-fg); font-family: var(--m-body);
+  border-radius: calc(var(--m-radius) + 6px); overflow: hidden; border: 1px solid var(--m-line);
+  font-size: 12.5px; line-height: 1.5; min-width: 0;
+}
+.m-top { display: flex; align-items: center; gap: 12px; padding: 10px var(--m-pad); border-bottom: 1px solid var(--m-line); background: var(--m-surface); }
+.m-logo { font-family: var(--m-display); font-weight: 700; font-size: 15px; display: flex; align-items: center; gap: 7px; }
+.m-logo i { width: 16px; height: 16px; border-radius: 4px; background: var(--m-accent); display: inline-block; }
+.m-crumb { color: var(--m-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; flex: 1; }
+.m-btn { background: var(--m-accent); color: var(--m-on-accent); border: 0; font: inherit; font-weight: 600; padding: 6px 12px; border-radius: var(--m-radius); white-space: nowrap; }
+.m-body { display: grid; grid-template-columns: 132px minmax(0, 1fr); }
+.m-side { border-right: 1px solid var(--m-line); padding: 12px 8px; display: grid; gap: 2px; align-content: start; background: var(--m-side, transparent); }
+.m-side a { text-decoration: none; padding: 6px 9px; border-radius: calc(var(--m-radius) - 2px); color: var(--m-muted); display: flex; justify-content: space-between; }
+.m-side a.on { background: var(--m-hover); color: var(--m-fg); font-weight: 600; }
+.m-side a b { font-weight: 600; font-size: 10.5px; background: var(--m-accent); color: var(--m-on-accent); border-radius: 999px; padding: 0 6px; }
+.m-main { padding: var(--m-pad); display: grid; gap: 12px; min-width: 0; }
+.m-title { font-family: var(--m-display); font-size: 19px; line-height: 1.2; font-weight: 600; letter-spacing: -.01em; }
+.m-transcript { display: grid; gap: 6px; }
+.m-transcript p { margin: 0; }
+.m-spk { font-size: 10.5px; letter-spacing: .06em; text-transform: uppercase; color: var(--m-muted); font-family: var(--m-mono); }
+.m-transcript s { color: var(--m-muted); text-decoration-color: var(--m-strike, var(--m-accent)); text-decoration-thickness: 2px; }
+.m-transcript mark { background: var(--m-mark); color: inherit; padding: 0 2px; border-radius: 3px; }
+.m-wave { display: flex; align-items: center; gap: 2px; height: 40px; position: relative; padding: 0 2px; }
+.m-wave span { flex: 1; border-radius: 2px; background: var(--m-wave); min-width: 1px; }
+.m-wave span.p { background: var(--m-accent); }
+.m-wave .head { position: absolute; top: -2px; bottom: -2px; width: 2px; background: var(--m-fg); left: 38%; }
+.m-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); gap: 10px; }
+.m-card { background: var(--m-surface); border: 1px solid var(--m-line); border-radius: var(--m-radius); padding: 10px 12px; display: grid; gap: 6px; min-width: 0; }
+.m-label { font-size: 10.5px; color: var(--m-muted); font-family: var(--m-mono); letter-spacing: .04em; text-transform: uppercase; }
+.m-num { font-family: var(--m-display); font-size: 20px; font-weight: 600; font-variant-numeric: tabular-nums; line-height: 1.1; }
+.m-num small { font-size: 11px; color: var(--m-bad); font-family: var(--m-body); font-weight: 600; }
+.m-spark { width: 100%; height: 34px; display: block; }
+.m-plat { display: grid; gap: 5px; }
+.m-plat div { display: flex; justify-content: space-between; gap: 8px; align-items: center; }
+.m-plat .n { display: flex; gap: 7px; align-items: center; min-width: 0; }
+.m-plat .n i { width: 7px; height: 7px; border-radius: 50%; display: inline-block; flex: none; }
+.m-pill { font-size: 10.5px; padding: 1px 8px; border-radius: 999px; font-weight: 600; white-space: nowrap; }
+.m-pill.ok { background: var(--m-ok-bg); color: var(--m-ok); }
+.m-pill.wait { background: var(--m-wait-bg); color: var(--m-wait); }
+.m-pill.sch { background: var(--m-hover); color: var(--m-muted); }
+@media (max-width: 560px) {
+  .m-body { grid-template-columns: minmax(0, 1fr); }
+  .m-side { display: none; }
+  .m-row { grid-template-columns: minmax(0, 1fr); }
+  .swatches { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* ---------- 1 Studio Graphite ---------- */
+.t-graphite { --m-bg:#1B1A18; --m-surface:#232220; --m-line:#34312C; --m-fg:#EDE8E0; --m-muted:#9C958A; --m-accent:#F2A541; --m-on-accent:#1B1A18; --m-hover:#2E2C28; --m-mark:rgba(242,165,65,.18); --m-wave:#4A463F; --m-ok:#8FCB94; --m-ok-bg:rgba(143,203,148,.14); --m-wait:#F2A541; --m-wait-bg:rgba(242,165,65,.14); --m-bad:#E9806B;
+  --m-display:"IBM Plex Sans",system-ui,sans-serif; --m-body:"IBM Plex Sans",system-ui,sans-serif; --m-mono:"IBM Plex Mono",ui-monospace,monospace; --m-radius:6px; }
+.t-graphite .m-num { font-family: var(--m-mono); font-weight: 500; }
+
+/* ---------- 2 Paper & Ink ---------- */
+.t-paper { --m-bg:#FBFBF9; --m-surface:#FFFFFF; --m-line:#E4E3DE; --m-fg:#16181D; --m-muted:#6B6E76; --m-accent:#2643C9; --m-on-accent:#FFFFFF; --m-hover:#F0F0EC; --m-mark:#E3E8FB; --m-wave:#D6D5CF; --m-ok:#1F7A4D; --m-ok-bg:#E3F2EA; --m-wait:#8A5A00; --m-wait-bg:#FBF0D9; --m-bad:#B4321F;
+  --m-display:"Newsreader",Georgia,serif; --m-body:"Hanken Grotesk",system-ui,sans-serif; --m-mono:"Hanken Grotesk",system-ui,sans-serif; --m-radius:3px; }
+.t-paper .m-title { font-size: 23px; font-weight: 400; }
+.t-paper .m-transcript p:not(.m-spk) { font-family: var(--m-display); font-size: 15px; line-height: 1.55; }
+.t-paper .m-num { font-weight: 400; font-size: 24px; }
+
+/* ---------- 3 Swiss Signal ---------- */
+.t-swiss { --m-bg:#FFFFFF; --m-surface:#FFFFFF; --m-line:#0A0A0A; --m-fg:#0A0A0A; --m-muted:#6E6E6E; --m-accent:#FF4A1C; --m-on-accent:#FFFFFF; --m-hover:#F2F2F0; --m-mark:#FFE1D8; --m-wave:#0A0A0A; --m-ok:#0A0A0A; --m-ok-bg:#E9E9E6; --m-wait:#FF4A1C; --m-wait-bg:#FFE9E2; --m-bad:#FF4A1C;
+  --m-display:"Archivo",Arial,sans-serif; --m-body:"Archivo",Arial,sans-serif; --m-mono:"JetBrains Mono",ui-monospace,monospace; --m-radius:0px; }
+.t-swiss .m-title { font-stretch: 75%; font-weight: 800; text-transform: uppercase; font-size: 22px; letter-spacing: 0; }
+.t-swiss .m-logo { font-stretch: 75%; font-weight: 800; text-transform: uppercase; letter-spacing: .02em; }
+.t-swiss .m-logo i { border-radius: 0; }
+.t-swiss .m-num { font-stretch: 75%; font-weight: 800; font-size: 26px; }
+.t-swiss .m-wave span { border-radius: 0; }
+.t-swiss .m-wave span:not(.p) { opacity: .85; }
+.t-swiss .m-side a.on { background: var(--m-fg); color: #FFFFFF; }
+.t-swiss .m-pill { border-radius: 0; }
+
+/* ---------- 4 Pearl Glass ---------- */
+.t-glass { --m-bg:#EEF0FA; --m-surface:rgba(255,255,255,.62); --m-line:rgba(70,70,140,.13); --m-fg:#1C1B33; --m-muted:#6E6C8C; --m-accent:#5B5BF0; --m-on-accent:#FFFFFF; --m-hover:rgba(91,91,240,.09); --m-mark:rgba(91,91,240,.14); --m-wave:rgba(28,27,51,.16); --m-ok:#1E8A5A; --m-ok-bg:rgba(30,138,90,.12); --m-wait:#9A5B00; --m-wait-bg:rgba(230,150,30,.15); --m-bad:#D0436A;
+  --m-display:"Manrope",system-ui,sans-serif; --m-body:"Manrope",system-ui,sans-serif; --m-mono:"Manrope",system-ui,sans-serif; --m-radius:14px; --m-side: rgba(255,255,255,.35);
+  background: radial-gradient(120% 90% at 0% 0%, #F7F3FD 0%, transparent 55%), radial-gradient(90% 80% at 100% 100%, #E3E9FB 0%, transparent 60%), #EEF0FA; }
+.t-glass .m-card, .t-glass .m-top { backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); box-shadow: 0 1px 0 rgba(255,255,255,.8) inset, 0 8px 24px rgba(60,60,140,.07); }
+.t-glass .m-title { font-weight: 700; }
+.t-glass .m-btn { border-radius: 999px; box-shadow: 0 4px 14px rgba(91,91,240,.35); }
+.t-glass .m-label { text-transform: none; letter-spacing: 0; font-weight: 600; }
+
+/* ---------- 5 Forest Studio ---------- */
+.t-forest { --m-bg:#0F1F1A; --m-surface:#162A23; --m-line:#244037; --m-fg:#EAF0E6; --m-muted:#92A79B; --m-accent:#B5DCC0; --m-on-accent:#0F1F1A; --m-hover:#1D352C; --m-mark:rgba(181,220,192,.16); --m-wave:#2F5045; --m-ok:#B5DCC0; --m-ok-bg:rgba(181,220,192,.13); --m-wait:#E8C987; --m-wait-bg:rgba(232,201,135,.13); --m-bad:#EE9A86;
+  --m-display:"Young Serif",Georgia,serif; --m-body:"Figtree",system-ui,sans-serif; --m-mono:"Figtree",system-ui,sans-serif; --m-radius:12px; }
+.t-forest .m-title { font-weight: 400; font-size: 20px; }
+.t-forest .m-num { font-weight: 400; }
+.t-forest .m-label { text-transform: none; letter-spacing: 0; }
+
+/* ---------- 6 On Air ---------- */
+.t-air { --m-bg:#0A0D1A; --m-surface:#121729; --m-line:#222A45; --m-fg:#F2F4FF; --m-muted:#8A90B0; --m-accent:#D4FF3A; --m-on-accent:#0A0D1A; --m-hover:#1A2038; --m-mark:rgba(212,255,58,.16); --m-wave:#2A3354; --m-ok:#D4FF3A; --m-ok-bg:rgba(212,255,58,.12); --m-wait:#FF5C7A; --m-wait-bg:rgba(255,92,122,.14); --m-bad:#FF5C7A;
+  --m-display:"Unbounded",system-ui,sans-serif; --m-body:"Sora",system-ui,sans-serif; --m-mono:"Sora",system-ui,sans-serif; --m-radius:12px; }
+.t-air .m-title { font-size: 16px; font-weight: 500; letter-spacing: 0; }
+.t-air .m-num { font-weight: 500; font-size: 18px; }
+.t-air .m-btn, .t-air .m-side a, .t-air .m-pill { border-radius: 999px; }
+.t-air .m-logo { font-weight: 500; font-size: 13px; }
+.t-air .m-logo i { border-radius: 50%; box-shadow: 0 0 10px #D4FF3A; }
+
+/* ---------- 7 Apricot Pop ---------- */
+.t-apricot { --m-bg:#FFF8F2; --m-surface:#FFFFFF; --m-line:#F0E0D3; --m-fg:#2A1630; --m-muted:#8A7480; --m-accent:#FF8A4C; --m-on-accent:#2A1630; --m-hover:#FCEBDD; --m-mark:#FFE0CC; --m-wave:#EBD7CA; --m-ok:#6B2D6B; --m-ok-bg:#F2E1F2; --m-wait:#B4520F; --m-wait-bg:#FFE6D4; --m-bad:#C2365B;
+  --m-display:"Bricolage Grotesque",system-ui,sans-serif; --m-body:"Bricolage Grotesque",system-ui,sans-serif; --m-mono:"Bricolage Grotesque",system-ui,sans-serif; --m-radius:16px; }
+.t-apricot .m-title { font-weight: 800; font-size: 21px; letter-spacing: -.02em; }
+.t-apricot .m-num { font-weight: 800; }
+.t-apricot .m-card { border-width: 1.5px; box-shadow: 0 3px 0 #F0E0D3; }
+.t-apricot .m-btn { box-shadow: 0 3px 0 #2A1630; }
+.t-apricot .m-label { text-transform: none; letter-spacing: 0; font-weight: 600; }
+.t-apricot .m-logo i { border-radius: 50%; background: #6B2D6B; }
+
+/* ---------- 8 Velvet Noir ---------- */
+.t-velvet { --m-bg:#1A1016; --m-surface:#22151D; --m-line:#3A2632; --m-fg:#F6ECEE; --m-muted:#AE949E; --m-accent:#E7B4A5; --m-on-accent:#1A1016; --m-hover:#2C1B25; --m-mark:rgba(231,180,165,.16); --m-wave:#46303C; --m-ok:#C9D8B6; --m-ok-bg:rgba(201,216,182,.12); --m-wait:#E7B4A5; --m-wait-bg:rgba(231,180,165,.13); --m-bad:#F08C9C;
+  --m-display:"Bodoni Moda",Didot,Georgia,serif; --m-body:"Geist",system-ui,sans-serif; --m-mono:"Geist Mono",ui-monospace,monospace; --m-radius:4px; }
+.t-velvet .m-title { font-weight: 500; font-style: italic; font-size: 22px; }
+.t-velvet .m-num { font-weight: 500; font-size: 23px; }
+.t-velvet .m-btn { background: transparent; color: var(--m-accent); border: 1px solid var(--m-accent); }
+.t-velvet .m-logo { font-style: italic; font-weight: 500; font-size: 17px; }
+.t-velvet .m-logo i { display: none; }
+
+/* Shared rules + footer */
+.rules { margin-top: 88px; display: grid; gap: 16px; }
+.rules h2 { font-size: 26px; letter-spacing: -.02em; }
+.rules ol { margin: 0; padding-left: 20px; display: grid; gap: 8px; max-width: 78ch; }
+.rules li { color: var(--muted); }
+.rules li strong { color: var(--fg); }
+footer { margin-top: 56px; color: var(--muted); font-size: 13px; border-top: 1px solid var(--line); padding-top: 16px; }
+@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+</style>
+
+<div class="wrap">
+  <header class="intro">
+    <span class="eyebrow">Sonicly · design research · Oct 2026</span>
+    <h1>Eight theme directions for the whole product</h1>
+    <p>Each direction is clean, simple and premium in its own way, and they share nothing: different color temperature, typography, shape and mood. Every mockup shows the same real screen (the transcript editor with retention and publishing status), so you can compare them fairly.</p>
+  </header>
+
+  <div class="meta-grid">
+    <div class="meta">
+      <h3>Brand personality we designed for</h3>
+      <ul>
+        <li>Calm and in control: one place for the whole creator workflow</li>
+        <li>Honest: shows what each platform really allows</li>
+        <li>Crafted: audio quality is the origin story</li>
+        <li>Smart without being loud: AI that tells you what to change</li>
+      </ul>
+    </div>
+    <div class="meta">
+      <h3>Where the references came from</h3>
+      <p>Mobbin app screens (editors, analytics, inboxes, calendars) and saaslandingpage.com (840 landing pages, AI and dark tags). saaspo.com blocks automated browsers with a bot check, so nothing from it is used here.</p>
+    </div>
+    <div class="meta">
+      <h3>What you have today</h3>
+      <p>DM Sans with Instrument Serif and an indigo accent. Themes 2 and 4 are the shortest step from there; the rest are a clean break.</p>
+    </div>
+  </div>
+
+  <div class="pick">
+    <span class="eyebrow">My recommendation</span>
+    <h2>Paper &amp; Ink, with Studio Graphite as its dark mode</h2>
+    <p>The core of Sonicly is reading and editing words, and Paper &amp; Ink makes the transcript feel like a well-set document. It looks premium through typography rather than effects, so it stays calm across busy screens like the calendar, inbox and analytics. It's also the nearest relative of your current serif-plus-sans setup. For dark mode, use Studio Graphite's warm greys rather than inverting the paper. Runner-up: <a href="#glass">Pearl Glass</a>, if you want to keep the indigo brand color.</p>
+  </div>
+
+  <nav class="jump" aria-label="Jump to a theme" id="jump"></nav>
+
+  <div id="themes"></div>
+
+  <section class="rules">
+    <span class="eyebrow">Applies to whichever theme you pick</span>
+    <h2>Rules that keep it clean and premium</h2>
+    <ol>
+      <li><strong>One accent, used rarely.</strong> It marks the primary action, the playhead and the current selection. Everything else is neutral.</li>
+      <li><strong>Status colors are separate from the accent.</strong> Published, processing, failed and scheduled each get a fixed color and a pill shape, so state reads at a glance.</li>
+      <li><strong>Platform brand colors only as small dots.</strong> YouTube red or TikTok black never fill a card or button, or the product turns into a logo wall.</li>
+      <li><strong>Two typefaces at most</strong>, plus a mono for timecodes if the theme has one. Timecodes and numbers use tabular figures.</li>
+      <li><strong>Spacing on a 4px grid</strong> with three card styles at most. Borders separate; shadows are reserved for things that float (menus, modals).</li>
+      <li><strong>Motion is short and functional:</strong> 150–200ms fades and slides, with the playhead and waveform as the only continuous motion.</li>
+    </ol>
+  </section>
+
+  <footer>Mockup content is example data. Next step: pick one or two directions and I'll turn them into Tailwind tokens and restyle the editor and dashboard as a live preview.</footer>
+</div>
+
+<script>
+const M = (id) => `https://mobbin.com/screens/${id}`;
+const S = (slug) => `https://saaslandingpage.com/${slug}/`;
+const THEMES = [
+  { id: "graphite", cls: "t-graphite", name: "Studio Graphite", dot: "#F2A541",
+    tag: "Feels like a piece of pro audio gear: warm graphite, VU-meter amber, precise mono timecodes.",
+    tone: ["Dark", "Warm", "Pro tool", "Dense"],
+    sw: [["Graphite", "#1B1A18"], ["Panel", "#232220"], ["Hairline", "#34312C"], ["Paper text", "#EDE8E0"], ["VU amber", "#F2A541"], ["Meter green", "#8FCB94"]],
+    type: [["IBM Plex Sans", "Display + body", "IBM Plex Sans,sans-serif"], ["IBM Plex Mono", "Timecodes, numbers", "IBM Plex Mono,monospace"]],
+    shape: "6px corners, 1px warm hairlines, no shadows. Amber appears only on the playhead, primary button and live meters.",
+    fit: "It says audio quality before anything else, which is your origin story. Long editing sessions are easy on the eyes.",
+    watch: "Dark-only is tiring for the inbox and analytics, where people read a lot. Needs a light companion.",
+    refs: [["Descript editor · Mobbin", M("ada909fc-ae7c-4512-adbb-4fabbf5dadd1")], ["Higgsfield video upload · Mobbin", M("53a62107-8de0-42da-8248-3ed00b820235")]] },
+  { id: "paper", cls: "t-paper", name: "Paper & Ink", dot: "#2643C9",
+    tag: "Your transcript as a beautifully set page: bright paper, ink-black serif text, one cobalt accent.",
+    tone: ["Light", "Cool", "Editorial", "Airy"],
+    sw: [["Paper", "#FBFBF9"], ["Sheet", "#FFFFFF"], ["Rule", "#E4E3DE"], ["Ink", "#16181D"], ["Cobalt", "#2643C9"], ["Highlight", "#E3E8FB"]],
+    type: [["Newsreader", "Titles, transcript", "Newsreader,serif"], ["Hanken Grotesk", "Interface, labels", "Hanken Grotesk,sans-serif"]],
+    shape: "3px corners, thin rules instead of boxes, generous white space. Cobalt only on links, selections and the main button.",
+    fit: "Editing by transcript is editing words, so the editor should read like a document. Premium through typography, not effects. Closest to your current fonts.",
+    watch: "Serif body text must stay to the transcript and long reads. Dashboards and tables stay in the sans.",
+    refs: [["Oscar · saaslandingpage", S("oscar")], ["Slite · saaslandingpage", S("slite")], ["Basecamp message board · Mobbin", M("9c5e357f-7293-480b-b2cf-7c8791781378")]] },
+  { id: "swiss", cls: "t-swiss", name: "Swiss Signal", dot: "#FF4A1C",
+    tag: "A strict poster grid: pure white, black rules, condensed capitals and one signal-orange.",
+    tone: ["Light", "Neutral", "Graphic", "Bold"],
+    sw: [["White", "#FFFFFF"], ["Grey field", "#F2F2F0"], ["Black rule", "#0A0A0A"], ["Grey text", "#6E6E6E"], ["Signal", "#FF4A1C"], ["Signal tint", "#FFE1D8"]],
+    type: [["Archivo Condensed", "Headings, numbers", "Archivo,sans-serif", "font-stretch:75%;font-weight:800;text-transform:uppercase"], ["JetBrains Mono", "Labels, timecodes", "JetBrains Mono,monospace"]],
+    shape: "Square corners, visible 1px black grid lines, big condensed numbers. Orange marks cuts, errors and the primary action.",
+    fit: "Confident and very honest-looking. Stats and platform limits read like facts, which suits the 'we tell you the truth' message.",
+    watch: "Can feel cold for solo creators. Needs strong discipline with the grid or it looks unfinished.",
+    refs: [["Heron AI · saaslandingpage", S("heron-ai")], ["Stivio · saaslandingpage", S("stivio")], ["AirOps analytics · Mobbin", M("a0c8e522-9ff7-4787-a203-648575e28504")]] },
+  { id: "glass", cls: "t-glass", name: "Pearl Glass", dot: "#5B5BF0",
+    tag: "Soft pearl light, frosted panels and a refined indigo. Your current brand color, made premium.",
+    tone: ["Light", "Soft", "Modern", "Rounded"],
+    sw: [["Pearl", "#EEF0FA"], ["Frost", "#FFFFFF9E"], ["Edge", "#46468C21"], ["Midnight ink", "#1C1B33"], ["Indigo", "#5B5BF0"], ["Lilac mist", "#F7F3FD"]],
+    type: [["Manrope", "Everything", "Manrope,sans-serif", "font-weight:700"], ["Manrope Medium", "Labels", "Manrope,sans-serif", "font-weight:500"]],
+    shape: "14px corners, pill buttons, frosted cards with a soft glow. The background gradient is barely there.",
+    fit: "Keeps the indigo you already use, so it's the least disruptive change. Friendly for creators while still looking expensive.",
+    watch: "Blur effects cost performance on big pages and can look generic if the gradient is pushed. Keep the glass to cards and the top bar.",
+    refs: [["Tines · saaslandingpage", S("tines")], ["Featurebase analytics · Mobbin", M("674f6c5f-4ec4-4c37-87b6-7aafedf197c7")], ["Klaviyo calendar · Mobbin", M("9fd76029-a965-453f-8804-f2f4745c6fb2")]] },
+  { id: "forest", cls: "t-forest", name: "Forest Studio", dot: "#B5DCC0",
+    tag: "Deep green like a recording booth's acoustic panels, with a soft serif and pale sage light.",
+    tone: ["Dark", "Natural", "Calm", "Grounded"],
+    sw: [["Forest", "#0F1F1A"], ["Moss panel", "#162A23"], ["Pine line", "#244037"], ["Mist text", "#EAF0E6"], ["Sage", "#B5DCC0"], ["Brass", "#E8C987"]],
+    type: [["Young Serif", "Titles, big numbers", "Young Serif,serif"], ["Figtree", "Interface", "Figtree,sans-serif"]],
+    shape: "12px corners, soft green borders, no pure black or white anywhere. Sage for success and focus, brass for warnings.",
+    fit: "Calm and grown-up. Feels like a place you think and create, which fits podcasters and long-form creators.",
+    watch: "Green is often read as 'money' or 'eco'. Keep it deep and muted, never bright.",
+    refs: [["Oxide · saaslandingpage", S("oxide")], ["AirOps inbox · Mobbin", M("fd729ca4-d6b7-469e-978b-f69805810ff8")]] },
+  { id: "air", cls: "t-air", name: "On Air", dot: "#D4FF3A",
+    tag: "A live broadcast control room: midnight navy, electric-lime signal and a red tally light.",
+    tone: ["Dark", "Electric", "Energetic", "Pill shapes"],
+    sw: [["Midnight", "#0A0D1A"], ["Console", "#121729"], ["Cable", "#222A45"], ["White signal", "#F2F4FF"], ["Live lime", "#D4FF3A"], ["Tally red", "#FF5C7A"]],
+    type: [["Unbounded", "Logo, headings", "Unbounded,sans-serif", "font-weight:500"], ["Sora", "Interface", "Sora,sans-serif"]],
+    shape: "Pill buttons and nav, 12px cards, a subtle glow on live states. Lime means live or published; red means on air or failed.",
+    fit: "Speaks to Shorts and Reels creators who want energy. Publishing status becomes the hero of the interface.",
+    watch: "The loudest option. Lime must stay tiny or the product turns into a gaming app.",
+    refs: [["Higgsfield · Mobbin", M("53a62107-8de0-42da-8248-3ed00b820235")], ["LocalCan · saaslandingpage", S("localcan")]] },
+  { id: "apricot", cls: "t-apricot", name: "Apricot Pop", dot: "#FF8A4C",
+    tag: "Warm, friendly and tactile: apricot buttons with plum ink and soft chunky shapes.",
+    tone: ["Light", "Warm", "Playful", "Chunky"],
+    sw: [["Peach white", "#FFF8F2"], ["Card", "#FFFFFF"], ["Sand line", "#F0E0D3"], ["Plum ink", "#2A1630"], ["Apricot", "#FF8A4C"], ["Plum", "#6B2D6B"]],
+    type: [["Bricolage Grotesque", "Headings", "Bricolage Grotesque,sans-serif", "font-weight:800"], ["Bricolage Grotesque", "Interface", "Bricolage Grotesque,sans-serif"]],
+    shape: "16px corners, buttons with a solid 3px bottom edge like keys, slightly thicker borders. Plum for success, apricot for action.",
+    fit: "The most approachable option for first-time creators and coaches. Feels human, not corporate.",
+    watch: "Least 'enterprise premium'. Harder to make dense analytics look serious.",
+    refs: [["Canny publish & schedule · Mobbin", M("3c073249-cf4f-4b30-99e0-cf4c6a876b55")], ["Basecamp schedule post · Mobbin", M("25c42c82-898e-423e-83aa-24f51379f3b9")], ["Buffer home · Mobbin", M("a9f6c004-54f4-4207-81f3-9af9bfb93d8a")]] },
+  { id: "velvet", cls: "t-velvet", name: "Velvet Noir", dot: "#E7B4A5",
+    tag: "Late-night luxury: deep wine black, rose-gold outlines and a high-contrast italic serif.",
+    tone: ["Dark", "Luxurious", "Fashion", "Quiet"],
+    sw: [["Wine black", "#1A1016"], ["Velvet", "#22151D"], ["Seam", "#3A2632"], ["Blush text", "#F6ECEE"], ["Rose gold", "#E7B4A5"], ["Sage note", "#C9D8B6"]],
+    type: [["Bodoni Moda Italic", "Titles", "Bodoni Moda,serif", "font-style:italic;font-weight:500"], ["Geist", "Interface", "Geist,sans-serif"], ["Geist Mono", "Timecodes", "Geist Mono,monospace"]],
+    shape: "4px corners, outlined buttons instead of filled ones, very little color. Elegance comes from contrast and italics.",
+    fit: "The most premium-looking direction. Strong for a Pro or Studio plan, or for lifestyle and beauty creators.",
+    watch: "Can feel exclusive rather than welcoming, and the thin serif needs large sizes to stay readable.",
+    refs: [["Agiloft · saaslandingpage", S("agiloft")], ["Dropbox Dash · Mobbin", M("58632939-c535-4b89-a639-553088ff69c3")]] },
+];
+
+function wave() {
+  let out = "";
+  for (let i = 0; i < 72; i++) {
+    const h = 18 + Math.abs(Math.sin(i * 0.55) * 46 + Math.sin(i * 1.7) * 24 + Math.cos(i * 0.21) * 14);
+    out += `<span class="${i < 27 ? "p" : ""}" style="height:${Math.min(100, h).toFixed(0)}%"></span>`;
+  }
+  return out + `<i class="head"></i>`;
+}
+
+function mock(t) {
+  return `<div class="mock ${t.cls}" role="img" aria-label="${t.name} mockup of the Sonicly editor">
+    <div class="m-top"><span class="m-logo"><i></i>Sonicly</span><span class="m-crumb">Episodes / Ep. 42 · Pricing your first course</span><button class="m-btn" type="button" tabindex="-1">Publish everywhere</button></div>
+    <div class="m-body">
+      <nav class="m-side"><a class="on">Editor</a><a>Calendar</a><a>Inbox <b>12</b></a><a>Analytics</a><a>Automations</a><a>Copilot</a></nav>
+      <div class="m-main">
+        <div class="m-title">Pricing your first course</div>
+        <div class="m-transcript">
+          <p class="m-spk">Host · 00:03.2</p>
+          <p>So <s>um</s> the biggest mistake I see is pricing for <mark>what it cost you</mark> to make, <s>like,</s> instead of what it's worth to the student.</p>
+        </div>
+        <div class="m-wave">${wave()}</div>
+        <div class="m-row">
+          <div class="m-card"><span class="m-label">Retention at 0:03</span><span class="m-num">58% <small>−40%</small></span>
+            <svg class="m-spark" viewBox="0 0 120 34" preserveAspectRatio="none" aria-hidden="true"><path d="M0 3 L8 4 L14 17 L24 19 L40 20 L56 22 L72 23 L88 25 L104 27 L120 28 L120 34 L0 34Z" fill="var(--m-mark)"/><path d="M0 3 L8 4 L14 17 L24 19 L40 20 L56 22 L72 23 L88 25 L104 27 L120 28" fill="none" stroke="var(--m-accent)" stroke-width="2" vector-effect="non-scaling-stroke"/></svg>
+          </div>
+          <div class="m-card"><span class="m-label">Publishing</span>
+            <div class="m-plat">
+              <div><span class="n"><i style="background:#FF0033"></i>YouTube</span><span class="m-pill ok">Published</span></div>
+              <div><span class="n"><i style="background:#D62976"></i>Instagram Reel</span><span class="m-pill wait">Processing</span></div>
+              <div><span class="n"><i style="background:#25F4EE"></i>TikTok</span><span class="m-pill sch">Thu 9:00</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+
+const esc = (s) => s.replace(/&/g, "&amp;");
+document.getElementById("jump").innerHTML = THEMES.map(t => `<a href="#${t.id}"><i style="background:${t.dot}"></i>${esc(t.name)}</a>`).join("");
+document.getElementById("themes").innerHTML = THEMES.map(t => `
+  <section class="theme" id="${t.id}">
+    <div class="theme-head">
+      <div style="display:grid;gap:6px;min-width:0"><h2>${esc(t.name)}</h2><span class="tag">${t.tag}</span></div>
+      <div class="tone">${t.tone.map(x => `<span>${x}</span>`).join("")}</div>
+    </div>
+    <div class="theme-body">
+      ${mock(t)}
+      <div class="spec">
+        <div><h4>Palette</h4><div class="swatches">${t.sw.map(([n, h]) => `<div class="sw"><b style="background:${h}"></b><span>${n}<br><em>${h.length > 7 ? h.slice(0, 7) + " · alpha" : h}</em></span></div>`).join("")}</div></div>
+        <div><h4>Type</h4><div class="type-row">${t.type.map(([n, r, f, x]) => `<div><span class="s" style="font-family:${f};${x || ""}">${n}</span><small>${r}</small></div>`).join("")}</div></div>
+        <div><h4>Shape &amp; detail</h4><p>${t.shape}</p></div>
+        <p><strong>Why it fits:</strong> ${t.fit}</p>
+        <p><strong>Watch out:</strong> ${t.watch}</p>
+        <div><h4>References</h4><div class="refs">${t.refs.map(([n, u]) => `<a href="${u}" target="_blank" rel="noopener">${esc(n)}</a>`).join("")}</div></div>
+      </div>
+    </div>
+  </section>`).join("");
+</script>
