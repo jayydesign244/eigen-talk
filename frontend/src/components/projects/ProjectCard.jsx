@@ -1,4 +1,4 @@
-import { ArrowUpRightIcon, MoreHorizontalIcon, TrashIcon } from 'lucide-react'
+import { ArrowUpRightIcon, FilmIcon, MoreHorizontalIcon, TrashIcon } from 'lucide-react'
 import { Waveform } from '@/components/audio/Waveform'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -62,6 +62,9 @@ export function ProjectCard({ project, onOpen, onDelete }) {
           idleClassName="text-muted-foreground/35"
         />
         <Badge variant={stage.variant} className="absolute top-3 left-3">{stage.label}</Badge>
+        {project.media_type === 'video' && (
+          <span className="absolute top-3 right-3 flex items-center gap-1 bg-background/90 px-1.5 py-0.5 font-mono text-[11px] font-bold"><FilmIcon className="size-3" />VIDEO</span>
+        )}
         {project.duration && (
           <span className="absolute right-3 bottom-2.5 bg-background/90 px-1.5 py-0.5 font-mono text-[11px] font-bold tabular">{project.duration}</span>
         )}

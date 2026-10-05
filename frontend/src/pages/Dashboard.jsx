@@ -65,9 +65,9 @@ function EmptyState({ onUpload, onRecord }) {
     <motion.div variants={rise} initial="hidden" animate="show" className="hatch flex flex-col items-center border border-dashed border-input px-6 py-16 text-center">
       <span className="plunk edge-card flex size-14 items-center justify-center border border-border bg-card"><AudioLinesIcon className="size-6" /></span>
       <h2 className="mt-6 font-display text-4xl leading-tight">Your first episode starts here</h2>
-      <p className="mt-3 max-w-md text-sm text-muted-foreground">Drop an audio file anywhere on this page, or record straight from your browser. Sonicly transcribes it so you can edit the sound by editing the words.</p>
+      <p className="mt-3 max-w-md text-sm text-muted-foreground">Drop an audio or video file anywhere on this page, or record straight from your browser. Sonicly transcribes it so you can edit the sound by editing the words.</p>
       <div className="mt-8 flex flex-wrap justify-center gap-3">
-        <Button size="lg" onClick={onUpload}><UploadIcon />Upload audio</Button>
+        <Button size="lg" onClick={onUpload}><UploadIcon />Upload audio or video</Button>
         <Button size="lg" variant="outline" onClick={onRecord}><MicIcon />Record</Button>
       </div>
       <ol id="how-it-works" className="mt-12 grid w-full max-w-2xl scroll-mt-24 gap-px border border-border bg-border text-left sm:grid-cols-3">
@@ -209,7 +209,7 @@ export default function Dashboard() {
             What are we editing today?
           </motion.h1>
           <motion.div variants={rise} className="mt-8 grid gap-4 md:grid-cols-3">
-            <QuickAction tone="brand" icon={UploadIcon} title="Upload audio" body="Drop a file anywhere, or browse. Transcribed in about a minute." onClick={() => openNew('upload')} kbd="U" />
+            <QuickAction tone="brand" icon={UploadIcon} title="Upload audio or video" body="Drop a file anywhere, or browse. Transcribed in about a minute." onClick={() => openNew('upload')} kbd="U" />
             <QuickAction icon={MicIcon} title="Record now" body="Capture your voice in the browser with a live level meter." onClick={() => openNew('record')} kbd="R" />
             <QuickAction
               icon={SparklesIcon}

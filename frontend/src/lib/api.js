@@ -160,7 +160,7 @@ export async function listVersions({ id, getToken } = {}) {
   return handleJson(res)
 }
 
-export async function exportProject({ id, format, versionId, filename, getToken } = {}) {
+export async function exportProject({ id, format, versionId, filename, video, getToken } = {}) {
   const res = await authedFetch(`${API_URL}/projects/${id}/export`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -168,6 +168,8 @@ export async function exportProject({ id, format, versionId, filename, getToken 
       format,
       version_id: versionId ?? null,
       filename: filename ?? null,
+      // MP4 only: { aspect, resolution, fit }
+      ...(video || {}),
     }),
   }, getToken)
   return handleJson(res)
@@ -180,7 +182,7 @@ export async function activateVersion({ id, versionId, getToken } = {}) {
   return handleJson(res)
 }
 
-export async function streamChat({ projectId, threadId, messages, getToken, onDelta, signal }) {
+export async function streamChat({ projectId, threadId, messages, getToken, onDelta, onEvent, signal }) {
   const res = await authedFetch(`${API_URL}/projects/${projectId}/chat`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -218,6 +220,7 @@ export async function streamChat({ projectId, threadId, messages, getToken, onDe
         const data = JSON.parse(line.slice(6))
         if (data.error) throw new Error(data.error)
         if (data.delta) onDelta(data.delta)
+        if (data.sound || data.version) onEvent?.(data)
         if (data.done) return
       } catch (e) {
         if (e instanceof SyntaxError) continue
@@ -225,4 +228,68 @@ export async function streamChat({ projectId, threadId, messages, getToken, onDe
       }
     }
   }
+}
+
+/* ─── Sound engine ───────────────────────────────────────────── */
+
+const jsonInit = (method, body) => ({
+  method,
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify(body ?? {}),
+})
+
+export async function getSoundRegistry({ getToken } = {}) {
+  return handleJson(await authedFetch(`${API_URL}/sound/registry`, {}, getToken))
+}
+
+export async function getSound({ id, getToken } = {}) {
+  return handleJson(await authedFetch(`${API_URL}/projects/${id}/sound`, {}, getToken))
+}
+
+export async function putSound({ id, doc, getToken } = {}) {
+  return handleJson(await authedFetch(`${API_URL}/projects/${id}/sound`, jsonInit('PUT', { doc }), getToken))
+}
+
+export async function soundAction({ id, action, getToken } = {}) {
+  // action: 'undo' | 'reset'
+  return handleJson(await authedFetch(`${API_URL}/projects/${id}/sound/${action}`, { method: 'POST' }, getToken))
+}
+
+export async function applySoundLook({ id, lookId, strength = 1, getToken } = {}) {
+  return handleJson(await authedFetch(`${API_URL}/projects/${id}/sound/look`, jsonInit('POST', { look_id: lookId, strength }), getToken))
+}
+
+export async function previewSound({ id, doc, getToken, signal } = {}) {
+  return handleJson(await authedFetch(`${API_URL}/projects/${id}/sound/preview`, { ...jsonInit('POST', { doc }), signal }, getToken))
+}
+
+export async function applySound({ id, doc, label, getToken } = {}) {
+  return handleJson(await authedFetch(`${API_URL}/projects/${id}/sound/apply`, jsonInit('POST', { doc, label: label || null }), getToken))
+}
+
+export async function analyzeSound({ id, getToken } = {}) {
+  return handleJson(await authedFetch(`${API_URL}/projects/${id}/sound/analyze`, { method: 'POST' }, getToken))
+}
+
+export async function uploadSoundLayer({ id, file, kind, getToken } = {}) {
+  const form = new FormData()
+  form.append('file', file)
+  form.append('kind', kind)
+  return handleJson(await authedFetch(`${API_URL}/projects/${id}/sound/layers`, { method: 'POST', body: form }, getToken))
+}
+
+export async function listSoundPresets({ getToken } = {}) {
+  return handleJson(await authedFetch(`${API_URL}/sound/presets`, {}, getToken))
+}
+
+export async function createSoundPreset({ name, doc, getToken } = {}) {
+  return handleJson(await authedFetch(`${API_URL}/sound/presets`, jsonInit('POST', { name, doc }), getToken))
+}
+
+export async function deleteSoundPreset({ presetId, getToken } = {}) {
+  return handleJson(await authedFetch(`${API_URL}/sound/presets/${presetId}`, { method: 'DELETE' }, getToken))
+}
+
+export async function applySoundPreset({ id, presetId, getToken } = {}) {
+  return handleJson(await authedFetch(`${API_URL}/projects/${id}/sound/preset/${presetId}`, { method: 'POST' }, getToken))
 }

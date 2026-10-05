@@ -23,6 +23,20 @@ class Project(Base):
     active_version_id: Mapped[Optional[int]] = mapped_column(Integer, nullable=True)
     voice_id: Mapped[Optional[str]] = mapped_column(String(128), nullable=True)
     voice_provider: Mapped[Optional[str]] = mapped_column(String(32), nullable=True)
+    # "audio" (default) or "video". For video, audio_url is the extracted
+    # track that edits work on; the video is only ever re-cut at export.
+    media_type: Mapped[Optional[str]] = mapped_column(String(16), nullable=True)
+    video_url: Mapped[Optional[str]] = mapped_column(String(1024), nullable=True)
+    video_preview_url: Mapped[Optional[str]] = mapped_column(String(1024), nullable=True)
+    video_meta: Mapped[Optional[dict]] = mapped_column(JSON, nullable=True)
+    # Edited-audio time → original-video time for the active audio (see
+    # services/video.py). Null means identity (no cuts yet).
+    timeline: Mapped[Optional[list]] = mapped_column(JSON, nullable=True)
+    # Sound panel: the working (unsaved) effects document for the active
+    # version, its undo history, cached renders and the last audio analysis.
+    sound_draft: Mapped[Optional[dict]] = mapped_column(JSON, nullable=True)
+    sound_cache: Mapped[Optional[dict]] = mapped_column(JSON, nullable=True)
+    sound_profile: Mapped[Optional[dict]] = mapped_column(JSON, nullable=True)
     created_at: Mapped[datetime] = mapped_column(
         DateTime, default=datetime.utcnow, nullable=False
     )
@@ -46,6 +60,25 @@ class AudioVersion(Base):
     audio_url: Mapped[str] = mapped_column(String(1024))
     transcript: Mapped[Optional[dict]] = mapped_column(JSON, nullable=True)
     duration: Mapped[Optional[float]] = mapped_column(Float, nullable=True)
+    timeline: Mapped[Optional[list]] = mapped_column(JSON, nullable=True)
+    # When this version was produced by the sound panel: the effects document
+    # used and the (dry) version it was rendered from, so the effects stay
+    # editable without re-processing already-processed audio.
+    effects: Mapped[Optional[dict]] = mapped_column(JSON, nullable=True)
+    effects_source_id: Mapped[Optional[int]] = mapped_column(Integer, nullable=True)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime, default=datetime.utcnow, nullable=False
+    )
+
+
+class SoundPreset(Base):
+    """A user's saved sound ("My podcast voice")."""
+    __tablename__ = "sound_presets"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    user_id: Mapped[str] = mapped_column(String(128), index=True)
+    name: Mapped[str] = mapped_column(String(120))
+    doc: Mapped[dict] = mapped_column(JSON)
     created_at: Mapped[datetime] = mapped_column(
         DateTime, default=datetime.utcnow, nullable=False
     )

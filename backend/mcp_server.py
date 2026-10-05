@@ -258,10 +258,12 @@ def _slim(value: Any) -> Any:
     def strip(item: Any) -> Any:
         if not isinstance(item, dict):
             return item
-        if "transcript" not in item:
+        if "transcript" not in item and "timeline" not in item:
             return item
-        out = {k: v for k, v in item.items() if k != "transcript"}
-        out["has_transcript"] = bool(item.get("transcript"))
+        # The video timeline is internal bookkeeping (can be hundreds of cuts).
+        out = {k: v for k, v in item.items() if k not in ("transcript", "timeline")}
+        if "transcript" in item:
+            out["has_transcript"] = bool(item.get("transcript"))
         return out
 
     dumped = _dump(value)
@@ -623,18 +625,25 @@ async def _activate_version(user, db, project_id: int, version_id: int):
 
 @tool(
     "export_audio",
-    "Render a version to mp3, wav or m4a and return a download URL.",
+    "Render a version to mp3, wav or m4a and return a download URL. For video "
+    "projects (media_type 'video') format 'mp4' renders the video re-cut to "
+    "match the edited audio, optionally reframed for social (9:16, 1:1).",
     _obj({
         "project_id": PROJECT_ID,
-        "format": {"type": "string", "enum": ["mp3", "wav", "m4a"], "description": "Default mp3"},
+        "format": {"type": "string", "enum": ["mp3", "wav", "m4a", "mp4"], "description": "Default mp3; mp4 only for video projects"},
         "version_id": {"type": "integer", "description": "Defaults to the active version"},
         "filename": {"type": "string", "description": "Without extension"},
+        "aspect": {"type": "string", "enum": ["original", "16:9", "9:16", "1:1"], "description": "mp4 only. Default original"},
+        "resolution": {"type": "integer", "enum": [720, 1080], "description": "mp4 only. Short side in pixels, default 1080"},
+        "fit": {"type": "string", "enum": ["fill", "fit"], "description": "mp4 only. fill crops to cover the frame (default), fit letterboxes"},
     }, ["project_id"]),
     read_only=True,
 )
 async def _export(user, db, project_id: int, format: str = "mp3",
-                  version_id: Optional[int] = None, filename: Optional[str] = None):
-    payload = ExportRequest(format=format, version_id=version_id, filename=filename)
+                  version_id: Optional[int] = None, filename: Optional[str] = None,
+                  aspect: str = "original", resolution: int = 1080, fit: str = "fill"):
+    payload = ExportRequest(format=format, version_id=version_id, filename=filename,
+                            aspect=aspect, resolution=resolution, fit=fit)
     r = _dump(await p.export_project(project_id=project_id, payload=payload, user=user, db=db))
     size = r.get("size_bytes")
     return {
@@ -643,6 +652,152 @@ async def _export(user, db, project_id: int, format: str = "mp3",
         "size": f"{round(size / 1_048_576, 1)} MB" if isinstance(size, (int, float)) else None,
         "download_url": r.get("download_url"),
     }
+
+
+# --------------------------------------------------------------------------
+# Sound engine — the same registry, looks and renderer as the editor's panel
+# --------------------------------------------------------------------------
+
+_SOUND_OP = {
+    "type": "object",
+    "properties": {
+        "op": {"type": "string", "enum": ["apply_look", "set_character", "set_effect", "remove_effect", "reset", "undo"]},
+        "look": {"type": "string", "description": "Look id from list_sound_options"},
+        "strength": {"type": "number", "description": "Look strength 0.25–2 (default 1)"},
+        "character": {"type": "object", "description": "body, brightness, space, punch, pitch (−100..100), intensity (0..100)"},
+        "effect": {"type": "string", "description": "Effect type from list_sound_options"},
+        "params": {"type": "object", "description": "Effect parameters (keys and ranges from list_sound_options)"},
+        "enabled": {"type": "boolean"},
+        "scope": {"type": "object", "description": "Optional {start, end} in seconds"},
+    },
+    "required": ["op"],
+}
+
+
+async def _sound_state(user, db, project_id: int) -> dict:
+    from routers import sound as S
+    state = await S.get_sound(project_id=project_id, user=user, db=db)
+    return {
+        "based_on": state["base"]["label"],
+        "character": state["doc"]["character"],
+        "chain": state["chain"],
+        "layers": [{"kind": l["kind"], "name": l["name"]} for l in state["doc"]["layers"]],
+        "preview_url": state.get("preview_url"),
+    }
+
+
+@tool(
+    "list_sound_options",
+    "Everything the sound engine can do: named looks (radio voice, warmer, phone call…), "
+    "character sliders, and every effect with its parameters and ranges.",
+    _obj({"detail": {"type": "string", "enum": ["looks", "effects", "all"], "description": "Default all"}}),
+    read_only=True,
+)
+async def _list_sound_options(user, db, detail: str = "all"):
+    from services.sound import registry as R
+    reg = R.public_registry()
+    out: Dict[str, Any] = {"character_sliders": [{k: c[k] for k in ("key", "low", "high", "notes")} for c in reg["character"]]}
+    if detail in ("looks", "all"):
+        out["looks"] = reg["looks"]
+    if detail in ("effects", "all"):
+        out["effects"] = [{
+            "type": e["type"], "label": e["label"], "group": e["group"], "description": e["description"],
+            "params": [{k: p.get(k) for k in ("key", "label", "type", "min", "max", "default", "unit", "options") if p.get(k) is not None}
+                       for p in e["params"]],
+        } for e in reg["effects"]]
+    return out
+
+
+@tool(
+    "get_sound",
+    "The project's current (unsaved) sound settings: character sliders, active effect chain, layers.",
+    _obj({"project_id": PROJECT_ID}, ["project_id"]),
+    read_only=True,
+)
+async def _get_sound(user, db, project_id: int):
+    return await _sound_state(user, db, project_id)
+
+
+@tool(
+    "analyze_audio",
+    "Measure the recording: loudness, noise, tone balance, pitch, hum, echo, pace — plus "
+    "plain-language issues, each with a suggested fix.",
+    _obj({"project_id": PROJECT_ID}, ["project_id"]),
+    read_only=True,
+)
+async def _analyze_audio(user, db, project_id: int):
+    from routers import sound as S
+    prof = await S.analyze_route(project_id=project_id, user=user, db=db)
+    return {k: v for k, v in prof.items() if not k.startswith("_")}
+
+
+@tool(
+    "set_sound",
+    "Change how the recording sounds. Operations run in order on the current settings "
+    "(apply_look / set_character / set_effect / remove_effect / reset / undo). "
+    "Nothing is saved until save_sound; preview_sound renders a listenable file.",
+    _obj({"project_id": PROJECT_ID, "operations": {"type": "array", "items": _SOUND_OP}}, ["project_id", "operations"]),
+)
+async def _set_sound(user, db, project_id: int, operations: List[Dict[str, Any]]):
+    from routers import sound as S
+    from services.sound import ai as A
+    project = await p._get_owned_project(db, project_id, user)
+    d = await S._draft(db, project)
+    doc, notes, _ = A.apply_sound_ops(d["doc"], operations, d.setdefault("history", []))
+    doc = p._strip_length_effects(project, doc, notes)
+    S._set_doc(project, d, doc)
+    await db.commit()
+    out = await _sound_state(user, db, project_id)
+    if notes:
+        out["notes"] = notes
+    return out
+
+
+@tool(
+    "preview_sound",
+    "Render the current sound settings and return a URL to listen to (not saved as a version).",
+    _obj({"project_id": PROJECT_ID}, ["project_id"]),
+    media=True,
+)
+async def _preview_sound(user, db, project_id: int):
+    from routers import sound as S
+    r = await S.preview_sound(project_id=project_id, payload=S.DocIn(), user=user, db=db)
+    return {"audio_url": r["url"], "chain": r["chain"]}
+
+
+@tool(
+    "save_sound",
+    "Render the current sound settings at full quality and save them as a new version.",
+    _obj({"project_id": PROJECT_ID, "label": {"type": "string", "description": "Optional version name"}}, ["project_id"]),
+    media=True,
+)
+async def _save_sound(user, db, project_id: int, label: Optional[str] = None):
+    from routers import sound as S
+    v = _dump(await S.apply_sound(project_id=project_id, payload=S.ApplyIn(label=label), user=user, db=db))
+    return {"new_version": {"id": v.get("id"), "label": v.get("label")}, "duration": _dur(v.get("duration")),
+            "audio_url": v.get("audio_url")}
+
+
+@tool(
+    "edit_audio",
+    "Transcript-driven edits saved as a new version: bleep or cut a phrase, add a pause after a "
+    "phrase, or tighten every pause longer than max_gap seconds.",
+    _obj({"project_id": PROJECT_ID, "operations": {"type": "array", "items": {"type": "object", "properties": {
+        "op": {"type": "string", "enum": ["bleep", "cut", "pause", "tighten_pauses"]},
+        "phrase": {"type": "string"}, "occurrence": {"type": "string", "enum": ["all", "first", "last"]},
+        "mode": {"type": "string", "enum": ["tone", "mute"]}, "seconds": {"type": "number"}, "max_gap": {"type": "number"},
+    }, "required": ["op"]}}}, ["project_id", "operations"]),
+    media=True,
+)
+async def _edit_audio(user, db, project_id: int, operations: List[Dict[str, Any]]):
+    from services.sound import ai as A
+    project = await p._get_owned_project(db, project_id, user)
+    edits, notes = A.edit_ops_to_edits(project.transcript, operations)
+    if not edits:
+        return {"edited": False, "notes": notes or ["nothing to change"]}
+    v = _slim(await p.apply_edits(project_id=project_id, payload=ApplyEditsRequest(edits=edits, parent_version_id=project.active_version_id), user=user, db=db))
+    return {"edited": True, "new_version": {"id": v.get("id"), "label": v.get("label")}, "duration": _dur(v.get("duration")),
+            "audio_url": v.get("audio_url"), "notes": notes}
 
 
 # --------------------------------------------------------------------------

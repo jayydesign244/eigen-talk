@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion } from 'motion/react'
 import {
   CheckIcon, ChevronDownIcon, MessageSquarePlusIcon, MessageSquareQuoteIcon, OctagonXIcon, PanelRightCloseIcon, PencilIcon,
-  ScissorsIcon, SparklesIcon, TrashIcon, Volume2Icon, Wand2Icon, XIcon,
+  ScissorsIcon, SlidersHorizontalIcon, SparklesIcon, TrashIcon, Volume2Icon, Wand2Icon, XIcon,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
@@ -165,6 +165,7 @@ export function AssistantPanel({
   fillerCount, showDiagnosis, onReviewFillers, onDismissDiagnosis,
   onDenoise, denoising, onClose, transcriptReady, statusItems, thinkingSince,
   attachments, onRemoveAttachment, onAttachPlayhead, onSeek, contextUsage, transcriptChars,
+  onLook, onOpenSound,
 }) {
   const endRef = useRef(null)
   const [prefill, setPrefill] = useState(null)
@@ -173,8 +174,8 @@ export function AssistantPanel({
   const chips = [
     { icon: ScissorsIcon, label: 'Remove fillers', run: onReviewFillers, disabled: !fillerCount },
     { icon: Wand2Icon, label: denoising ? 'Cleaning…' : 'Clean up noise', run: onDenoise, disabled: denoising },
-    { icon: Volume2Icon, label: 'Balance volume', run: () => setPrefill({ text: 'Balance the volume so quiet parts are easier to hear.', at: Date.now() }) },
-    { icon: SparklesIcon, label: 'Warmer voice', run: () => setPrefill({ text: 'Make my voice sound a little warmer.', at: Date.now() }) },
+    { icon: Volume2Icon, label: 'Balance volume', run: () => onLook?.('balance_volume') },
+    { icon: SparklesIcon, label: 'Warmer voice', run: () => onLook?.('warmer') },
   ]
 
   return (
@@ -222,7 +223,7 @@ export function AssistantPanel({
         {messages.length === 0 && !(showDiagnosis && fillerCount > 0) && (
           <div className="pt-6 text-center">
             <p className="font-display text-2xl">How should it sound?</p>
-            <p className="mx-auto mt-2 max-w-64 text-[13px] text-muted-foreground">Describe a change in plain English. Edits you ask for show up as a new version you can compare and undo.</p>
+            <p className="mx-auto mt-2 max-w-72 text-[13px] text-muted-foreground">Describe it in your own words — “a bit warmer”, “radio voice”, “less echo in the intro”, “bleep the swear words”. You get sliders to fine-tune every change.</p>
           </div>
         )}
 
@@ -289,6 +290,9 @@ export function AssistantPanel({
               <AiAvatar />
               <MessageContent>
                 <Bubble variant="secondary"><BubbleContent className="whitespace-pre-wrap">{m.text}{last && isStreaming && <span className="ml-0.5 inline-block h-3.5 w-1.5 translate-y-0.5 animate-blink bg-foreground" />}</BubbleContent></Bubble>
+                {m.sound && onOpenSound && (
+                  <Button size="xs" variant="outline" className="mt-1.5 self-start" onClick={onOpenSound}><SlidersHorizontalIcon />Fine-tune with sliders</Button>
+                )}
               </MessageContent>
             </Message>
           )

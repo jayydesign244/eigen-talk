@@ -8,6 +8,7 @@ import WaveSurfer from 'wavesurfer.js'
  */
 export function useAudioPlayer({
   url,
+  keepTime = false,
   height = 64,
   waveColor = '#3d3d3d',
   progressColor = '#ffffff',
@@ -16,6 +17,9 @@ export function useAudioPlayer({
   const containerRef = useRef(null)
   const wsRef = useRef(null)
   const stateRef = useRef({ time: 0, playing: false, volume: 1, rate: 1 })
+  const wasPlayingRef = useRef(false)
+  const keepTimeRef = useRef(keepTime)
+  keepTimeRef.current = keepTime
   const [isPlaying, setIsPlaying] = useState(false)
   const [isReady, setIsReady] = useState(false)
   const [currentTime, setCurrentTime] = useState(0)
@@ -52,6 +56,7 @@ export function useAudioPlayer({
       ws.setVolume(s.volume)
       ws.setPlaybackRate(s.rate, true)
       if (s.time && s.time < ws.getDuration()) ws.setTime(s.time)
+      if (keepTimeRef.current && wasPlayingRef.current) ws.play()
     }
     const onPlay = () => { setIsPlaying(true); stateRef.current.playing = true }
     const onPause = () => { setIsPlaying(false); stateRef.current.playing = false }
@@ -67,13 +72,19 @@ export function useAudioPlayer({
     ws.on('error', onError)
 
     return () => {
+      wasPlayingRef.current = ws.isPlaying()
       ws.destroy()
       wsRef.current = null
     }
   }, [url, height, waveColor, progressColor, cursorColor])
 
-  // A new file starts from the top.
-  useEffect(() => { stateRef.current.time = 0; setCurrentTime(0) }, [url])
+  // A new file starts from the top — unless it's the same recording with
+  // different processing (A/B in the sound panel), where position is kept.
+  useEffect(() => {
+    if (keepTimeRef.current) return
+    stateRef.current.time = 0
+    setCurrentTime(0)
+  }, [url])
 
   const toggle = () => wsRef.current?.playPause()
   const skip = (seconds) => {
@@ -87,13 +98,15 @@ export function useAudioPlayer({
     ws.setTime(Math.max(0, Math.min(ws.getDuration() || time, time)))
     if (play && !ws.isPlaying()) ws.play()
   }
+  // Live position for frame-accurate followers (the React state lags a frame).
+  const getTime = () => wsRef.current?.getCurrentTime() ?? stateRef.current.time
   const setVolume = (v) => { stateRef.current.volume = v; wsRef.current?.setVolume(v) }
   const setRate = (r) => { stateRef.current.rate = r; wsRef.current?.setPlaybackRate(r, true) }
 
   return {
     containerRef,
     isPlaying, isReady, currentTime, duration, error,
-    toggle, skip, seek, setVolume, setRate,
+    toggle, skip, seek, setVolume, setRate, getTime,
   }
 }
 

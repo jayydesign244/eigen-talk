@@ -45,7 +45,8 @@ def _headers(content_type: Optional[str] = None) -> dict:
 
 async def _upload_supabase(object_path: str, data: bytes, content_type: str) -> str:
     upload_url = f"{SUPABASE_URL}/storage/v1/object/{BUCKET}/{object_path}"
-    async with httpx.AsyncClient(timeout=60.0) as client:
+    # Video files can be hundreds of MB; give large uploads room.
+    async with httpx.AsyncClient(timeout=httpx.Timeout(60.0, write=600.0)) as client:
         resp = await client.post(upload_url, content=data, headers=_headers(content_type))
         resp.raise_for_status()
     return f"{SUPABASE_URL}/storage/v1/object/public/{BUCKET}/{object_path}"

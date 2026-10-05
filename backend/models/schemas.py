@@ -56,6 +56,11 @@ class ProjectOut(BaseModel):
     active_version_id: Optional[int] = None
     voice_id: Optional[str] = None
     voice_provider: Optional[str] = None
+    media_type: Optional[str] = None  # "audio" | "video"
+    video_url: Optional[str] = None
+    video_preview_url: Optional[str] = None
+    video_meta: Optional[dict] = None
+    timeline: Optional[list] = None
     created_at: datetime
     updated_at: datetime
 
@@ -75,6 +80,9 @@ class AudioVersionOut(BaseModel):
     audio_url: str
     transcript: Optional[dict] = None
     duration: Optional[float] = None
+    timeline: Optional[list] = None
+    effects: Optional[dict] = None
+    effects_source_id: Optional[int] = None
     created_at: datetime
 
     @field_serializer("created_at")
@@ -195,7 +203,11 @@ class ProcessingStatus(BaseModel):
 
 
 class ExportRequest(BaseModel):
-    format: str = "mp3"  # mp3 | wav | m4a
+    format: str = "mp3"  # mp3 | wav | m4a | mp4 (video projects only)
+    # Video export only.
+    aspect: str = "original"  # original | 16:9 | 9:16 | 1:1
+    resolution: int = 1080  # 720 | 1080 (short side)
+    fit: str = "fill"  # fill (crop to cover) | fit (letterbox)
     version_id: Optional[int] = None  # default: project's active version
     filename: Optional[str] = None  # without extension; we append the right one
 

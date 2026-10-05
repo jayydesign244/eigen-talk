@@ -3,25 +3,31 @@ import { Link, Navigate, useLocation } from 'react-router-dom'
 import { AnimatePresence, motion } from 'motion/react'
 import {
   ArrowLeftIcon, AudioLinesIcon, CheckIcon, ChevronDownIcon, DownloadIcon, HistoryIcon, KeyboardIcon, PanelRightOpenIcon, PauseIcon,
-  PlayIcon, RotateCcwIcon, RotateCwIcon, ScissorsIcon, SplitIcon, Undo2Icon, Volume2Icon, VolumeXIcon, XIcon,
+  PlayIcon, RotateCcwIcon, RotateCwIcon, ScissorsIcon, SlidersHorizontalIcon, SparklesIcon, SplitIcon, Undo2Icon, Volume2Icon,
+  VolumeXIcon, XIcon,
 } from 'lucide-react'
 import { toast } from 'sonner'
 import { useAuth } from '../context/AuthContext'
 import {
   streamChat, getProject, detectFillers, applyEdits, removeNoise, listThreads, createThread, renameThread,
   deleteThread, listThreadMessages, listVersions, activateVersion,
+  getSoundRegistry, getSound, putSound, soundAction, applySoundLook, previewSound, applySound, analyzeSound,
+  uploadSoundLayer, listSoundPresets, createSoundPreset, deleteSoundPreset, applySoundPreset,
 } from '../lib/api'
 import { transcribeOnce } from '../lib/transcribe'
 import { explainError } from '../lib/errors'
 import { buildContext, estimateContext, lineAttachment, quotedPhrases, searchTranscript, toPanelMessages } from '../lib/chat-context'
 import { useAudioPlayer, formatTime } from '../hooks/useAudioPlayer'
 import { usePendingEdits } from '../hooks/usePendingEdits'
+import { useVideoSync } from '../hooks/useVideoSync'
 import { useTheme } from '@/components/theme-provider'
 import { LogoMark } from '@/components/brand/Logo'
 import { TranscriptView, fmtClock } from '@/components/editor/TranscriptView'
 import { AssistantPanel } from '@/components/editor/AssistantPanel'
 import { ExportDialog } from '@/components/editor/ExportDialog'
 import { CompareDialog } from '@/components/editor/CompareDialog'
+import { VideoPreview } from '@/components/editor/VideoPreview'
+import { SoundPanel } from '@/components/editor/SoundPanel'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Slider } from '@/components/ui/slider'
@@ -101,6 +107,28 @@ export default function Editor() {
   const [transcriptState, setTranscriptState] = useState(project?.transcript ? 'ready' : project?.audio_url ? 'idle' : 'no-audio')
   const [transcriptError, setTranscriptError] = useState(null)
   const [audioUrl, setAudioUrl] = useState(project?.audio_url || null)
+  // Video projects: the preview follows the edited audio through `timeline`.
+  const [video, setVideo] = useState(() => (project?.media_type === 'video'
+    ? { previewUrl: project.video_preview_url, meta: project.video_meta }
+    : null))
+  const [timeline, setTimeline] = useState(project?.timeline || null)
+  const [videoEl, setVideoEl] = useState(null)
+  // Sound panel: registry of effects, the server-side draft, its preview and A/B.
+  const [sidebarTab, setSidebarTab] = useState('assistant')
+  const [soundRegistry, setSoundRegistry] = useState(null)
+  const [sound, setSound] = useState(null)
+  const [appliedDocJson, setAppliedDocJson] = useState(null)
+  const [soundPreview, setSoundPreview] = useState({ status: 'idle', url: null, error: null })
+  const [ab, setAb] = useState('after')
+  const [soundMode, setSoundModeState] = useState(() => { try { return localStorage.getItem('sonicly-sound-mode') || 'simple' } catch { return 'simple' } })
+  const [soundProfile, setSoundProfile] = useState(null)
+  const [analyzing, setAnalyzing] = useState(false)
+  const [presets, setPresets] = useState([])
+  const [uploadingLayer, setUploadingLayer] = useState(false)
+  const [applyingSound, setApplyingSound] = useState(false)
+  const soundSeq = useRef(0)
+  const previewTimer = useRef(null)
+  const previewAbort = useRef(null)
   const [fillerRefs, setFillerRefs] = useState([])
   const [versions, setVersions] = useState([])
   const [activeVersionId, setActiveVersionId] = useState(project?.active_version_id || null)
@@ -117,7 +145,16 @@ export default function Editor() {
   tokenRef.current = getToken
   const token = (...a) => tokenRef.current(...a)
 
-  const player = useAudioPlayer({ url: audioUrl, height: 64, ...WAVE_COLORS[resolvedTheme] })
+  const soundDocJson = sound ? JSON.stringify(sound.doc) : null
+  const soundDirty = Boolean(sound && appliedDocJson !== null && soundDocJson !== appliedDocJson)
+  const soundEngaged = sidebarTab === 'sound' || soundDirty
+  // What the player plays: the original base for A/B "before", the rendered
+  // preview while there are unsaved sound changes, otherwise the active version.
+  const playerUrl = sound && soundEngaged && ab === 'before'
+    ? (sound.base?.audio_url || audioUrl)
+    : soundDirty && soundPreview.url ? soundPreview.url : audioUrl
+  const player = useAudioPlayer({ url: playerUrl, keepTime: soundEngaged, height: 64, ...WAVE_COLORS[resolvedTheme] })
+  useVideoSync({ video: video ? videoEl : null, player, timeline, rate: parseFloat(rate) })
 
   useEffect(() => { document.title = `${projectName} — Sonicly` }, [projectName])
   useEffect(() => { try { localStorage.setItem('sonicly-assistant', assistantOpen ? 'open' : 'closed') } catch { /* ignore */ } }, [assistantOpen])
@@ -139,6 +176,10 @@ export default function Editor() {
         const fresh = await getProject({ id: project.id, getToken: token })
         if (cancelled) return
         setAudioUrl(fresh.audio_url || null)
+        setVideo(fresh.media_type === 'video' && fresh.video_preview_url
+          ? { previewUrl: fresh.video_preview_url, meta: fresh.video_meta }
+          : null)
+        setTimeline(fresh.timeline || null)
         setActiveVersionId(fresh.active_version_id || null)
         setProjectName(fresh.name)
         if (fresh.transcript) {
@@ -223,6 +264,185 @@ export default function Editor() {
   const activeVersion = versions.find((v) => v.id === activeVersionId)
   const ext = audioUrl ? audioUrl.split('?')[0].split('.').pop() : null
 
+  /* ─── Sound panel ──────────────────────────────────────────── */
+
+  const setSoundMode = (m) => { setSoundModeState(m); try { localStorage.setItem('sonicly-sound-mode', m) } catch { /* ignore */ } }
+
+  useEffect(() => {
+    getSoundRegistry({ getToken: token }).then(setSoundRegistry).catch(() => {})
+    listSoundPresets({ getToken: token }).then((p) => setPresets(p || [])).catch(() => {})
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  // The sound draft follows the active version (its base changes when the
+  // user cuts words or switches versions).
+  useEffect(() => {
+    if (!project?.id || !audioUrl) return undefined
+    let cancelled = false
+    getSound({ id: project.id, getToken: token })
+      .then((st) => {
+        if (cancelled) return
+        setSound(st)
+        setAppliedDocJson(JSON.stringify(st.applied_doc ?? st.doc))
+        setSoundProfile(st.profile || null)
+        setSoundPreview({ status: st.preview_url ? 'ready' : 'idle', url: st.preview_url || null, error: null })
+      })
+      .catch(() => {})
+    return () => { cancelled = true }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [project?.id, activeVersionId, audioUrl])
+
+  const isEmptyDoc = (doc) => !doc || ((doc.effects || []).filter((e) => e.enabled !== false).length === 0
+    && (doc.layers || []).length === 0
+    && ['body', 'brightness', 'space', 'punch', 'pitch'].every((k) => !doc.character?.[k]))
+
+  // Render a preview of `doc` (debounced while sliders move).
+  const requestPreview = (doc, { immediate = false } = {}) => {
+    const seq = ++soundSeq.current
+    clearTimeout(previewTimer.current)
+    const run = async () => {
+      previewAbort.current?.abort()
+      const ctrl = new AbortController()
+      previewAbort.current = ctrl
+      try {
+        if (isEmptyDoc(doc)) {
+          const st = await putSound({ id: project.id, doc, getToken: token })
+          if (seq === soundSeq.current) { setSound(st); setSoundPreview({ status: 'idle', url: null, error: null }) }
+          return
+        }
+        setSoundPreview((p) => ({ ...p, status: 'rendering', error: null }))
+        const res = await previewSound({ id: project.id, doc, getToken: token, signal: ctrl.signal })
+        if (seq !== soundSeq.current) return
+        setSoundPreview({ status: 'ready', url: res.url, error: null })
+        setAb('after')
+        const st = await getSound({ id: project.id, getToken: token })
+        if (seq === soundSeq.current) setSound(st)
+      } catch (err) {
+        if (err.name === 'AbortError' || seq !== soundSeq.current) return
+        setSoundPreview((p) => ({ ...p, status: 'error', error: explainError(err.message, 'Couldn’t render the preview').title + ' — ' + explainError(err.message).body }))
+      }
+    }
+    if (immediate) run()
+    else previewTimer.current = setTimeout(run, 700)
+  }
+
+  const handleSoundDoc = (doc) => {
+    setSound((s) => ({ ...s, doc, is_empty: isEmptyDoc(doc) }))
+    requestPreview(doc)
+  }
+
+  const afterSoundState = (st, { preview = true } = {}) => {
+    setSound(st)
+    if (preview) requestPreview(st.doc, { immediate: true })
+  }
+
+  const handleLook = async (lookId) => {
+    if (!project?.id) return
+    try {
+      const st = await applySoundLook({ id: project.id, lookId, getToken: token })
+      afterSoundState(st)
+      const look = soundRegistry?.looks?.find((l) => l.id === lookId)
+      toast(`${look?.label || 'Look'} applied`, { description: 'Preview is rendering — fine-tune it in the Sound panel.', action: { label: 'Open', onClick: openSound } })
+    } catch (err) {
+      toast.error('Couldn’t apply that look', { description: explainError(err.message).body })
+    }
+  }
+
+  const handleSoundUndo = async () => { try { afterSoundState(await soundAction({ id: project.id, action: 'undo', getToken: token })) } catch { /* ignore */ } }
+  const handleSoundReset = async () => { try { afterSoundState(await soundAction({ id: project.id, action: 'reset', getToken: token })) } catch { /* ignore */ } }
+
+  const handleSoundDiscard = async () => {
+    if (appliedDocJson === null) return
+    try {
+      const st = await putSound({ id: project.id, doc: JSON.parse(appliedDocJson), getToken: token })
+      setSound(st)
+      setAppliedDocJson(JSON.stringify(st.applied_doc ?? st.doc))
+      setSoundPreview({ status: 'idle', url: null, error: null })
+    } catch (err) {
+      toast.error('Couldn’t discard', { description: explainError(err.message).body })
+    }
+  }
+
+  const handleSoundApply = async () => {
+    if (!sound || applyingSound) return
+    setApplyingSound(true)
+    const finish = startTask('Saving your sound as a new version', [{ id: 's1', text: 'Rendering at full quality' }])
+    try {
+      const version = await applySound({ id: project.id, doc: sound.doc, getToken: token })
+      refreshAfterVersion(version)
+      setSoundPreview({ status: 'idle', url: null, error: null })
+      getSound({ id: project.id, getToken: token }).then((st) => { setSound(st); setAppliedDocJson(JSON.stringify(st.applied_doc ?? st.doc)) }).catch(() => {})
+      finish({ ok: true, summary: 'Sound saved', doneTitle: 'Saved your sound', steps: [{ id: 's2', text: 'New version', chips: [{ label: version.label, icon: HistoryIcon }] }] })
+      toast.success('Sound applied', { description: `New version: ${version.label}` })
+    } catch (err) {
+      const e = explainError(err.message, 'Couldn’t save the sound')
+      finish({ ok: false, summary: 'Not saved', steps: [{ id: 'e', text: e.title }] })
+      toast.error(e.title, { description: e.body })
+    } finally {
+      setApplyingSound(false)
+    }
+  }
+
+  const handleAnalyze = async () => {
+    setAnalyzing(true)
+    try {
+      setSoundProfile(await analyzeSound({ id: project.id, getToken: token }))
+    } catch (err) {
+      toast.error('Couldn’t check the audio', { description: explainError(err.message).body })
+    } finally {
+      setAnalyzing(false)
+    }
+  }
+
+  const handleFix = async (finding) => {
+    const fix = finding.fix || {}
+    if (fix.look) return handleLook(fix.look)
+    if (fix.effects && sound) {
+      const effects = [...sound.doc.effects]
+      for (const e of fix.effects) {
+        const i = effects.findIndex((x) => x.type === e.type && !x.scope)
+        if (i >= 0) effects[i] = { ...effects[i], enabled: true, params: { ...effects[i].params, ...e.params } }
+        else effects.push({ type: e.type, enabled: true, scope: null, params: e.params })
+      }
+      return handleSoundDoc({ ...sound.doc, effects })
+    }
+    if (fix.edit) {
+      try {
+        const version = await applyEdits({ id: project.id, edits: [fix.edit], parentVersionId: activeVersionId, getToken: token })
+        refreshAfterVersion(version)
+        toast.success('Pauses tightened', { description: `New version: ${version.label}` })
+      } catch (err) {
+        toast.error('Couldn’t tighten the pauses', { description: explainError(err.message).body })
+      }
+    }
+    return undefined
+  }
+
+  const handleUploadLayer = async (file, kind) => {
+    setUploadingLayer(true)
+    try {
+      afterSoundState(await uploadSoundLayer({ id: project.id, file, kind, getToken: token }))
+    } catch (err) {
+      toast.error('Couldn’t add that audio', { description: explainError(err.message).body })
+    } finally {
+      setUploadingLayer(false)
+    }
+  }
+
+  const handleSavePreset = async (name) => {
+    try {
+      const p = await createSoundPreset({ name, doc: sound.doc, getToken: token })
+      setPresets((prev) => [p, ...prev])
+      toast.success(`Saved “${p.name}”`, { description: 'Use it on any project from the Sound panel.' })
+    } catch (err) {
+      toast.error('Couldn’t save the preset', { description: explainError(err.message).body })
+    }
+  }
+  const handleApplyPreset = async (presetId) => { try { afterSoundState(await applySoundPreset({ id: project.id, presetId, getToken: token })) } catch (err) { toast.error('Couldn’t use that preset', { description: explainError(err.message).body }) } }
+  const handleDeletePreset = async (presetId) => {
+    try { await deleteSoundPreset({ presetId, getToken: token }); setPresets((prev) => prev.filter((p) => p.id !== presetId)) } catch { /* ignore */ }
+  }
+
   /* ─── Edit actions ─────────────────────────────────────────── */
 
   // Show the new version immediately; reconcile with the server list in the
@@ -231,6 +451,7 @@ export default function Editor() {
     setActiveVersionId(version.id)
     if (version.audio_url) setAudioUrl(version.audio_url)
     if (version.transcript) setTranscript(version.transcript)
+    setTimeline(version.timeline || null)
     setVersions((prev) => [...prev.filter((v) => v.id !== version.id), version])
     listVersions({ id: project.id, getToken: token }).then((list) => list && setVersions(list)).catch(() => {})
   }
@@ -321,6 +542,7 @@ export default function Editor() {
       setActiveVersionId(id)
       if (updated.audio_url) setAudioUrl(updated.audio_url)
       if (updated.transcript) setTranscript(updated.transcript)
+      setTimeline(updated.timeline || null)
       toast(`Switched to “${versions.find((v) => v.id === id)?.label || 'version'}”`)
     } catch (err) {
       toast.error('Couldn’t switch versions', { description: explainError(err.message).body })
@@ -406,7 +628,8 @@ export default function Editor() {
 
   /* ─── Transcript context for the assistant ─────────────────── */
 
-  const showAssistant = () => (isLarge ? setAssistantOpen(true) : setMobileAssistant(true))
+  const showAssistant = () => { setSidebarTab('assistant'); return isLarge ? setAssistantOpen(true) : setMobileAssistant(true) }
+  const openSound = () => { setSidebarTab('sound'); return isLarge ? setAssistantOpen(true) : setMobileAssistant(true) }
 
   const attachLine = (si) => {
     const line = lineAttachment(transcript, si)
@@ -464,6 +687,20 @@ export default function Editor() {
           next[next.length - 1] = { ...last, text: (last.text || '') + delta }
           return next
         }),
+        // The assistant changed the sound or saved a version: show it right away.
+        onEvent: (data) => {
+          if (data.sound) {
+            setSound(data.sound)
+            requestPreview(data.sound.doc, { immediate: true })
+            setMessages((prev) => {
+              const next = [...prev]
+              const last = next[next.length - 1]
+              if (last?.role === 'ai') next[next.length - 1] = { ...last, sound: true }
+              return next
+            })
+          }
+          if (data.version) refreshAfterVersion(data.version)
+        },
       })
     } catch (err) {
       setMessages((prev) => {
@@ -525,6 +762,8 @@ export default function Editor() {
       onRemoveAttachment={(id) => setAttachments((prev) => prev.filter((a) => a.id !== id))}
       onAttachPlayhead={attachLineAtPlayhead}
       onSeek={player.seek}
+      onLook={handleLook}
+      onOpenSound={openSound}
       contextUsage={contextUsage}
       transcriptChars={(transcript?.text || '').trim().length}
       statusItems={transcriptState === 'ready' ? [
@@ -532,6 +771,64 @@ export default function Editor() {
         { icon: AudioLinesIcon, label: `${wordCount} words · ${fmtClock(player.duration || transcript?.duration)}` },
       ] : []}
     />
+  )
+
+  const soundPanel = (
+    <SoundPanel
+      registry={soundRegistry}
+      state={sound}
+      mode={soundMode}
+      onMode={setSoundMode}
+      onDocChange={handleSoundDoc}
+      onLook={handleLook}
+      onUndo={handleSoundUndo}
+      onReset={handleSoundReset}
+      preview={soundPreview}
+      ab={ab}
+      onAb={setAb}
+      dirty={soundDirty}
+      applying={applyingSound}
+      onApply={handleSoundApply}
+      onDiscard={handleSoundDiscard}
+      profile={soundProfile}
+      analyzing={analyzing}
+      onAnalyze={handleAnalyze}
+      onFix={handleFix}
+      presets={presets}
+      onSavePreset={handleSavePreset}
+      onApplyPreset={handleApplyPreset}
+      onDeletePreset={handleDeletePreset}
+      onUploadLayer={handleUploadLayer}
+      uploadingLayer={uploadingLayer}
+      currentTime={player.currentTime}
+      duration={player.duration}
+      isVideo={Boolean(video)}
+      onClose={() => (isLarge ? setAssistantOpen(false) : setMobileAssistant(false))}
+    />
+  )
+
+  const sidebar = (
+    <div className="flex h-full min-h-0 flex-col">
+      <div className="flex h-9 shrink-0 border-b border-border" role="tablist" aria-label="Side panel">
+        {[['assistant', 'Assistant', SparklesIcon], ['sound', 'Sound', SlidersHorizontalIcon]].map(([id, label, Icon]) => (
+          <button
+            key={id}
+            type="button"
+            role="tab"
+            aria-selected={sidebarTab === id}
+            onClick={() => setSidebarTab(id)}
+            className={cn(
+              'flex flex-1 items-center justify-center gap-1.5 text-[12px] font-semibold outline-hidden focus-visible:underline',
+              sidebarTab === id ? 'shadow-[inset_0_-2px_0_0_var(--foreground)]' : 'text-muted-foreground hover:text-foreground'
+            )}
+          >
+            <Icon className="size-3.5" />{label}
+            {id === 'sound' && soundDirty && <span className="size-1.5 rounded-full bg-brand" aria-label="unsaved changes" />}
+          </button>
+        ))}
+      </div>
+      <div className="min-h-0 flex-1">{sidebarTab === 'sound' ? soundPanel : assistant}</div>
+    </div>
   )
 
   const sortedVersions = [...versions].sort((a, b) => b.id - a.id)
@@ -561,7 +858,7 @@ export default function Editor() {
             </button>
           )}
           <span className="hidden shrink-0 font-mono text-[11px] text-muted-foreground md:inline">
-            {[player.duration > 0 ? formatTime(player.duration) : project.duration, ext && ext.length <= 4 ? ext.toUpperCase() : null].filter(Boolean).join(' · ')}
+            {[player.duration > 0 ? formatTime(player.duration) : project.duration, video ? 'VIDEO' : ext && ext.length <= 4 ? ext.toUpperCase() : null].filter(Boolean).join(' · ')}
           </span>
         </div>
 
@@ -590,6 +887,12 @@ export default function Editor() {
           </DropdownMenuContent>
         </DropdownMenu>
 
+        <IconTip label="Sound: effects, looks and sliders">
+          <Button variant={sidebarTab === 'sound' && (assistantOpen || mobileAssistant) ? 'secondary' : 'ghost'} size="sm" onClick={openSound}>
+            <SlidersHorizontalIcon /><span className="hidden lg:inline">Sound</span>
+            {soundDirty && <span className="size-1.5 rounded-full bg-brand" />}
+          </Button>
+        </IconTip>
         <IconTip label="Compare versions">
           <Button variant="ghost" size="sm" onClick={() => setShowCompare(true)} className="hidden md:inline-flex"><SplitIcon />Compare</Button>
         </IconTip>
@@ -642,6 +945,10 @@ export default function Editor() {
             )}
             <span className="ml-auto hidden text-[12px] text-muted-foreground xl:inline">Click a word to cut · double-click to rewrite · right-click for more</span>
           </div>
+
+          {video?.previewUrl && (
+            <VideoPreview src={video.previewUrl} meta={video.meta} onVideo={setVideoEl} onToggle={player.toggle} />
+          )}
 
           {/* Document */}
           <div className="min-h-0 flex-1 overflow-y-auto">
@@ -699,15 +1006,15 @@ export default function Editor() {
         </main>
 
         {isLarge && assistantOpen && (
-          <aside className="w-[380px] shrink-0 border-l border-border bg-sidebar">{assistant}</aside>
+          <aside className="w-[380px] shrink-0 border-l border-border bg-sidebar">{sidebar}</aside>
         )}
       </div>
 
       {!isLarge && (
         <Sheet open={mobileAssistant} onOpenChange={setMobileAssistant}>
           <SheetContent side="right" className="w-full p-0 sm:max-w-md" aria-describedby={undefined}>
-            <SheetTitle className="sr-only">Assistant</SheetTitle>
-            {assistant}
+            <SheetTitle className="sr-only">Assistant and sound</SheetTitle>
+            {sidebar}
           </SheetContent>
         </Sheet>
       )}
@@ -777,6 +1084,7 @@ export default function Editor() {
         onOpenChange={setShowExport}
         projectId={project.id}
         projectName={projectName}
+        isVideo={Boolean(video)}
         versions={versions}
         activeVersionId={activeVersionId}
         durationSec={player.duration || transcript?.duration || 0}

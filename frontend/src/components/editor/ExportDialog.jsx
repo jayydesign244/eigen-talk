@@ -18,12 +18,51 @@ const FORMATS = [
   { id: 'wav', label: 'WAV', sub: '24-bit', note: 'Lossless, for editing', bps: 24 * 48_000 * 2 },
   { id: 'm4a', label: 'M4A', sub: 'AAC 256', note: 'Apple Podcasts', bps: 256_000 },
 ]
+// Video projects get the cut video too. Bitrate is a rough libx264 CRF 20 figure.
+const VIDEO_FORMAT = { id: 'mp4', label: 'MP4', sub: 'Video', note: 'Picture follows your edits', bps: 0 }
+const VIDEO_BPS = { 720: 3_500_000, 1080: 7_000_000 }
+const ASPECTS = [
+  { id: 'original', label: 'Original' },
+  { id: '16:9', label: '16:9', note: 'YouTube' },
+  { id: '9:16', label: '9:16', note: 'Reels · TikTok · Shorts' },
+  { id: '1:1', label: '1:1', note: 'Feed' },
+]
+
+function Segmented({ label, value, onChange, options }) {
+  return (
+    <div className="grid gap-2">
+      <Label>{label}</Label>
+      <div role="radiogroup" aria-label={label} className="flex flex-wrap gap-2">
+        {options.map((o) => {
+          const on = value === o.id
+          return (
+            <button
+              key={o.id}
+              type="button"
+              role="radio"
+              aria-checked={on}
+              onClick={() => onChange(o.id)}
+              className={cn(
+                'border px-3 py-1.5 text-[13px] font-bold transition-[border-color,box-shadow] outline-hidden focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-ring',
+                on ? 'border-foreground shadow-[inset_0_-3px_0_0_var(--brand)]' : 'border-input hover:border-muted-foreground/60'
+              )}
+            >
+              {o.label}
+              {o.note && <span className="ml-1.5 font-mono text-[10px] font-normal text-muted-foreground">{o.note}</span>}
+            </button>
+          )
+        })}
+      </div>
+    </div>
+  )
+}
 
 export function ExportDialog({
   open,
   onOpenChange,
   projectId,
   projectName,
+  isVideo = false,
   versions = [],
   activeVersionId = null,
   durationSec = 0,
@@ -39,7 +78,11 @@ export function ExportDialog({
   }, [versions, activeVersionId])
 
   const base = useMemo(() => (projectName || 'audio').replace(/\.[a-z0-9]{1,5}$/i, ''), [projectName])
-  const [format, setFormat] = useState('mp3')
+  const formats = isVideo ? [VIDEO_FORMAT, ...FORMATS] : FORMATS
+  const [format, setFormat] = useState(isVideo ? 'mp4' : 'mp3')
+  const [aspect, setAspect] = useState('original')
+  const [resolution, setResolution] = useState(1080)
+  const [fit, setFit] = useState('fill')
   const [filename, setFilename] = useState(`${base}_enhanced`)
   const [versionId, setVersionId] = useState(activeVersionId ? String(activeVersionId) : '')
   const [status, setStatus] = useState('idle') // idle | exporting | done | error
@@ -52,12 +95,14 @@ export function ExportDialog({
     setError(null)
     setResult(null)
     setFilename(`${base}_enhanced`)
+    setFormat(isVideo ? 'mp4' : 'mp3')
     setVersionId(activeVersionId ? String(activeVersionId) : '')
-  }, [open, base, activeVersionId])
+  }, [open, base, activeVersionId, isVideo])
 
   const selectedVersion = versionOptions.find((v) => String(v.id) === versionId)
   const seconds = selectedVersion?.duration || durationSec || 0
-  const estimate = Math.round(((FORMATS.find((f) => f.id === format)?.bps || 0) * seconds) / 8)
+  const bps = format === 'mp4' ? VIDEO_BPS[resolution] + 192_000 : formats.find((f) => f.id === format)?.bps || 0
+  const estimate = Math.round((bps * seconds) / 8)
 
   const handleDownload = async (e) => {
     e?.preventDefault()
@@ -65,7 +110,14 @@ export function ExportDialog({
     setStatus('exporting')
     setError(null)
     try {
-      const res = await exportProject({ id: projectId, format, versionId: versionId ? Number(versionId) : null, filename, getToken })
+      const res = await exportProject({
+        id: projectId,
+        format,
+        versionId: versionId ? Number(versionId) : null,
+        filename,
+        video: format === 'mp4' ? { aspect, resolution, fit } : null,
+        getToken,
+      })
       // Download through a blob so the browser keeps our clean filename.
       const blob = await fetch(res.download_url).then((r) => {
         if (!r.ok) throw new Error(`Download failed (${r.status})`)
@@ -107,8 +159,12 @@ export function ExportDialog({
           ) : (
             <motion.form key="form" onSubmit={handleDownload} initial={false} exit={{ opacity: 0 }} className="grid gap-5">
               <DialogHeader>
-                <DialogTitle>Export audio</DialogTitle>
-                <DialogDescription>Pick a version and format. Exports are full quality and never watermarked.</DialogDescription>
+                <DialogTitle>{isVideo ? 'Export' : 'Export audio'}</DialogTitle>
+                <DialogDescription>
+                  {isVideo
+                    ? 'Export the video with your edited audio, or just the audio. Never watermarked.'
+                    : 'Pick a version and format. Exports are full quality and never watermarked.'}
+                </DialogDescription>
               </DialogHeader>
 
               <div className="grid gap-2">
@@ -134,8 +190,8 @@ export function ExportDialog({
 
               <div className="grid gap-2">
                 <Label>Format</Label>
-                <div role="radiogroup" aria-label="Format" className="grid grid-cols-3 gap-2">
-                  {FORMATS.map((f) => {
+                <div role="radiogroup" aria-label="Format" className={cn('grid gap-2', formats.length === 4 ? 'grid-cols-2 sm:grid-cols-4' : 'grid-cols-3')}>
+                  {formats.map((f) => {
                     const on = format === f.id
                     return (
                       <button
@@ -159,6 +215,28 @@ export function ExportDialog({
                   })}
                 </div>
               </div>
+
+              {format === 'mp4' && (
+                <div className="grid gap-4 border border-border bg-muted/40 p-3">
+                  <Segmented label="Shape" value={aspect} onChange={setAspect} options={ASPECTS} />
+                  <div className="grid gap-4 sm:grid-cols-2">
+                    <Segmented
+                      label="Quality"
+                      value={resolution}
+                      onChange={setResolution}
+                      options={[{ id: 720, label: '720p' }, { id: 1080, label: '1080p' }]}
+                    />
+                    {aspect !== 'original' && (
+                      <Segmented
+                        label="Framing"
+                        value={fit}
+                        onChange={setFit}
+                        options={[{ id: 'fill', label: 'Fill', note: 'crop' }, { id: 'fit', label: 'Fit', note: 'bars' }]}
+                      />
+                    )}
+                  </div>
+                </div>
+              )}
 
               <div className="grid gap-2">
                 <Label htmlFor="export-name">File name</Label>

@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion } from 'motion/react'
-import { FileAudioIcon, MicIcon, OctagonXIcon, RotateCcwIcon, SquareIcon, UploadIcon, XIcon } from 'lucide-react'
+import { FileAudioIcon, FileVideoIcon, MicIcon, OctagonXIcon, RotateCcwIcon, SquareIcon, UploadIcon, XIcon } from 'lucide-react'
 import { createProject, uploadAudio } from '@/lib/api'
 import { formatBytes, formatDuration, getAudioDuration } from '@/lib/format'
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog'
@@ -13,7 +13,9 @@ import { Progress } from '@/components/ui/progress'
 import { Spinner } from '@/components/ui/spinner'
 import { cn } from '@/lib/utils'
 
-const ACCEPT = 'audio/*,.mp3,.wav,.m4a,.flac,.aac,.ogg,.webm'
+const ACCEPT = 'audio/*,video/*,.mp3,.wav,.m4a,.flac,.aac,.ogg,.webm,.mp4,.mov,.m4v'
+
+const isVideoFile = (f) => Boolean(f) && (f.type?.startsWith('video/') || /\.(mp4|mov|m4v|mkv|avi|3gpp?)$/i.test(f.name || ''))
 
 function stripExt(name) {
   return name.replace(/\.[^.]+$/, '')
@@ -54,10 +56,14 @@ function Dropzone({ file, onFile, disabled }) {
   if (file) {
     return (
       <div className="flex items-center gap-3 border border-foreground bg-card p-3.5 animate-rise">
-        <span className="flex size-10 shrink-0 items-center justify-center border border-border bg-muted"><FileAudioIcon className="size-5" /></span>
+        <span className="flex size-10 shrink-0 items-center justify-center border border-border bg-muted">
+          {isVideoFile(file) ? <FileVideoIcon className="size-5" /> : <FileAudioIcon className="size-5" />}
+        </span>
         <div className="min-w-0 flex-1">
           <p className="truncate text-sm font-bold">{file.name}</p>
-          <p className="font-mono text-[11px] text-muted-foreground">{formatBytes(file.size)}</p>
+          <p className="font-mono text-[11px] text-muted-foreground">
+            {formatBytes(file.size)}{isVideoFile(file) ? ' · video — you’ll edit its audio, the picture follows' : ''}
+          </p>
         </div>
         {!disabled && (
           <Button variant="ghost" size="icon-sm" onClick={() => onFile(null)} aria-label="Remove file"><XIcon /></Button>
@@ -85,8 +91,8 @@ function Dropzone({ file, onFile, disabled }) {
       <span className={cn('plunk edge-card flex size-12 items-center justify-center border border-border bg-card transition-transform', over && 'scale-110')}>
         <UploadIcon className="size-5" />
       </span>
-      <span className="text-sm font-bold">{over ? 'Drop it' : 'Drop an audio file, or browse'}</span>
-      <span className="font-mono text-[11px] text-muted-foreground">MP3 · WAV · M4A · FLAC</span>
+      <span className="text-sm font-bold">{over ? 'Drop it' : 'Drop an audio or video file, or browse'}</span>
+      <span className="font-mono text-[11px] text-muted-foreground">MP3 · WAV · M4A · FLAC · MP4 · MOV · WEBM</span>
       <input
         ref={inputRef}
         type="file"
@@ -247,9 +253,9 @@ export function NewProjectDialog({ open, onOpenChange, initialTab = 'upload', in
       <DialogContent className="sm:max-w-lg">
         <DialogHeader>
           <DialogTitle>New project</DialogTitle>
-          <DialogDescription>Upload a recording or capture one now. We’ll transcribe it so you can edit audio like text.</DialogDescription>
+          <DialogDescription>Upload a recording or a video, or capture one now. We’ll transcribe it so you can edit audio like text.</DialogDescription>
         </DialogHeader>
-        <form onSubmit={submit} className="grid gap-5">
+        <form onSubmit={submit} className="grid min-w-0 grid-cols-[minmax(0,1fr)] gap-5">
           <Tabs value={tab} onValueChange={(v) => !busy && !recording && setTab(v)}>
             <TabsList className="w-full">
               <TabsTrigger value="upload" disabled={busy || recording}><UploadIcon />Upload</TabsTrigger>
@@ -290,7 +296,10 @@ export function NewProjectDialog({ open, onOpenChange, initialTab = 'upload', in
           )}
           {busy && (
             <div className="grid gap-2" aria-live="polite">
-              <div className="flex justify-between text-[13px]"><span className="font-bold">Uploading</span><span className="text-muted-foreground">Keep this window open</span></div>
+              <div className="flex justify-between text-[13px]">
+                <span className="font-bold">{tab === 'upload' && isVideoFile(file) ? 'Uploading and preparing video' : 'Uploading'}</span>
+                <span className="text-muted-foreground">Keep this window open</span>
+              </div>
               <Progress />
             </div>
           )}
