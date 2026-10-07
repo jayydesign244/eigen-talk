@@ -1077,14 +1077,33 @@ async def _snapshot_original(db: AsyncSession, project: Project) -> Optional[int
     return original.id
 
 
-async def _ensure_voice_clone(project: Project, source_audio: bytes) -> Tuple[str, bool]:
+async def _default_user_voice(db: AsyncSession, user_id: str) -> Optional[str]:
+    """The user's own Voice Studio clone, if they made one."""
+    from models.db import UserVoice
+    row = (await db.execute(
+        select(UserVoice).where(UserVoice.user_id == user_id)
+        .order_by(UserVoice.is_default.desc(), UserVoice.id.desc()).limit(1)
+    )).scalar_one_or_none()
+    return row.voice_id if row else None
+
+
+async def _ensure_voice_clone(project: Project, source_audio: bytes, db: Optional[AsyncSession] = None) -> Tuple[str, bool]:
     """Return (voice_id, used_fallback). Clones the user's voice from the
     source audio; if the ElevenLabs plan doesn't include Instant Voice
     Cloning, falls back to a premade voice so the replace pipeline still
     works (with a clear "fallback voice" label on the resulting version).
     """
+    if project.voice_id and project.voice_provider != voice_service.FALLBACK_VOICE_PROVIDER:
+        return project.voice_id, False
+    # A clone made (with consent) in Voice Studio beats cloning from this project's audio.
+    if db is not None:
+        own = await _default_user_voice(db, project.user_id)
+        if own:
+            project.voice_id = own
+            project.voice_provider = "elevenlabs"
+            return own, False
     if project.voice_id:
-        return project.voice_id, project.voice_provider == voice_service.FALLBACK_VOICE_PROVIDER
+        return project.voice_id, True
     try:
         voice_id = await voice_service.clone_voice(
             source_audio, name=f"sonicly-{project.id}-{project.name[:32]}"
@@ -1129,7 +1148,7 @@ async def clone_project_voice(
         raise HTTPException(status_code=502, detail=f"Fetch source audio: {exc}")
 
     try:
-        _, used_fallback = await _ensure_voice_clone(project, audio_bytes)
+        _, used_fallback = await _ensure_voice_clone(project, audio_bytes, db)
     except voice_service.VoiceError as exc:
         if exc.plan_upgrade_required:
             raise HTTPException(
@@ -1317,7 +1336,7 @@ async def apply_edits(
         used_fallback_voice = False
         if replace_refs:
             try:
-                _, used_fallback_voice = await _ensure_voice_clone(project, src_bytes)
+                _, used_fallback_voice = await _ensure_voice_clone(project, src_bytes, db)
             except voice_service.VoiceError as exc:
                 if exc.plan_upgrade_required:
                     raise HTTPException(

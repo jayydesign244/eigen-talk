@@ -15,7 +15,7 @@ user's real voice.
 """
 import json
 import os
-from typing import Optional
+from typing import Optional, Tuple
 
 import httpx
 
@@ -186,3 +186,125 @@ async def delete_voice(voice_id: str) -> None:
             await client.delete(f"{ELEVENLABS_BASE}/voices/{voice_id}", headers=_headers())
         except httpx.HTTPError:
             pass
+
+
+# ─── Voice Studio: account checks, multi-sample clones, long-form speech ───
+
+LONGFORM_MODEL = os.environ.get("ELEVENLABS_LONGFORM_MODEL", "eleven_multilingual_v2")
+
+
+async def subscription() -> dict:
+    """Plan facts that decide what the Voice Studio can do.
+
+    Needs the key's User permission. Returns {} if that isn't granted, so
+    callers can still try (and report the provider's own error).
+    """
+    if not is_configured():
+        return {}
+    async with httpx.AsyncClient(timeout=20.0) as client:
+        resp = await client.get(f"{ELEVENLABS_BASE}/user/subscription", headers=_headers())
+    if resp.status_code >= 400:
+        return {}
+    d = resp.json()
+    return {
+        "tier": d.get("tier"),
+        "can_clone": bool(d.get("can_use_instant_voice_cloning")),
+        "can_clone_professional": bool(d.get("can_use_professional_voice_cloning")),
+        "characters_used": d.get("character_count"),
+        "characters_limit": d.get("character_limit"),
+        "voice_slots_used": d.get("voice_slots_used"),
+        "voice_limit": d.get("voice_limit"),
+        "resets_at": d.get("next_character_count_reset_unix"),
+    }
+
+
+async def clone_from_samples(samples: list, name: str, description: str = "") -> str:
+    """Instant Voice Clone from several (filename, bytes, content_type) samples."""
+    if not is_configured():
+        raise VoiceError("ELEVENLABS_API_KEY not configured")
+    files = [("files", (fn, data, ct)) for fn, data, ct in samples]
+    data = {
+        "name": (name or "Sonicly voice")[:100],
+        "description": description or "Created in Sonicly Voice Studio with the speaker's recorded consent",
+        "remove_background_noise": "true",
+    }
+    async with httpx.AsyncClient(timeout=180.0) as client:
+        resp = await client.post(f"{ELEVENLABS_BASE}/voices/add", headers=_headers(), data=data, files=files)
+    if resp.status_code >= 400:
+        raise _parse_error(resp)
+    voice_id = resp.json().get("voice_id")
+    if not voice_id:
+        raise VoiceError("No voice_id in response")
+    return voice_id
+
+
+async def stock_voices() -> list:
+    """ElevenLabs' built-in voices (available on every plan)."""
+    if not is_configured():
+        return []
+    async with httpx.AsyncClient(timeout=20.0) as client:
+        resp = await client.get(f"{ELEVENLABS_BASE}/voices", headers=_headers())
+    if resp.status_code >= 400:
+        return []
+    out = []
+    for v in resp.json().get("voices", []):
+        if v.get("category") != "premade":
+            continue
+        labels = v.get("labels") or {}
+        out.append({
+            "voice_id": v["voice_id"],
+            "name": v.get("name"),
+            "description": ", ".join(x for x in (labels.get("gender"), labels.get("age"), labels.get("accent"), labels.get("description") or labels.get("descriptive")) if x),
+            "preview_url": v.get("preview_url"),
+        })
+    return out
+
+
+async def synthesize_with_timestamps(
+    voice_id: str,
+    text: str,
+    *,
+    stability: float = 0.5,
+    similarity_boost: float = 0.8,
+    style: float = 0.0,
+    speed: float = 1.0,
+    previous_text: Optional[str] = None,
+    next_text: Optional[str] = None,
+) -> Tuple[bytes, dict]:
+    """Long-form TTS that also returns per-character timing.
+
+    previous_text/next_text keep intonation continuous across chunks.
+    Returns (mp3 bytes, alignment dict).
+    """
+    import base64
+
+    if not is_configured():
+        raise VoiceError("ELEVENLABS_API_KEY not configured")
+    payload = {
+        "text": text,
+        "model_id": LONGFORM_MODEL,
+        "voice_settings": {
+            "stability": stability,
+            "similarity_boost": similarity_boost,
+            "style": style,
+            "speed": speed,
+            "use_speaker_boost": True,
+        },
+    }
+    if previous_text:
+        payload["previous_text"] = previous_text[-600:]
+    if next_text:
+        payload["next_text"] = next_text[:600]
+    async with httpx.AsyncClient(timeout=180.0) as client:
+        resp = await client.post(
+            f"{ELEVENLABS_BASE}/text-to-speech/{voice_id}/with-timestamps",
+            headers=_headers({"Content-Type": "application/json"}),
+            json=payload,
+        )
+    if resp.status_code >= 400:
+        raise _parse_error(resp)
+    body = resp.json()
+    audio = base64.b64decode(body.get("audio_base64") or "")
+    if not audio:
+        raise VoiceError("Text-to-speech returned no audio")
+    return audio, body.get("alignment") or body.get("normalized_alignment") or {}

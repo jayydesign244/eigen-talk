@@ -10,7 +10,7 @@ from starlette.datastructures import Headers
 from starlette.responses import FileResponse, Response
 import re
 from sqlalchemy import text
-from routers import projects, sound
+from routers import projects, sound, voices
 import mcp_server
 import oauth_server
 from auth import get_current_user, prefetch_jwks
@@ -84,6 +84,7 @@ app.add_middleware(
 
 app.include_router(projects.router, prefix="/api")
 app.include_router(sound.router, prefix="/api")
+app.include_router(voices.router, prefix="/api")
 app.include_router(oauth_server.router)
 app.include_router(mcp_server.router)
 

@@ -12,6 +12,7 @@ import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Progress } from '@/components/ui/progress'
 import { Spinner } from '@/components/ui/spinner'
 import { cn } from '@/lib/utils'
+import { useMicLevels as useLevels } from '@/hooks/useMicLevels'
 
 const ACCEPT = 'audio/*,video/*,.mp3,.wav,.m4a,.flac,.aac,.ogg,.webm,.mp4,.mov,.m4v'
 
@@ -19,35 +20,6 @@ const isVideoFile = (f) => Boolean(f) && (f.type?.startsWith('video/') || /\.(mp
 
 function stripExt(name) {
   return name.replace(/\.[^.]+$/, '')
-}
-
-/** Live input level from the microphone, as 24 bars (0–1). */
-function useLevels(stream, active) {
-  const [levels, setLevels] = useState(() => Array(24).fill(0))
-  useEffect(() => {
-    if (!stream || !active) return undefined
-    const Ctx = window.AudioContext || window.webkitAudioContext
-    if (!Ctx) return undefined
-    const ctx = new Ctx()
-    const source = ctx.createMediaStreamSource(stream)
-    const analyser = ctx.createAnalyser()
-    analyser.fftSize = 64
-    source.connect(analyser)
-    const data = new Uint8Array(analyser.frequencyBinCount)
-    let raf
-    const tick = () => {
-      analyser.getByteFrequencyData(data)
-      setLevels(Array.from({ length: 24 }, (_, i) => (data[i + 2] || 0) / 255))
-      raf = requestAnimationFrame(tick)
-    }
-    tick()
-    return () => {
-      cancelAnimationFrame(raf)
-      source.disconnect()
-      ctx.close()
-    }
-  }, [stream, active])
-  return levels
 }
 
 function Dropzone({ file, onFile, disabled }) {

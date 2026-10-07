@@ -208,9 +208,10 @@ export default function Dashboard() {
           <motion.h1 variants={rise} className="mt-3 max-w-3xl font-display text-5xl leading-[1.02] sm:text-6xl">
             What are we editing today?
           </motion.h1>
-          <motion.div variants={rise} className="mt-8 grid gap-4 md:grid-cols-3">
+          <motion.div variants={rise} className="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
             <QuickAction tone="brand" icon={UploadIcon} title="Upload audio or video" body="Drop a file anywhere, or browse. Transcribed in about a minute." onClick={() => openNew('upload')} kbd="U" />
             <QuickAction icon={MicIcon} title="Record now" body="Capture your voice in the browser with a live level meter." onClick={() => openNew('record')} kbd="R" />
+            <QuickAction icon={AudioLinesIcon} title="Script to audio" body="Turn a script into a recording in your own cloned voice or a built-in one." onClick={() => navigate('/voice')} kbd="V" />
             <QuickAction
               icon={SparklesIcon}
               title={hasProjects ? 'Continue editing' : 'How it works'}
@@ -361,12 +362,12 @@ export default function Dashboard() {
       </AlertDialog>
 
       {/* Keyboard shortcuts for the quick actions */}
-      <Shortcuts onUpload={() => openNew('upload')} onRecord={() => openNew('record')} disabled={dialog.open || Boolean(pendingDelete)} />
+      <Shortcuts onUpload={() => openNew('upload')} onRecord={() => openNew('record')} onVoice={() => navigate('/voice')} disabled={dialog.open || Boolean(pendingDelete)} />
     </div>
   )
 }
 
-function Shortcuts({ onUpload, onRecord, disabled }) {
+function Shortcuts({ onUpload, onRecord, onVoice, disabled }) {
   useEffect(() => {
     if (disabled) return undefined
     const onKey = (e) => {
@@ -375,10 +376,11 @@ function Shortcuts({ onUpload, onRecord, disabled }) {
       if (t.closest?.('input, textarea, select, [contenteditable=true], [role=dialog], [role=menu]')) return
       if (e.key === 'u' || e.key === 'U') { e.preventDefault(); onUpload() }
       if (e.key === 'r' || e.key === 'R') { e.preventDefault(); onRecord() }
+      if (e.key === 'v' || e.key === 'V') { e.preventDefault(); onVoice() }
     }
     document.addEventListener('keydown', onKey)
     return () => document.removeEventListener('keydown', onKey)
-  }, [disabled, onUpload, onRecord])
+  }, [disabled, onUpload, onRecord, onVoice])
   return null
 }
 

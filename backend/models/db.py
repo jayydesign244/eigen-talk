@@ -71,6 +71,24 @@ class AudioVersion(Base):
     )
 
 
+class UserVoice(Base):
+    """A cloned voice a user owns, with the consent recording it was made from."""
+    __tablename__ = "user_voices"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    user_id: Mapped[str] = mapped_column(String(128), index=True)
+    name: Mapped[str] = mapped_column(String(120))
+    provider: Mapped[str] = mapped_column(String(32), default="elevenlabs")
+    voice_id: Mapped[str] = mapped_column(String(128))
+    consent_text: Mapped[str] = mapped_column(Text)
+    consent_url: Mapped[Optional[str]] = mapped_column(String(1024), nullable=True)
+    sample_urls: Mapped[Optional[list]] = mapped_column(JSON, nullable=True)
+    is_default: Mapped[bool] = mapped_column(Boolean, default=False)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime, default=datetime.utcnow, nullable=False
+    )
+
+
 class SoundPreset(Base):
     """A user's saved sound ("My podcast voice")."""
     __tablename__ = "sound_presets"

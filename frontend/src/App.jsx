@@ -15,6 +15,7 @@ const Dashboard = lazy(() => import('./pages/Dashboard'))
 const Processing = lazy(() => import('./pages/Processing'))
 const Editor = lazy(() => import('./pages/Editor'))
 const McpAuthorize = lazy(() => import('./pages/McpAuthorize'))
+const VoiceStudio = lazy(() => import('./pages/VoiceStudio'))
 const DesignSystem = lazy(() => import('./pages/design-system/DesignSystem'))
 
 function RouteFallback() {
@@ -65,6 +66,14 @@ export default function App() {
             element={
               <ProtectedRoute>
                 <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/voice"
+            element={
+              <ProtectedRoute>
+                <VoiceStudio />
               </ProtectedRoute>
             }
           />

@@ -293,3 +293,44 @@ export async function deleteSoundPreset({ presetId, getToken } = {}) {
 export async function applySoundPreset({ id, presetId, getToken } = {}) {
   return handleJson(await authedFetch(`${API_URL}/projects/${id}/sound/preset/${presetId}`, { method: 'POST' }, getToken))
 }
+
+/* ─── Voice Studio ───────────────────────────────────────────── */
+
+export async function getVoiceStatus({ getToken } = {}) {
+  return handleJson(await authedFetch(`${API_URL}/voices/status`, {}, getToken))
+}
+
+export async function listVoices({ getToken } = {}) {
+  return handleJson(await authedFetch(`${API_URL}/voices`, {}, getToken))
+}
+
+export async function createVoice({ name, speaker, consent, samples, getToken } = {}) {
+  const form = new FormData()
+  form.append('name', name)
+  form.append('speaker', speaker)
+  form.append('consent', consent, 'consent.webm')
+  samples.forEach((s, i) => form.append('samples', s, `sample_${i + 1}.webm`))
+  return handleJson(await authedFetch(`${API_URL}/voices`, { method: 'POST', body: form }, getToken))
+}
+
+export async function deleteVoice({ voiceId, getToken } = {}) {
+  return handleJson(await authedFetch(`${API_URL}/voices/${voiceId}`, { method: 'DELETE' }, getToken))
+}
+
+export async function setDefaultVoice({ voiceId, getToken } = {}) {
+  return handleJson(await authedFetch(`${API_URL}/voices/${voiceId}/default`, { method: 'POST' }, getToken))
+}
+
+export async function previewVoice({ voice, text, settings, getToken } = {}) {
+  return handleJson(await authedFetch(`${API_URL}/voices/preview`, jsonInit('POST', { voice, text, ...settings }), getToken))
+}
+
+export async function extractScript({ file, getToken } = {}) {
+  const form = new FormData()
+  form.append('file', file)
+  return handleJson(await authedFetch(`${API_URL}/voices/script/extract`, { method: 'POST', body: form }, getToken))
+}
+
+export async function generateSpeech({ name, text, voice, settings, getToken } = {}) {
+  return handleJson(await authedFetch(`${API_URL}/voices/generate`, jsonInit('POST', { name, text, voice, ...settings }), getToken))
+}

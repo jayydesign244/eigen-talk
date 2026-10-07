@@ -801,6 +801,50 @@ async def _edit_audio(user, db, project_id: int, operations: List[Dict[str, Any]
 
 
 # --------------------------------------------------------------------------
+# Voice Studio — creating a clone needs recorded consent, so it's app-only
+# --------------------------------------------------------------------------
+
+@tool(
+    "list_voices",
+    "Voices available for generate_speech: the user's own cloned voices (made with recorded "
+    "consent in the app's Voice Studio) and built-in stock voices.",
+    read_only=True,
+)
+async def _list_voices(user, db):
+    from routers import voices as V
+    out = await V.list_voices(user=user, db=db)
+    return {
+        "my_voices": [{"voice": v["ref"], "name": v["name"], "default": v["is_default"]} for v in out["mine"]],
+        "stock_voices": [{"voice": v["ref"], "name": v["name"], "description": v["description"]} for v in out["stock"]],
+        "note": "To clone a new voice, the user records a consent statement in Sonicly's Voice Studio.",
+    }
+
+
+@tool(
+    "generate_speech",
+    "Turn a script into a new project spoken in one of list_voices' voices. The transcript is "
+    "timed word-by-word, so every editing and sound tool works on the result immediately.",
+    _obj({
+        "name": {"type": "string", "description": "Project name"},
+        "script": {"type": "string", "description": "The text to speak (up to 50,000 characters)"},
+        "voice": {"type": "string", "description": "A voice from list_voices, e.g. 'mine:3' or 'stock:EXAVITQu4vr4xnSDxMaL'"},
+        "stability": {"type": "number", "description": "0–1, default 0.5 (lower = more expressive)"},
+        "similarity": {"type": "number", "description": "0–1, default 0.8"},
+        "style": {"type": "number", "description": "0–1, default 0"},
+        "speed": {"type": "number", "description": "0.7–1.2, default 1"},
+    }, ["script", "voice"]),
+    media=True,
+)
+async def _generate_speech(user, db, script: str, voice: str, name: str = "Untitled script",
+                           stability: float = 0.5, similarity: float = 0.8, style: float = 0.0, speed: float = 1.0):
+    from routers import voices as V
+    proj = _slim(await V.generate(V.GenerateIn(name=name, text=script, voice=voice, stability=stability,
+                                               similarity=similarity, style=style, speed=speed), user=user, db=db))
+    return {"project": {"id": proj.get("id"), "name": proj.get("name")}, "duration": proj.get("duration"),
+            "audio_url": proj.get("audio_url")}
+
+
+# --------------------------------------------------------------------------
 # Chat threads
 # --------------------------------------------------------------------------
 

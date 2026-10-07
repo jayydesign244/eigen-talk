@@ -30,6 +30,7 @@ Working features:
 - **Sound engine** (`services/sound/`): 45 effects (clean/repair, pitch & formant, EQ, dynamics, creative, space, fades, loudness), 65 named looks, 6 character sliders, music/intro/outro layers with auto-ducking, user presets, and audio analysis with one-click fixes. Non-destructive: a per-project draft is previewed, then "Apply" saves a version that remembers its effects and dry source, so it stays editable.
 - **AI assistant** turns any request into sound settings or transcript edits through two tools (`update_sound`, `edit_audio`); short common requests ("warmer", "a bit more", "undo") are handled instantly without the model. It only helps with the recording/Sonicly, refuses off-topic requests, and its reply always lists what actually changed.
 - **Transcript edits**: delete, replace (voice), bleep (tone/mute), insert pause, tighten long pauses
+- **Voice Studio** (`/voice`): clone your own voice (recorded consent statement verified with Whisper, 3 reading samples → ElevenLabs Instant Voice Clone, stored as `UserVoice`), and turn a script (paste, .txt or .docx) into a new project in your voice or a built-in one. Generation is chunked with context for continuity and uses ElevenLabs character timestamps, so the project opens with a word-timed transcript (no Whisper pass). Word rewrites in the editor prefer the user's own clone. Cloning needs an ElevenLabs plan with Instant Voice Cloning (Starter+) and a key with Voices: Write + User: Access.
 - **AI chat** threads saved per project
 - **MCP server** at `POST /mcp` exposing every feature as a tool, plus a self-hosted **OAuth 2.1 server** (Dynamic Client Registration + PKCE) so the MCP URL can be pasted into Claude/ChatGPT/any MCP client
 
@@ -95,6 +96,8 @@ backend/
   services/sound/analyze.py   Loudness/noise/tone (vs LTASS)/pitch/hum/echo/pace → findings with fixes
   services/sound/ai.py        Assistant system prompt, tool schemas, applying tool ops, phrase lookup
   routers/sound.py     /api/sound/* and /api/projects/{id}/sound/* (draft, look, preview, apply, analyze, layers, presets)
+  routers/voices.py    /api/voices/* — status, list, create (consent-checked clone), preview, script extract, generate
+  services/speech.py   Script → chunks → TTS with continuity → joined audio + word-timed transcript
   mcp_server.py        JSON-RPC MCP endpoint; @tool registry wraps the same logic as the REST routes
   oauth_server.py      OAuth 2.1 AS for MCP (DCR, /authorize, /consent, /token); only hashes stored
 frontend/src/
@@ -103,6 +106,7 @@ frontend/src/
   pages/Editor.jsx     The main editor: transcript, waveform, chat, versions, export, compare, sound panel wiring
   components/editor/SoundPanel.jsx  Sound check, looks, character sliders, effect cards (Simple/Pro), layers, presets, A/B + apply
   pages/Dashboard.jsx  Project list / upload
+  pages/VoiceStudio.jsx  Script to audio, my voices, create-voice wizard (consent + 3 paragraphs)
   context/AuthContext.jsx, components/ProtectedRoute.jsx, hooks/useAudioPlayer.js, hooks/usePendingEdits.js
 ```
 
