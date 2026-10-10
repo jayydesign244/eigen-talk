@@ -4123,9 +4123,16 @@
    "flows": [
     "Onboarding"
    ],
-   "reviewed": false,
-   "notes": "",
-   "seq": 193
+   "reviewed": true,
+   "notes": "OTP: square outlined back button; 4 square OTP boxes; legal caption w/ underlined links; disabled CTA",
+   "seq": 193,
+   "tags": [
+    "form-header-dark",
+    "back-button-square",
+    "otp-boxes",
+    "legal-caption-links",
+    "button-disabled"
+   ]
   },
   "bcb35260-2096-48af-ac4b-5b64c4813dde": {
    "url": "https://mobbin.com/screens/bcb35260-2096-48af-ac4b-5b64c4813dde",
@@ -4133,9 +4140,14 @@
    "flows": [
     "Onboarding"
    ],
-   "reviewed": false,
-   "notes": "",
-   "seq": 194
+   "reviewed": true,
+   "notes": "filled boxes + \"didn't receive OTP? Resend OTP\" underlined",
+   "seq": 194,
+   "tags": [
+    "otp-boxes-filled",
+    "resend-link",
+    "button-primary"
+   ]
   },
   "495eb35e-96b1-422d-93f4-03e811afe6f9": {
    "url": "https://mobbin.com/screens/495eb35e-96b1-422d-93f4-03e811afe6f9",
@@ -4143,9 +4155,16 @@
    "flows": [
     "Onboarding"
    ],
-   "reviewed": false,
-   "notes": "",
-   "seq": 195
+   "reviewed": true,
+   "notes": "permissions: rows w/ circle icon + medium title + muted desc; \"skip for now\"",
+   "seq": 195,
+   "tags": [
+    "text-link-underline",
+    "section-eyebrow",
+    "serif-heading",
+    "permission-row",
+    "button-light-full"
+   ]
   },
   "08e41e83-2a85-4af5-b89c-829e58b04d2a": {
    "url": "https://mobbin.com/screens/08e41e83-2a85-4af5-b89c-829e58b04d2a",
@@ -4153,9 +4172,12 @@
    "flows": [
     "Onboarding"
    ],
-   "reviewed": false,
-   "notes": "",
-   "seq": 196
+   "reviewed": true,
+   "notes": "iOS location permission alert over screen; CTA dimmed",
+   "seq": 196,
+   "tags": [
+    "system-alert-ios"
+   ]
   },
   "9efd2319-46c3-4882-ad92-3c1359d07572": {
    "url": "https://mobbin.com/screens/9efd2319-46c3-4882-ad92-3c1359d07572",
@@ -4163,9 +4185,16 @@
    "flows": [
     "Onboarding"
    ],
-   "reviewed": false,
-   "notes": "",
-   "seq": 197
+   "reviewed": true,
+   "notes": "name form empty",
+   "seq": 197,
+   "tags": [
+    "form-header-dark",
+    "floating-gift-button",
+    "field-outline-floating-label",
+    "helper-text",
+    "button-disabled"
+   ]
   },
   "ad2e83c7-fa4a-4e26-a8d3-bdf15e4fe79b": {
    "url": "https://mobbin.com/screens/ad2e83c7-fa4a-4e26-a8d3-bdf15e4fe79b",
@@ -4173,9 +4202,14 @@
    "flows": [
     "Onboarding"
    ],
-   "reviewed": false,
-   "notes": "",
-   "seq": 198
+   "reviewed": true,
+   "notes": "gift pill expanded; filled",
+   "seq": 198,
+   "tags": [
+    "gift-pill-banner",
+    "field-filled",
+    "button-primary"
+   ]
   },
   "abaa6774-cef9-40da-b224-291124e34b2f": {
    "url": "https://mobbin.com/screens/abaa6774-cef9-40da-b224-291124e34b2f",
@@ -4183,9 +4217,18 @@
    "flows": [
     "Onboarding"
    ],
-   "reviewed": false,
-   "notes": "",
-   "seq": 199
+   "reviewed": true,
+   "notes": "email + whatsapp opt-in checkbox row w/ brand icon",
+   "seq": 199,
+   "tags": [
+    "form-header-dark",
+    "back-button-square",
+    "field-outline-floating-label",
+    "checkbox-square",
+    "whatsapp-icon",
+    "button-disabled-full",
+    "security-footer"
+   ]
   },
   "d984a05b-5a73-4605-8eff-b63400a0e906": {
    "url": "https://mobbin.com/screens/d984a05b-5a73-4605-8eff-b63400a0e906",
@@ -4193,9 +4236,13 @@
    "flows": [
     "Onboarding"
    ],
-   "reviewed": false,
-   "notes": "",
-   "seq": 200
+   "reviewed": true,
+   "notes": "checked + enabled",
+   "seq": 200,
+   "tags": [
+    "checkbox-square-checked",
+    "button-primary-full"
+   ]
   },
   "1695284f-fb61-43e0-81e7-23c4eded79df": {
    "url": "https://mobbin.com/screens/1695284f-fb61-43e0-81e7-23c4eded79df",
@@ -4205,9 +4252,19 @@
     "Hotel detail",
     "Booking a hotel"
    ],
-   "reviewed": false,
-   "notes": "",
-   "seq": 201
+   "reviewed": true,
+   "notes": "hotel hero: white square back/share buttons on image, dots; caps location eyebrow, serif title, muted body; feature rows w/ line icon + title + muted desc",
+   "seq": 201,
+   "tags": [
+    "hero-image-gallery",
+    "image-carousel-dots",
+    "icon-button-square-white",
+    "section-eyebrow",
+    "serif-heading",
+    "feature-row-icon",
+    "cashback-ribbon",
+    "sticky-price-bar"
+   ]
   },
   "587d5a59-3d31-4587-a989-b2f2b481f300": {
    "url": "https://mobbin.com/screens/587d5a59-3d31-4587-a989-b2f2b481f300",
@@ -4215,9 +4272,14 @@
    "flows": [
     "Hotel photo gallery"
    ],
-   "reviewed": false,
-   "notes": "",
-   "seq": 202
+   "reviewed": true,
+   "notes": "PHOTO GALLERY: thumbnail category tabs w/ labels; large images under headings",
+   "seq": 202,
+   "tags": [
+    "nav-header-centered-caps",
+    "thumbnail-tabs",
+    "gallery-section"
+   ]
   },
   "4e257faf-c916-46d7-b05a-4a22cc90d92c": {
    "url": "https://mobbin.com/screens/4e257faf-c916-46d7-b05a-4a22cc90d92c",
@@ -4225,9 +4287,12 @@
    "flows": [
     "Hotel photo gallery"
    ],
-   "reviewed": false,
-   "notes": "",
-   "seq": 203
+   "reviewed": true,
+   "notes": "2-col photo grid per section heading",
+   "seq": 203,
+   "tags": [
+    "gallery-grid-2col"
+   ]
   },
   "34236e36-c7dc-40b2-8820-750eaf345490": {
    "url": "https://mobbin.com/screens/34236e36-c7dc-40b2-8820-750eaf345490",
@@ -4235,9 +4300,20 @@
    "flows": [
     "Activating membership"
    ],
-   "reviewed": false,
-   "notes": "",
-   "seq": 204
+   "reviewed": true,
+   "notes": "verify card: dark top with corner-bracket frame around card carousel; serif heading + \"Add card\" outlined; bank select; CARD NUMBER mono field",
+   "seq": 204,
+   "tags": [
+    "card-scan-frame",
+    "card-visual",
+    "page-header-serif",
+    "button-outline-small",
+    "network-icon-tile",
+    "select-dropdown-outline",
+    "field-outline-floating-label",
+    "button-disabled",
+    "security-footer"
+   ]
   },
   "97ac6530-a11b-4ff0-be5f-6ed058e6366d": {
    "url": "https://mobbin.com/screens/97ac6530-a11b-4ff0-be5f-6ed058e6366d",
@@ -4245,9 +4321,13 @@
    "flows": [
     "Activating membership"
    ],
-   "reviewed": false,
-   "notes": "",
-   "seq": 205
+   "reviewed": true,
+   "notes": "filled",
+   "seq": 205,
+   "tags": [
+    "field-filled",
+    "button-primary"
+   ]
   },
   "75c28941-de1a-474d-9cb8-791d542a1941": {
    "url": "https://mobbin.com/screens/75c28941-de1a-474d-9cb8-791d542a1941",
@@ -4255,9 +4335,15 @@
    "flows": [
     "Activating membership"
    ],
-   "reviewed": false,
-   "notes": "",
-   "seq": 206
+   "reviewed": true,
+   "notes": "setup complete with green scan line",
+   "seq": 206,
+   "tags": [
+    "card-scan-success",
+    "section-eyebrow",
+    "serif-heading",
+    "security-footer"
+   ]
   },
   "05aac9f1-cbc5-405a-83af-66385156e54b": {
    "url": "https://mobbin.com/screens/05aac9f1-cbc5-405a-83af-66385156e54b",
@@ -4265,9 +4351,12 @@
    "flows": [
     "Activating membership"
    ],
-   "reviewed": false,
-   "notes": "",
-   "seq": 207
+   "reviewed": true,
+   "notes": "card outline w/ green check ring",
+   "seq": 207,
+   "tags": [
+    "success-check-card"
+   ]
   },
   "ec9c6a0a-7aac-4473-b1bc-8f88cf0089d3": {
    "url": "https://mobbin.com/screens/ec9c6a0a-7aac-4473-b1bc-8f88cf0089d3",
@@ -4275,9 +4364,14 @@
    "flows": [
     "Activating membership"
    ],
-   "reviewed": false,
-   "notes": "",
-   "seq": 208
+   "reviewed": true,
+   "notes": "link email account: rows as outlined cards w/ provider logo + name + chevron",
+   "seq": 208,
+   "tags": [
+    "bottom-sheet",
+    "heading-bold",
+    "provider-row-card"
+   ]
   },
   "29b2600a-805d-439c-9778-633597352357": {
    "url": "https://mobbin.com/screens/29b2600a-805d-439c-9778-633597352357",
@@ -4285,9 +4379,18 @@
    "flows": [
     "Activating membership"
    ],
-   "reviewed": false,
-   "notes": "",
-   "seq": 209
+   "reviewed": true,
+   "notes": "CRED protect intro: green check bullet, surfaced note w/ shield tile",
+   "seq": 209,
+   "tags": [
+    "illustration-iso",
+    "section-eyebrow",
+    "serif-heading",
+    "check-bullet-accent",
+    "info-row-surface-icon",
+    "button-light-full",
+    "security-footer"
+   ]
   },
   "1acaa122-66ca-4a0f-910a-6138442ae881": {
    "url": "https://mobbin.com/screens/1acaa122-66ca-4a0f-910a-6138442ae881",
@@ -4295,9 +4398,14 @@
    "flows": [
     "Activating membership"
    ],
-   "reviewed": false,
-   "notes": "",
-   "seq": 210
+   "reviewed": true,
+   "notes": "\"ALL SET\" + shield w/ check",
+   "seq": 210,
+   "tags": [
+    "success-illustration",
+    "section-eyebrow",
+    "serif-heading"
+   ]
   },
   "d019ff07-66a3-44cb-b9bc-cece1fec50d9": {
    "url": "https://mobbin.com/screens/d019ff07-66a3-44cb-b9bc-cece1fec50d9",
@@ -4305,9 +4413,14 @@
    "flows": [
     "Activating membership"
    ],
-   "reviewed": false,
-   "notes": "",
-   "seq": 211
+   "reviewed": true,
+   "notes": "membership activated",
+   "seq": 211,
+   "tags": [
+    "illustration-iso",
+    "section-eyebrow",
+    "serif-heading"
+   ]
   },
   "5c4483e5-d257-43c4-ab55-edf663b6cb6d": {
    "url": "https://mobbin.com/screens/5c4483e5-d257-43c4-ab55-edf663b6cb6d",
@@ -4316,9 +4429,14 @@
     "Activating membership",
     "Making the first payment"
    ],
-   "reviewed": false,
-   "notes": "",
-   "seq": 212
+   "reviewed": true,
+   "notes": "perks list w/ green check bullets",
+   "seq": 212,
+   "tags": [
+    "coin-balance-pill",
+    "check-list-accent",
+    "serif-heading"
+   ]
   },
   "f08a65a7-8c7b-4e52-b823-2b082be8b850": {
    "url": "https://mobbin.com/screens/f08a65a7-8c7b-4e52-b823-2b082be8b850",
@@ -4326,9 +4444,16 @@
    "flows": [
     "Hotel detail"
    ],
-   "reviewed": false,
-   "notes": "",
-   "seq": 213
+   "reviewed": true,
+   "notes": "hotel detail scrolled",
+   "seq": 213,
+   "tags": [
+    "hero-image-gallery",
+    "feature-row-icon",
+    "amenity-grid",
+    "cashback-ribbon",
+    "sticky-price-bar"
+   ]
   },
   "ef91185a-0ccb-450f-b78e-2b23dfcde120": {
    "url": "https://mobbin.com/screens/ef91185a-0ccb-450f-b78e-2b23dfcde120",
@@ -4336,9 +4461,15 @@
    "flows": [
     "Linking an account to enable UPI"
    ],
-   "reviewed": false,
-   "notes": "",
-   "seq": 214
+   "reviewed": true,
+   "notes": "link UPI: centered illustration, bold title, muted body, white \"Link now\", powered by logos",
+   "seq": 214,
+   "tags": [
+    "empty-state-dark",
+    "illustration",
+    "button-light",
+    "powered-by-footer"
+   ]
   },
   "bf9aa61b-5232-4a1c-a0f8-eb6563a00f79": {
    "url": "https://mobbin.com/screens/bf9aa61b-5232-4a1c-a0f8-eb6563a00f79",
@@ -4346,9 +4477,18 @@
    "flows": [
     "Linking an account to enable UPI"
    ],
-   "reviewed": false,
-   "notes": "",
-   "seq": 215
+   "reviewed": true,
+   "notes": "choose bank: top 4 bank circles + list rows w/ circle logo + name",
+   "seq": 215,
+   "tags": [
+    "bottom-sheet",
+    "section-eyebrow",
+    "search-field-outline",
+    "helper-text",
+    "logo-circle-grid",
+    "divider",
+    "bank-list-row"
+   ]
   },
   "94c7e671-778a-4964-b1df-82ff9322fc7f": {
    "url": "https://mobbin.com/screens/94c7e671-778a-4964-b1df-82ff9322fc7f",
@@ -4356,9 +4496,14 @@
    "flows": [
     "Linking an account to enable UPI"
    ],
-   "reviewed": false,
-   "notes": "",
-   "seq": 216
+   "reviewed": true,
+   "notes": "\"SMS verification is mandatory\" sheet",
+   "seq": 216,
+   "tags": [
+    "confirm-sheet",
+    "heading-bold",
+    "button-primary-full"
+   ]
   },
   "4fb93b0d-c18f-4b24-910b-64d8135a00e0": {
    "url": "https://mobbin.com/screens/4fb93b0d-c18f-4b24-910b-64d8135a00e0",
@@ -4366,9 +4511,13 @@
    "flows": [
     "Linking an account to enable UPI"
    ],
-   "reviewed": false,
-   "notes": "",
-   "seq": 217
+   "reviewed": true,
+   "notes": "fetching account sheet: bold title + muted body + black button w/ animated 4 square dots",
+   "seq": 217,
+   "tags": [
+    "loading-sheet",
+    "button-loading-dots"
+   ]
   },
   "f567a894-aa1b-484a-9ab2-88440d46bdb5": {
    "url": "https://mobbin.com/screens/f567a894-aa1b-484a-9ab2-88440d46bdb5",
@@ -4376,9 +4525,14 @@
    "flows": [
     "Linking an account to enable UPI"
    ],
-   "reviewed": false,
-   "notes": "",
-   "seq": 218
+   "reviewed": true,
+   "notes": "\"we found 1 account\" + row w/ set M-PIN link; outlined \"Other banks\" + black \"Done\"",
+   "seq": 218,
+   "tags": [
+    "result-sheet",
+    "bank-account-row",
+    "button-outline-pair"
+   ]
   },
   "613a3aba-893b-4438-8a0e-d779e8878272": {
    "url": "https://mobbin.com/screens/613a3aba-893b-4438-8a0e-d779e8878272",
@@ -4386,9 +4540,15 @@
    "flows": [
     "Linking an account to enable UPI"
    ],
-   "reviewed": false,
-   "notes": "",
-   "seq": 219
+   "reviewed": true,
+   "notes": "UPI options: outlined callout row w/ circle icon + red notif dot + muted overline + bold + arrow; settings rows w/ square icon tile + title + muted subtitle + chevron",
+   "seq": 219,
+   "tags": [
+    "page-header-serif",
+    "feature-row-outline",
+    "list-row-icon-subtitle-chevron",
+    "powered-by-footer"
+   ]
   },
   "8fbbea30-c3a1-439c-b4b8-7094ad394411": {
    "url": "https://mobbin.com/screens/8fbbea30-c3a1-439c-b4b8-7094ad394411",
@@ -4396,9 +4556,19 @@
    "flows": [
     "Linking an account to enable UPI"
    ],
-   "reviewed": false,
-   "notes": "",
-   "seq": 220
+   "reviewed": true,
+   "notes": "linked UPI accounts: white cards w/ logo + name + mono a/c, mint caps \"PRIMARY ACCOUNT\" tag, circular \"\u2022\u2022\u2022\" outline, \"check balance\" link or black \"Set UPI pin\"; outlined \"Add bank account\", \"Add credit card\"",
+   "seq": 220,
+   "tags": [
+    "nav-header-title",
+    "icon-button-square-outline",
+    "section-eyebrow",
+    "bank-card-white",
+    "tag-primary-mint",
+    "overflow-button-circle",
+    "button-primary-small",
+    "button-outline"
+   ]
   },
   "538791cc-44e6-46e6-96f0-ee4d23c05780": {
    "url": "https://mobbin.com/screens/538791cc-44e6-46e6-96f0-ee4d23c05780",
@@ -4406,9 +4576,16 @@
    "flows": [
     "Linking an account to enable UPI"
    ],
-   "reviewed": false,
-   "notes": "",
-   "seq": 221
+   "reviewed": true,
+   "notes": "account sheet: bank header row, bold title, outlined box w/ caps \"YOUR UPI IDS\" + id row, rows reset pin / deactivate (trash)",
+   "seq": 221,
+   "tags": [
+    "bottom-sheet",
+    "bank-header-row",
+    "heading-bold",
+    "upi-id-box",
+    "list-row-icon-tile"
+   ]
   },
   "9da06e92-affa-452d-b556-1c5d801fc403": {
    "url": "https://mobbin.com/screens/9da06e92-affa-452d-b556-1c5d801fc403",
@@ -4416,9 +4593,15 @@
    "flows": [
     "Cred referral"
    ],
-   "reviewed": false,
-   "notes": "",
-   "seq": 222
+   "reviewed": true,
+   "notes": "referral welcome: spotlight beams, avatar, \"welcome to / CRED referral\" (yellow serif italic), gift box",
+   "seq": 222,
+   "tags": [
+    "spotlight-bg",
+    "avatar-ring",
+    "serif-heading-accent-italic",
+    "reward-illustration-3d"
+   ]
   },
   "df22ca5a-fa2a-44e8-82a8-9195a5e47bd8": {
    "url": "https://mobbin.com/screens/df22ca5a-fa2a-44e8-82a8-9195a5e47bd8",
@@ -4426,9 +4609,14 @@
    "flows": [
     "Cred referral"
    ],
-   "reviewed": false,
-   "notes": "",
-   "seq": 223
+   "reviewed": true,
+   "notes": "\"\u20b9 500\" big number",
+   "seq": 223,
+   "tags": [
+    "spotlight-bg",
+    "display-number",
+    "reward-illustration-3d"
+   ]
   },
   "91feb24f-caa0-43ef-9ef8-18fd6af59bfe": {
    "url": "https://mobbin.com/screens/91feb24f-caa0-43ef-9ef8-18fd6af59bfe",
@@ -4436,9 +4624,18 @@
    "flows": [
     "Cred referral"
    ],
-   "reviewed": false,
-   "notes": "",
-   "seq": 224
+   "reviewed": true,
+   "notes": "referral levels: purple card w/ yellow tab \"LEVEL 1\", progress track w/ dots & labels LEVEL 1-4, green dot \"level up\" note, white plunk \"Invite via whatsapp\", marquee caps strip; \"\u2014 invite friends \u2014\" serif divider title, outlined search",
+   "seq": 224,
+   "tags": [
+    "level-banner",
+    "tag-level-yellow",
+    "level-progress-track",
+    "button-plunk-white-icon",
+    "marquee-caps",
+    "divider-title",
+    "search-field-outline"
+   ]
   },
   "5b22bb5d-e916-4077-bb30-c15ae4518412": {
    "url": "https://mobbin.com/screens/5b22bb5d-e916-4077-bb30-c15ae4518412",
@@ -4446,9 +4643,19 @@
    "flows": [
     "Cred referral"
    ],
-   "reviewed": false,
-   "notes": "",
-   "seq": 225
+   "reviewed": true,
+   "notes": "invite list: illustrated avatars, green caps \"WIN ASSURED CASHBACK\", blurred names, small black \"Invite\"; \"view all\" underlined; scrollbar",
+   "seq": 225,
+   "tags": [
+    "divider-title",
+    "search-field-outline",
+    "section-eyebrow",
+    "contact-invite-row",
+    "avatar-illustrated",
+    "eyebrow-green",
+    "button-primary-small",
+    "text-link-underline"
+   ]
   },
   "1d8907bb-d182-4bd4-bd52-1a4ba9e7896a": {
    "url": "https://mobbin.com/screens/1d8907bb-d182-4bd4-bd52-1a4ba9e7896a",
@@ -4456,9 +4663,14 @@
    "flows": [
     "Unlocking price"
    ],
-   "reviewed": false,
-   "notes": "",
-   "seq": 226
+   "reviewed": true,
+   "notes": "unlock plunk button pressed/loading state \"Unlocking..\" w/ split highlight",
+   "seq": 226,
+   "tags": [
+    "deal-header-pill",
+    "product-hero",
+    "button-plunk-yellow-loading"
+   ]
   },
   "142a52f2-4f41-47e5-a2f2-fb1a6e00d30f": {
    "url": "https://mobbin.com/screens/142a52f2-4f41-47e5-a2f2-fb1a6e00d30f",
@@ -4466,9 +4678,16 @@
    "flows": [
     "Unlocking price"
    ],
-   "reviewed": false,
-   "notes": "",
-   "seq": 227
+   "reviewed": true,
+   "notes": "unlocked: yellow \"UNLOCKED\" pill, black oval price reveal (price + strike) w/ yellow tag \"PRICE UNLOCKED\", black plunk \"Buy now\", \"you won (coin) 90\"",
+   "seq": 227,
+   "tags": [
+    "deal-header-pill-yellow",
+    "price-reveal-pill",
+    "tag-yellow-caps",
+    "button-plunk-dark",
+    "coin-cost-chip"
+   ]
   },
   "db2b5f16-62c1-4b86-baa4-e5e35aa3630b": {
    "url": "https://mobbin.com/screens/db2b5f16-62c1-4b86-baa4-e5e35aa3630b",
@@ -4476,9 +4695,17 @@
    "flows": [
     "Making the first payment"
    ],
-   "reviewed": false,
-   "notes": "",
-   "seq": 228
+   "reviewed": true,
+   "notes": "\u20b950 reward: red dot \"VALID TODAY\", wide yellow 3D \"Pay Now \u2192\"",
+   "seq": 228,
+   "tags": [
+    "reward-hero",
+    "display-number",
+    "card-visual",
+    "valid-dot-caps",
+    "button-plunk-yellow-wide",
+    "avatar-ring"
+   ]
   },
   "756932a2-9029-4c67-b293-877c557d7719": {
    "url": "https://mobbin.com/screens/756932a2-9029-4c67-b293-877c557d7719",
@@ -4486,9 +4713,13 @@
    "flows": [
     "Making the first payment"
    ],
-   "reviewed": false,
-   "notes": "",
-   "seq": 229
+   "reviewed": true,
+   "notes": "pressed state w/ highlight stripes; \"Skip for now\"",
+   "seq": 229,
+   "tags": [
+    "button-plunk-yellow-pressed",
+    "text-link-underline"
+   ]
   },
   "2591cecc-ba8e-42a0-81bd-3d999fc9e9ca": {
    "url": "https://mobbin.com/screens/2591cecc-ba8e-42a0-81bd-3d999fc9e9ca",
@@ -4496,9 +4727,18 @@
    "flows": [
     "Making the first payment"
    ],
-   "reviewed": false,
-   "notes": "",
-   "seq": 230
+   "reviewed": true,
+   "notes": "green caps strip header \"WIN UPTO \u20b91000 CASHBACK ON PAYMENT\"; checked green square checkbox + (i)",
+   "seq": 230,
+   "tags": [
+    "sheet-header-strip-green",
+    "bank-row",
+    "amount-input-inline",
+    "button-disabled",
+    "checkbox-square-green",
+    "info-icon",
+    "keypad-ios"
+   ]
   },
   "af4fcab7-7d1b-4876-af74-9ea0f9b222f5": {
    "url": "https://mobbin.com/screens/af4fcab7-7d1b-4876-af74-9ea0f9b222f5",
@@ -4506,9 +4746,13 @@
    "flows": [
     "Making the first payment"
    ],
-   "reviewed": false,
-   "notes": "",
-   "seq": 231
+   "reviewed": true,
+   "notes": "enabled",
+   "seq": 231,
+   "tags": [
+    "amount-input-inline",
+    "button-primary-full"
+   ]
   },
   "f2b7d39f-ea90-4879-975d-d39e3f20f37f": {
    "url": "https://mobbin.com/screens/f2b7d39f-ea90-4879-975d-d39e3f20f37f",
@@ -4516,9 +4760,12 @@
    "flows": [
     "Making the first payment"
    ],
-   "reviewed": false,
-   "notes": "",
-   "seq": 232
+   "reviewed": true,
+   "notes": "CRED pay checkout repeat",
+   "seq": 232,
+   "tags": [
+    "checkout-sheet"
+   ]
   },
   "58ecb41d-ff6d-457c-b776-b58aea31f374": {
    "url": "https://mobbin.com/screens/58ecb41d-ff6d-457c-b776-b58aea31f374",
@@ -4526,9 +4773,12 @@
    "flows": [
     "Making the first payment"
    ],
-   "reviewed": false,
-   "notes": "",
-   "seq": 233
+   "reviewed": true,
+   "notes": "processing repeat",
+   "seq": 233,
+   "tags": [
+    "progress-button"
+   ]
   },
   "6d1f03b5-137a-4c22-9150-ef83ca32fb34": {
    "url": "https://mobbin.com/screens/6d1f03b5-137a-4c22-9150-ef83ca32fb34",
@@ -4536,9 +4786,13 @@
    "flows": [
     "Making the first payment"
    ],
-   "reviewed": false,
-   "notes": "",
-   "seq": 234
+   "reviewed": true,
+   "notes": "green full-screen: black check in yellow+black concentric rings, \"completing your payment\" + muted caption",
+   "seq": 234,
+   "tags": [
+    "fullscreen-status-green",
+    "success-check-ring"
+   ]
   },
   "008e64ce-0121-4403-98e9-d52a7e343b7a": {
    "url": "https://mobbin.com/screens/008e64ce-0121-4403-98e9-d52a7e343b7a",
@@ -4546,9 +4800,19 @@
    "flows": [
     "Making the first payment"
    ],
-   "reviewed": false,
-   "notes": "",
-   "seq": 235
+   "reviewed": true,
+   "notes": "paid towards: curved green band, black check, caps label, bank w/ network icon, \u20b910, \"view details\" link; 777 slot reels; yellow plunk \"Win cashback \u2192\"",
+   "seq": 235,
+   "tags": [
+    "receipt-hero-green",
+    "coin-balance-pill",
+    "success-check-dark",
+    "mastercard-mini",
+    "display-number",
+    "text-link-underline",
+    "slot-machine-3d",
+    "button-plunk-yellow"
+   ]
   },
   "c84bfff5-06b6-4f4a-8d34-e9fb5c1e6ecf": {
    "url": "https://mobbin.com/screens/c84bfff5-06b6-4f4a-8d34-e9fb5c1e6ecf",
@@ -4556,9 +4820,17 @@
    "flows": [
     "Concierge"
    ],
-   "reviewed": false,
-   "notes": "",
-   "seq": 236
+   "reviewed": true,
+   "notes": "concierge: avatar w/ small badge, green \"active\" word, white \"Contact concierge \u2192\"; 24X7 caps; image cards w/ big \"01\" numeral + caption",
+   "seq": 236,
+   "tags": [
+    "avatar-badge",
+    "serif-heading",
+    "status-word-accent",
+    "button-light",
+    "section-eyebrow",
+    "numbered-image-card"
+   ]
   },
   "df03e36c-bfbf-4e46-93d6-c2d9f79a39f1": {
    "url": "https://mobbin.com/screens/df03e36c-bfbf-4e46-93d6-c2d9f79a39f1",
@@ -4566,9 +4838,15 @@
    "flows": [
     "Concierge"
    ],
-   "reviewed": false,
-   "notes": "",
-   "seq": 237
+   "reviewed": true,
+   "notes": "\"Call for assistance \u2192\" outlined + \"View all services\" link; numbered list: 01. | CAPS LABEL | \u2197 w/ vertical divider col",
+   "seq": 237,
+   "tags": [
+    "numbered-image-card",
+    "button-outline",
+    "text-link-underline",
+    "numbered-list-caps"
+   ]
   },
   "f389fe44-91d7-4adf-b52e-e779f8af1c2d": {
    "url": "https://mobbin.com/screens/f389fe44-91d7-4adf-b52e-e779f8af1c2d",
@@ -4576,9 +4854,13 @@
    "flows": [
     "Concierge"
    ],
-   "reviewed": false,
-   "notes": "",
-   "seq": 238
+   "reviewed": true,
+   "notes": "\"start a conversation with us \u2192\" editorial outlined card w/ small caps \"STUCK SOMEWHERE?\"",
+   "seq": 238,
+   "tags": [
+    "numbered-list-caps",
+    "cta-card-editorial"
+   ]
   },
   "7ef0e8aa-9c29-45c6-8971-f73a821ee5d2": {
    "url": "https://mobbin.com/screens/7ef0e8aa-9c29-45c6-8971-f73a821ee5d2",
@@ -4586,9 +4868,16 @@
    "flows": [
     "Concierge"
    ],
-   "reviewed": false,
-   "notes": "",
-   "seq": 239
+   "reviewed": true,
+   "notes": "confirm vehicle: outlined vehicle card selected, location note w/ green link text",
+   "seq": 239,
+   "tags": [
+    "bottom-sheet",
+    "section-eyebrow",
+    "vehicle-select-card",
+    "location-note",
+    "button-primary-full"
+   ]
   },
   "aa15fa71-e51c-4178-ab08-4894808afe11": {
    "url": "https://mobbin.com/screens/aa15fa71-e51c-4178-ab08-4894808afe11",
@@ -4596,9 +4885,15 @@
    "flows": [
     "Concierge"
    ],
-   "reviewed": false,
-   "notes": "",
-   "seq": 240
+   "reviewed": true,
+   "notes": "emergency: icon list rows (icon + text) + plunk \"Call for assistance\"",
+   "seq": 240,
+   "tags": [
+    "illustration",
+    "serif-heading",
+    "icon-feature-list",
+    "button-plunk-light"
+   ]
   },
   "c878a50a-9d98-4e5b-a292-f6a247e35b51": {
    "url": "https://mobbin.com/screens/c878a50a-9d98-4e5b-a292-f6a247e35b51",
@@ -4606,9 +4901,14 @@
    "flows": [
     "Concierge"
    ],
-   "reviewed": false,
-   "notes": "",
-   "seq": 241
+   "reviewed": true,
+   "notes": "services list + surfaced info card w/ illustration, bold heading, muted body",
+   "seq": 241,
+   "tags": [
+    "icon-feature-list",
+    "info-card-surface",
+    "button-plunk-light"
+   ]
   },
   "8d0d0a4f-9a36-4f90-b72b-58bcc958c3c5": {
    "url": "https://mobbin.com/screens/8d0d0a4f-9a36-4f90-b72b-58bcc958c3c5",
@@ -4616,9 +4916,15 @@
    "flows": [
     "Concierge"
    ],
-   "reviewed": false,
-   "notes": "",
-   "seq": 242
+   "reviewed": true,
+   "notes": "concierge chat: green circular avatar, title + muted subtitle, square \u2715; dark bot bubble + white highlighted bubble; light panel w/ outlined quick replies",
+   "seq": 242,
+   "tags": [
+    "chat-header-avatar",
+    "chat-bubble-bot",
+    "chat-bubble-highlight",
+    "quick-reply-outline-light"
+   ]
   },
   "5d85e958-baf0-4eae-9202-a76875b8d49f": {
    "url": "https://mobbin.com/screens/5d85e958-baf0-4eae-9202-a76875b8d49f",
@@ -4626,9 +4932,15 @@
    "flows": [
     "Orders"
    ],
-   "reviewed": false,
-   "notes": "",
-   "seq": 243
+   "reviewed": true,
+   "notes": "store orders empty state w/ white plunk \"Explore CRED Store\"",
+   "seq": 243,
+   "tags": [
+    "page-header-serif",
+    "empty-state",
+    "illustration",
+    "button-plunk-light-small"
+   ]
   },
   "82ec8686-c340-412b-bcb4-43b3bf3a11c8": {
    "url": "https://mobbin.com/screens/82ec8686-c340-412b-bcb4-43b3bf3a11c8",
@@ -4636,9 +4948,16 @@
    "flows": [
     "Orders"
    ],
-   "reviewed": false,
-   "notes": "",
-   "seq": 244
+   "reviewed": true,
+   "notes": "light empty + RECOMMENDED FOR YOU outlined product cards w/ \"Add to cart \u2192\" footer row",
+   "seq": 244,
+   "tags": [
+    "coin-balance-header",
+    "empty-state-light",
+    "section-eyebrow",
+    "product-card-cta",
+    "button-primary-full"
+   ]
   },
   "4f22603d-2181-4332-8049-8c6e49a13a38": {
    "url": "https://mobbin.com/screens/4f22603d-2181-4332-8049-8c6e49a13a38",
@@ -4646,9 +4965,16 @@
    "flows": [
     "Pay your contacts"
    ],
-   "reviewed": false,
-   "notes": "",
-   "seq": 245
+   "reviewed": true,
+   "notes": "UPI home variant: search \"pay to (UPI logo)\"",
+   "seq": 245,
+   "tags": [
+    "profile-hero-qr",
+    "stepper-3d-progress",
+    "search-pill-dark",
+    "chip-action-icon",
+    "avatar-grid-contacts"
+   ]
   },
   "1ec7bf6e-5617-421b-b163-7fd216cd4e52": {
    "url": "https://mobbin.com/screens/1ec7bf6e-5617-421b-b163-7fd216cd4e52",
@@ -4656,9 +4982,16 @@
    "flows": [
     "Pay your contacts"
    ],
-   "reviewed": false,
-   "notes": "",
-   "seq": 246
+   "reviewed": true,
+   "notes": "contacts: \"ENDS IN 6D:13H\" caps, search w/ \"123\" keypad-toggle chip, pill tabs SUGGESTIONS / WIN REWARDS (selected = grey pill), rows avatar + blurred + \"\u2605 suggested contact\"",
+   "seq": 246,
+   "tags": [
+    "countdown-caps",
+    "stepper-3d-progress",
+    "search-pill-dark-keypad-toggle",
+    "tabs-pill",
+    "contact-row-avatar"
+   ]
   },
   "122fc8d1-725b-41fc-80aa-660b6ed162a6": {
    "url": "https://mobbin.com/screens/122fc8d1-725b-41fc-80aa-660b6ed162a6",
@@ -4666,9 +4999,16 @@
    "flows": [
     "Pay your contacts"
    ],
-   "reviewed": false,
-   "notes": "",
-   "seq": 247
+   "reviewed": true,
+   "notes": "WIN REWARDS tab: icon w/ yellow star, serif heading, outlined \"Win now \u2192\"",
+   "seq": 247,
+   "tags": [
+    "tabs-pill",
+    "empty-state-light",
+    "illustration-icon",
+    "serif-heading",
+    "button-outline"
+   ]
   },
   "3109128f-b0a8-483e-b5c2-3153c0235ad9": {
    "url": "https://mobbin.com/screens/3109128f-b0a8-483e-b5c2-3153c0235ad9",
@@ -4676,9 +5016,14 @@
    "flows": [
     "Pay your contacts"
    ],
-   "reviewed": false,
-   "notes": "",
-   "seq": 248
+   "reviewed": true,
+   "notes": "search typed w/ \u2715; row w/ red \"payment of \u20b91 failed\" + \"TODAY\" caps",
+   "seq": 248,
+   "tags": [
+    "search-pill-clear",
+    "contact-row-status",
+    "caps-meta-right"
+   ]
   },
   "e6e48342-136d-4002-b475-eee9443a51e0": {
    "url": "https://mobbin.com/screens/e6e48342-136d-4002-b475-eee9443a51e0",
@@ -4686,9 +5031,16 @@
    "flows": [
     "Pay your contacts"
    ],
-   "reviewed": false,
-   "notes": "",
-   "seq": 249
+   "reviewed": true,
+   "notes": "pay w/ note filled \"Test\"",
+   "seq": 249,
+   "tags": [
+    "payee-card",
+    "note-field-filled",
+    "pay-using-row",
+    "button-accent-green-plunk",
+    "keypad-custom"
+   ]
   },
   "efd29d7d-f480-44ae-8d20-28d270154af9": {
    "url": "https://mobbin.com/screens/efd29d7d-f480-44ae-8d20-28d270154af9",
@@ -4696,9 +5048,14 @@
    "flows": [
     "Privacy policy"
    ],
-   "reviewed": false,
-   "notes": "",
-   "seq": 250
+   "reviewed": true,
+   "notes": "privacy policy long text",
+   "seq": 250,
+   "tags": [
+    "page-header-serif",
+    "legal-text",
+    "heading-bold"
+   ]
   },
   "13e7d628-5283-4b20-9a3d-3fec7c167d11": {
    "url": "https://mobbin.com/screens/13e7d628-5283-4b20-9a3d-3fec7c167d11",
@@ -4706,9 +5063,16 @@
    "flows": [
     "Paying with scanner"
    ],
-   "reviewed": false,
-   "notes": "",
-   "seq": 251
+   "reviewed": true,
+   "notes": "scan: avatar w/ QR badge; permission card \"permission needed\" caps + bold + white \"Proceed\"; curved side light edges",
+   "seq": 251,
+   "tags": [
+    "scanner-frame",
+    "permission-card",
+    "button-light",
+    "stepper-3d-progress",
+    "bottom-nav-scan"
+   ]
   },
   "12ada981-cb8f-4508-8f2e-1b1b2e3e2312": {
    "url": "https://mobbin.com/screens/12ada981-cb8f-4508-8f2e-1b1b2e3e2312",
@@ -4716,9 +5080,14 @@
    "flows": [
     "Paying with scanner"
    ],
-   "reviewed": false,
-   "notes": "",
-   "seq": 252
+   "reviewed": true,
+   "notes": "live camera frame w/ circular controls (gallery/flash/1x yellow); search pill w/ green caps \"CASHBACK\" suffix",
+   "seq": 252,
+   "tags": [
+    "scanner-live",
+    "scanner-controls",
+    "search-pill-cashback"
+   ]
   },
   "33855629-fc92-477b-ab0a-4ecdfff57a91": {
    "url": "https://mobbin.com/screens/33855629-fc92-477b-ab0a-4ecdfff57a91",
@@ -4726,9 +5095,15 @@
    "flows": [
     "Paying with scanner"
    ],
-   "reviewed": false,
-   "notes": "",
-   "seq": 253
+   "reviewed": true,
+   "notes": "RuPay promo panel + actions sheet (5 rows)",
+   "seq": 253,
+   "tags": [
+    "promo-sheet-illustration",
+    "text-link-underline-blue",
+    "action-sheet",
+    "list-row-icon-tile"
+   ]
   },
   "75ed17bb-9b2b-4747-870a-e1b848010e4f": {
    "url": "https://mobbin.com/screens/75ed17bb-9b2b-4747-870a-e1b848010e4f",
@@ -4736,9 +5111,17 @@
    "flows": [
     "Paying with scanner"
    ],
-   "reviewed": false,
-   "notes": "",
-   "seq": 254
+   "reviewed": true,
+   "notes": "pay entry empty amount \u20b9| \u2192 \"Pay Now \u2192\"",
+   "seq": 254,
+   "tags": [
+    "sheet-close-square",
+    "payee-card",
+    "amount-display-empty",
+    "pay-using-row",
+    "button-accent-green-plunk",
+    "keypad-custom"
+   ]
   },
   "174acfaa-a879-4ea2-a1de-14199ffc5bd9": {
    "url": "https://mobbin.com/screens/174acfaa-a879-4ea2-a1de-14199ffc5bd9",
@@ -4746,9 +5129,13 @@
    "flows": [
     "Paying with scanner"
    ],
-   "reviewed": false,
-   "notes": "",
-   "seq": 255
+   "reviewed": true,
+   "notes": "\u20b91 entered \u2192 \"Pay \u20b91\"",
+   "seq": 255,
+   "tags": [
+    "amount-display-large",
+    "button-accent-green-plunk"
+   ]
   },
   "3022db80-7bc3-4c58-b4ef-def0769ef1a5": {
    "url": "https://mobbin.com/screens/3022db80-7bc3-4c58-b4ef-def0769ef1a5",
@@ -4756,9 +5143,16 @@
    "flows": [
     "Paying with scanner"
    ],
-   "reviewed": false,
-   "notes": "",
-   "seq": 256
+   "reviewed": true,
+   "notes": "initiating payment: ring connecting payer/payee avatars w/ animated chevrons; PAYING caps, amount, \"do not press back\" caption",
+   "seq": 256,
+   "tags": [
+    "payment-animation-ring",
+    "avatar-pair",
+    "section-eyebrow",
+    "display-number",
+    "caption-muted"
+   ]
   },
   "159d585a-73cc-4604-99b7-92c0149bb9ff": {
    "url": "https://mobbin.com/screens/159d585a-73cc-4604-99b7-92c0149bb9ff",
@@ -4766,9 +5160,18 @@
    "flows": [
     "Paying with scanner"
    ],
-   "reviewed": false,
-   "notes": "",
-   "seq": 257
+   "reviewed": true,
+   "notes": "paid in 0.67 sec (yellow \u26a1 caps); receipt w/ outlined \"Pay again\" + black \"Check balance\"",
+   "seq": 257,
+   "tags": [
+    "receipt-hero-green",
+    "overlap-logo-pair",
+    "speed-caps-accent",
+    "receipt-card",
+    "button-outline-pair",
+    "reward-chest-3d",
+    "button-plunk-yellow"
+   ]
   },
   "326dbc3c-0adb-47c9-a1a7-12d636d46934": {
    "url": "https://mobbin.com/screens/326dbc3c-0adb-47c9-a1a7-12d636d46934",
@@ -4776,9 +5179,15 @@
    "flows": [
     "Paying with scanner"
    ],
-   "reviewed": false,
-   "notes": "",
-   "seq": 258
+   "reviewed": true,
+   "notes": "congratulations reward: curved yellow 3D text, \u20b910, \"Tap to skip\"",
+   "seq": 258,
+   "tags": [
+    "celebration-screen",
+    "display-type-gradient",
+    "display-number",
+    "tap-skip"
+   ]
   },
   "4ecd5dbc-c3c9-441f-a82c-4bfc5981005a": {
    "url": "https://mobbin.com/screens/4ecd5dbc-c3c9-441f-a82c-4bfc5981005a",
@@ -4786,9 +5195,14 @@
    "flows": [
     "Explore Cred"
    ],
-   "reviewed": false,
-   "notes": "",
-   "seq": 259
+   "reviewed": true,
+   "notes": "explore CRED list view: large circle icons + title + muted subtitle (layout toggle)",
+   "seq": 259,
+   "tags": [
+    "page-header-large",
+    "icon-circle-list",
+    "layout-toggle"
+   ]
   },
   "f65ff158-d1e4-432e-aa31-c39cc23b3eb2": {
    "url": "https://mobbin.com/screens/f65ff158-d1e4-432e-aa31-c39cc23b3eb2",
@@ -4796,9 +5210,15 @@
    "flows": [
     "Insurance"
    ],
-   "reviewed": false,
-   "notes": "",
-   "seq": 260
+   "reviewed": true,
+   "notes": "insurance: \"your car is well protected\" serif + muted; green circle icons coverage row w/ captions; light alert card w/ illustration + outlined \"Update details\"",
+   "seq": 260,
+   "tags": [
+    "vehicle-hero",
+    "coverage-icon-grid",
+    "alert-card-light",
+    "button-outline"
+   ]
   },
   "7387ae18-551c-403a-90a5-2013b9bb417a": {
    "url": "https://mobbin.com/screens/7387ae18-551c-403a-90a5-2013b9bb417a",
@@ -4806,9 +5226,20 @@
    "flows": [
     "Insurance"
    ],
-   "reviewed": false,
-   "notes": "",
-   "seq": 261
+   "reviewed": true,
+   "notes": "policy card white: insurer logo, \"Update\" link, caps green \"TRUSTED PARTNER \u2713\", name, ACTIVE badge, premium right; key/value rows; (i) accordion row w/ chevron; legal footer + underlined T&C",
+   "seq": 261,
+   "tags": [
+    "alert-card-light",
+    "section-eyebrow",
+    "policy-card",
+    "tag-trusted-check",
+    "text-link-underline-blue",
+    "status-badge",
+    "key-value-rows",
+    "info-accordion-row",
+    "legal-footer"
+   ]
   },
   "5d33b839-805b-4206-bec3-bfd1dcfcb377": {
    "url": "https://mobbin.com/screens/5d33b839-805b-4206-bec3-bfd1dcfcb377",
@@ -4816,9 +5247,13 @@
    "flows": [
     "Insurance"
    ],
-   "reviewed": false,
-   "notes": "",
-   "seq": 262
+   "reviewed": true,
+   "notes": "policy actions sheet",
+   "seq": 262,
+   "tags": [
+    "action-sheet",
+    "list-row-icon"
+   ]
   },
   "1bab5445-77b2-4054-a94c-ac6dd17ef077": {
    "url": "https://mobbin.com/screens/1bab5445-77b2-4054-a94c-ac6dd17ef077",
@@ -4826,9 +5261,13 @@
    "flows": [
     "Insurance"
    ],
-   "reviewed": false,
-   "notes": "",
-   "seq": 263
+   "reviewed": true,
+   "notes": "select a method sheet",
+   "seq": 263,
+   "tags": [
+    "action-sheet",
+    "list-row-icon"
+   ]
   },
   "eb0c5674-1dab-4034-ab85-ea2e5627a298": {
    "url": "https://mobbin.com/screens/eb0c5674-1dab-4034-ab85-ea2e5627a298",
@@ -4836,9 +5275,14 @@
    "flows": [
     "Insurance"
    ],
-   "reviewed": false,
-   "notes": "",
-   "seq": 264
+   "reviewed": true,
+   "notes": "\"who is your current insurer?\" big inline select w/ chevron",
+   "seq": 264,
+   "tags": [
+    "page-header-serif",
+    "select-large-inline",
+    "button-plunk-light"
+   ]
   },
   "36e14c33-725a-41eb-8a12-eb1438f9b186": {
    "url": "https://mobbin.com/screens/36e14c33-725a-41eb-8a12-eb1438f9b186",
@@ -4846,9 +5290,15 @@
    "flows": [
     "Insurance"
    ],
-   "reviewed": false,
-   "notes": "",
-   "seq": 265
+   "reviewed": true,
+   "notes": "insurance form: mono date placeholder, consent checkbox (white box w/ tick), disabled plunk",
+   "seq": 265,
+   "tags": [
+    "page-header-serif",
+    "field-underline-label-mono",
+    "checkbox-square-checked-light",
+    "button-plunk-disabled"
+   ]
   },
   "fafc6928-07bd-48bc-8b00-5a322b277d25": {
    "url": "https://mobbin.com/screens/fafc6928-07bd-48bc-8b00-5a322b277d25",
@@ -4856,9 +5306,14 @@
    "flows": [
     "Insurance"
    ],
-   "reviewed": false,
-   "notes": "",
-   "seq": 266
+   "reviewed": true,
+   "notes": "filled + keypad",
+   "seq": 266,
+   "tags": [
+    "field-filled-mono-cursor",
+    "button-plunk-light",
+    "keypad-ios"
+   ]
   },
   "f1061ffe-8e88-4bb0-a0a3-5491fda44ddf": {
    "url": "https://mobbin.com/screens/f1061ffe-8e88-4bb0-a0a3-5491fda44ddf",
@@ -4866,9 +5321,17 @@
    "flows": [
     "Credit card offers"
    ],
-   "reviewed": false,
-   "notes": "",
-   "seq": 267
+   "reviewed": true,
+   "notes": "offers: circular search button, brand logos row, boxed filter tabs (selected white fill, others dark outline), offer cards, plunk \"Explore all 246 offers\"",
+   "seq": 267,
+   "tags": [
+    "page-header-serif",
+    "icon-button-circle-search",
+    "brand-logo-circle",
+    "filter-tabs-boxed",
+    "offer-card-image",
+    "button-plunk-light"
+   ]
   },
   "59693441-3a21-4123-968b-3bf152645a44": {
    "url": "https://mobbin.com/screens/59693441-3a21-4123-968b-3bf152645a44",
@@ -4876,9 +5339,15 @@
    "flows": [
     "House rent"
    ],
-   "reviewed": false,
-   "notes": "",
-   "seq": 268
+   "reviewed": true,
+   "notes": "offers on bill payments: rows w/ 3D icon + title + muted desc + blue \"more >\"",
+   "seq": 268,
+   "tags": [
+    "bottom-sheet",
+    "section-eyebrow",
+    "offer-row-icon",
+    "more-link-blue"
+   ]
   },
   "3c7f99ee-3b9c-4500-95aa-54eb28be9cea": {
    "url": "https://mobbin.com/screens/3c7f99ee-3b9c-4500-95aa-54eb28be9cea",
@@ -4886,9 +5355,17 @@
    "flows": [
     "Booking a hotel"
    ],
-   "reviewed": false,
-   "notes": "",
-   "seq": 269
+   "reviewed": true,
+   "notes": "room card: image, serif centered name, muted description, 2x2 spec grid (icon + caps), \"+5 MORE\" grey tag",
+   "seq": 269,
+   "tags": [
+    "page-header-serif",
+    "cashback-ribbon",
+    "section-eyebrow",
+    "room-card",
+    "spec-grid-caps",
+    "tag-more-grey"
+   ]
   },
   "65037a59-77d3-4428-97d4-d846071a0762": {
    "url": "https://mobbin.com/screens/65037a59-77d3-4428-97d4-d846071a0762",
@@ -4896,9 +5373,19 @@
    "flows": [
     "Booking a hotel"
    ],
-   "reviewed": false,
-   "notes": "",
-   "seq": 270
+   "reviewed": true,
+   "notes": "package card w/ folded corner tab, serif name + caps nights, \"Policy >\" outlined, \u25c6 bullet, grey caps chips (dates/adults), price, black \"Select dates \u2192\", dotted caps footer \"\u2733 FREE CANCELLATION ... \u2733\"",
+   "seq": 270,
+   "tags": [
+    "room-card",
+    "package-card-ticket",
+    "button-outline-small-chevron",
+    "bullet-diamond",
+    "chip-caps-grey",
+    "price-strike",
+    "button-primary",
+    "footer-strip-caps"
+   ]
   },
   "4ea5f3ab-7acd-4150-b778-64e8c4134375": {
    "url": "https://mobbin.com/screens/4ea5f3ab-7acd-4150-b778-64e8c4134375",
@@ -4906,9 +5393,17 @@
    "flows": [
     "Booking a hotel"
    ],
-   "reviewed": false,
-   "notes": "",
-   "seq": 271
+   "reviewed": true,
+   "notes": "price calendar: weekday header boxed, month labels, days w/ green prices, sold days struck red \"sold\", selected range green tint w/ border, \"check out\" label; light bottom bar w/ dates caps + (i), price + strike, black \"Add guests \u2192\"",
+   "seq": 271,
+   "tags": [
+    "page-header-serif",
+    "calendar-price",
+    "date-range-selected",
+    "sold-out-date",
+    "cashback-ribbon",
+    "sticky-price-bar-light"
+   ]
   },
   "1999f5de-77cd-4d3d-8f02-5390f6323b40": {
    "url": "https://mobbin.com/screens/1999f5de-77cd-4d3d-8f02-5390f6323b40",
@@ -4916,9 +5411,16 @@
    "flows": [
     "Booking a hotel"
    ],
-   "reviewed": false,
-   "notes": "",
-   "seq": 272
+   "reviewed": true,
+   "notes": "add guests: ROOM 1 caps, Adults + muted \"aged 13 or above\" + stepper \"- 2 +\"",
+   "seq": 272,
+   "tags": [
+    "page-header-serif",
+    "section-eyebrow",
+    "stepper-row",
+    "quantity-stepper",
+    "sticky-price-bar-light"
+   ]
   },
   "e54b3ebf-b4ab-48d5-91f7-e9c3ec21060d": {
    "url": "https://mobbin.com/screens/e54b3ebf-b4ab-48d5-91f7-e9c3ec21060d",
@@ -4926,9 +5428,20 @@
    "flows": [
     "Booking a hotel"
    ],
-   "reviewed": false,
-   "notes": "",
-   "seq": 273
+   "reviewed": true,
+   "notes": "review booking: summary card (image + name + \"x 1 ROOM\" chip), check-in/out w/ \"2 NIGHTS\" chip between, rows; orange caps \"NON REFUNDABLE\"; slide-to-unlock pill (black, green-ringed lock knob, \"Unlock cashback with \u20b51,000\") + \"Skip\" link, sparkle divider",
+   "seq": 273,
+   "tags": [
+    "page-header-serif",
+    "section-eyebrow",
+    "booking-summary-card",
+    "chip-caps-grey",
+    "date-range-row",
+    "warning-caps-orange",
+    "cashback-ribbon",
+    "slide-to-unlock",
+    "text-link-underline-blue"
+   ]
   },
   "dc7c6eb4-a340-434f-969a-106b833b92a2": {
    "url": "https://mobbin.com/screens/dc7c6eb4-a340-434f-969a-106b833b92a2",
@@ -4936,9 +5449,15 @@
    "flows": [
     "Booking a hotel"
    ],
-   "reviewed": false,
-   "notes": "",
-   "seq": 274
+   "reviewed": true,
+   "notes": "guest details card w/ square edit; price breakup table",
+   "seq": 274,
+   "tags": [
+    "info-card-light",
+    "icon-button-square-outline",
+    "summary-table",
+    "slide-to-unlock"
+   ]
   },
   "23dbf469-3c82-4c48-9bed-2264f64fb640": {
    "url": "https://mobbin.com/screens/23dbf469-3c82-4c48-9bed-2264f64fb640",
@@ -4946,9 +5465,12 @@
    "flows": [
     "Booking a hotel"
    ],
-   "reviewed": false,
-   "notes": "",
-   "seq": 275
+   "reviewed": true,
+   "notes": "knob dragged mid-way, glow trail",
+   "seq": 275,
+   "tags": [
+    "slide-to-unlock-dragging"
+   ]
   },
   "a011d043-544d-4962-83e2-79bf9790f83e": {
    "url": "https://mobbin.com/screens/a011d043-544d-4962-83e2-79bf9790f83e",
@@ -4956,9 +5478,14 @@
    "flows": [
     "Booking a hotel"
    ],
-   "reviewed": false,
-   "notes": "",
-   "seq": 276
+   "reviewed": true,
+   "notes": "\u20b9336 cashback unlocked oval w/ mint ring; red strip \"\u20b9336 CASHBACK EXPIRING IN 23:59:58\" (yellow timer); check circle",
+   "seq": 276,
+   "tags": [
+    "unlock-success-pill",
+    "countdown-strip-red",
+    "success-check-circle"
+   ]
   },
   "c64dd8d1-e7be-4c92-9e1f-f18e08ede656": {
    "url": "https://mobbin.com/screens/c64dd8d1-e7be-4c92-9e1f-f18e08ede656",
@@ -4966,9 +5493,16 @@
    "flows": [
     "Booking a hotel"
    ],
-   "reviewed": false,
-   "notes": "",
-   "seq": 277
+   "reviewed": true,
+   "notes": "price breakup w/ green \"(-) Escapes cashback \u20b9336\"; footer caps \"2 NIGHTS \u2022 1 ROOM (i)\", black \"Pay now \u2192\" w/ green caps sub-label \"\u20b9336 INSTANT CASHBACK\"",
+   "seq": 277,
+   "tags": [
+    "summary-table",
+    "line-discount-green-italic",
+    "countdown-strip-red",
+    "sticky-price-bar-light",
+    "button-primary-subcaption"
+   ]
   },
   "5ee18e53-e148-410d-87ea-5beaff5f6b46": {
    "url": "https://mobbin.com/screens/5ee18e53-e148-410d-87ea-5beaff5f6b46",
@@ -4976,9 +5510,16 @@
    "flows": [
     "Booking a hotel"
    ],
-   "reviewed": false,
-   "notes": "",
-   "seq": 278
+   "reviewed": true,
+   "notes": "CRED pay travel checkout: PAY WITH + \"view all\", card rows w/ radio; PAYABLE AMOUNT caps + amount, black \"Pay instantly \u2192\", caption",
+   "seq": 278,
+   "tags": [
+    "checkout-sheet",
+    "section-eyebrow",
+    "radio-card-row",
+    "text-link-underline-blue",
+    "payable-footer"
+   ]
   },
   "f8f5fe86-57b0-4adf-b733-edbb43b5409f": {
    "url": "https://mobbin.com/screens/f8f5fe86-57b0-4adf-b733-edbb43b5409f",
@@ -4986,9 +5527,13 @@
    "flows": [
     "Profile"
    ],
-   "reviewed": false,
-   "notes": "",
-   "seq": 279
+   "reviewed": true,
+   "notes": "upload a photo sheet: bold title + 2 rows icon + label + chevron",
+   "seq": 279,
+   "tags": [
+    "action-sheet-simple",
+    "list-row-icon-chevron"
+   ]
   },
   "e6815b3d-69fd-4407-a0e2-661af3b71618": {
    "url": "https://mobbin.com/screens/e6815b3d-69fd-4407-a0e2-661af3b71618",
@@ -4996,9 +5541,14 @@
    "flows": [
     "Traffic challans"
    ],
-   "reviewed": false,
-   "notes": "",
-   "seq": 280
+   "reviewed": true,
+   "notes": "scanning vehicles: traffic light icon in rings + serif text",
+   "seq": 280,
+   "tags": [
+    "loader-fullscreen",
+    "icon-circle-ring",
+    "serif-heading"
+   ]
   },
   "a95e5cfd-2e3e-48fc-a440-52271e14b774": {
    "url": "https://mobbin.com/screens/a95e5cfd-2e3e-48fc-a440-52271e14b774",
@@ -5006,9 +5556,17 @@
    "flows": [
     "Traffic challans"
    ],
-   "reviewed": false,
-   "notes": "",
-   "seq": 281
+   "reviewed": true,
+   "notes": "challans streak: serif heading w/ green \"0 challans\", flip-clock digit tiles \"7 1 5\" + label, badge illustration, proof row, plunk CTA",
+   "seq": 281,
+   "tags": [
+    "button-outline-small-chevron",
+    "serif-heading-accent",
+    "flip-counter",
+    "illustration",
+    "social-proof-row",
+    "button-plunk-light"
+   ]
   },
   "6c89abb4-dfd7-4e3f-9423-c65ca5068ca5": {
    "url": "https://mobbin.com/screens/6c89abb4-dfd7-4e3f-9423-c65ca5068ca5",
@@ -5016,9 +5574,14 @@
    "flows": [
     "Traffic challans"
    ],
-   "reviewed": false,
-   "notes": "",
-   "seq": 282
+   "reviewed": true,
+   "notes": "\"GREAT DRIVING!\" pink bold caps on radial bg, green emphasis text",
+   "seq": 282,
+   "tags": [
+    "sheet-close-square",
+    "celebration-screen",
+    "display-type-pink"
+   ]
   }
  },
  "has_next_page_after_last": false
