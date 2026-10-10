@@ -5,14 +5,14 @@ import {
 import { Area, AreaChart, Bar, BarChart, CartesianGrid, Line, LineChart, XAxis } from 'recharts'
 import {
   AlertTriangleIcon, ArrowUpDownIcon, AudioLinesIcon, CheckCircle2Icon, ChevronRightIcon, FileAudioIcon, InfoIcon,
-  MicIcon, MoreHorizontalIcon, OctagonXIcon, UploadIcon,
+  MicIcon, MoreHorizontalIcon, OctagonXIcon, UploadIcon, DownloadIcon as DownloadIconLocal,
 } from 'lucide-react'
 import { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { ChartContainer, ChartLegend, ChartLegendContent, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart'
 import { Avatar, AvatarBadge, AvatarFallback, AvatarGroup, AvatarGroupCount, AvatarImage } from '@/components/ui/avatar'
 import {
-  Item, ItemActions, ItemContent, ItemDescription, ItemGroup, ItemMedia, ItemSeparator, ItemTitle,
+  Item, ItemActions, ItemArrow, ItemContent, ItemDescription, ItemGroup, ItemMedia, ItemSeparator, ItemTitle,
 } from '@/components/ui/item'
 import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from '@/components/ui/empty'
 import { Skeleton } from '@/components/ui/skeleton'
@@ -282,6 +282,24 @@ function ItemPage() {
           </ItemGroup>
         </Preview>
       </Section>
+      <Section title="Action rows (from CRED)" description="The rows in CRED's action sheets and settings: a small square icon tile, a bold title, a muted line and a long thin arrow (ItemArrow).">
+        <Preview center={false} contentClassName="grid max-w-xl">
+          <ItemGroup>
+            {[[DownloadIconLocal, 'export audio', 'MP3, WAV or M4A'], [FileAudioIcon, 'version history', '8 versions saved'], [MicIcon, 'voice settings', 'use your cloned voice for rewrites']].map(([Icon, t, d], i, a) => (
+              <div key={t}>
+                <Item asChild size="sm" className="px-0">
+                  <a href="#">
+                    <ItemMedia variant="tile"><Icon /></ItemMedia>
+                    <ItemContent><ItemTitle>{t}</ItemTitle><ItemDescription>{d}</ItemDescription></ItemContent>
+                    <ItemArrow />
+                  </a>
+                </Item>
+                {i < a.length - 1 && <ItemSeparator />}
+              </div>
+            ))}
+          </ItemGroup>
+        </Preview>
+      </Section>
     </>
   )
 }
@@ -345,6 +363,15 @@ function ProgressPage() {
           <Progress value={64} tone="warning" />
           <Progress value={22} tone="destructive" />
           <Progress value={50} tone="foreground" />
+        </Preview>
+      </Section>
+      <Section title="Sizes (from CRED)" description="line is the 2px rule under a fetching screen; lg is the thick square bar under a caps status.">
+        <Preview center={false} contentClassName="grid max-w-md gap-6">
+          <div className="space-y-2"><p className="text-caps text-[9px] text-muted-foreground">Fetching from server</p><Progress size="line" tone="success" value={30} /></div>
+          <div className="space-y-2">
+            <div className="flex justify-between"><span className="text-[13px] text-muted-foreground">your exports are safe and backed up</span><span className="text-caps text-[10px] tracking-[0.2em] text-success-ink">100% complete</span></div>
+            <Progress size="lg" tone="success" value={100} />
+          </div>
         </Preview>
       </Section>
     </>

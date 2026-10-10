@@ -36,7 +36,7 @@ import { PageHeader, Preview, Section } from './kit'
 function TabsPage() {
   return (
     <>
-      <PageHeader eyebrow="Navigation" title="Tabs" description="Two flavours: a pill segmented control whose active tab lifts onto a white pill (CRED’s “recent spends” switcher), and editorial line tabs with a rounded 2px rule." />
+      <PageHeader eyebrow="Navigation" title="Tabs" description="Four flavours: a pill segmented control whose active tab lifts onto a white pill (CRED’s “recent spends” switcher), editorial line tabs with a rounded 2px rule, and CRED's caps pill and boxed filter tabs." />
       <Section title="Default (segmented)">
         <Preview center={false}>
           <Tabs defaultValue="transcript" className="w-full max-w-lg">
@@ -50,6 +50,12 @@ function TabsPage() {
             <TabsContent value="chapters"><Card className="py-4"><CardContent className="px-4 text-sm text-muted-foreground">6 chapters, auto-generated</CardContent></Card></TabsContent>
             <TabsContent value="notes"><Card className="py-4"><CardContent className="px-4 text-sm text-muted-foreground">Draft ready to review</CardContent></Card></TabsContent>
           </Tabs>
+        </Preview>
+      </Section>
+      <Section title="Pill and boxed (from CRED)" description="pill: small caps tabs where the active one sits in a grey pill. boxed: square outlined filters where the active one fills in.">
+        <Preview center={false} contentClassName="flex-col items-start gap-8">
+          <Tabs defaultValue="suggested"><TabsList variant="pill"><TabsTrigger value="suggested">Suggestions</TabsTrigger><TabsTrigger value="rewards">Win rewards</TabsTrigger></TabsList></Tabs>
+          <Tabs defaultValue="trending"><TabsList variant="boxed"><TabsTrigger value="trending">trending</TabsTrigger><TabsTrigger value="podcasts">podcasts</TabsTrigger><TabsTrigger value="music">music</TabsTrigger><TabsTrigger value="sfx">sfx</TabsTrigger></TabsList></Tabs>
         </Preview>
       </Section>
       <Section title="Line">

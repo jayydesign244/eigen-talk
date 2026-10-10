@@ -193,6 +193,25 @@ export function PropsTable({ rows }) {
   )
 }
 
+/**
+ * Links a component page back to the CRED screens on Mobbin it was derived from
+ * (numbers are review numbers in docs/design/mobbin-cred/manifest.json).
+ */
+export function CredRefs({ refs }) {
+  if (!refs) return null
+  return (
+    <p className="mt-6 flex flex-wrap items-center gap-x-2 gap-y-1 text-[12px] font-medium text-muted-foreground">
+      <span className="text-caps text-[9px] tracking-[0.2em]">Seen in CRED</span>
+      <span>· {refs.count} screens on Mobbin, e.g.</span>
+      {refs.screens.map(([n, id]) => (
+        <a key={id} href={`https://mobbin.com/screens/${id}`} target="_blank" rel="noreferrer" className="font-mono text-foreground underline decoration-border-strong underline-offset-4 hover:decoration-foreground">
+          #{n}
+        </a>
+      ))}
+    </p>
+  )
+}
+
 /** Marks components added in the latest batch so they're easy to find. */
 export function NewBadge({ className }) {
   return (

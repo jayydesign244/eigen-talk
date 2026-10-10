@@ -64,7 +64,8 @@ const itemMediaVariants = cva(
       variant: {
         default: "bg-transparent",
         icon: "surface-tile size-11 rounded-full text-foreground group-data-[size=sm]/item:size-9 [&_svg:not([class*='size-'])]:size-4",
-        image: "size-11 overflow-hidden rounded-lg group-data-[size=sm]/item:size-9 [&_img]:size-full [&_img]:object-cover"
+        image: "size-11 overflow-hidden rounded-lg group-data-[size=sm]/item:size-9 [&_img]:size-full [&_img]:object-cover",
+        tile: "size-8 border-[0.8px] border-border text-muted-foreground [&_svg:not([class*='size-'])]:size-4"
       }
     },
     defaultVariants: {
@@ -142,8 +143,26 @@ function ItemFooter({ className, ...props }) {
     {...props}
   />;
 }
+/** CRED's long thin trailing arrow for action rows ("view & update details  ⟶"). */
+function ItemArrow({ className, ...props }) {
+  return (
+    <svg
+      data-slot="item-arrow"
+      viewBox="0 0 24 12"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.4"
+      aria-hidden
+      className={cn("h-3 w-6 shrink-0 transition-transform group-hover/item:translate-x-0.5", className)}
+      {...props}
+    >
+      <path d="M0 6h22M17 1l5 5-5 5" />
+    </svg>
+  );
+}
 export {
   Item,
+  ItemArrow,
   ItemActions,
   ItemContent,
   ItemDescription,

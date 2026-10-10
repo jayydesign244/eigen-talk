@@ -13,6 +13,10 @@ import { cn } from "@/lib/utils";
  *  - secondary: the grey trail CTA (50% #ECEEF1 with a cool hairline).
  *  - destructive: red label on the grey CTA, as CRED does it.
  *  - outline / ghost / link: quiet actions.
+ *  - elevated: NeoPOP's 3D key — square face with lighter right and darker
+ *             bottom edges (black on light pages, white on dark ones). It lifts
+ *             on hover, sinks into its edge when pressed, turns grey disabled.
+ *  - pay:     the same 3D key in CRED's lime pay green ("Pay ₹1", "Pay via credit card").
  * Disabled buttons fade to 50%; a busy one (aria-busy) keeps full colour.
  */
 const buttonVariants = cva(
@@ -35,6 +39,9 @@ const buttonVariants = cva(
           "rounded-md border border-foreground/80 bg-transparent font-semibold text-foreground hover:bg-accent active:scale-[0.98]",
         ghost: "rounded-md bg-transparent font-semibold text-foreground hover:bg-accent active:bg-surface-2",
         link: "h-auto! px-0! font-semibold text-foreground underline decoration-[1.5px] underline-offset-[5px] hover:decoration-brand",
+        elevated:
+          "plunk plunk-press plunk-disable edge-primary mr-[3px] mb-[3px] rounded-none disabled:not-aria-busy:opacity-100 bg-primary font-bold text-primary-foreground",
+        pay: "plunk plunk-press plunk-disable mr-[3px] mb-[3px] rounded-none disabled:not-aria-busy:opacity-100 bg-[#8fd14f] font-bold text-pop-black [--edge-r:#73b236] [--edge-b:#548a22] hover:bg-[#99d85c]",
       },
       size: {
         default: "h-10 px-5 text-[13px] tracking-[0.015em] has-[>svg]:px-4",

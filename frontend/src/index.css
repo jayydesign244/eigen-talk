@@ -382,6 +382,12 @@
   to { transform: translateX(-50%); }
 }
 
+/* FlipCounter: a digit drops in from above. */
+@keyframes flip-in {
+  from { transform: rotateX(90deg); opacity: 0.4; }
+  to { transform: rotateX(0); opacity: 1; }
+}
+
 @layer base {
   * {
     @apply border-border;

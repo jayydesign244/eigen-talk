@@ -29,6 +29,8 @@ The APK-derived `cred-screen-checklist.md` is a separate inventory of internal s
 
 ## Mobbin and audit status
 
+> **Update (10 Oct 2026, cloud session):** done. All 69 CRED flows and 282 unique screens on Mobbin were collected and reviewed one by one, and the design system was updated: 37 new components and 7 extended. See `mobbin-cred/README.md`. The notes below describe the state before that work.
+
 The prior collection attempts failed. No completed collection or screen-by-screen audit is claimed here. The files in `docs/design/screens/cred-latest/` are existing design-system QA screenshots, not a full Mobbin export.
 
 Claude's account connector catalog exposes a verified Mobbin connector. Connecting it and checking whether the existing Code cloud session exposes its tools are separate checks; an account connection alone does not prove tool availability in that session.

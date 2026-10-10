@@ -464,16 +464,16 @@ function StatCardsPage() {
 }
 
 export const AGENT_DEMOS = [
-  { slug: 'agent-limits-card', title: 'Agent Limits Card', isNew: true, Page: AgentLimitsPage },
-  { slug: 'agent-progress', title: 'Agent Progress', isNew: true, Page: AgentProgressPage },
-  { slug: 'agent-thinking', title: 'Agent Thinking', isNew: true, Page: AgentThinkingPage },
-  { slug: 'composer', title: 'Composer', isNew: true, Page: ComposerPage },
-  { slug: 'composer-attachments', title: 'Composer Attachments', isNew: true, Page: ComposerAttachmentsPage },
-  { slug: 'composer-loader', title: 'Composer Loader', isNew: true, Page: ComposerLoaderPage },
-  { slug: 'composer-panel', title: 'Composer Panel', isNew: true, Page: ComposerPanelPage },
-  { slug: 'notification-center', title: 'Notification Center', isNew: true, Page: NotificationCenterPage },
-  { slug: 'stat-cards', title: 'Stat Cards', isNew: true, Page: StatCardsPage },
-  { slug: 'task-list', title: 'Task List', isNew: true, Page: TaskListPage },
-  { slug: 'web-search', title: 'Web Search', isNew: true, Page: WebSearchPage },
+  { slug: 'agent-limits-card', title: 'Agent Limits Card', Page: AgentLimitsPage },
+  { slug: 'agent-progress', title: 'Agent Progress', Page: AgentProgressPage },
+  { slug: 'agent-thinking', title: 'Agent Thinking', Page: AgentThinkingPage },
+  { slug: 'composer', title: 'Composer', Page: ComposerPage },
+  { slug: 'composer-attachments', title: 'Composer Attachments', Page: ComposerAttachmentsPage },
+  { slug: 'composer-loader', title: 'Composer Loader', Page: ComposerLoaderPage },
+  { slug: 'composer-panel', title: 'Composer Panel', Page: ComposerPanelPage },
+  { slug: 'notification-center', title: 'Notification Center', Page: NotificationCenterPage },
+  { slug: 'stat-cards', title: 'Stat Cards', Page: StatCardsPage },
+  { slug: 'task-list', title: 'Task List', Page: TaskListPage },
+  { slug: 'web-search', title: 'Web Search', Page: WebSearchPage },
 ]
 

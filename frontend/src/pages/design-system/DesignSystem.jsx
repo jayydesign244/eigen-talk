@@ -20,8 +20,10 @@ import { NAVIGATION_DEMOS } from './demos-navigation'
 import { DATA_DEMOS } from './demos-data'
 import { CHAT_DEMOS } from './demos-chat'
 import { AGENT_DEMOS } from './demos-agents'
+import { CRED_DEMOS_A } from './demos-cred-a'
+import { CRED_DEMOS_B } from './demos-cred-b'
 
-const COMPONENTS = [...ACTION_DEMOS, ...FORM_DEMOS, ...OVERLAY_DEMOS, ...NAVIGATION_DEMOS, ...DATA_DEMOS, ...CHAT_DEMOS, ...AGENT_DEMOS]
+const COMPONENTS = [...ACTION_DEMOS, ...FORM_DEMOS, ...OVERLAY_DEMOS, ...NAVIGATION_DEMOS, ...DATA_DEMOS, ...CHAT_DEMOS, ...AGENT_DEMOS, ...CRED_DEMOS_A, ...CRED_DEMOS_B]
   .sort((a, b) => a.title.localeCompare(b.title))
 
 const ORDER = [

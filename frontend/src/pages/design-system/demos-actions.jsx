@@ -19,7 +19,7 @@ const focusRing = 'outline-2 outline-solid outline-offset-[5px] outline-ring'
 
 function ButtonPage() {
   const [loading, setLoading] = useState(false)
-  const variants = ['default', 'pill', 'chip', 'gold', 'brand', 'secondary', 'destructive', 'outline', 'ghost', 'link']
+  const variants = ['default', 'pill', 'chip', 'gold', 'brand', 'secondary', 'destructive', 'outline', 'ghost', 'link', 'elevated', 'pay']
   return (
     <>
       <PageHeader eyebrow="Actions" title="Button" description="Every button type in CRED's 2026 app: the black block CTA, the dark pill, the ice chip, the raised gold key (and Sonic aqua brand key), the grey trail CTA, a red-label destructive, and quiet outline / ghost / link." />
@@ -35,6 +35,16 @@ function ButtonPage() {
           <Button variant="outline">Outline</Button>
           <Button variant="ghost">Ghost</Button>
           <Button variant="link">Learn more</Button>
+        </Preview>
+      </Section>
+      <Section title="Elevated keys (NeoPOP)" description="From the Mobbin review, the most-used CTA on CRED's dark screens: a square key with a lighter right edge and a darker bottom edge. It is black on light pages and white on dark ones. It lifts on hover, sinks into its edge when pressed, and turns grey when disabled instead of fading. pay is the lime key used for “Pay ₹1”.">
+        <Preview center={false}>
+          <StateGrid columns={2} states={[
+            { label: 'elevated', node: <Button variant="elevated" size="lg">Refresh details<ArrowRightIcon /></Button> },
+            { label: 'elevated · disabled', node: <Button variant="elevated" size="lg" disabled>Submit</Button> },
+            { label: 'pay', node: <Button variant="pay" size="lg">Pay ₹1</Button> },
+            { label: 'pay · disabled', node: <Button variant="pay" size="lg" disabled>Pay ₹1</Button> },
+          ]} />
         </Preview>
       </Section>
       <Section title="Sizes">
@@ -232,6 +242,17 @@ function BadgePage() {
           ))}
         </Preview>
       </Section>
+      <Section title="From CRED" description="Soft status tags on rows, the grey “+5 more”, the folder tab on reward cards, the offset “in-store” notch and the red monospace setup status.">
+        <Preview>
+          <Badge variant="success-soft">Active</Badge>
+          <Badge variant="destructive-soft">Low balance</Badge>
+          <Badge variant="destructive-soft">Expired</Badge>
+          <Badge variant="muted">+5 more</Badge>
+          <Badge variant="tab">For 02 days</Badge>
+          <Badge variant="notch">In-store</Badge>
+          <Badge variant="mono"><span className="size-1.5 rounded-full bg-destructive" />Card setup pending</Badge>
+        </Preview>
+      </Section>
       <Section title="In context">
         <Preview>
           <Badge variant="success"><span className="size-1.5 rounded-full bg-success" />Exported</Badge>
@@ -275,6 +296,12 @@ function SpinnerPage() {
           <Spinner className="size-10" />
           <Spinner className="size-6 text-brand" />
           <Spinner className="size-6 text-muted-foreground" />
+        </Preview>
+      </Section>
+      <Section title="Dots" description="CRED's busy button: four small squares lighting in turn.">
+        <Preview>
+          <Spinner variant="dots" />
+          <Button size="lg" className="w-56" aria-busy="true" disabled><Spinner variant="dots" /></Button>
         </Preview>
       </Section>
       <Section title="In context">
