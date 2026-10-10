@@ -1,0 +1,3524 @@
+{
+ "app": "CRED (iOS)",
+ "source": "Mobbin search_flows query='CRED', paged",
+ "pages_done": [
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7
+ ],
+ "flows": {
+  "0543a5ba-aba0-4654-a56e-e761c3afb25d": {
+   "name": "Hotel policies",
+   "url": "https://mobbin.com/flows/0543a5ba-aba0-4654-a56e-e761c3afb25d",
+   "screen_count": 2,
+   "screens": [
+    "222a7eeb-f22b-4fdc-bbd5-f86a5dc25ce5",
+    "f6fac008-95e2-4f6e-8740-096a46a43b64"
+   ],
+   "page": 1
+  },
+  "05a9eccd-e105-47b8-8a63-adb132e875b5": {
+   "name": "Cred escapes",
+   "url": "https://mobbin.com/flows/05a9eccd-e105-47b8-8a63-adb132e875b5",
+   "screen_count": 5,
+   "screens": [
+    "bd775fda-748f-4e52-9f53-5eaf47304d65",
+    "1cf0f75e-d364-4066-83be-a161042f7113",
+    "1eb771cd-d568-4b4c-b070-1cbea6947e4f",
+    "618c7769-21ba-4797-a6fc-cdb06813f250",
+    "37f0fc98-0525-487c-8687-7de899f3de71"
+   ],
+   "page": 1
+  },
+  "06c5558e-4dda-4a8e-8f87-278431ba87c0": {
+   "name": "Removing a vehicle",
+   "url": "https://mobbin.com/flows/06c5558e-4dda-4a8e-8f87-278431ba87c0",
+   "screen_count": 5,
+   "screens": [
+    "65997724-9cf6-4732-a052-31a2936ac1f1",
+    "f3afc93c-5929-46b1-8057-172701fcf799",
+    "e35e720e-0432-436d-aaad-f645703268c7",
+    "d64de557-94c8-44b9-bf6a-dd878ac2e179",
+    "617fd126-22df-4727-a19d-b386e37486c8"
+   ],
+   "page": 1
+  },
+  "0746cdf8-d9f2-4164-b037-28d6f38b7fc8": {
+   "name": "Vehicle detail",
+   "url": "https://mobbin.com/flows/0746cdf8-d9f2-4164-b037-28d6f38b7fc8",
+   "screen_count": 7,
+   "screens": [
+    "7e383067-74f6-4097-95bc-de0f445effd3",
+    "45594230-50f4-4b38-b503-d2f91cb24260",
+    "0936f731-bc8b-4468-96c3-2ea256950098",
+    "761425c3-3d88-4c41-837a-ddbae0e178f9",
+    "f147f23d-cf88-4891-9fcd-d45f2e432ade",
+    "310c6329-0bf4-45bf-bffd-d83f182d146c",
+    "2c697c5e-5441-4090-b6f7-a1977876ee85"
+   ],
+   "page": 1
+  },
+  "08b763fe-9767-4178-a738-078f01cff414": {
+   "name": "Setting up instant refund",
+   "url": "https://mobbin.com/flows/08b763fe-9767-4178-a738-078f01cff414",
+   "screen_count": 4,
+   "screens": [
+    "638a23a9-94f5-4ede-8395-b933f7e37568",
+    "9d252c2d-b311-455f-b248-fc6bc15e3f88",
+    "4d5ffcc4-1c16-475a-bbec-30debdb22f24",
+    "efaaee83-b11d-40b2-b8d8-0586902cc42e"
+   ],
+   "page": 1
+  },
+  "0e3159ed-31ca-4a9f-9797-192154494110": {
+   "name": "Coins",
+   "url": "https://mobbin.com/flows/0e3159ed-31ca-4a9f-9797-192154494110",
+   "screen_count": 2,
+   "screens": [
+    "aa71f7a9-287d-4c9f-84f7-07f9491239d6",
+    "39473b5e-ad9e-4004-bc7f-b397c8e269bb"
+   ],
+   "page": 1
+  },
+  "0efe740b-0702-42f7-9b7b-264a7a36eb88": {
+   "name": "Eligibility unmet",
+   "url": "https://mobbin.com/flows/0efe740b-0702-42f7-9b7b-264a7a36eb88",
+   "screen_count": 4,
+   "screens": [
+    "bcc42a48-a4c5-4c7f-b6b0-d787582ad05b",
+    "4daba798-e93a-4fc9-8304-01b257d4aa9e",
+    "026fc688-42db-4188-a3a0-693521d91a05",
+    "b240494c-e3eb-4129-b346-dd8731673b70"
+   ],
+   "page": 1
+  },
+  "10bdc0d3-e284-4de4-8477-33ad8e293391": {
+   "name": "Update card expiry date",
+   "url": "https://mobbin.com/flows/10bdc0d3-e284-4de4-8477-33ad8e293391",
+   "screen_count": 3,
+   "screens": [
+    "4436abf9-11fd-46d1-98e5-da243ae1d5e9",
+    "280ca813-f770-48c1-98fc-d46fd43dd6d9",
+    "3332bc32-b9dc-42fa-a80e-ca6309861c2c"
+   ],
+   "page": 1
+  },
+  "179a38ab-ed3c-4ab4-b642-7d1787cc97ed": {
+   "name": "Glovebox (documents)",
+   "url": "https://mobbin.com/flows/179a38ab-ed3c-4ab4-b642-7d1787cc97ed",
+   "screen_count": 3,
+   "screens": [
+    "95e4bb93-14d8-4e11-b998-e0bd771fdee9",
+    "860f9549-b074-4bbd-af45-8e3153fd6cf3",
+    "ff2abfa4-7d28-4522-87b9-0ba12f1fa12e"
+   ],
+   "page": 1
+  },
+  "213b1b10-705e-4f98-a1cc-34bf2bda6d06": {
+   "name": "Cashback",
+   "url": "https://mobbin.com/flows/213b1b10-705e-4f98-a1cc-34bf2bda6d06",
+   "screen_count": 2,
+   "screens": [
+    "aa71f7a9-287d-4c9f-84f7-07f9491239d6",
+    "37f0f5ee-c928-4f10-b097-3fd8aa043bf8"
+   ],
+   "page": 1
+  },
+  "246fd325-6c86-49d1-b2a0-2f654895e16e": {
+   "name": "Manage address",
+   "url": "https://mobbin.com/flows/246fd325-6c86-49d1-b2a0-2f654895e16e",
+   "screen_count": 5,
+   "screens": [
+    "638a23a9-94f5-4ede-8395-b933f7e37568",
+    "c5b812b7-f9a8-4ffc-8de7-4760b8f03d6d",
+    "5018a167-8912-4f96-9c36-7ea823e4542f",
+    "32b8162d-d185-4bb9-8212-2d6fd0c6f888",
+    "0a85ae54-5563-4077-a6af-33d41fa4819e"
+   ],
+   "page": 2
+  },
+  "263980e2-8d3c-4f36-afca-37c0aad02e7d": {
+   "name": "Credit card options",
+   "url": "https://mobbin.com/flows/263980e2-8d3c-4f36-afca-37c0aad02e7d",
+   "screen_count": 3,
+   "screens": [
+    "12a90aef-920e-406c-8e15-281c0a63917e",
+    "4b9fbdc4-191f-47be-81b7-6552732348e0",
+    "4436abf9-11fd-46d1-98e5-da243ae1d5e9"
+   ],
+   "page": 2
+  },
+  "2757dc32-eb7e-4051-a2e6-fcfc9ddcebdc": {
+   "name": "Lifetime rewards",
+   "url": "https://mobbin.com/flows/2757dc32-eb7e-4051-a2e6-fcfc9ddcebdc",
+   "screen_count": 3,
+   "screens": [
+    "aa71f7a9-287d-4c9f-84f7-07f9491239d6",
+    "e3b6527f-6123-419f-950f-e5f6c2768d6a",
+    "e24f9ef6-4872-48c5-9b01-6de28fd98252"
+   ],
+   "page": 2
+  },
+  "2c80f48c-e0d3-49a2-9016-84f6b2ccab3a": {
+   "name": "Home",
+   "url": "https://mobbin.com/flows/2c80f48c-e0d3-49a2-9016-84f6b2ccab3a",
+   "screen_count": 6,
+   "screens": [
+    "93613f78-cdd1-473a-9a39-1f378bb6aef6",
+    "a86d33ae-922e-4de5-b00d-4091c93a4c37",
+    "851fffee-ce54-422b-8546-f9953218d238",
+    "72d74f41-a6d8-4fc2-bb75-7c15db932a1d",
+    "1e181278-b1df-4b04-b30b-7a77494803c9",
+    "4ac8985b-1c6b-4d62-b537-433656b7f424"
+   ],
+   "page": 2
+  },
+  "3206676e-2e22-42ef-b349-1c50ccbc6c40": {
+   "name": "Spend summary",
+   "url": "https://mobbin.com/flows/3206676e-2e22-42ef-b349-1c50ccbc6c40",
+   "screen_count": 3,
+   "screens": [
+    "febcc6ea-776f-4db3-8e58-48643e4a1687",
+    "7f33e880-f2cb-450b-a1bd-90def15a9e64",
+    "3958bfd1-599f-4eee-b9a4-cad7c6d833fe"
+   ],
+   "page": 2
+  },
+  "37163e6d-8aa4-4f3c-8457-a6ad3780f0cb": {
+   "name": "My trips",
+   "url": "https://mobbin.com/flows/37163e6d-8aa4-4f3c-8457-a6ad3780f0cb",
+   "screen_count": 2,
+   "screens": [
+    "bd775fda-748f-4e52-9f53-5eaf47304d65",
+    "14ae27c2-b7f7-408a-b255-a5d109923892"
+   ],
+   "page": 2
+  },
+  "3b2881fb-3838-4a51-8495-1c5487a21578": {
+   "name": "Fastag",
+   "url": "https://mobbin.com/flows/3b2881fb-3838-4a51-8495-1c5487a21578",
+   "screen_count": 5,
+   "screens": [
+    "7e383067-74f6-4097-95bc-de0f445effd3",
+    "ead9e6ec-a429-424a-98a1-cfa1fa7d49bf",
+    "4a3a131a-31fc-4bac-91aa-40845382b8f5",
+    "a6fe43f7-201f-4ed7-a55d-b2f9b3fa6030",
+    "2062b97c-73e2-435d-ace0-b48f23133ac6"
+   ],
+   "page": 2
+  },
+  "4011f817-de94-46f1-9579-d7f1af7bb87b": {
+   "name": "Cart",
+   "url": "https://mobbin.com/flows/4011f817-de94-46f1-9579-d7f1af7bb87b",
+   "screen_count": 3,
+   "screens": [
+    "8f00514b-5ad1-4906-9eee-e07ce3a21b40",
+    "41be5269-a780-46e8-bdc3-ef39be57e4c8",
+    "d637dde9-254a-4930-be3e-50ae25a71dc4"
+   ],
+   "page": 2
+  },
+  "45e24b69-bb00-4d43-aad5-18390b81dc2a": {
+   "name": "Utility and all bills",
+   "url": "https://mobbin.com/flows/45e24b69-bb00-4d43-aad5-18390b81dc2a",
+   "screen_count": 3,
+   "screens": [
+    "a2ceda47-8542-4ef8-840e-5faae3d72b54",
+    "e55ac6e2-3686-4f7c-b0c9-f2d17d8c4d09",
+    "55bf2989-120c-41b6-a687-d4babb629063"
+   ],
+   "page": 2
+  },
+  "492574e7-ab06-425a-8c67-c9c9120ea3bf": {
+   "name": "Smart statement",
+   "url": "https://mobbin.com/flows/492574e7-ab06-425a-8c67-c9c9120ea3bf",
+   "screen_count": 7,
+   "screens": [
+    "4b9fbdc4-191f-47be-81b7-6552732348e0",
+    "4b32ea66-a7dc-4ba1-99f1-335da21df047",
+    "bc2dc2d0-3681-4882-acff-4e9f2985492e",
+    "96d0a839-4a2d-44b3-9380-15f7e7fb1488",
+    "bd724d8f-97a2-4426-9bba-173c3f014153",
+    "cf5a33f7-0244-4776-b7dc-add9f1d2557a",
+    "a798f325-2e42-4fed-ad8c-5cb252b8ba19"
+   ],
+   "page": 2
+  },
+  "49a7d6fd-ac89-4d54-80ce-ac07c4d2dcfd": {
+   "name": "Checking eligibility (credit score)",
+   "url": "https://mobbin.com/flows/49a7d6fd-ac89-4d54-80ce-ac07c4d2dcfd",
+   "screen_count": 14,
+   "screens": [
+    "a990b120-90b7-468d-a225-8dff3bb50af8",
+    "c8c6155e-d73e-486c-bd02-c80df713d151",
+    "94d5e2a8-4216-441c-aedd-c444cdab919a",
+    "167c9de0-361d-411f-8f48-1c84abad9e34",
+    "ef487bab-484f-4f59-898f-16fd69139c6b",
+    "ddf7d518-a87a-49ff-95df-af4bb4fee6f8",
+    "292b77ab-6177-4feb-af40-b2671691abb6",
+    "a206bc2a-be00-4d8b-aae8-536d97a3330b",
+    "0eba2caa-291b-45e8-b0f3-c16a9f05726e",
+    "5ddb36d3-bd81-455c-bfb5-d5e81ff798ef",
+    "bcc42a48-a4c5-4c7f-b6b0-d787582ad05b",
+    "32af0d80-dc14-413d-a5eb-08d6927a2680",
+    "24ee9c16-d47d-45b9-a5f5-6b7838d486ab",
+    "a21be9f8-389c-4e77-ab37-490489360b1c"
+   ],
+   "page": 3
+  },
+  "52b2cbc8-3d00-4313-9da2-f1ed0ce486d3": {
+   "name": "Product detail",
+   "url": "https://mobbin.com/flows/52b2cbc8-3d00-4313-9da2-f1ed0ce486d3",
+   "screen_count": 8,
+   "screens": [
+    "2e4027c8-f45b-4089-a805-a02d55ebc875",
+    "30afbc6e-378c-4d2c-8156-4e46f94a9460",
+    "eda03784-08ea-4616-91e9-5763e31f4c63",
+    "07b012dd-9127-48ec-bfd6-eca0aa83116e",
+    "f08b85fd-d987-4947-b61b-1e09415a2df6",
+    "7df2a155-0a00-4517-a16d-ed5241067c71",
+    "3fc7c132-7c39-4eda-b26b-e0be442ad8c5",
+    "0b1c8137-9dec-4338-add9-0fcd30cd5fa5"
+   ],
+   "page": 3
+  },
+  "52deae1a-012e-4477-adb4-eff81ecd9d52": {
+   "name": "Education fees",
+   "url": "https://mobbin.com/flows/52deae1a-012e-4477-adb4-eff81ecd9d52",
+   "screen_count": 2,
+   "screens": [
+    "a2ceda47-8542-4ef8-840e-5faae3d72b54",
+    "ac4e4941-c51a-4554-bb55-a9476f713132"
+   ],
+   "page": 3
+  },
+  "5423dd7a-e9d5-43f6-86b3-fa9cdb7b2e58": {
+   "name": "Payment settings",
+   "url": "https://mobbin.com/flows/5423dd7a-e9d5-43f6-86b3-fa9cdb7b2e58",
+   "screen_count": 2,
+   "screens": [
+    "aa71f7a9-287d-4c9f-84f7-07f9491239d6",
+    "a10eb361-5e21-4a4c-87df-d0900a840fbf"
+   ],
+   "page": 3
+  },
+  "6007fc68-0758-48e2-acac-d6b1cd85eb49": {
+   "name": "Support",
+   "url": "https://mobbin.com/flows/6007fc68-0758-48e2-acac-d6b1cd85eb49",
+   "screen_count": 4,
+   "screens": [
+    "aa71f7a9-287d-4c9f-84f7-07f9491239d6",
+    "d8232e1f-4588-4596-9e66-db9ea9ffefef",
+    "4ac796c3-8c58-4436-b174-5a81e3892b6e",
+    "4ecfc3f0-f9fe-4468-8ae6-ed9b4b066321"
+   ],
+   "page": 3
+  },
+  "6021b18f-730d-48d9-9d20-312d2803a894": {
+   "name": "Vouchers",
+   "url": "https://mobbin.com/flows/6021b18f-730d-48d9-9d20-312d2803a894",
+   "screen_count": 4,
+   "screens": [
+    "221e85e8-4b31-4c47-b2d5-93122764f1e6",
+    "cfbae1ac-bc21-46be-a744-96dcfd1d12c9",
+    "aa96a659-9dfc-4e5e-adb7-9a6ccee4a3e1",
+    "7a293b69-5dbb-41c7-ac03-1976e50ff7f7"
+   ],
+   "page": 3
+  },
+  "62de62ce-0f4b-446a-b11d-1dfc98112865": {
+   "name": "Total due",
+   "url": "https://mobbin.com/flows/62de62ce-0f4b-446a-b11d-1dfc98112865",
+   "screen_count": 3,
+   "screens": [
+    "121f46b0-acdc-4bb6-8114-50625032a7b1",
+    "4e40750a-0846-432e-978d-5840d9f59c8c",
+    "8d2ba255-bf24-4641-810b-2a4f8538e092"
+   ],
+   "page": 3
+  },
+  "655a91ef-91ae-4c6c-9420-6c9b1a6a3e1c": {
+   "name": "Logging out",
+   "url": "https://mobbin.com/flows/655a91ef-91ae-4c6c-9420-6c9b1a6a3e1c",
+   "screen_count": 2,
+   "screens": [
+    "08b9013a-e6ea-4769-8a0f-4405e627efd8",
+    "5147faf5-443b-45a0-90bd-03b07cedd2fb"
+   ],
+   "page": 3
+  },
+  "656cb920-f426-4482-abe1-d77c384db7e9": {
+   "name": "Credit cards",
+   "url": "https://mobbin.com/flows/656cb920-f426-4482-abe1-d77c384db7e9",
+   "screen_count": 11,
+   "screens": [
+    "93613f78-cdd1-473a-9a39-1f378bb6aef6",
+    "66eef365-ce2f-422d-a6af-b488e68940f5",
+    "121f46b0-acdc-4bb6-8114-50625032a7b1",
+    "12a90aef-920e-406c-8e15-281c0a63917e",
+    "9d28a501-75b2-4974-a36b-b3ff39838bd6",
+    "32209fec-a097-410b-aad0-a9eded378a19",
+    "0bf55c48-4136-4eae-96c6-133918201430",
+    "455a9d94-78ec-4b47-97de-254465fe6ebd",
+    "0db0e5e4-0302-4b4d-9e52-300da14ed48d",
+    "32aec56a-e7d2-43db-9db2-2f50439baf3f",
+    "09db3589-3790-4617-a1bb-c6f2478102ea"
+   ],
+   "page": 3
+  },
+  "674a9695-a37c-4c04-a7ff-95cad3456840": {
+   "name": "Brand offers",
+   "url": "https://mobbin.com/flows/674a9695-a37c-4c04-a7ff-95cad3456840",
+   "screen_count": 5,
+   "screens": [
+    "221e85e8-4b31-4c47-b2d5-93122764f1e6",
+    "33952f91-13f1-495f-ab13-74a7a7b2d42f",
+    "66aaf4fb-8d33-4b2f-8cc9-8f71b36de478",
+    "b6ae6d8b-b646-440b-a981-25b541a017a3",
+    "696807a9-34e8-4f7b-a348-d859862a0bd5"
+   ],
+   "page": 3
+  },
+  "696bcd90-2817-45ec-bfa8-e1f6c76d2b6f": {
+   "name": "Travel",
+   "url": "https://mobbin.com/flows/696bcd90-2817-45ec-bfa8-e1f6c76d2b6f",
+   "screen_count": 4,
+   "screens": [
+    "221e85e8-4b31-4c47-b2d5-93122764f1e6",
+    "bd775fda-748f-4e52-9f53-5eaf47304d65",
+    "ce0d2d90-d49d-4024-88bd-22a47d502fe1",
+    "14d4ba8a-a1e4-4bc2-8468-592d45aa0386"
+   ],
+   "page": 4
+  },
+  "6ec76ca2-6db3-4282-8d5f-8812e5b2136b": {
+   "name": "Credit score",
+   "url": "https://mobbin.com/flows/6ec76ca2-6db3-4282-8d5f-8812e5b2136b",
+   "screen_count": 5,
+   "screens": [
+    "aa71f7a9-287d-4c9f-84f7-07f9491239d6",
+    "ec6fdbec-1a39-4e6a-b051-cb8a503f182e",
+    "97044e97-0879-4fe9-a32e-0de98db9c036",
+    "b4c37acb-ae4d-4c71-b04f-623b94abd545",
+    "caafe985-7d37-4d43-85de-8e164bc667d6"
+   ],
+   "page": 4
+  },
+  "72d68241-b4b3-482c-9bc5-59eeae186fd9": {
+   "name": "Garage",
+   "url": "https://mobbin.com/flows/72d68241-b4b3-482c-9bc5-59eeae186fd9",
+   "screen_count": 19,
+   "screens": [
+    "221e85e8-4b31-4c47-b2d5-93122764f1e6",
+    "cb933d28-9fc1-411f-884c-be5038aff68d",
+    "5f6e4b6c-6047-4dc2-a2dc-9eec75c16f40",
+    "3d651f68-74de-492a-8f7d-54b38b0c72d3",
+    "e75b3859-b5e5-44e2-afac-a983a8fa9508",
+    "a54f49d2-8042-49a6-acbe-48ae21a773ed",
+    "4f186b58-2dce-482a-923c-39d08a152ac2",
+    "02007f4d-e406-486f-844d-656fc84e53a3",
+    "e426a2be-29eb-4202-afae-b11eda2ae414",
+    "f28688bc-363f-4985-8de4-2c9dbe903d1b",
+    "355d3ffb-11c1-43a8-a2dc-84fce0a53b2f",
+    "d469fbd0-8d69-4fc5-9b63-eb22d1bf20d8",
+    "8ba15b81-81eb-4b48-ba31-acacb766b761",
+    "ea4f6380-2936-4529-b460-f37c14f5f224",
+    "7e383067-74f6-4097-95bc-de0f445effd3",
+    "590fa5c2-4d0d-43b2-b5d4-6153629e28fc",
+    "95e4bb93-14d8-4e11-b998-e0bd771fdee9",
+    "febcc6ea-776f-4db3-8e58-48643e4a1687",
+    "3563156c-78ab-44f5-a0ad-00d5f5d93d35"
+   ],
+   "page": 4
+  },
+  "752b8f2f-94ae-4532-b63e-9999a80ec013": {
+   "name": "Card offers",
+   "url": "https://mobbin.com/flows/752b8f2f-94ae-4532-b63e-9999a80ec013",
+   "screen_count": 2,
+   "screens": [
+    "4b9fbdc4-191f-47be-81b7-6552732348e0",
+    "0d47be80-75dc-4c91-8843-686f78a4ab74"
+   ],
+   "page": 4
+  },
+  "7720ba94-fb80-4e52-bbea-0bd41bd53827": {
+   "name": "View collection",
+   "url": "https://mobbin.com/flows/7720ba94-fb80-4e52-bbea-0bd41bd53827",
+   "screen_count": 3,
+   "screens": [
+    "618c7769-21ba-4797-a6fc-cdb06813f250",
+    "8e8e3345-e51a-4cf2-adee-e780437a159a",
+    "28e2f072-f3c2-4432-8de8-f055a9a0f1e7"
+   ],
+   "page": 4
+  },
+  "78321dad-b968-4b66-b4c8-2165db7acc56": {
+   "name": "Adding a new card",
+   "url": "https://mobbin.com/flows/78321dad-b968-4b66-b4c8-2165db7acc56",
+   "screen_count": 6,
+   "screens": [
+    "121f46b0-acdc-4bb6-8114-50625032a7b1",
+    "36ce044c-eaff-4c83-af6a-90fb69cb4dd2",
+    "fa8dc38b-4621-4a9c-8a25-ebb745a7bd7f",
+    "15484a05-a5e3-47c2-8382-d3c59d817ee8",
+    "19af2b58-220f-4f5c-ac4b-cb055558e20a",
+    "df3e5240-03a9-49bf-802c-2c76822027f5"
+   ],
+   "page": 4
+  },
+  "7a61ed1e-c183-41d2-9447-89b8403699a3": {
+   "name": "Transaction history",
+   "url": "https://mobbin.com/flows/7a61ed1e-c183-41d2-9447-89b8403699a3",
+   "screen_count": 3,
+   "screens": [
+    "aa71f7a9-287d-4c9f-84f7-07f9491239d6",
+    "ecb18e8b-f5bf-4702-a4b5-eb33b21673c9",
+    "6f7ed06d-3c53-4844-9713-972c367bf6f2"
+   ],
+   "page": 4
+  },
+  "7b3937d3-453a-49b0-a919-8dbc5e18e7d9": {
+   "name": "Store",
+   "url": "https://mobbin.com/flows/7b3937d3-453a-49b0-a919-8dbc5e18e7d9",
+   "screen_count": 7,
+   "screens": [
+    "221e85e8-4b31-4c47-b2d5-93122764f1e6",
+    "8f00514b-5ad1-4906-9eee-e07ce3a21b40",
+    "2e4027c8-f45b-4089-a805-a02d55ebc875",
+    "1e7e4505-1c03-4093-b311-bc6f44b5960f",
+    "87852efb-edd8-4c7d-befe-d64643043647",
+    "2c915034-f37c-4e00-b145-a5e46ba2f0f8",
+    "39a46a82-f01d-46ee-9939-5db5fc35ae4b"
+   ],
+   "page": 4
+  },
+  "7d6ca5c6-d2ce-4aeb-9ad1-cd348bd6679a": {
+   "name": "Editing bill",
+   "url": "https://mobbin.com/flows/7d6ca5c6-d2ce-4aeb-9ad1-cd348bd6679a",
+   "screen_count": 4,
+   "screens": [
+    "4b9fbdc4-191f-47be-81b7-6552732348e0",
+    "7ef44b74-00e1-41f0-b179-67bcec31f7d9",
+    "17b94113-2665-4983-88f1-16fbf697988b",
+    "bf7326c3-8400-4c4e-938c-7ec9c1ac7251"
+   ],
+   "page": 4
+  },
+  "81b68275-f5d8-4016-bbc0-a3be0aa499ed": {
+   "name": "Pollution check",
+   "url": "https://mobbin.com/flows/81b68275-f5d8-4016-bbc0-a3be0aa499ed",
+   "screen_count": 2,
+   "screens": [
+    "7e383067-74f6-4097-95bc-de0f445effd3",
+    "4087fb77-18e1-4c13-97f6-9abf15989201"
+   ],
+   "page": 4
+  },
+  "84f3f270-c012-450e-b533-bf816e78772a": {
+   "name": "Pay using UPI ID",
+   "url": "https://mobbin.com/flows/84f3f270-c012-450e-b533-bf816e78772a",
+   "screen_count": 6,
+   "screens": [
+    "9d635c53-59d4-4e19-bb8e-106ba9c82a5d",
+    "e2f0d328-e989-42c4-b7cd-c217bbc46c3f",
+    "a506b2a3-c62e-4f88-93a0-85992bbcb27c",
+    "3fe5f949-d0d6-4c58-a98e-9c17121ac082",
+    "d538593c-11aa-4102-bccf-6536acb46b05",
+    "2299b170-8d19-4a18-a51b-a216cb9692ae"
+   ],
+   "page": 5
+  },
+  "8cd73a88-8919-4b29-b646-cc8c1bf93c60": {
+   "name": "Fuel prices",
+   "url": "https://mobbin.com/flows/8cd73a88-8919-4b29-b646-cc8c1bf93c60",
+   "screen_count": 2,
+   "screens": [
+    "3563156c-78ab-44f5-a0ad-00d5f5d93d35",
+    "c9a8aa33-c3d5-4369-8c76-0ec4d916dfbc"
+   ],
+   "page": 5
+  },
+  "8d56880a-6a17-458c-a62b-17fea71c1915": {
+   "name": "Terms and conditions",
+   "url": "https://mobbin.com/flows/8d56880a-6a17-458c-a62b-17fea71c1915",
+   "screen_count": 2,
+   "screens": [
+    "638a23a9-94f5-4ede-8395-b933f7e37568",
+    "98f8cb54-ba69-40c6-b1a1-0805ca307fe4"
+   ],
+   "page": 5
+  },
+  "95430474-e7e6-46a7-979d-885eb89592bc": {
+   "name": "Manage account",
+   "url": "https://mobbin.com/flows/95430474-e7e6-46a7-979d-885eb89592bc",
+   "screen_count": 3,
+   "screens": [
+    "638a23a9-94f5-4ede-8395-b933f7e37568",
+    "08b9013a-e6ea-4769-8a0f-4405e627efd8",
+    "c54b3bc6-8615-4950-b0a2-c12b6056e4c8"
+   ],
+   "page": 5
+  },
+  "97a607ae-71d6-4ae8-8331-be3994a442f9": {
+   "name": "Remove card",
+   "url": "https://mobbin.com/flows/97a607ae-71d6-4ae8-8331-be3994a442f9",
+   "screen_count": 2,
+   "screens": [
+    "4b9fbdc4-191f-47be-81b7-6552732348e0",
+    "cc489fbf-b37f-4059-827d-e2c5095262e8"
+   ],
+   "page": 5
+  },
+  "99ed6791-6d2e-4b44-ba83-1c811c091313": {
+   "name": "Make a new payment",
+   "url": "https://mobbin.com/flows/99ed6791-6d2e-4b44-ba83-1c811c091313",
+   "screen_count": 7,
+   "screens": [
+    "fc168516-eab6-406e-a7bb-a8588b26ddbd",
+    "289f4277-8e3a-41be-80b8-fc05feb69f67",
+    "bf406a10-ba88-4121-b9ca-6bf10010dc5f",
+    "87b5d065-aacf-4882-b696-43a6a5f498d8",
+    "05bcb274-8551-4d4e-bde9-1a761bed3774",
+    "e2ac4112-f68a-4bc5-9d3b-2dc787684b84",
+    "87eedb76-ada5-4e4c-bc0d-3cf22868947d"
+   ],
+   "page": 5
+  },
+  "9e6b7280-8945-40df-9f5e-8ba780fce8fa": {
+   "name": "Paying a bill",
+   "url": "https://mobbin.com/flows/9e6b7280-8945-40df-9f5e-8ba780fce8fa",
+   "screen_count": 9,
+   "screens": [
+    "12a90aef-920e-406c-8e15-281c0a63917e",
+    "2d6962d4-70e9-4d2a-bca2-5f42ed96aeae",
+    "c7f798dc-5ace-4c7c-927d-e219035666f3",
+    "ea9cc170-3873-48e0-92ab-36fdc6f0c715",
+    "0532cbb4-90e9-4c78-8176-aa6f7da816c2",
+    "5db1a10a-3a70-44f1-9eee-3326047a4dde",
+    "9efbc29f-5df9-4ed2-b7cd-32a2ca09dafe",
+    "30bd0848-af4b-4743-9228-7a7c778e4c73",
+    "afc4ae67-96ec-4ef5-b3ad-06429f738d00"
+   ],
+   "page": 5
+  },
+  "9fee818d-a405-4ea0-ad54-5ff9f52ffb74": {
+   "name": "Payment history",
+   "url": "https://mobbin.com/flows/9fee818d-a405-4ea0-ad54-5ff9f52ffb74",
+   "screen_count": 5,
+   "screens": [
+    "4b9fbdc4-191f-47be-81b7-6552732348e0",
+    "d0f6fb58-43f3-4f03-b3ad-7f758d50c601",
+    "ab402271-e150-4019-9362-5180c9873bc8",
+    "e7225397-d4e5-4983-8fca-be068e9ee5e5",
+    "7792654d-1cf9-4914-83c9-2ed2f8be2f7f"
+   ],
+   "page": 5
+  },
+  "9ff9401a-598c-4101-bcf5-fc28bbc1e2d0": {
+   "name": "Amenities",
+   "url": "https://mobbin.com/flows/9ff9401a-598c-4101-bcf5-fc28bbc1e2d0",
+   "screen_count": 2,
+   "screens": [
+    "dbe45a47-7a12-4a37-977f-326afc65435b",
+    "78043b06-6062-4d3d-926d-6bd7c1cf1660"
+   ],
+   "page": 5
+  },
+  "a2021417-2226-466b-a265-fa72df9499ee": {
+   "name": "Onboarding",
+   "url": "https://mobbin.com/flows/a2021417-2226-466b-a265-fa72df9499ee",
+   "screen_count": 14,
+   "screens": [
+    "b6f494f1-f838-4ef1-8c67-b7a4ae8ef874",
+    "60b068aa-728b-4fc0-ba2c-a16fefd6a9ed",
+    "7f2d42af-a47e-47db-9c0e-2bf4d1df3116",
+    "6edd4552-d0eb-4aa4-a86f-28aeb4c21f1a",
+    "1257a078-fb14-40c2-83ba-294dd59f7961",
+    "e4cf67f7-6935-4411-bd34-fa3d4bdd2db2",
+    "bcb35260-2096-48af-ac4b-5b64c4813dde",
+    "495eb35e-96b1-422d-93f4-03e811afe6f9",
+    "08e41e83-2a85-4af5-b89c-829e58b04d2a",
+    "9efd2319-46c3-4882-ad92-3c1359d07572",
+    "ad2e83c7-fa4a-4e26-a8d3-bdf15e4fe79b",
+    "abaa6774-cef9-40da-b224-291124e34b2f",
+    "d984a05b-5a73-4605-8eff-b63400a0e906",
+    "a990b120-90b7-468d-a225-8dff3bb50af8"
+   ],
+   "page": 5
+  },
+  "a8563146-cfb8-49d9-89c8-e5b0af17e482": {
+   "name": "Hotel photo gallery",
+   "url": "https://mobbin.com/flows/a8563146-cfb8-49d9-89c8-e5b0af17e482",
+   "screen_count": 3,
+   "screens": [
+    "1695284f-fb61-43e0-81e7-23c4eded79df",
+    "587d5a59-3d31-4587-a989-b2f2b481f300",
+    "4e257faf-c916-46d7-b05a-4a22cc90d92c"
+   ],
+   "page": 6
+  },
+  "ad783bef-38ab-40a1-899d-7be83f15a627": {
+   "name": "Activating membership",
+   "url": "https://mobbin.com/flows/ad783bef-38ab-40a1-899d-7be83f15a627",
+   "screen_count": 10,
+   "screens": [
+    "a21be9f8-389c-4e77-ab37-490489360b1c",
+    "34236e36-c7dc-40b2-8820-750eaf345490",
+    "97ac6530-a11b-4ff0-be5f-6ed058e6366d",
+    "75c28941-de1a-474d-9cb8-791d542a1941",
+    "05aac9f1-cbc5-405a-83af-66385156e54b",
+    "ec9c6a0a-7aac-4473-b1bc-8f88cf0089d3",
+    "29b2600a-805d-439c-9778-633597352357",
+    "1acaa122-66ca-4a0f-910a-6138442ae881",
+    "d019ff07-66a3-44cb-b9bc-cece1fec50d9",
+    "5c4483e5-d257-43c4-ab55-edf663b6cb6d"
+   ],
+   "page": 6
+  },
+  "bef72058-62ad-41d3-bb20-aa00675a5ed7": {
+   "name": "Hotel detail",
+   "url": "https://mobbin.com/flows/bef72058-62ad-41d3-bb20-aa00675a5ed7",
+   "screen_count": 5,
+   "screens": [
+    "28e2f072-f3c2-4432-8de8-f055a9a0f1e7",
+    "1695284f-fb61-43e0-81e7-23c4eded79df",
+    "f08a65a7-8c7b-4e52-b823-2b082be8b850",
+    "dbe45a47-7a12-4a37-977f-326afc65435b",
+    "222a7eeb-f22b-4fdc-bbd5-f86a5dc25ce5"
+   ],
+   "page": 6
+  },
+  "cae2f03c-3d1d-4a0d-b10e-082ccec975bc": {
+   "name": "Linking an account to enable UPI",
+   "url": "https://mobbin.com/flows/cae2f03c-3d1d-4a0d-b10e-082ccec975bc",
+   "screen_count": 9,
+   "screens": [
+    "a10eb361-5e21-4a4c-87df-d0900a840fbf",
+    "ef91185a-0ccb-450f-b78e-2b23dfcde120",
+    "bf9aa61b-5232-4a1c-a0f8-eb6563a00f79",
+    "94c7e671-778a-4964-b1df-82ff9322fc7f",
+    "4fb93b0d-c18f-4b24-910b-64d8135a00e0",
+    "f567a894-aa1b-484a-9ab2-88440d46bdb5",
+    "613a3aba-893b-4438-8a0e-d779e8878272",
+    "8fbbea30-c3a1-439c-b4b8-7094ad394411",
+    "538791cc-44e6-46e6-96f0-ee4d23c05780"
+   ],
+   "page": 6
+  },
+  "cf5c7ff5-2e64-46e1-b14b-91e35ebe83b7": {
+   "name": "Cred referral",
+   "url": "https://mobbin.com/flows/cf5c7ff5-2e64-46e1-b14b-91e35ebe83b7",
+   "screen_count": 5,
+   "screens": [
+    "aa71f7a9-287d-4c9f-84f7-07f9491239d6",
+    "9da06e92-affa-452d-b556-1c5d801fc403",
+    "df22ca5a-fa2a-44e8-82a8-9195a5e47bd8",
+    "91feb24f-caa0-43ef-9ef8-18fd6af59bfe",
+    "5b22bb5d-e916-4077-bb30-c15ae4518412"
+   ],
+   "page": 6
+  },
+  "d4beb9eb-8968-4235-b3b1-0384450efd02": {
+   "name": "Unlocking price",
+   "url": "https://mobbin.com/flows/d4beb9eb-8968-4235-b3b1-0384450efd02",
+   "screen_count": 3,
+   "screens": [
+    "8f00514b-5ad1-4906-9eee-e07ce3a21b40",
+    "1d8907bb-d182-4bd4-bd52-1a4ba9e7896a",
+    "142a52f2-4f41-47e5-a2f2-fb1a6e00d30f"
+   ],
+   "page": 6
+  },
+  "d5d38886-2020-49e2-a4bc-b8931cd0f47a": {
+   "name": "Making the first payment",
+   "url": "https://mobbin.com/flows/d5d38886-2020-49e2-a4bc-b8931cd0f47a",
+   "screen_count": 10,
+   "screens": [
+    "5c4483e5-d257-43c4-ab55-edf663b6cb6d",
+    "db2b5f16-62c1-4b86-baa4-e5e35aa3630b",
+    "756932a2-9029-4c67-b293-877c557d7719",
+    "2591cecc-ba8e-42a0-81bd-3d999fc9e9ca",
+    "af4fcab7-7d1b-4876-af74-9ea0f9b222f5",
+    "f2b7d39f-ea90-4879-975d-d39e3f20f37f",
+    "58ecb41d-ff6d-457c-b776-b58aea31f374",
+    "6d1f03b5-137a-4c22-9150-ef83ca32fb34",
+    "008e64ce-0121-4403-98e9-d52a7e343b7a",
+    "93613f78-cdd1-473a-9a39-1f378bb6aef6"
+   ],
+   "page": 6
+  },
+  "d7eadb6c-5410-410c-a01c-db512b58a5c0": {
+   "name": "Concierge",
+   "url": "https://mobbin.com/flows/d7eadb6c-5410-410c-a01c-db512b58a5c0",
+   "screen_count": 8,
+   "screens": [
+    "7e383067-74f6-4097-95bc-de0f445effd3",
+    "c84bfff5-06b6-4f4a-8d34-e9fb5c1e6ecf",
+    "df03e36c-bfbf-4e46-93d6-c2d9f79a39f1",
+    "f389fe44-91d7-4adf-b52e-e779f8af1c2d",
+    "7ef0e8aa-9c29-45c6-8971-f73a821ee5d2",
+    "aa15fa71-e51c-4178-ab08-4894808afe11",
+    "c878a50a-9d98-4e5b-a292-f6a247e35b51",
+    "8d0d0a4f-9a36-4f90-b72b-58bcc958c3c5"
+   ],
+   "page": 6
+  },
+  "daa5b630-e25f-4726-8996-249711fca387": {
+   "name": "Orders",
+   "url": "https://mobbin.com/flows/daa5b630-e25f-4726-8996-249711fca387",
+   "screen_count": 3,
+   "screens": [
+    "8f00514b-5ad1-4906-9eee-e07ce3a21b40",
+    "5d85e958-baf0-4eae-9202-a76875b8d49f",
+    "82ec8686-c340-412b-bcb4-43b3bf3a11c8"
+   ],
+   "page": 6
+  },
+  "dfa02879-35e7-4ab6-860f-6602c4509f78": {
+   "name": "Pay your contacts",
+   "url": "https://mobbin.com/flows/dfa02879-35e7-4ab6-860f-6602c4509f78",
+   "screen_count": 7,
+   "screens": [
+    "a2ceda47-8542-4ef8-840e-5faae3d72b54",
+    "4f22603d-2181-4332-8049-8c6e49a13a38",
+    "9d635c53-59d4-4e19-bb8e-106ba9c82a5d",
+    "1ec7bf6e-5617-421b-b163-7fd216cd4e52",
+    "122fc8d1-725b-41fc-80aa-660b6ed162a6",
+    "3109128f-b0a8-483e-b5c2-3153c0235ad9",
+    "e6e48342-136d-4002-b475-eee9443a51e0"
+   ],
+   "page": 6
+  },
+  "dfd1619c-a834-4e52-850c-7813fa3ee511": {
+   "name": "Privacy policy",
+   "url": "https://mobbin.com/flows/dfd1619c-a834-4e52-850c-7813fa3ee511",
+   "screen_count": 2,
+   "screens": [
+    "638a23a9-94f5-4ede-8395-b933f7e37568",
+    "efd29d7d-f480-44ae-8d20-28d270154af9"
+   ],
+   "page": 7
+  },
+  "e15fa37d-7f0c-49c7-b59e-4a981eaeda44": {
+   "name": "Paying with scanner",
+   "url": "https://mobbin.com/flows/e15fa37d-7f0c-49c7-b59e-4a981eaeda44",
+   "screen_count": 9,
+   "screens": [
+    "93613f78-cdd1-473a-9a39-1f378bb6aef6",
+    "13e7d628-5283-4b20-9a3d-3fec7c167d11",
+    "12ada981-cb8f-4508-8f2e-1b1b2e3e2312",
+    "33855629-fc92-477b-ab0a-4ecdfff57a91",
+    "75ed17bb-9b2b-4747-870a-e1b848010e4f",
+    "174acfaa-a879-4ea2-a1de-14199ffc5bd9",
+    "3022db80-7bc3-4c58-b4ef-def0769ef1a5",
+    "159d585a-73cc-4604-99b7-92c0149bb9ff",
+    "326dbc3c-0adb-47c9-a1a7-12d636d46934"
+   ],
+   "page": 7
+  },
+  "e5f2bcc8-67ca-4c26-8c22-2a2e168d0727": {
+   "name": "Explore Cred",
+   "url": "https://mobbin.com/flows/e5f2bcc8-67ca-4c26-8c22-2a2e168d0727",
+   "screen_count": 4,
+   "screens": [
+    "93613f78-cdd1-473a-9a39-1f378bb6aef6",
+    "a2ceda47-8542-4ef8-840e-5faae3d72b54",
+    "221e85e8-4b31-4c47-b2d5-93122764f1e6",
+    "4ecd5dbc-c3c9-441f-a82c-4bfc5981005a"
+   ],
+   "page": 7
+  },
+  "e8c74ce2-3517-4977-b0bd-21ea93925a64": {
+   "name": "Insurance",
+   "url": "https://mobbin.com/flows/e8c74ce2-3517-4977-b0bd-21ea93925a64",
+   "screen_count": 8,
+   "screens": [
+    "7e383067-74f6-4097-95bc-de0f445effd3",
+    "f65ff158-d1e4-432e-aa31-c39cc23b3eb2",
+    "7387ae18-551c-403a-90a5-2013b9bb417a",
+    "5d33b839-805b-4206-bec3-bfd1dcfcb377",
+    "1bab5445-77b2-4054-a94c-ac6dd17ef077",
+    "eb0c5674-1dab-4034-ab85-ea2e5627a298",
+    "36e14c33-725a-41eb-8a12-eb1438f9b186",
+    "fafc6928-07bd-48bc-8b00-5a322b277d25"
+   ],
+   "page": 7
+  },
+  "f287ec0c-8793-43e4-9d30-33b8a8255543": {
+   "name": "Credit card offers",
+   "url": "https://mobbin.com/flows/f287ec0c-8793-43e4-9d30-33b8a8255543",
+   "screen_count": 2,
+   "screens": [
+    "0bf55c48-4136-4eae-96c6-133918201430",
+    "f1061ffe-8e88-4bb0-a0a3-5491fda44ddf"
+   ],
+   "page": 7
+  },
+  "f3a7a564-7f4f-45ff-bb49-dc80b5900a2f": {
+   "name": "House rent",
+   "url": "https://mobbin.com/flows/f3a7a564-7f4f-45ff-bb49-dc80b5900a2f",
+   "screen_count": 3,
+   "screens": [
+    "a2ceda47-8542-4ef8-840e-5faae3d72b54",
+    "fc168516-eab6-406e-a7bb-a8588b26ddbd",
+    "59693441-3a21-4123-968b-3bf152645a44"
+   ],
+   "page": 7
+  },
+  "f3c04e16-ea96-4107-a1e0-4825791e809e": {
+   "name": "Booking a hotel",
+   "url": "https://mobbin.com/flows/f3c04e16-ea96-4107-a1e0-4825791e809e",
+   "screen_count": 11,
+   "screens": [
+    "1695284f-fb61-43e0-81e7-23c4eded79df",
+    "3c7f99ee-3b9c-4500-95aa-54eb28be9cea",
+    "65037a59-77d3-4428-97d4-d846071a0762",
+    "4ea5f3ab-7acd-4150-b778-64e8c4134375",
+    "1999f5de-77cd-4d3d-8f02-5390f6323b40",
+    "e54b3ebf-b4ab-48d5-91f7-e9c3ec21060d",
+    "dc7c6eb4-a340-434f-969a-106b833b92a2",
+    "23dbf469-3c82-4c48-9bed-2264f64fb640",
+    "a011d043-544d-4962-83e2-79bf9790f83e",
+    "c64dd8d1-e7be-4c92-9e1f-f18e08ede656",
+    "5ee18e53-e148-410d-87ea-5beaff5f6b46"
+   ],
+   "page": 7
+  },
+  "f5eca05d-86e1-4c23-969f-c0feb9152ec7": {
+   "name": "Profile",
+   "url": "https://mobbin.com/flows/f5eca05d-86e1-4c23-969f-c0feb9152ec7",
+   "screen_count": 4,
+   "screens": [
+    "93613f78-cdd1-473a-9a39-1f378bb6aef6",
+    "aa71f7a9-287d-4c9f-84f7-07f9491239d6",
+    "638a23a9-94f5-4ede-8395-b933f7e37568",
+    "f8f5fe86-57b0-4adf-b733-edbb43b5409f"
+   ],
+   "page": 7
+  },
+  "f84503fe-4b2e-4437-9d7c-6757b8686a70": {
+   "name": "Traffic challans",
+   "url": "https://mobbin.com/flows/f84503fe-4b2e-4437-9d7c-6757b8686a70",
+   "screen_count": 4,
+   "screens": [
+    "7e383067-74f6-4097-95bc-de0f445effd3",
+    "e6815b3d-69fd-4407-a0e2-661af3b71618",
+    "a95e5cfd-2e3e-48fc-a440-52271e14b774",
+    "6c89abb4-dfd7-4e3f-9423-c65ca5068ca5"
+   ],
+   "page": 7
+  }
+ },
+ "screens": {
+  "222a7eeb-f22b-4fdc-bbd5-f86a5dc25ce5": {
+   "url": "https://mobbin.com/screens/222a7eeb-f22b-4fdc-bbd5-f86a5dc25ce5",
+   "image": "https://mobbin.com/api/mcp/short/N0R5WXow",
+   "flows": [
+    "Hotel policies",
+    "Hotel detail"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "f6fac008-95e2-4f6e-8740-096a46a43b64": {
+   "url": "https://mobbin.com/screens/f6fac008-95e2-4f6e-8740-096a46a43b64",
+   "image": "https://mobbin.com/api/mcp/short/RdRsjo5Y",
+   "flows": [
+    "Hotel policies"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "bd775fda-748f-4e52-9f53-5eaf47304d65": {
+   "url": "https://mobbin.com/screens/bd775fda-748f-4e52-9f53-5eaf47304d65",
+   "image": "https://mobbin.com/api/mcp/short/GW2DaSB5",
+   "flows": [
+    "Cred escapes",
+    "My trips",
+    "Travel"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "1cf0f75e-d364-4066-83be-a161042f7113": {
+   "url": "https://mobbin.com/screens/1cf0f75e-d364-4066-83be-a161042f7113",
+   "image": "https://mobbin.com/api/mcp/short/5XOFirAY",
+   "flows": [
+    "Cred escapes"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "1eb771cd-d568-4b4c-b070-1cbea6947e4f": {
+   "url": "https://mobbin.com/screens/1eb771cd-d568-4b4c-b070-1cbea6947e4f",
+   "image": "https://mobbin.com/api/mcp/short/p47WlArL",
+   "flows": [
+    "Cred escapes"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "618c7769-21ba-4797-a6fc-cdb06813f250": {
+   "url": "https://mobbin.com/screens/618c7769-21ba-4797-a6fc-cdb06813f250",
+   "image": "https://mobbin.com/api/mcp/short/chC2V18m",
+   "flows": [
+    "Cred escapes",
+    "View collection"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "37f0fc98-0525-487c-8687-7de899f3de71": {
+   "url": "https://mobbin.com/screens/37f0fc98-0525-487c-8687-7de899f3de71",
+   "image": "https://mobbin.com/api/mcp/short/zi6G5krC",
+   "flows": [
+    "Cred escapes"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "65997724-9cf6-4732-a052-31a2936ac1f1": {
+   "url": "https://mobbin.com/screens/65997724-9cf6-4732-a052-31a2936ac1f1",
+   "image": "https://mobbin.com/api/mcp/short/0db83V9q",
+   "flows": [
+    "Removing a vehicle"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "f3afc93c-5929-46b1-8057-172701fcf799": {
+   "url": "https://mobbin.com/screens/f3afc93c-5929-46b1-8057-172701fcf799",
+   "image": "https://mobbin.com/api/mcp/short/xj3mZ5SM",
+   "flows": [
+    "Removing a vehicle"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "e35e720e-0432-436d-aaad-f645703268c7": {
+   "url": "https://mobbin.com/screens/e35e720e-0432-436d-aaad-f645703268c7",
+   "image": "https://mobbin.com/api/mcp/short/3JSVuS3X",
+   "flows": [
+    "Removing a vehicle"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "d64de557-94c8-44b9-bf6a-dd878ac2e179": {
+   "url": "https://mobbin.com/screens/d64de557-94c8-44b9-bf6a-dd878ac2e179",
+   "image": "https://mobbin.com/api/mcp/short/rxLlsgy1",
+   "flows": [
+    "Removing a vehicle"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "617fd126-22df-4727-a19d-b386e37486c8": {
+   "url": "https://mobbin.com/screens/617fd126-22df-4727-a19d-b386e37486c8",
+   "image": "https://mobbin.com/api/mcp/short/10zjCRZY",
+   "flows": [
+    "Removing a vehicle"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "7e383067-74f6-4097-95bc-de0f445effd3": {
+   "url": "https://mobbin.com/screens/7e383067-74f6-4097-95bc-de0f445effd3",
+   "image": "https://mobbin.com/api/mcp/short/uVKBL0AO",
+   "flows": [
+    "Vehicle detail",
+    "Fastag",
+    "Garage",
+    "Pollution check",
+    "Concierge",
+    "Insurance",
+    "Traffic challans"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "45594230-50f4-4b38-b503-d2f91cb24260": {
+   "url": "https://mobbin.com/screens/45594230-50f4-4b38-b503-d2f91cb24260",
+   "image": "https://mobbin.com/api/mcp/short/L3JyhDD8",
+   "flows": [
+    "Vehicle detail"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "0936f731-bc8b-4468-96c3-2ea256950098": {
+   "url": "https://mobbin.com/screens/0936f731-bc8b-4468-96c3-2ea256950098",
+   "image": "https://mobbin.com/api/mcp/short/oASmwdxG",
+   "flows": [
+    "Vehicle detail"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "761425c3-3d88-4c41-837a-ddbae0e178f9": {
+   "url": "https://mobbin.com/screens/761425c3-3d88-4c41-837a-ddbae0e178f9",
+   "image": "https://mobbin.com/api/mcp/short/b6O5BbmN",
+   "flows": [
+    "Vehicle detail"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "f147f23d-cf88-4891-9fcd-d45f2e432ade": {
+   "url": "https://mobbin.com/screens/f147f23d-cf88-4891-9fcd-d45f2e432ade",
+   "image": "https://mobbin.com/api/mcp/short/sUFgTW15",
+   "flows": [
+    "Vehicle detail"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "310c6329-0bf4-45bf-bffd-d83f182d146c": {
+   "url": "https://mobbin.com/screens/310c6329-0bf4-45bf-bffd-d83f182d146c",
+   "image": "https://mobbin.com/api/mcp/short/OicglJqC",
+   "flows": [
+    "Vehicle detail"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "2c697c5e-5441-4090-b6f7-a1977876ee85": {
+   "url": "https://mobbin.com/screens/2c697c5e-5441-4090-b6f7-a1977876ee85",
+   "image": "https://mobbin.com/api/mcp/short/kPd6Krux",
+   "flows": [
+    "Vehicle detail"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "638a23a9-94f5-4ede-8395-b933f7e37568": {
+   "url": "https://mobbin.com/screens/638a23a9-94f5-4ede-8395-b933f7e37568",
+   "image": "https://mobbin.com/api/mcp/short/lc2rR1mw",
+   "flows": [
+    "Setting up instant refund",
+    "Manage address",
+    "Terms and conditions",
+    "Manage account",
+    "Privacy policy",
+    "Profile"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "9d252c2d-b311-455f-b248-fc6bc15e3f88": {
+   "url": "https://mobbin.com/screens/9d252c2d-b311-455f-b248-fc6bc15e3f88",
+   "image": "https://mobbin.com/api/mcp/short/YjKRr8sV",
+   "flows": [
+    "Setting up instant refund"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "4d5ffcc4-1c16-475a-bbec-30debdb22f24": {
+   "url": "https://mobbin.com/screens/4d5ffcc4-1c16-475a-bbec-30debdb22f24",
+   "image": "https://mobbin.com/api/mcp/short/ipfGhmkn",
+   "flows": [
+    "Setting up instant refund"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "efaaee83-b11d-40b2-b8d8-0586902cc42e": {
+   "url": "https://mobbin.com/screens/efaaee83-b11d-40b2-b8d8-0586902cc42e",
+   "image": "https://mobbin.com/api/mcp/short/dujo9HQu",
+   "flows": [
+    "Setting up instant refund"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "aa71f7a9-287d-4c9f-84f7-07f9491239d6": {
+   "url": "https://mobbin.com/screens/aa71f7a9-287d-4c9f-84f7-07f9491239d6",
+   "image": "https://mobbin.com/api/mcp/short/XuHCorM5",
+   "flows": [
+    "Coins",
+    "Cashback",
+    "Lifetime rewards",
+    "Payment settings",
+    "Support",
+    "Credit score",
+    "Transaction history",
+    "Cred referral",
+    "Profile"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "39473b5e-ad9e-4004-bc7f-b397c8e269bb": {
+   "url": "https://mobbin.com/screens/39473b5e-ad9e-4004-bc7f-b397c8e269bb",
+   "image": "https://mobbin.com/api/mcp/short/Ui7Qd0aG",
+   "flows": [
+    "Coins"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "bcc42a48-a4c5-4c7f-b6b0-d787582ad05b": {
+   "url": "https://mobbin.com/screens/bcc42a48-a4c5-4c7f-b6b0-d787582ad05b",
+   "image": "https://mobbin.com/api/mcp/short/CauQj52O",
+   "flows": [
+    "Eligibility unmet",
+    "Checking eligibility (credit score)"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "4daba798-e93a-4fc9-8304-01b257d4aa9e": {
+   "url": "https://mobbin.com/screens/4daba798-e93a-4fc9-8304-01b257d4aa9e",
+   "image": "https://mobbin.com/api/mcp/short/QPIl1RrT",
+   "flows": [
+    "Eligibility unmet"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "026fc688-42db-4188-a3a0-693521d91a05": {
+   "url": "https://mobbin.com/screens/026fc688-42db-4188-a3a0-693521d91a05",
+   "image": "https://mobbin.com/api/mcp/short/qLwE3fkL",
+   "flows": [
+    "Eligibility unmet"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "b240494c-e3eb-4129-b346-dd8731673b70": {
+   "url": "https://mobbin.com/screens/b240494c-e3eb-4129-b346-dd8731673b70",
+   "image": "https://mobbin.com/api/mcp/short/sINrOh1N",
+   "flows": [
+    "Eligibility unmet"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "4436abf9-11fd-46d1-98e5-da243ae1d5e9": {
+   "url": "https://mobbin.com/screens/4436abf9-11fd-46d1-98e5-da243ae1d5e9",
+   "image": "https://mobbin.com/api/mcp/short/mPEbhaNl",
+   "flows": [
+    "Update card expiry date",
+    "Credit card options"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "280ca813-f770-48c1-98fc-d46fd43dd6d9": {
+   "url": "https://mobbin.com/screens/280ca813-f770-48c1-98fc-d46fd43dd6d9",
+   "image": "https://mobbin.com/api/mcp/short/DmGKHZh2",
+   "flows": [
+    "Update card expiry date"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "3332bc32-b9dc-42fa-a80e-ca6309861c2c": {
+   "url": "https://mobbin.com/screens/3332bc32-b9dc-42fa-a80e-ca6309861c2c",
+   "image": "https://mobbin.com/api/mcp/short/1DAJwa0I",
+   "flows": [
+    "Update card expiry date"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "95e4bb93-14d8-4e11-b998-e0bd771fdee9": {
+   "url": "https://mobbin.com/screens/95e4bb93-14d8-4e11-b998-e0bd771fdee9",
+   "image": "https://mobbin.com/api/mcp/short/KnK1g0eR",
+   "flows": [
+    "Glovebox (documents)",
+    "Garage"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "860f9549-b074-4bbd-af45-8e3153fd6cf3": {
+   "url": "https://mobbin.com/screens/860f9549-b074-4bbd-af45-8e3153fd6cf3",
+   "image": "https://mobbin.com/api/mcp/short/1U7o5mE9",
+   "flows": [
+    "Glovebox (documents)"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "ff2abfa4-7d28-4522-87b9-0ba12f1fa12e": {
+   "url": "https://mobbin.com/screens/ff2abfa4-7d28-4522-87b9-0ba12f1fa12e",
+   "image": "https://mobbin.com/api/mcp/short/LrJRLLGz",
+   "flows": [
+    "Glovebox (documents)"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "37f0f5ee-c928-4f10-b097-3fd8aa043bf8": {
+   "url": "https://mobbin.com/screens/37f0f5ee-c928-4f10-b097-3fd8aa043bf8",
+   "image": "https://mobbin.com/api/mcp/short/X4vhATds",
+   "flows": [
+    "Cashback"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "c5b812b7-f9a8-4ffc-8de7-4760b8f03d6d": {
+   "url": "https://mobbin.com/screens/c5b812b7-f9a8-4ffc-8de7-4760b8f03d6d",
+   "image": "https://mobbin.com/api/mcp/short/JVebnA5p",
+   "flows": [
+    "Manage address"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "5018a167-8912-4f96-9c36-7ea823e4542f": {
+   "url": "https://mobbin.com/screens/5018a167-8912-4f96-9c36-7ea823e4542f",
+   "image": "https://mobbin.com/api/mcp/short/F4a5t7iz",
+   "flows": [
+    "Manage address"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "32b8162d-d185-4bb9-8212-2d6fd0c6f888": {
+   "url": "https://mobbin.com/screens/32b8162d-d185-4bb9-8212-2d6fd0c6f888",
+   "image": "https://mobbin.com/api/mcp/short/P3z59JvA",
+   "flows": [
+    "Manage address"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "0a85ae54-5563-4077-a6af-33d41fa4819e": {
+   "url": "https://mobbin.com/screens/0a85ae54-5563-4077-a6af-33d41fa4819e",
+   "image": "https://mobbin.com/api/mcp/short/ZVU546Vn",
+   "flows": [
+    "Manage address"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "12a90aef-920e-406c-8e15-281c0a63917e": {
+   "url": "https://mobbin.com/screens/12a90aef-920e-406c-8e15-281c0a63917e",
+   "image": "https://mobbin.com/api/mcp/short/xYgfrEgL",
+   "flows": [
+    "Credit card options",
+    "Credit cards",
+    "Paying a bill"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "4b9fbdc4-191f-47be-81b7-6552732348e0": {
+   "url": "https://mobbin.com/screens/4b9fbdc4-191f-47be-81b7-6552732348e0",
+   "image": "https://mobbin.com/api/mcp/short/9DWDyjvP",
+   "flows": [
+    "Credit card options",
+    "Smart statement",
+    "Card offers",
+    "Editing bill",
+    "Remove card",
+    "Payment history"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "e3b6527f-6123-419f-950f-e5f6c2768d6a": {
+   "url": "https://mobbin.com/screens/e3b6527f-6123-419f-950f-e5f6c2768d6a",
+   "image": "https://mobbin.com/api/mcp/short/Ex09rqPd",
+   "flows": [
+    "Lifetime rewards"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "e24f9ef6-4872-48c5-9b01-6de28fd98252": {
+   "url": "https://mobbin.com/screens/e24f9ef6-4872-48c5-9b01-6de28fd98252",
+   "image": "https://mobbin.com/api/mcp/short/mDvT8s9U",
+   "flows": [
+    "Lifetime rewards"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "93613f78-cdd1-473a-9a39-1f378bb6aef6": {
+   "url": "https://mobbin.com/screens/93613f78-cdd1-473a-9a39-1f378bb6aef6",
+   "image": "https://mobbin.com/api/mcp/short/dufsOahC",
+   "flows": [
+    "Home",
+    "Credit cards",
+    "Making the first payment",
+    "Paying with scanner",
+    "Explore Cred",
+    "Profile"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "a86d33ae-922e-4de5-b00d-4091c93a4c37": {
+   "url": "https://mobbin.com/screens/a86d33ae-922e-4de5-b00d-4091c93a4c37",
+   "image": "https://mobbin.com/api/mcp/short/fIDMG769",
+   "flows": [
+    "Home"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "851fffee-ce54-422b-8546-f9953218d238": {
+   "url": "https://mobbin.com/screens/851fffee-ce54-422b-8546-f9953218d238",
+   "image": "https://mobbin.com/api/mcp/short/wdigzA2J",
+   "flows": [
+    "Home"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "72d74f41-a6d8-4fc2-bb75-7c15db932a1d": {
+   "url": "https://mobbin.com/screens/72d74f41-a6d8-4fc2-bb75-7c15db932a1d",
+   "image": "https://mobbin.com/api/mcp/short/IZ2eHGiS",
+   "flows": [
+    "Home"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "1e181278-b1df-4b04-b30b-7a77494803c9": {
+   "url": "https://mobbin.com/screens/1e181278-b1df-4b04-b30b-7a77494803c9",
+   "image": "https://mobbin.com/api/mcp/short/rdb9NBtc",
+   "flows": [
+    "Home"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "4ac8985b-1c6b-4d62-b537-433656b7f424": {
+   "url": "https://mobbin.com/screens/4ac8985b-1c6b-4d62-b537-433656b7f424",
+   "image": "https://mobbin.com/api/mcp/short/y7wilQU4",
+   "flows": [
+    "Home"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "febcc6ea-776f-4db3-8e58-48643e4a1687": {
+   "url": "https://mobbin.com/screens/febcc6ea-776f-4db3-8e58-48643e4a1687",
+   "image": "https://mobbin.com/api/mcp/short/vVtWNtAG",
+   "flows": [
+    "Spend summary",
+    "Garage"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "7f33e880-f2cb-450b-a1bd-90def15a9e64": {
+   "url": "https://mobbin.com/screens/7f33e880-f2cb-450b-a1bd-90def15a9e64",
+   "image": "https://mobbin.com/api/mcp/short/F6dTzGMP",
+   "flows": [
+    "Spend summary"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "3958bfd1-599f-4eee-b9a4-cad7c6d833fe": {
+   "url": "https://mobbin.com/screens/3958bfd1-599f-4eee-b9a4-cad7c6d833fe",
+   "image": "https://mobbin.com/api/mcp/short/8yG15DUN",
+   "flows": [
+    "Spend summary"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "14ae27c2-b7f7-408a-b255-a5d109923892": {
+   "url": "https://mobbin.com/screens/14ae27c2-b7f7-408a-b255-a5d109923892",
+   "image": "https://mobbin.com/api/mcp/short/ZF74r8bH",
+   "flows": [
+    "My trips"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "ead9e6ec-a429-424a-98a1-cfa1fa7d49bf": {
+   "url": "https://mobbin.com/screens/ead9e6ec-a429-424a-98a1-cfa1fa7d49bf",
+   "image": "https://mobbin.com/api/mcp/short/L3qMdebS",
+   "flows": [
+    "Fastag"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "4a3a131a-31fc-4bac-91aa-40845382b8f5": {
+   "url": "https://mobbin.com/screens/4a3a131a-31fc-4bac-91aa-40845382b8f5",
+   "image": "https://mobbin.com/api/mcp/short/kMelEhUT",
+   "flows": [
+    "Fastag"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "a6fe43f7-201f-4ed7-a55d-b2f9b3fa6030": {
+   "url": "https://mobbin.com/screens/a6fe43f7-201f-4ed7-a55d-b2f9b3fa6030",
+   "image": "https://mobbin.com/api/mcp/short/p8NMmSRT",
+   "flows": [
+    "Fastag"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "2062b97c-73e2-435d-ace0-b48f23133ac6": {
+   "url": "https://mobbin.com/screens/2062b97c-73e2-435d-ace0-b48f23133ac6",
+   "image": "https://mobbin.com/api/mcp/short/fyqmVdyY",
+   "flows": [
+    "Fastag"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "8f00514b-5ad1-4906-9eee-e07ce3a21b40": {
+   "url": "https://mobbin.com/screens/8f00514b-5ad1-4906-9eee-e07ce3a21b40",
+   "image": "https://mobbin.com/api/mcp/short/1vLufKb2",
+   "flows": [
+    "Cart",
+    "Store",
+    "Unlocking price",
+    "Orders"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "41be5269-a780-46e8-bdc3-ef39be57e4c8": {
+   "url": "https://mobbin.com/screens/41be5269-a780-46e8-bdc3-ef39be57e4c8",
+   "image": "https://mobbin.com/api/mcp/short/lD0gc3Jt",
+   "flows": [
+    "Cart"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "d637dde9-254a-4930-be3e-50ae25a71dc4": {
+   "url": "https://mobbin.com/screens/d637dde9-254a-4930-be3e-50ae25a71dc4",
+   "image": "https://mobbin.com/api/mcp/short/FgCreDkd",
+   "flows": [
+    "Cart"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "a2ceda47-8542-4ef8-840e-5faae3d72b54": {
+   "url": "https://mobbin.com/screens/a2ceda47-8542-4ef8-840e-5faae3d72b54",
+   "image": "https://mobbin.com/api/mcp/short/4KGUbqfn",
+   "flows": [
+    "Utility and all bills",
+    "Education fees",
+    "Pay your contacts",
+    "Explore Cred",
+    "House rent"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "e55ac6e2-3686-4f7c-b0c9-f2d17d8c4d09": {
+   "url": "https://mobbin.com/screens/e55ac6e2-3686-4f7c-b0c9-f2d17d8c4d09",
+   "image": "https://mobbin.com/api/mcp/short/IpmSSKFV",
+   "flows": [
+    "Utility and all bills"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "55bf2989-120c-41b6-a687-d4babb629063": {
+   "url": "https://mobbin.com/screens/55bf2989-120c-41b6-a687-d4babb629063",
+   "image": "https://mobbin.com/api/mcp/short/H9yctyIZ",
+   "flows": [
+    "Utility and all bills"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "4b32ea66-a7dc-4ba1-99f1-335da21df047": {
+   "url": "https://mobbin.com/screens/4b32ea66-a7dc-4ba1-99f1-335da21df047",
+   "image": "https://mobbin.com/api/mcp/short/KVa4qGbV",
+   "flows": [
+    "Smart statement"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "bc2dc2d0-3681-4882-acff-4e9f2985492e": {
+   "url": "https://mobbin.com/screens/bc2dc2d0-3681-4882-acff-4e9f2985492e",
+   "image": "https://mobbin.com/api/mcp/short/JgiRWhZV",
+   "flows": [
+    "Smart statement"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "96d0a839-4a2d-44b3-9380-15f7e7fb1488": {
+   "url": "https://mobbin.com/screens/96d0a839-4a2d-44b3-9380-15f7e7fb1488",
+   "image": "https://mobbin.com/api/mcp/short/U8mZuhGx",
+   "flows": [
+    "Smart statement"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "bd724d8f-97a2-4426-9bba-173c3f014153": {
+   "url": "https://mobbin.com/screens/bd724d8f-97a2-4426-9bba-173c3f014153",
+   "image": "https://mobbin.com/api/mcp/short/MF42bDOh",
+   "flows": [
+    "Smart statement"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "cf5a33f7-0244-4776-b7dc-add9f1d2557a": {
+   "url": "https://mobbin.com/screens/cf5a33f7-0244-4776-b7dc-add9f1d2557a",
+   "image": "https://mobbin.com/api/mcp/short/yOZqhLCl",
+   "flows": [
+    "Smart statement"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "a798f325-2e42-4fed-ad8c-5cb252b8ba19": {
+   "url": "https://mobbin.com/screens/a798f325-2e42-4fed-ad8c-5cb252b8ba19",
+   "image": "https://mobbin.com/api/mcp/short/wXL0Gid7",
+   "flows": [
+    "Smart statement"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "a990b120-90b7-468d-a225-8dff3bb50af8": {
+   "url": "https://mobbin.com/screens/a990b120-90b7-468d-a225-8dff3bb50af8",
+   "image": "https://mobbin.com/api/mcp/short/UwLc9htt",
+   "flows": [
+    "Checking eligibility (credit score)",
+    "Onboarding"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "c8c6155e-d73e-486c-bd02-c80df713d151": {
+   "url": "https://mobbin.com/screens/c8c6155e-d73e-486c-bd02-c80df713d151",
+   "image": "https://mobbin.com/api/mcp/short/KzxFfJ06",
+   "flows": [
+    "Checking eligibility (credit score)"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "94d5e2a8-4216-441c-aedd-c444cdab919a": {
+   "url": "https://mobbin.com/screens/94d5e2a8-4216-441c-aedd-c444cdab919a",
+   "image": "https://mobbin.com/api/mcp/short/pEPALune",
+   "flows": [
+    "Checking eligibility (credit score)"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "167c9de0-361d-411f-8f48-1c84abad9e34": {
+   "url": "https://mobbin.com/screens/167c9de0-361d-411f-8f48-1c84abad9e34",
+   "image": "https://mobbin.com/api/mcp/short/HyTg7LyB",
+   "flows": [
+    "Checking eligibility (credit score)"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "ef487bab-484f-4f59-898f-16fd69139c6b": {
+   "url": "https://mobbin.com/screens/ef487bab-484f-4f59-898f-16fd69139c6b",
+   "image": "https://mobbin.com/api/mcp/short/h4iwWEzM",
+   "flows": [
+    "Checking eligibility (credit score)"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "ddf7d518-a87a-49ff-95df-af4bb4fee6f8": {
+   "url": "https://mobbin.com/screens/ddf7d518-a87a-49ff-95df-af4bb4fee6f8",
+   "image": "https://mobbin.com/api/mcp/short/NFhi1zQt",
+   "flows": [
+    "Checking eligibility (credit score)"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "292b77ab-6177-4feb-af40-b2671691abb6": {
+   "url": "https://mobbin.com/screens/292b77ab-6177-4feb-af40-b2671691abb6",
+   "image": "https://mobbin.com/api/mcp/short/EijGNpIa",
+   "flows": [
+    "Checking eligibility (credit score)"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "a206bc2a-be00-4d8b-aae8-536d97a3330b": {
+   "url": "https://mobbin.com/screens/a206bc2a-be00-4d8b-aae8-536d97a3330b",
+   "image": "https://mobbin.com/api/mcp/short/sgQvf6BL",
+   "flows": [
+    "Checking eligibility (credit score)"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "0eba2caa-291b-45e8-b0f3-c16a9f05726e": {
+   "url": "https://mobbin.com/screens/0eba2caa-291b-45e8-b0f3-c16a9f05726e",
+   "image": "https://mobbin.com/api/mcp/short/DTxmlToI",
+   "flows": [
+    "Checking eligibility (credit score)"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "5ddb36d3-bd81-455c-bfb5-d5e81ff798ef": {
+   "url": "https://mobbin.com/screens/5ddb36d3-bd81-455c-bfb5-d5e81ff798ef",
+   "image": "https://mobbin.com/api/mcp/short/ZYSS4wfU",
+   "flows": [
+    "Checking eligibility (credit score)"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "32af0d80-dc14-413d-a5eb-08d6927a2680": {
+   "url": "https://mobbin.com/screens/32af0d80-dc14-413d-a5eb-08d6927a2680",
+   "image": "https://mobbin.com/api/mcp/short/dQHjTdQr",
+   "flows": [
+    "Checking eligibility (credit score)"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "24ee9c16-d47d-45b9-a5f5-6b7838d486ab": {
+   "url": "https://mobbin.com/screens/24ee9c16-d47d-45b9-a5f5-6b7838d486ab",
+   "image": "https://mobbin.com/api/mcp/short/77gxG6q0",
+   "flows": [
+    "Checking eligibility (credit score)"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "a21be9f8-389c-4e77-ab37-490489360b1c": {
+   "url": "https://mobbin.com/screens/a21be9f8-389c-4e77-ab37-490489360b1c",
+   "image": "https://mobbin.com/api/mcp/short/UaWTMOIS",
+   "flows": [
+    "Checking eligibility (credit score)",
+    "Activating membership"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "2e4027c8-f45b-4089-a805-a02d55ebc875": {
+   "url": "https://mobbin.com/screens/2e4027c8-f45b-4089-a805-a02d55ebc875",
+   "image": "https://mobbin.com/api/mcp/short/Ezgnoo5I",
+   "flows": [
+    "Product detail",
+    "Store"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "30afbc6e-378c-4d2c-8156-4e46f94a9460": {
+   "url": "https://mobbin.com/screens/30afbc6e-378c-4d2c-8156-4e46f94a9460",
+   "image": "https://mobbin.com/api/mcp/short/jP30Py43",
+   "flows": [
+    "Product detail"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "eda03784-08ea-4616-91e9-5763e31f4c63": {
+   "url": "https://mobbin.com/screens/eda03784-08ea-4616-91e9-5763e31f4c63",
+   "image": "https://mobbin.com/api/mcp/short/WFcTrktr",
+   "flows": [
+    "Product detail"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "07b012dd-9127-48ec-bfd6-eca0aa83116e": {
+   "url": "https://mobbin.com/screens/07b012dd-9127-48ec-bfd6-eca0aa83116e",
+   "image": "https://mobbin.com/api/mcp/short/7Vjmd432",
+   "flows": [
+    "Product detail"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "f08b85fd-d987-4947-b61b-1e09415a2df6": {
+   "url": "https://mobbin.com/screens/f08b85fd-d987-4947-b61b-1e09415a2df6",
+   "image": "https://mobbin.com/api/mcp/short/WyANFAAh",
+   "flows": [
+    "Product detail"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "7df2a155-0a00-4517-a16d-ed5241067c71": {
+   "url": "https://mobbin.com/screens/7df2a155-0a00-4517-a16d-ed5241067c71",
+   "image": "https://mobbin.com/api/mcp/short/m4eWCM9O",
+   "flows": [
+    "Product detail"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "3fc7c132-7c39-4eda-b26b-e0be442ad8c5": {
+   "url": "https://mobbin.com/screens/3fc7c132-7c39-4eda-b26b-e0be442ad8c5",
+   "image": "https://mobbin.com/api/mcp/short/37ibzzWG",
+   "flows": [
+    "Product detail"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "0b1c8137-9dec-4338-add9-0fcd30cd5fa5": {
+   "url": "https://mobbin.com/screens/0b1c8137-9dec-4338-add9-0fcd30cd5fa5",
+   "image": "https://mobbin.com/api/mcp/short/oIVBxM5O",
+   "flows": [
+    "Product detail"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "ac4e4941-c51a-4554-bb55-a9476f713132": {
+   "url": "https://mobbin.com/screens/ac4e4941-c51a-4554-bb55-a9476f713132",
+   "image": "https://mobbin.com/api/mcp/short/PpyLBVLA",
+   "flows": [
+    "Education fees"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "a10eb361-5e21-4a4c-87df-d0900a840fbf": {
+   "url": "https://mobbin.com/screens/a10eb361-5e21-4a4c-87df-d0900a840fbf",
+   "image": "https://mobbin.com/api/mcp/short/65L928oL",
+   "flows": [
+    "Payment settings",
+    "Linking an account to enable UPI"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "d8232e1f-4588-4596-9e66-db9ea9ffefef": {
+   "url": "https://mobbin.com/screens/d8232e1f-4588-4596-9e66-db9ea9ffefef",
+   "image": "https://mobbin.com/api/mcp/short/3BD9GTwj",
+   "flows": [
+    "Support"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "4ac796c3-8c58-4436-b174-5a81e3892b6e": {
+   "url": "https://mobbin.com/screens/4ac796c3-8c58-4436-b174-5a81e3892b6e",
+   "image": "https://mobbin.com/api/mcp/short/goLcntzu",
+   "flows": [
+    "Support"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "4ecfc3f0-f9fe-4468-8ae6-ed9b4b066321": {
+   "url": "https://mobbin.com/screens/4ecfc3f0-f9fe-4468-8ae6-ed9b4b066321",
+   "image": "https://mobbin.com/api/mcp/short/ViOfgjeG",
+   "flows": [
+    "Support"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "221e85e8-4b31-4c47-b2d5-93122764f1e6": {
+   "url": "https://mobbin.com/screens/221e85e8-4b31-4c47-b2d5-93122764f1e6",
+   "image": "https://mobbin.com/api/mcp/short/OSb1jR6S",
+   "flows": [
+    "Vouchers",
+    "Brand offers",
+    "Travel",
+    "Garage",
+    "Store",
+    "Explore Cred"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "cfbae1ac-bc21-46be-a744-96dcfd1d12c9": {
+   "url": "https://mobbin.com/screens/cfbae1ac-bc21-46be-a744-96dcfd1d12c9",
+   "image": "https://mobbin.com/api/mcp/short/4qMiGUJY",
+   "flows": [
+    "Vouchers"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "aa96a659-9dfc-4e5e-adb7-9a6ccee4a3e1": {
+   "url": "https://mobbin.com/screens/aa96a659-9dfc-4e5e-adb7-9a6ccee4a3e1",
+   "image": "https://mobbin.com/api/mcp/short/mXFEzgP7",
+   "flows": [
+    "Vouchers"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "7a293b69-5dbb-41c7-ac03-1976e50ff7f7": {
+   "url": "https://mobbin.com/screens/7a293b69-5dbb-41c7-ac03-1976e50ff7f7",
+   "image": "https://mobbin.com/api/mcp/short/O8RD1eZM",
+   "flows": [
+    "Vouchers"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "121f46b0-acdc-4bb6-8114-50625032a7b1": {
+   "url": "https://mobbin.com/screens/121f46b0-acdc-4bb6-8114-50625032a7b1",
+   "image": "https://mobbin.com/api/mcp/short/1ZbenvDQ",
+   "flows": [
+    "Total due",
+    "Credit cards",
+    "Adding a new card"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "4e40750a-0846-432e-978d-5840d9f59c8c": {
+   "url": "https://mobbin.com/screens/4e40750a-0846-432e-978d-5840d9f59c8c",
+   "image": "https://mobbin.com/api/mcp/short/EWICp4SQ",
+   "flows": [
+    "Total due"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "8d2ba255-bf24-4641-810b-2a4f8538e092": {
+   "url": "https://mobbin.com/screens/8d2ba255-bf24-4641-810b-2a4f8538e092",
+   "image": "https://mobbin.com/api/mcp/short/wH1LLswb",
+   "flows": [
+    "Total due"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "08b9013a-e6ea-4769-8a0f-4405e627efd8": {
+   "url": "https://mobbin.com/screens/08b9013a-e6ea-4769-8a0f-4405e627efd8",
+   "image": "https://mobbin.com/api/mcp/short/FkZMFgT1",
+   "flows": [
+    "Logging out",
+    "Manage account"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "5147faf5-443b-45a0-90bd-03b07cedd2fb": {
+   "url": "https://mobbin.com/screens/5147faf5-443b-45a0-90bd-03b07cedd2fb",
+   "image": "https://mobbin.com/api/mcp/short/NjvWf7G7",
+   "flows": [
+    "Logging out"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "66eef365-ce2f-422d-a6af-b488e68940f5": {
+   "url": "https://mobbin.com/screens/66eef365-ce2f-422d-a6af-b488e68940f5",
+   "image": "https://mobbin.com/api/mcp/short/OjJn8QMB",
+   "flows": [
+    "Credit cards"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "9d28a501-75b2-4974-a36b-b3ff39838bd6": {
+   "url": "https://mobbin.com/screens/9d28a501-75b2-4974-a36b-b3ff39838bd6",
+   "image": "https://mobbin.com/api/mcp/short/RTARZAnD",
+   "flows": [
+    "Credit cards"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "32209fec-a097-410b-aad0-a9eded378a19": {
+   "url": "https://mobbin.com/screens/32209fec-a097-410b-aad0-a9eded378a19",
+   "image": "https://mobbin.com/api/mcp/short/fMZdBQsc",
+   "flows": [
+    "Credit cards"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "0bf55c48-4136-4eae-96c6-133918201430": {
+   "url": "https://mobbin.com/screens/0bf55c48-4136-4eae-96c6-133918201430",
+   "image": "https://mobbin.com/api/mcp/short/VZah0FIP",
+   "flows": [
+    "Credit cards",
+    "Credit card offers"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "455a9d94-78ec-4b47-97de-254465fe6ebd": {
+   "url": "https://mobbin.com/screens/455a9d94-78ec-4b47-97de-254465fe6ebd",
+   "image": "https://mobbin.com/api/mcp/short/wQA6l9aa",
+   "flows": [
+    "Credit cards"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "0db0e5e4-0302-4b4d-9e52-300da14ed48d": {
+   "url": "https://mobbin.com/screens/0db0e5e4-0302-4b4d-9e52-300da14ed48d",
+   "image": "https://mobbin.com/api/mcp/short/EzyQuVRn",
+   "flows": [
+    "Credit cards"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "32aec56a-e7d2-43db-9db2-2f50439baf3f": {
+   "url": "https://mobbin.com/screens/32aec56a-e7d2-43db-9db2-2f50439baf3f",
+   "image": "https://mobbin.com/api/mcp/short/5F4CALRV",
+   "flows": [
+    "Credit cards"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "09db3589-3790-4617-a1bb-c6f2478102ea": {
+   "url": "https://mobbin.com/screens/09db3589-3790-4617-a1bb-c6f2478102ea",
+   "image": "https://mobbin.com/api/mcp/short/jZrvFgsj",
+   "flows": [
+    "Credit cards"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "33952f91-13f1-495f-ab13-74a7a7b2d42f": {
+   "url": "https://mobbin.com/screens/33952f91-13f1-495f-ab13-74a7a7b2d42f",
+   "image": "https://mobbin.com/api/mcp/short/GCmxdqpK",
+   "flows": [
+    "Brand offers"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "66aaf4fb-8d33-4b2f-8cc9-8f71b36de478": {
+   "url": "https://mobbin.com/screens/66aaf4fb-8d33-4b2f-8cc9-8f71b36de478",
+   "image": "https://mobbin.com/api/mcp/short/YMUUMN1U",
+   "flows": [
+    "Brand offers"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "b6ae6d8b-b646-440b-a981-25b541a017a3": {
+   "url": "https://mobbin.com/screens/b6ae6d8b-b646-440b-a981-25b541a017a3",
+   "image": "https://mobbin.com/api/mcp/short/peG7OfCp",
+   "flows": [
+    "Brand offers"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "696807a9-34e8-4f7b-a348-d859862a0bd5": {
+   "url": "https://mobbin.com/screens/696807a9-34e8-4f7b-a348-d859862a0bd5",
+   "image": "https://mobbin.com/api/mcp/short/qBdQ7dxx",
+   "flows": [
+    "Brand offers"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "ce0d2d90-d49d-4024-88bd-22a47d502fe1": {
+   "url": "https://mobbin.com/screens/ce0d2d90-d49d-4024-88bd-22a47d502fe1",
+   "image": "https://mobbin.com/api/mcp/short/7L5ww6yX",
+   "flows": [
+    "Travel"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "14d4ba8a-a1e4-4bc2-8468-592d45aa0386": {
+   "url": "https://mobbin.com/screens/14d4ba8a-a1e4-4bc2-8468-592d45aa0386",
+   "image": "https://mobbin.com/api/mcp/short/1oEF8gsX",
+   "flows": [
+    "Travel"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "ec6fdbec-1a39-4e6a-b051-cb8a503f182e": {
+   "url": "https://mobbin.com/screens/ec6fdbec-1a39-4e6a-b051-cb8a503f182e",
+   "image": "https://mobbin.com/api/mcp/short/pYrXwIHJ",
+   "flows": [
+    "Credit score"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "97044e97-0879-4fe9-a32e-0de98db9c036": {
+   "url": "https://mobbin.com/screens/97044e97-0879-4fe9-a32e-0de98db9c036",
+   "image": "https://mobbin.com/api/mcp/short/wFUhxmVV",
+   "flows": [
+    "Credit score"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "b4c37acb-ae4d-4c71-b04f-623b94abd545": {
+   "url": "https://mobbin.com/screens/b4c37acb-ae4d-4c71-b04f-623b94abd545",
+   "image": "https://mobbin.com/api/mcp/short/ooXbOB7b",
+   "flows": [
+    "Credit score"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "caafe985-7d37-4d43-85de-8e164bc667d6": {
+   "url": "https://mobbin.com/screens/caafe985-7d37-4d43-85de-8e164bc667d6",
+   "image": "https://mobbin.com/api/mcp/short/8DPdyzgG",
+   "flows": [
+    "Credit score"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "cb933d28-9fc1-411f-884c-be5038aff68d": {
+   "url": "https://mobbin.com/screens/cb933d28-9fc1-411f-884c-be5038aff68d",
+   "image": "https://mobbin.com/api/mcp/short/bX9hkG7b",
+   "flows": [
+    "Garage"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "5f6e4b6c-6047-4dc2-a2dc-9eec75c16f40": {
+   "url": "https://mobbin.com/screens/5f6e4b6c-6047-4dc2-a2dc-9eec75c16f40",
+   "image": "https://mobbin.com/api/mcp/short/cNXJyOu8",
+   "flows": [
+    "Garage"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "3d651f68-74de-492a-8f7d-54b38b0c72d3": {
+   "url": "https://mobbin.com/screens/3d651f68-74de-492a-8f7d-54b38b0c72d3",
+   "image": "https://mobbin.com/api/mcp/short/T3X0Wulh",
+   "flows": [
+    "Garage"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "e75b3859-b5e5-44e2-afac-a983a8fa9508": {
+   "url": "https://mobbin.com/screens/e75b3859-b5e5-44e2-afac-a983a8fa9508",
+   "image": "https://mobbin.com/api/mcp/short/VukKU5yi",
+   "flows": [
+    "Garage"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "a54f49d2-8042-49a6-acbe-48ae21a773ed": {
+   "url": "https://mobbin.com/screens/a54f49d2-8042-49a6-acbe-48ae21a773ed",
+   "image": "https://mobbin.com/api/mcp/short/pZQwsK8D",
+   "flows": [
+    "Garage"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "4f186b58-2dce-482a-923c-39d08a152ac2": {
+   "url": "https://mobbin.com/screens/4f186b58-2dce-482a-923c-39d08a152ac2",
+   "image": "https://mobbin.com/api/mcp/short/I9hieAxH",
+   "flows": [
+    "Garage"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "02007f4d-e406-486f-844d-656fc84e53a3": {
+   "url": "https://mobbin.com/screens/02007f4d-e406-486f-844d-656fc84e53a3",
+   "image": "https://mobbin.com/api/mcp/short/d59Z1CMJ",
+   "flows": [
+    "Garage"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "e426a2be-29eb-4202-afae-b11eda2ae414": {
+   "url": "https://mobbin.com/screens/e426a2be-29eb-4202-afae-b11eda2ae414",
+   "image": "https://mobbin.com/api/mcp/short/wUg6cbKc",
+   "flows": [
+    "Garage"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "f28688bc-363f-4985-8de4-2c9dbe903d1b": {
+   "url": "https://mobbin.com/screens/f28688bc-363f-4985-8de4-2c9dbe903d1b",
+   "image": "https://mobbin.com/api/mcp/short/yGVgSbcL",
+   "flows": [
+    "Garage"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "355d3ffb-11c1-43a8-a2dc-84fce0a53b2f": {
+   "url": "https://mobbin.com/screens/355d3ffb-11c1-43a8-a2dc-84fce0a53b2f",
+   "image": "https://mobbin.com/api/mcp/short/ayYlq5tE",
+   "flows": [
+    "Garage"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "d469fbd0-8d69-4fc5-9b63-eb22d1bf20d8": {
+   "url": "https://mobbin.com/screens/d469fbd0-8d69-4fc5-9b63-eb22d1bf20d8",
+   "image": "https://mobbin.com/api/mcp/short/ECaQ5iAK",
+   "flows": [
+    "Garage"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "8ba15b81-81eb-4b48-ba31-acacb766b761": {
+   "url": "https://mobbin.com/screens/8ba15b81-81eb-4b48-ba31-acacb766b761",
+   "image": "https://mobbin.com/api/mcp/short/wyRXqkhj",
+   "flows": [
+    "Garage"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "ea4f6380-2936-4529-b460-f37c14f5f224": {
+   "url": "https://mobbin.com/screens/ea4f6380-2936-4529-b460-f37c14f5f224",
+   "image": "https://mobbin.com/api/mcp/short/ODDSinUU",
+   "flows": [
+    "Garage"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "590fa5c2-4d0d-43b2-b5d4-6153629e28fc": {
+   "url": "https://mobbin.com/screens/590fa5c2-4d0d-43b2-b5d4-6153629e28fc",
+   "image": "https://mobbin.com/api/mcp/short/TlXIHdw1",
+   "flows": [
+    "Garage"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "3563156c-78ab-44f5-a0ad-00d5f5d93d35": {
+   "url": "https://mobbin.com/screens/3563156c-78ab-44f5-a0ad-00d5f5d93d35",
+   "image": "https://mobbin.com/api/mcp/short/RIeeAVus",
+   "flows": [
+    "Garage",
+    "Fuel prices"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "0d47be80-75dc-4c91-8843-686f78a4ab74": {
+   "url": "https://mobbin.com/screens/0d47be80-75dc-4c91-8843-686f78a4ab74",
+   "image": "https://mobbin.com/api/mcp/short/l1rgyQvh",
+   "flows": [
+    "Card offers"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "8e8e3345-e51a-4cf2-adee-e780437a159a": {
+   "url": "https://mobbin.com/screens/8e8e3345-e51a-4cf2-adee-e780437a159a",
+   "image": "https://mobbin.com/api/mcp/short/nq8wMOO3",
+   "flows": [
+    "View collection"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "28e2f072-f3c2-4432-8de8-f055a9a0f1e7": {
+   "url": "https://mobbin.com/screens/28e2f072-f3c2-4432-8de8-f055a9a0f1e7",
+   "image": "https://mobbin.com/api/mcp/short/0MzhwVtX",
+   "flows": [
+    "View collection",
+    "Hotel detail"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "36ce044c-eaff-4c83-af6a-90fb69cb4dd2": {
+   "url": "https://mobbin.com/screens/36ce044c-eaff-4c83-af6a-90fb69cb4dd2",
+   "image": "https://mobbin.com/api/mcp/short/8oQxB26z",
+   "flows": [
+    "Adding a new card"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "fa8dc38b-4621-4a9c-8a25-ebb745a7bd7f": {
+   "url": "https://mobbin.com/screens/fa8dc38b-4621-4a9c-8a25-ebb745a7bd7f",
+   "image": "https://mobbin.com/api/mcp/short/eStSzgY3",
+   "flows": [
+    "Adding a new card"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "15484a05-a5e3-47c2-8382-d3c59d817ee8": {
+   "url": "https://mobbin.com/screens/15484a05-a5e3-47c2-8382-d3c59d817ee8",
+   "image": "https://mobbin.com/api/mcp/short/FoNVi2QZ",
+   "flows": [
+    "Adding a new card"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "19af2b58-220f-4f5c-ac4b-cb055558e20a": {
+   "url": "https://mobbin.com/screens/19af2b58-220f-4f5c-ac4b-cb055558e20a",
+   "image": "https://mobbin.com/api/mcp/short/sKcE3QRG",
+   "flows": [
+    "Adding a new card"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "df3e5240-03a9-49bf-802c-2c76822027f5": {
+   "url": "https://mobbin.com/screens/df3e5240-03a9-49bf-802c-2c76822027f5",
+   "image": "https://mobbin.com/api/mcp/short/JQcR3Jt3",
+   "flows": [
+    "Adding a new card"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "ecb18e8b-f5bf-4702-a4b5-eb33b21673c9": {
+   "url": "https://mobbin.com/screens/ecb18e8b-f5bf-4702-a4b5-eb33b21673c9",
+   "image": "https://mobbin.com/api/mcp/short/rNK4dVWG",
+   "flows": [
+    "Transaction history"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "6f7ed06d-3c53-4844-9713-972c367bf6f2": {
+   "url": "https://mobbin.com/screens/6f7ed06d-3c53-4844-9713-972c367bf6f2",
+   "image": "https://mobbin.com/api/mcp/short/47hiXeb2",
+   "flows": [
+    "Transaction history"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "1e7e4505-1c03-4093-b311-bc6f44b5960f": {
+   "url": "https://mobbin.com/screens/1e7e4505-1c03-4093-b311-bc6f44b5960f",
+   "image": "https://mobbin.com/api/mcp/short/xnUpedk3",
+   "flows": [
+    "Store"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "87852efb-edd8-4c7d-befe-d64643043647": {
+   "url": "https://mobbin.com/screens/87852efb-edd8-4c7d-befe-d64643043647",
+   "image": "https://mobbin.com/api/mcp/short/ez2HLMPa",
+   "flows": [
+    "Store"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "2c915034-f37c-4e00-b145-a5e46ba2f0f8": {
+   "url": "https://mobbin.com/screens/2c915034-f37c-4e00-b145-a5e46ba2f0f8",
+   "image": "https://mobbin.com/api/mcp/short/zMGz6uXk",
+   "flows": [
+    "Store"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "39a46a82-f01d-46ee-9939-5db5fc35ae4b": {
+   "url": "https://mobbin.com/screens/39a46a82-f01d-46ee-9939-5db5fc35ae4b",
+   "image": "https://mobbin.com/api/mcp/short/2Y73hlXI",
+   "flows": [
+    "Store"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "7ef44b74-00e1-41f0-b179-67bcec31f7d9": {
+   "url": "https://mobbin.com/screens/7ef44b74-00e1-41f0-b179-67bcec31f7d9",
+   "image": "https://mobbin.com/api/mcp/short/l97qkTth",
+   "flows": [
+    "Editing bill"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "17b94113-2665-4983-88f1-16fbf697988b": {
+   "url": "https://mobbin.com/screens/17b94113-2665-4983-88f1-16fbf697988b",
+   "image": "https://mobbin.com/api/mcp/short/RqUFUuAA",
+   "flows": [
+    "Editing bill"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "bf7326c3-8400-4c4e-938c-7ec9c1ac7251": {
+   "url": "https://mobbin.com/screens/bf7326c3-8400-4c4e-938c-7ec9c1ac7251",
+   "image": "https://mobbin.com/api/mcp/short/8yVgoIOX",
+   "flows": [
+    "Editing bill"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "4087fb77-18e1-4c13-97f6-9abf15989201": {
+   "url": "https://mobbin.com/screens/4087fb77-18e1-4c13-97f6-9abf15989201",
+   "image": "https://mobbin.com/api/mcp/short/8O3PBvF1",
+   "flows": [
+    "Pollution check"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "9d635c53-59d4-4e19-bb8e-106ba9c82a5d": {
+   "url": "https://mobbin.com/screens/9d635c53-59d4-4e19-bb8e-106ba9c82a5d",
+   "image": "https://mobbin.com/api/mcp/short/Dyqj1o0E",
+   "flows": [
+    "Pay using UPI ID",
+    "Pay your contacts"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "e2f0d328-e989-42c4-b7cd-c217bbc46c3f": {
+   "url": "https://mobbin.com/screens/e2f0d328-e989-42c4-b7cd-c217bbc46c3f",
+   "image": "https://mobbin.com/api/mcp/short/BaMfWFeS",
+   "flows": [
+    "Pay using UPI ID"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "a506b2a3-c62e-4f88-93a0-85992bbcb27c": {
+   "url": "https://mobbin.com/screens/a506b2a3-c62e-4f88-93a0-85992bbcb27c",
+   "image": "https://mobbin.com/api/mcp/short/2N3dJzEy",
+   "flows": [
+    "Pay using UPI ID"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "3fe5f949-d0d6-4c58-a98e-9c17121ac082": {
+   "url": "https://mobbin.com/screens/3fe5f949-d0d6-4c58-a98e-9c17121ac082",
+   "image": "https://mobbin.com/api/mcp/short/jgZZbB4j",
+   "flows": [
+    "Pay using UPI ID"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "d538593c-11aa-4102-bccf-6536acb46b05": {
+   "url": "https://mobbin.com/screens/d538593c-11aa-4102-bccf-6536acb46b05",
+   "image": "https://mobbin.com/api/mcp/short/6Ps5yD6S",
+   "flows": [
+    "Pay using UPI ID"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "2299b170-8d19-4a18-a51b-a216cb9692ae": {
+   "url": "https://mobbin.com/screens/2299b170-8d19-4a18-a51b-a216cb9692ae",
+   "image": "https://mobbin.com/api/mcp/short/qTlPW9U7",
+   "flows": [
+    "Pay using UPI ID"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "c9a8aa33-c3d5-4369-8c76-0ec4d916dfbc": {
+   "url": "https://mobbin.com/screens/c9a8aa33-c3d5-4369-8c76-0ec4d916dfbc",
+   "image": "https://mobbin.com/api/mcp/short/Uu6bp45v",
+   "flows": [
+    "Fuel prices"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "98f8cb54-ba69-40c6-b1a1-0805ca307fe4": {
+   "url": "https://mobbin.com/screens/98f8cb54-ba69-40c6-b1a1-0805ca307fe4",
+   "image": "https://mobbin.com/api/mcp/short/lAlVzqdB",
+   "flows": [
+    "Terms and conditions"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "c54b3bc6-8615-4950-b0a2-c12b6056e4c8": {
+   "url": "https://mobbin.com/screens/c54b3bc6-8615-4950-b0a2-c12b6056e4c8",
+   "image": "https://mobbin.com/api/mcp/short/cmblilFF",
+   "flows": [
+    "Manage account"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "cc489fbf-b37f-4059-827d-e2c5095262e8": {
+   "url": "https://mobbin.com/screens/cc489fbf-b37f-4059-827d-e2c5095262e8",
+   "image": "https://mobbin.com/api/mcp/short/UlSV7e8P",
+   "flows": [
+    "Remove card"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "fc168516-eab6-406e-a7bb-a8588b26ddbd": {
+   "url": "https://mobbin.com/screens/fc168516-eab6-406e-a7bb-a8588b26ddbd",
+   "image": "https://mobbin.com/api/mcp/short/dwF6JfLk",
+   "flows": [
+    "Make a new payment",
+    "House rent"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "289f4277-8e3a-41be-80b8-fc05feb69f67": {
+   "url": "https://mobbin.com/screens/289f4277-8e3a-41be-80b8-fc05feb69f67",
+   "image": "https://mobbin.com/api/mcp/short/eA3BZHx3",
+   "flows": [
+    "Make a new payment"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "bf406a10-ba88-4121-b9ca-6bf10010dc5f": {
+   "url": "https://mobbin.com/screens/bf406a10-ba88-4121-b9ca-6bf10010dc5f",
+   "image": "https://mobbin.com/api/mcp/short/PluWGTMy",
+   "flows": [
+    "Make a new payment"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "87b5d065-aacf-4882-b696-43a6a5f498d8": {
+   "url": "https://mobbin.com/screens/87b5d065-aacf-4882-b696-43a6a5f498d8",
+   "image": "https://mobbin.com/api/mcp/short/MyW66s47",
+   "flows": [
+    "Make a new payment"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "05bcb274-8551-4d4e-bde9-1a761bed3774": {
+   "url": "https://mobbin.com/screens/05bcb274-8551-4d4e-bde9-1a761bed3774",
+   "image": "https://mobbin.com/api/mcp/short/3RM5EuI5",
+   "flows": [
+    "Make a new payment"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "e2ac4112-f68a-4bc5-9d3b-2dc787684b84": {
+   "url": "https://mobbin.com/screens/e2ac4112-f68a-4bc5-9d3b-2dc787684b84",
+   "image": "https://mobbin.com/api/mcp/short/jsJZXPXM",
+   "flows": [
+    "Make a new payment"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "87eedb76-ada5-4e4c-bc0d-3cf22868947d": {
+   "url": "https://mobbin.com/screens/87eedb76-ada5-4e4c-bc0d-3cf22868947d",
+   "image": "https://mobbin.com/api/mcp/short/irpeQUgW",
+   "flows": [
+    "Make a new payment"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "2d6962d4-70e9-4d2a-bca2-5f42ed96aeae": {
+   "url": "https://mobbin.com/screens/2d6962d4-70e9-4d2a-bca2-5f42ed96aeae",
+   "image": "https://mobbin.com/api/mcp/short/rvM8OTfy",
+   "flows": [
+    "Paying a bill"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "c7f798dc-5ace-4c7c-927d-e219035666f3": {
+   "url": "https://mobbin.com/screens/c7f798dc-5ace-4c7c-927d-e219035666f3",
+   "image": "https://mobbin.com/api/mcp/short/6PTGjZQH",
+   "flows": [
+    "Paying a bill"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "ea9cc170-3873-48e0-92ab-36fdc6f0c715": {
+   "url": "https://mobbin.com/screens/ea9cc170-3873-48e0-92ab-36fdc6f0c715",
+   "image": "https://mobbin.com/api/mcp/short/utCMnmQR",
+   "flows": [
+    "Paying a bill"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "0532cbb4-90e9-4c78-8176-aa6f7da816c2": {
+   "url": "https://mobbin.com/screens/0532cbb4-90e9-4c78-8176-aa6f7da816c2",
+   "image": "https://mobbin.com/api/mcp/short/BdC2DYFo",
+   "flows": [
+    "Paying a bill"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "5db1a10a-3a70-44f1-9eee-3326047a4dde": {
+   "url": "https://mobbin.com/screens/5db1a10a-3a70-44f1-9eee-3326047a4dde",
+   "image": "https://mobbin.com/api/mcp/short/mMWvsMbl",
+   "flows": [
+    "Paying a bill"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "9efbc29f-5df9-4ed2-b7cd-32a2ca09dafe": {
+   "url": "https://mobbin.com/screens/9efbc29f-5df9-4ed2-b7cd-32a2ca09dafe",
+   "image": "https://mobbin.com/api/mcp/short/AJvdXBbS",
+   "flows": [
+    "Paying a bill"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "30bd0848-af4b-4743-9228-7a7c778e4c73": {
+   "url": "https://mobbin.com/screens/30bd0848-af4b-4743-9228-7a7c778e4c73",
+   "image": "https://mobbin.com/api/mcp/short/DpFFqoty",
+   "flows": [
+    "Paying a bill"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "afc4ae67-96ec-4ef5-b3ad-06429f738d00": {
+   "url": "https://mobbin.com/screens/afc4ae67-96ec-4ef5-b3ad-06429f738d00",
+   "image": "https://mobbin.com/api/mcp/short/52zi6fzp",
+   "flows": [
+    "Paying a bill"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "d0f6fb58-43f3-4f03-b3ad-7f758d50c601": {
+   "url": "https://mobbin.com/screens/d0f6fb58-43f3-4f03-b3ad-7f758d50c601",
+   "image": "https://mobbin.com/api/mcp/short/3q8RcAGq",
+   "flows": [
+    "Payment history"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "ab402271-e150-4019-9362-5180c9873bc8": {
+   "url": "https://mobbin.com/screens/ab402271-e150-4019-9362-5180c9873bc8",
+   "image": "https://mobbin.com/api/mcp/short/zSHFkkTM",
+   "flows": [
+    "Payment history"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "e7225397-d4e5-4983-8fca-be068e9ee5e5": {
+   "url": "https://mobbin.com/screens/e7225397-d4e5-4983-8fca-be068e9ee5e5",
+   "image": "https://mobbin.com/api/mcp/short/L7yOH9Jh",
+   "flows": [
+    "Payment history"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "7792654d-1cf9-4914-83c9-2ed2f8be2f7f": {
+   "url": "https://mobbin.com/screens/7792654d-1cf9-4914-83c9-2ed2f8be2f7f",
+   "image": "https://mobbin.com/api/mcp/short/MkiaKrsy",
+   "flows": [
+    "Payment history"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "dbe45a47-7a12-4a37-977f-326afc65435b": {
+   "url": "https://mobbin.com/screens/dbe45a47-7a12-4a37-977f-326afc65435b",
+   "image": "https://mobbin.com/api/mcp/short/yXpjcHTS",
+   "flows": [
+    "Amenities",
+    "Hotel detail"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "78043b06-6062-4d3d-926d-6bd7c1cf1660": {
+   "url": "https://mobbin.com/screens/78043b06-6062-4d3d-926d-6bd7c1cf1660",
+   "image": "https://mobbin.com/api/mcp/short/MxfO48ek",
+   "flows": [
+    "Amenities"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "b6f494f1-f838-4ef1-8c67-b7a4ae8ef874": {
+   "url": "https://mobbin.com/screens/b6f494f1-f838-4ef1-8c67-b7a4ae8ef874",
+   "image": "https://mobbin.com/api/mcp/short/i0PuE6HT",
+   "flows": [
+    "Onboarding"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "60b068aa-728b-4fc0-ba2c-a16fefd6a9ed": {
+   "url": "https://mobbin.com/screens/60b068aa-728b-4fc0-ba2c-a16fefd6a9ed",
+   "image": "https://mobbin.com/api/mcp/short/UVWIS1cT",
+   "flows": [
+    "Onboarding"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "7f2d42af-a47e-47db-9c0e-2bf4d1df3116": {
+   "url": "https://mobbin.com/screens/7f2d42af-a47e-47db-9c0e-2bf4d1df3116",
+   "image": "https://mobbin.com/api/mcp/short/QQoYVcET",
+   "flows": [
+    "Onboarding"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "6edd4552-d0eb-4aa4-a86f-28aeb4c21f1a": {
+   "url": "https://mobbin.com/screens/6edd4552-d0eb-4aa4-a86f-28aeb4c21f1a",
+   "image": "https://mobbin.com/api/mcp/short/saAtdQRg",
+   "flows": [
+    "Onboarding"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "1257a078-fb14-40c2-83ba-294dd59f7961": {
+   "url": "https://mobbin.com/screens/1257a078-fb14-40c2-83ba-294dd59f7961",
+   "image": "https://mobbin.com/api/mcp/short/cIoV9uTG",
+   "flows": [
+    "Onboarding"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "e4cf67f7-6935-4411-bd34-fa3d4bdd2db2": {
+   "url": "https://mobbin.com/screens/e4cf67f7-6935-4411-bd34-fa3d4bdd2db2",
+   "image": "https://mobbin.com/api/mcp/short/lgP8KbhK",
+   "flows": [
+    "Onboarding"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "bcb35260-2096-48af-ac4b-5b64c4813dde": {
+   "url": "https://mobbin.com/screens/bcb35260-2096-48af-ac4b-5b64c4813dde",
+   "image": "https://mobbin.com/api/mcp/short/pkv3RUCa",
+   "flows": [
+    "Onboarding"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "495eb35e-96b1-422d-93f4-03e811afe6f9": {
+   "url": "https://mobbin.com/screens/495eb35e-96b1-422d-93f4-03e811afe6f9",
+   "image": "https://mobbin.com/api/mcp/short/yhFQnoNf",
+   "flows": [
+    "Onboarding"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "08e41e83-2a85-4af5-b89c-829e58b04d2a": {
+   "url": "https://mobbin.com/screens/08e41e83-2a85-4af5-b89c-829e58b04d2a",
+   "image": "https://mobbin.com/api/mcp/short/3HhvmaEI",
+   "flows": [
+    "Onboarding"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "9efd2319-46c3-4882-ad92-3c1359d07572": {
+   "url": "https://mobbin.com/screens/9efd2319-46c3-4882-ad92-3c1359d07572",
+   "image": "https://mobbin.com/api/mcp/short/xVVu6vGx",
+   "flows": [
+    "Onboarding"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "ad2e83c7-fa4a-4e26-a8d3-bdf15e4fe79b": {
+   "url": "https://mobbin.com/screens/ad2e83c7-fa4a-4e26-a8d3-bdf15e4fe79b",
+   "image": "https://mobbin.com/api/mcp/short/qjLxUab8",
+   "flows": [
+    "Onboarding"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "abaa6774-cef9-40da-b224-291124e34b2f": {
+   "url": "https://mobbin.com/screens/abaa6774-cef9-40da-b224-291124e34b2f",
+   "image": "https://mobbin.com/api/mcp/short/JOTUQLwx",
+   "flows": [
+    "Onboarding"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "d984a05b-5a73-4605-8eff-b63400a0e906": {
+   "url": "https://mobbin.com/screens/d984a05b-5a73-4605-8eff-b63400a0e906",
+   "image": "https://mobbin.com/api/mcp/short/GH8FKGLD",
+   "flows": [
+    "Onboarding"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "1695284f-fb61-43e0-81e7-23c4eded79df": {
+   "url": "https://mobbin.com/screens/1695284f-fb61-43e0-81e7-23c4eded79df",
+   "image": "https://mobbin.com/api/mcp/short/c60P4sy1",
+   "flows": [
+    "Hotel photo gallery",
+    "Hotel detail",
+    "Booking a hotel"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "587d5a59-3d31-4587-a989-b2f2b481f300": {
+   "url": "https://mobbin.com/screens/587d5a59-3d31-4587-a989-b2f2b481f300",
+   "image": "https://mobbin.com/api/mcp/short/5SmwBOPX",
+   "flows": [
+    "Hotel photo gallery"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "4e257faf-c916-46d7-b05a-4a22cc90d92c": {
+   "url": "https://mobbin.com/screens/4e257faf-c916-46d7-b05a-4a22cc90d92c",
+   "image": "https://mobbin.com/api/mcp/short/s6Z8zsjK",
+   "flows": [
+    "Hotel photo gallery"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "34236e36-c7dc-40b2-8820-750eaf345490": {
+   "url": "https://mobbin.com/screens/34236e36-c7dc-40b2-8820-750eaf345490",
+   "image": "https://mobbin.com/api/mcp/short/flpFlEzm",
+   "flows": [
+    "Activating membership"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "97ac6530-a11b-4ff0-be5f-6ed058e6366d": {
+   "url": "https://mobbin.com/screens/97ac6530-a11b-4ff0-be5f-6ed058e6366d",
+   "image": "https://mobbin.com/api/mcp/short/y4ljsWT2",
+   "flows": [
+    "Activating membership"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "75c28941-de1a-474d-9cb8-791d542a1941": {
+   "url": "https://mobbin.com/screens/75c28941-de1a-474d-9cb8-791d542a1941",
+   "image": "https://mobbin.com/api/mcp/short/8x4ZRSmX",
+   "flows": [
+    "Activating membership"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "05aac9f1-cbc5-405a-83af-66385156e54b": {
+   "url": "https://mobbin.com/screens/05aac9f1-cbc5-405a-83af-66385156e54b",
+   "image": "https://mobbin.com/api/mcp/short/BQYAZHq4",
+   "flows": [
+    "Activating membership"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "ec9c6a0a-7aac-4473-b1bc-8f88cf0089d3": {
+   "url": "https://mobbin.com/screens/ec9c6a0a-7aac-4473-b1bc-8f88cf0089d3",
+   "image": "https://mobbin.com/api/mcp/short/VsIawi6A",
+   "flows": [
+    "Activating membership"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "29b2600a-805d-439c-9778-633597352357": {
+   "url": "https://mobbin.com/screens/29b2600a-805d-439c-9778-633597352357",
+   "image": "https://mobbin.com/api/mcp/short/zD8QJajh",
+   "flows": [
+    "Activating membership"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "1acaa122-66ca-4a0f-910a-6138442ae881": {
+   "url": "https://mobbin.com/screens/1acaa122-66ca-4a0f-910a-6138442ae881",
+   "image": "https://mobbin.com/api/mcp/short/7kzL916f",
+   "flows": [
+    "Activating membership"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "d019ff07-66a3-44cb-b9bc-cece1fec50d9": {
+   "url": "https://mobbin.com/screens/d019ff07-66a3-44cb-b9bc-cece1fec50d9",
+   "image": "https://mobbin.com/api/mcp/short/sZrem4e3",
+   "flows": [
+    "Activating membership"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "5c4483e5-d257-43c4-ab55-edf663b6cb6d": {
+   "url": "https://mobbin.com/screens/5c4483e5-d257-43c4-ab55-edf663b6cb6d",
+   "image": "https://mobbin.com/api/mcp/short/IQHxeISh",
+   "flows": [
+    "Activating membership",
+    "Making the first payment"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "f08a65a7-8c7b-4e52-b823-2b082be8b850": {
+   "url": "https://mobbin.com/screens/f08a65a7-8c7b-4e52-b823-2b082be8b850",
+   "image": "https://mobbin.com/api/mcp/short/RY4QhiiK",
+   "flows": [
+    "Hotel detail"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "ef91185a-0ccb-450f-b78e-2b23dfcde120": {
+   "url": "https://mobbin.com/screens/ef91185a-0ccb-450f-b78e-2b23dfcde120",
+   "image": "https://mobbin.com/api/mcp/short/0kYGfjCk",
+   "flows": [
+    "Linking an account to enable UPI"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "bf9aa61b-5232-4a1c-a0f8-eb6563a00f79": {
+   "url": "https://mobbin.com/screens/bf9aa61b-5232-4a1c-a0f8-eb6563a00f79",
+   "image": "https://mobbin.com/api/mcp/short/WKKNaOmI",
+   "flows": [
+    "Linking an account to enable UPI"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "94c7e671-778a-4964-b1df-82ff9322fc7f": {
+   "url": "https://mobbin.com/screens/94c7e671-778a-4964-b1df-82ff9322fc7f",
+   "image": "https://mobbin.com/api/mcp/short/AHhjtGM4",
+   "flows": [
+    "Linking an account to enable UPI"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "4fb93b0d-c18f-4b24-910b-64d8135a00e0": {
+   "url": "https://mobbin.com/screens/4fb93b0d-c18f-4b24-910b-64d8135a00e0",
+   "image": "https://mobbin.com/api/mcp/short/SUX9PL6U",
+   "flows": [
+    "Linking an account to enable UPI"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "f567a894-aa1b-484a-9ab2-88440d46bdb5": {
+   "url": "https://mobbin.com/screens/f567a894-aa1b-484a-9ab2-88440d46bdb5",
+   "image": "https://mobbin.com/api/mcp/short/3HxvAIw6",
+   "flows": [
+    "Linking an account to enable UPI"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "613a3aba-893b-4438-8a0e-d779e8878272": {
+   "url": "https://mobbin.com/screens/613a3aba-893b-4438-8a0e-d779e8878272",
+   "image": "https://mobbin.com/api/mcp/short/IfHefPEg",
+   "flows": [
+    "Linking an account to enable UPI"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "8fbbea30-c3a1-439c-b4b8-7094ad394411": {
+   "url": "https://mobbin.com/screens/8fbbea30-c3a1-439c-b4b8-7094ad394411",
+   "image": "https://mobbin.com/api/mcp/short/M802XJt2",
+   "flows": [
+    "Linking an account to enable UPI"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "538791cc-44e6-46e6-96f0-ee4d23c05780": {
+   "url": "https://mobbin.com/screens/538791cc-44e6-46e6-96f0-ee4d23c05780",
+   "image": "https://mobbin.com/api/mcp/short/Ft0neBkG",
+   "flows": [
+    "Linking an account to enable UPI"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "9da06e92-affa-452d-b556-1c5d801fc403": {
+   "url": "https://mobbin.com/screens/9da06e92-affa-452d-b556-1c5d801fc403",
+   "image": "https://mobbin.com/api/mcp/short/KGIu9Eo8",
+   "flows": [
+    "Cred referral"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "df22ca5a-fa2a-44e8-82a8-9195a5e47bd8": {
+   "url": "https://mobbin.com/screens/df22ca5a-fa2a-44e8-82a8-9195a5e47bd8",
+   "image": "https://mobbin.com/api/mcp/short/FOsvXBb2",
+   "flows": [
+    "Cred referral"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "91feb24f-caa0-43ef-9ef8-18fd6af59bfe": {
+   "url": "https://mobbin.com/screens/91feb24f-caa0-43ef-9ef8-18fd6af59bfe",
+   "image": "https://mobbin.com/api/mcp/short/Ao2q810o",
+   "flows": [
+    "Cred referral"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "5b22bb5d-e916-4077-bb30-c15ae4518412": {
+   "url": "https://mobbin.com/screens/5b22bb5d-e916-4077-bb30-c15ae4518412",
+   "image": "https://mobbin.com/api/mcp/short/zVL1L8pq",
+   "flows": [
+    "Cred referral"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "1d8907bb-d182-4bd4-bd52-1a4ba9e7896a": {
+   "url": "https://mobbin.com/screens/1d8907bb-d182-4bd4-bd52-1a4ba9e7896a",
+   "image": "https://mobbin.com/api/mcp/short/CloCrugn",
+   "flows": [
+    "Unlocking price"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "142a52f2-4f41-47e5-a2f2-fb1a6e00d30f": {
+   "url": "https://mobbin.com/screens/142a52f2-4f41-47e5-a2f2-fb1a6e00d30f",
+   "image": "https://mobbin.com/api/mcp/short/1NgsCcMv",
+   "flows": [
+    "Unlocking price"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "db2b5f16-62c1-4b86-baa4-e5e35aa3630b": {
+   "url": "https://mobbin.com/screens/db2b5f16-62c1-4b86-baa4-e5e35aa3630b",
+   "image": "https://mobbin.com/api/mcp/short/nMMcEu8G",
+   "flows": [
+    "Making the first payment"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "756932a2-9029-4c67-b293-877c557d7719": {
+   "url": "https://mobbin.com/screens/756932a2-9029-4c67-b293-877c557d7719",
+   "image": "https://mobbin.com/api/mcp/short/5XATXozm",
+   "flows": [
+    "Making the first payment"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "2591cecc-ba8e-42a0-81bd-3d999fc9e9ca": {
+   "url": "https://mobbin.com/screens/2591cecc-ba8e-42a0-81bd-3d999fc9e9ca",
+   "image": "https://mobbin.com/api/mcp/short/rMo33G0C",
+   "flows": [
+    "Making the first payment"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "af4fcab7-7d1b-4876-af74-9ea0f9b222f5": {
+   "url": "https://mobbin.com/screens/af4fcab7-7d1b-4876-af74-9ea0f9b222f5",
+   "image": "https://mobbin.com/api/mcp/short/jLagWXli",
+   "flows": [
+    "Making the first payment"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "f2b7d39f-ea90-4879-975d-d39e3f20f37f": {
+   "url": "https://mobbin.com/screens/f2b7d39f-ea90-4879-975d-d39e3f20f37f",
+   "image": "https://mobbin.com/api/mcp/short/nUVxvgNX",
+   "flows": [
+    "Making the first payment"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "58ecb41d-ff6d-457c-b776-b58aea31f374": {
+   "url": "https://mobbin.com/screens/58ecb41d-ff6d-457c-b776-b58aea31f374",
+   "image": "https://mobbin.com/api/mcp/short/oWEvcJRd",
+   "flows": [
+    "Making the first payment"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "6d1f03b5-137a-4c22-9150-ef83ca32fb34": {
+   "url": "https://mobbin.com/screens/6d1f03b5-137a-4c22-9150-ef83ca32fb34",
+   "image": "https://mobbin.com/api/mcp/short/1sNOUGlS",
+   "flows": [
+    "Making the first payment"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "008e64ce-0121-4403-98e9-d52a7e343b7a": {
+   "url": "https://mobbin.com/screens/008e64ce-0121-4403-98e9-d52a7e343b7a",
+   "image": "https://mobbin.com/api/mcp/short/uJ1sUXNQ",
+   "flows": [
+    "Making the first payment"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "c84bfff5-06b6-4f4a-8d34-e9fb5c1e6ecf": {
+   "url": "https://mobbin.com/screens/c84bfff5-06b6-4f4a-8d34-e9fb5c1e6ecf",
+   "image": "https://mobbin.com/api/mcp/short/h2pQtTJ8",
+   "flows": [
+    "Concierge"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "df03e36c-bfbf-4e46-93d6-c2d9f79a39f1": {
+   "url": "https://mobbin.com/screens/df03e36c-bfbf-4e46-93d6-c2d9f79a39f1",
+   "image": "https://mobbin.com/api/mcp/short/TmlJZPH9",
+   "flows": [
+    "Concierge"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "f389fe44-91d7-4adf-b52e-e779f8af1c2d": {
+   "url": "https://mobbin.com/screens/f389fe44-91d7-4adf-b52e-e779f8af1c2d",
+   "image": "https://mobbin.com/api/mcp/short/YcYutSIe",
+   "flows": [
+    "Concierge"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "7ef0e8aa-9c29-45c6-8971-f73a821ee5d2": {
+   "url": "https://mobbin.com/screens/7ef0e8aa-9c29-45c6-8971-f73a821ee5d2",
+   "image": "https://mobbin.com/api/mcp/short/2lOV7f8s",
+   "flows": [
+    "Concierge"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "aa15fa71-e51c-4178-ab08-4894808afe11": {
+   "url": "https://mobbin.com/screens/aa15fa71-e51c-4178-ab08-4894808afe11",
+   "image": "https://mobbin.com/api/mcp/short/e3tOeiTl",
+   "flows": [
+    "Concierge"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "c878a50a-9d98-4e5b-a292-f6a247e35b51": {
+   "url": "https://mobbin.com/screens/c878a50a-9d98-4e5b-a292-f6a247e35b51",
+   "image": "https://mobbin.com/api/mcp/short/g2w9hXTE",
+   "flows": [
+    "Concierge"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "8d0d0a4f-9a36-4f90-b72b-58bcc958c3c5": {
+   "url": "https://mobbin.com/screens/8d0d0a4f-9a36-4f90-b72b-58bcc958c3c5",
+   "image": "https://mobbin.com/api/mcp/short/8biaEsJd",
+   "flows": [
+    "Concierge"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "5d85e958-baf0-4eae-9202-a76875b8d49f": {
+   "url": "https://mobbin.com/screens/5d85e958-baf0-4eae-9202-a76875b8d49f",
+   "image": "https://mobbin.com/api/mcp/short/cTwlG4MF",
+   "flows": [
+    "Orders"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "82ec8686-c340-412b-bcb4-43b3bf3a11c8": {
+   "url": "https://mobbin.com/screens/82ec8686-c340-412b-bcb4-43b3bf3a11c8",
+   "image": "https://mobbin.com/api/mcp/short/bOTYg42F",
+   "flows": [
+    "Orders"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "4f22603d-2181-4332-8049-8c6e49a13a38": {
+   "url": "https://mobbin.com/screens/4f22603d-2181-4332-8049-8c6e49a13a38",
+   "image": "https://mobbin.com/api/mcp/short/QUWWFd6n",
+   "flows": [
+    "Pay your contacts"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "1ec7bf6e-5617-421b-b163-7fd216cd4e52": {
+   "url": "https://mobbin.com/screens/1ec7bf6e-5617-421b-b163-7fd216cd4e52",
+   "image": "https://mobbin.com/api/mcp/short/zA2H938k",
+   "flows": [
+    "Pay your contacts"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "122fc8d1-725b-41fc-80aa-660b6ed162a6": {
+   "url": "https://mobbin.com/screens/122fc8d1-725b-41fc-80aa-660b6ed162a6",
+   "image": "https://mobbin.com/api/mcp/short/d5GkgEAX",
+   "flows": [
+    "Pay your contacts"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "3109128f-b0a8-483e-b5c2-3153c0235ad9": {
+   "url": "https://mobbin.com/screens/3109128f-b0a8-483e-b5c2-3153c0235ad9",
+   "image": "https://mobbin.com/api/mcp/short/izliNyqg",
+   "flows": [
+    "Pay your contacts"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "e6e48342-136d-4002-b475-eee9443a51e0": {
+   "url": "https://mobbin.com/screens/e6e48342-136d-4002-b475-eee9443a51e0",
+   "image": "https://mobbin.com/api/mcp/short/0JPlkKJj",
+   "flows": [
+    "Pay your contacts"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "efd29d7d-f480-44ae-8d20-28d270154af9": {
+   "url": "https://mobbin.com/screens/efd29d7d-f480-44ae-8d20-28d270154af9",
+   "image": "https://mobbin.com/api/mcp/short/BqkEnya8",
+   "flows": [
+    "Privacy policy"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "13e7d628-5283-4b20-9a3d-3fec7c167d11": {
+   "url": "https://mobbin.com/screens/13e7d628-5283-4b20-9a3d-3fec7c167d11",
+   "image": "https://mobbin.com/api/mcp/short/u4hRroCk",
+   "flows": [
+    "Paying with scanner"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "12ada981-cb8f-4508-8f2e-1b1b2e3e2312": {
+   "url": "https://mobbin.com/screens/12ada981-cb8f-4508-8f2e-1b1b2e3e2312",
+   "image": "https://mobbin.com/api/mcp/short/veimcLUG",
+   "flows": [
+    "Paying with scanner"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "33855629-fc92-477b-ab0a-4ecdfff57a91": {
+   "url": "https://mobbin.com/screens/33855629-fc92-477b-ab0a-4ecdfff57a91",
+   "image": "https://mobbin.com/api/mcp/short/HyqCEkJZ",
+   "flows": [
+    "Paying with scanner"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "75ed17bb-9b2b-4747-870a-e1b848010e4f": {
+   "url": "https://mobbin.com/screens/75ed17bb-9b2b-4747-870a-e1b848010e4f",
+   "image": "https://mobbin.com/api/mcp/short/CIC4btED",
+   "flows": [
+    "Paying with scanner"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "174acfaa-a879-4ea2-a1de-14199ffc5bd9": {
+   "url": "https://mobbin.com/screens/174acfaa-a879-4ea2-a1de-14199ffc5bd9",
+   "image": "https://mobbin.com/api/mcp/short/eVAhw2XN",
+   "flows": [
+    "Paying with scanner"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "3022db80-7bc3-4c58-b4ef-def0769ef1a5": {
+   "url": "https://mobbin.com/screens/3022db80-7bc3-4c58-b4ef-def0769ef1a5",
+   "image": "https://mobbin.com/api/mcp/short/6BH1S1v6",
+   "flows": [
+    "Paying with scanner"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "159d585a-73cc-4604-99b7-92c0149bb9ff": {
+   "url": "https://mobbin.com/screens/159d585a-73cc-4604-99b7-92c0149bb9ff",
+   "image": "https://mobbin.com/api/mcp/short/jf5CBwci",
+   "flows": [
+    "Paying with scanner"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "326dbc3c-0adb-47c9-a1a7-12d636d46934": {
+   "url": "https://mobbin.com/screens/326dbc3c-0adb-47c9-a1a7-12d636d46934",
+   "image": "https://mobbin.com/api/mcp/short/Jd1sMgoj",
+   "flows": [
+    "Paying with scanner"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "4ecd5dbc-c3c9-441f-a82c-4bfc5981005a": {
+   "url": "https://mobbin.com/screens/4ecd5dbc-c3c9-441f-a82c-4bfc5981005a",
+   "image": "https://mobbin.com/api/mcp/short/rjVrJL8z",
+   "flows": [
+    "Explore Cred"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "f65ff158-d1e4-432e-aa31-c39cc23b3eb2": {
+   "url": "https://mobbin.com/screens/f65ff158-d1e4-432e-aa31-c39cc23b3eb2",
+   "image": "https://mobbin.com/api/mcp/short/Gvu5zNyy",
+   "flows": [
+    "Insurance"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "7387ae18-551c-403a-90a5-2013b9bb417a": {
+   "url": "https://mobbin.com/screens/7387ae18-551c-403a-90a5-2013b9bb417a",
+   "image": "https://mobbin.com/api/mcp/short/OLMgegg9",
+   "flows": [
+    "Insurance"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "5d33b839-805b-4206-bec3-bfd1dcfcb377": {
+   "url": "https://mobbin.com/screens/5d33b839-805b-4206-bec3-bfd1dcfcb377",
+   "image": "https://mobbin.com/api/mcp/short/7OYIo3Nf",
+   "flows": [
+    "Insurance"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "1bab5445-77b2-4054-a94c-ac6dd17ef077": {
+   "url": "https://mobbin.com/screens/1bab5445-77b2-4054-a94c-ac6dd17ef077",
+   "image": "https://mobbin.com/api/mcp/short/HxZ9wpBk",
+   "flows": [
+    "Insurance"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "eb0c5674-1dab-4034-ab85-ea2e5627a298": {
+   "url": "https://mobbin.com/screens/eb0c5674-1dab-4034-ab85-ea2e5627a298",
+   "image": "https://mobbin.com/api/mcp/short/L4RuHvMf",
+   "flows": [
+    "Insurance"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "36e14c33-725a-41eb-8a12-eb1438f9b186": {
+   "url": "https://mobbin.com/screens/36e14c33-725a-41eb-8a12-eb1438f9b186",
+   "image": "https://mobbin.com/api/mcp/short/b7Pmnwuq",
+   "flows": [
+    "Insurance"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "fafc6928-07bd-48bc-8b00-5a322b277d25": {
+   "url": "https://mobbin.com/screens/fafc6928-07bd-48bc-8b00-5a322b277d25",
+   "image": "https://mobbin.com/api/mcp/short/HxRRPRHD",
+   "flows": [
+    "Insurance"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "f1061ffe-8e88-4bb0-a0a3-5491fda44ddf": {
+   "url": "https://mobbin.com/screens/f1061ffe-8e88-4bb0-a0a3-5491fda44ddf",
+   "image": "https://mobbin.com/api/mcp/short/Nauf3L2b",
+   "flows": [
+    "Credit card offers"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "59693441-3a21-4123-968b-3bf152645a44": {
+   "url": "https://mobbin.com/screens/59693441-3a21-4123-968b-3bf152645a44",
+   "image": "https://mobbin.com/api/mcp/short/D78BXSrt",
+   "flows": [
+    "House rent"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "3c7f99ee-3b9c-4500-95aa-54eb28be9cea": {
+   "url": "https://mobbin.com/screens/3c7f99ee-3b9c-4500-95aa-54eb28be9cea",
+   "image": "https://mobbin.com/api/mcp/short/MPyFRzdO",
+   "flows": [
+    "Booking a hotel"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "65037a59-77d3-4428-97d4-d846071a0762": {
+   "url": "https://mobbin.com/screens/65037a59-77d3-4428-97d4-d846071a0762",
+   "image": "https://mobbin.com/api/mcp/short/E7OXeq6L",
+   "flows": [
+    "Booking a hotel"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "4ea5f3ab-7acd-4150-b778-64e8c4134375": {
+   "url": "https://mobbin.com/screens/4ea5f3ab-7acd-4150-b778-64e8c4134375",
+   "image": "https://mobbin.com/api/mcp/short/bvV2C9iF",
+   "flows": [
+    "Booking a hotel"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "1999f5de-77cd-4d3d-8f02-5390f6323b40": {
+   "url": "https://mobbin.com/screens/1999f5de-77cd-4d3d-8f02-5390f6323b40",
+   "image": "https://mobbin.com/api/mcp/short/pFZJiTDD",
+   "flows": [
+    "Booking a hotel"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "e54b3ebf-b4ab-48d5-91f7-e9c3ec21060d": {
+   "url": "https://mobbin.com/screens/e54b3ebf-b4ab-48d5-91f7-e9c3ec21060d",
+   "image": "https://mobbin.com/api/mcp/short/fPdA66kH",
+   "flows": [
+    "Booking a hotel"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "dc7c6eb4-a340-434f-969a-106b833b92a2": {
+   "url": "https://mobbin.com/screens/dc7c6eb4-a340-434f-969a-106b833b92a2",
+   "image": "https://mobbin.com/api/mcp/short/uthhDz6B",
+   "flows": [
+    "Booking a hotel"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "23dbf469-3c82-4c48-9bed-2264f64fb640": {
+   "url": "https://mobbin.com/screens/23dbf469-3c82-4c48-9bed-2264f64fb640",
+   "image": "https://mobbin.com/api/mcp/short/qqNUPbZY",
+   "flows": [
+    "Booking a hotel"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "a011d043-544d-4962-83e2-79bf9790f83e": {
+   "url": "https://mobbin.com/screens/a011d043-544d-4962-83e2-79bf9790f83e",
+   "image": "https://mobbin.com/api/mcp/short/ImkCRRLM",
+   "flows": [
+    "Booking a hotel"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "c64dd8d1-e7be-4c92-9e1f-f18e08ede656": {
+   "url": "https://mobbin.com/screens/c64dd8d1-e7be-4c92-9e1f-f18e08ede656",
+   "image": "https://mobbin.com/api/mcp/short/V6Qvtxc8",
+   "flows": [
+    "Booking a hotel"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "5ee18e53-e148-410d-87ea-5beaff5f6b46": {
+   "url": "https://mobbin.com/screens/5ee18e53-e148-410d-87ea-5beaff5f6b46",
+   "image": "https://mobbin.com/api/mcp/short/AHxZ2Dya",
+   "flows": [
+    "Booking a hotel"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "f8f5fe86-57b0-4adf-b733-edbb43b5409f": {
+   "url": "https://mobbin.com/screens/f8f5fe86-57b0-4adf-b733-edbb43b5409f",
+   "image": "https://mobbin.com/api/mcp/short/SKl4sjrc",
+   "flows": [
+    "Profile"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "e6815b3d-69fd-4407-a0e2-661af3b71618": {
+   "url": "https://mobbin.com/screens/e6815b3d-69fd-4407-a0e2-661af3b71618",
+   "image": "https://mobbin.com/api/mcp/short/eLrpe0uA",
+   "flows": [
+    "Traffic challans"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "a95e5cfd-2e3e-48fc-a440-52271e14b774": {
+   "url": "https://mobbin.com/screens/a95e5cfd-2e3e-48fc-a440-52271e14b774",
+   "image": "https://mobbin.com/api/mcp/short/QcIGZjBb",
+   "flows": [
+    "Traffic challans"
+   ],
+   "reviewed": false,
+   "notes": ""
+  },
+  "6c89abb4-dfd7-4e3f-9423-c65ca5068ca5": {
+   "url": "https://mobbin.com/screens/6c89abb4-dfd7-4e3f-9423-c65ca5068ca5",
+   "image": "https://mobbin.com/api/mcp/short/2f141RQI",
+   "flows": [
+    "Traffic challans"
+   ],
+   "reviewed": false,
+   "notes": ""
+  }
+ },
+ "has_next_page_after_last": false
+}
