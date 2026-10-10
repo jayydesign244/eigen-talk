@@ -45,7 +45,7 @@ import { cn } from '@/lib/utils'
 
 const WAVE_COLORS = {
   dark: { waveColor: '#3d3d3d', progressColor: '#ffffff', cursorColor: '#2ce6e0' },
-  light: { waveColor: '#c7c7c2', progressColor: '#0d0d0d', cursorColor: '#12706c' },
+  light: { waveColor: '#d2d2d2', progressColor: '#0d0d0d', cursorColor: '#12706c' },
 }
 const RATES = ['0.75', '1', '1.25', '1.5', '2']
 const SHORTCUTS = [

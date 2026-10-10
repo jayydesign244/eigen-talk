@@ -101,13 +101,13 @@ function ComposerStatus({ items = [], meter, right, className }) {
 function ComposerSendButton({ canSend, working, onSend, onStop, className }) {
   if (working && onStop) {
     return (
-      <Button type="button" size="icon-sm" onClick={onStop} aria-label="Stop" className={className}>
+      <Button type="button" size="icon-sm" onClick={onStop} aria-label="Stop" className={cn("rounded-full", className)}>
         <SquareIcon className="size-3 fill-current" />
       </Button>
     );
   }
   return (
-    <Button type="submit" size="icon-sm" variant={canSend ? "brand" : "default"} disabled={!canSend || working} onClick={onSend} aria-label="Send" className={className}>
+    <Button type="submit" size="icon-sm" variant={canSend ? "brand" : "default"} disabled={!canSend || working} onClick={onSend} aria-label="Send" className={cn("rounded-full", className)}>
       <ArrowUpIcon strokeWidth={2.5} />
     </Button>
   );
@@ -127,7 +127,7 @@ function ComposerMicButton({ onText, disabled }) {
           disabled={disabled}
           aria-label={listening ? "Stop dictation" : "Dictate"}
           aria-pressed={listening}
-          className={cn(listening && "bg-destructive text-destructive-foreground hover:bg-destructive")}
+          className={cn("rounded-full", listening && "bg-destructive text-destructive-foreground hover:bg-destructive")}
         >
           <MicIcon />
         </Button>
@@ -161,10 +161,10 @@ function Composer({
   };
   return (
     <form onSubmit={send} data-slot="composer" className={cn("grid gap-2", className)}>
-      <div className="flex h-12 items-center gap-1.5 border border-input bg-card pr-1.5 pl-1.5 transition-[border-color,box-shadow] focus-within:border-foreground focus-within:shadow-[inset_0_-2px_0_0_var(--foreground)]">
+      <div className="flex h-12 items-center gap-1.5 rounded-2xl border-[0.8px] border-border bg-card pr-1.5 pl-1.5 shadow-soft transition-[border-color,box-shadow] focus-within:border-foreground/60">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button type="button" variant="ghost" size="icon-sm" aria-label="Add" disabled={disabled}><PlusIcon /></Button>
+            <Button type="button" variant="ghost" size="icon-sm" aria-label="Add" disabled={disabled} className="rounded-full"><PlusIcon /></Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="start" side="top" className="w-52">
             {(addItems || [{ icon: PaperclipIcon, label: "Attach a file", disabled: true }]).map(({ icon: Icon, label, onSelect, disabled: d }) => (

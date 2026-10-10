@@ -122,7 +122,7 @@ function ComboboxLabel({
   return <ComboboxPrimitive.GroupLabel
     data-slot="combobox-label"
     className={cn(
-      "px-2.5 pt-2.5 pb-1.5 text-[10px] font-extrabold tracking-[0.16em] text-muted-foreground uppercase",
+      "px-2.5 pt-2.5 pb-1.5 text-[10px] font-bold tracking-[0.2em] text-muted-foreground uppercase",
       className
     )}
     {...props}
@@ -158,7 +158,7 @@ function ComboboxChips({
   return <ComboboxPrimitive.Chips
     data-slot="combobox-chips"
     className={cn(
-      "flex min-h-10 flex-wrap items-center gap-1.5 border border-input bg-card bg-clip-padding px-2.5 py-1.5 text-sm transition-[border-color,box-shadow] hover:border-muted-foreground/60 focus-within:border-foreground focus-within:shadow-[inset_0_-2px_0_0_var(--foreground)] has-aria-invalid:border-destructive has-data-[slot=combobox-chip]:px-1.5",
+      "flex min-h-10 flex-wrap items-center gap-1.5 rounded-md border border-input bg-card bg-clip-padding px-2.5 py-1.5 text-sm transition-[border-color,box-shadow] hover:border-muted-foreground/60 focus-within:border-foreground has-aria-invalid:border-destructive has-data-[slot=combobox-chip]:px-1.5",
       className
     )}
     {...props}

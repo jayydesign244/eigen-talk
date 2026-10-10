@@ -50,14 +50,14 @@ function BubbleContent({
   return <Comp
     data-slot="bubble-content"
     className={cn(
-      "w-fit max-w-full min-w-0 overflow-hidden border border-transparent px-3.5 py-2.5 text-sm leading-relaxed wrap-break-word group-data-[align=end]/bubble:self-end [button]:text-left [button,a]:transition-colors [button,a]:outline-hidden [button,a]:focus-visible:border-ring [button,a]:focus-visible:ring-3 [button,a]:focus-visible:ring-ring/50",
+      "w-fit max-w-full min-w-0 overflow-hidden rounded-2xl rounded-bl-md border-[0.8px] border-transparent px-3.5 py-2.5 group-data-[align=end]/bubble:rounded-bl-2xl group-data-[align=end]/bubble:rounded-br-md group-data-[align=end]/message:rounded-bl-2xl group-data-[align=end]/message:rounded-br-md text-sm leading-relaxed wrap-break-word group-data-[align=end]/bubble:self-end [button]:text-left [button,a]:transition-colors [button,a]:outline-hidden [button,a]:focus-visible:border-ring [button,a]:focus-visible:ring-3 [button,a]:focus-visible:ring-ring/50",
       className
     )}
     {...props}
   />;
 }
 const bubbleReactionsVariants = cva(
-  "absolute z-10 flex w-fit shrink-0 items-center justify-center gap-1 border border-border bg-popover px-1.5 py-0.5 text-sm has-[button]:p-0",
+  "absolute z-10 flex w-fit shrink-0 items-center justify-center gap-1 rounded-full border-[0.8px] border-border bg-popover px-2 py-0.5 text-sm shadow-soft has-[button]:p-0",
   {
     variants: {
       side: {

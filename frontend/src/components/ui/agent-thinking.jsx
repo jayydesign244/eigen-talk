@@ -20,7 +20,7 @@ function DotWave() {
         return (
           <span
             key={i}
-            className="size-[4px] bg-current"
+            className="size-[4px] rounded-full bg-current"
             style={{ animation: "think-wave 1.2s ease-in-out infinite", animationDelay: `${diag * 0.12}s` }}
           />
         );
@@ -39,7 +39,7 @@ function DotSpin() {
         return (
           <span
             key={i}
-            className={cn("size-[4px] bg-current", pos === -1 && "opacity-20")}
+            className={cn("size-[4px] rounded-full bg-current", pos === -1 && "opacity-20")}
             style={pos === -1 ? undefined : { animation: "think-orbit 0.96s linear infinite", animationDelay: `${pos * 0.12}s` }}
           />
         );
@@ -86,7 +86,7 @@ function InfinityLoop() {
         fill="none"
         stroke="currentColor"
         strokeWidth="1.8"
-        strokeLinecap="square"
+        strokeLinecap="round"
         pathLength="100"
         strokeDasharray="18 82"
         style={{ animation: "think-infinity 1.6s linear infinite" }}

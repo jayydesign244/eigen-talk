@@ -33,7 +33,7 @@ export function ThemeProvider({ children }) {
     root.classList.toggle('dark', resolvedTheme === 'dark')
     root.style.colorScheme = resolvedTheme
     document.querySelector('meta[name="theme-color"]')
-      ?.setAttribute('content', resolvedTheme === 'dark' ? '#0d0d0d' : '#f4f4f1')
+      ?.setAttribute('content', resolvedTheme === 'dark' ? '#0d0d0d' : '#f8f8f8')
   }, [resolvedTheme])
 
   const setTheme = useCallback((next) => {

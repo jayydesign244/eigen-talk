@@ -204,7 +204,7 @@ export function AssistantPanel({
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, height: 0, marginBottom: 0 }}
-              className="plunk edge-card border border-border bg-card p-4"
+              className="rounded-2xl border-[0.8px] border-border bg-card p-4 shadow-soft"
             >
               <div className="flex items-start justify-between gap-2">
                 <p className="text-caps text-muted-foreground">I listened to your audio</p>

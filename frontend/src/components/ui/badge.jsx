@@ -2,20 +2,23 @@ import { cva } from "class-variance-authority";
 import { Slot } from "radix-ui";
 import { cn } from "@/lib/utils";
 
-/** Hard-edged tag in NeoPOP style: extra-bold caps, square corners. */
+/**
+ * Tags in CRED's 2026 style: the black pill tag ("EARN ₹100"), gradient status
+ * chips with a hairline rim (4px corners), and soft tinted tags.
+ */
 const badgeVariants = cva(
-  "inline-flex w-fit shrink-0 items-center justify-center gap-1 overflow-hidden border px-2 py-[3px] text-[10px] leading-none font-extrabold tracking-[0.12em] uppercase whitespace-nowrap transition-colors focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring [&>svg]:pointer-events-none [&>svg]:size-3",
+  "inline-flex w-fit shrink-0 items-center justify-center gap-1.5 overflow-hidden rounded-full border-[0.7px] px-2.5 py-1 text-[10px] leading-none font-bold tracking-[0.1em] uppercase whitespace-nowrap transition-colors focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring [&>svg]:pointer-events-none [&>svg]:size-3",
   {
     variants: {
       variant: {
         default: "border-primary bg-primary text-primary-foreground [a&]:hover:bg-primary/85",
         brand: "border-brand bg-brand text-brand-foreground",
-        secondary: "border-border bg-muted text-foreground [a&]:hover:bg-accent",
-        destructive: "border-destructive/40 bg-destructive-soft text-destructive-ink",
-        success: "border-success/40 bg-success-soft text-success-ink",
-        warning: "border-warning/40 bg-warning-soft text-warning-ink",
-        info: "border-info/40 bg-info-soft text-info-ink",
-        outline: "border-border-strong bg-transparent text-foreground [a&]:hover:bg-accent",
+        secondary: "border-border-cool bg-chip text-foreground [a&]:hover:bg-accent",
+        destructive: "rounded-sm border-[#d06060] bg-linear-to-r from-[#d0403a] to-[#c93636] text-white",
+        success: "rounded-sm border-[#3fa68f] bg-linear-to-r from-[#13866d] to-[#11785f] text-white",
+        warning: "rounded-sm border-transparent bg-warning-soft text-warning-ink",
+        info: "rounded-sm border-transparent bg-info-soft text-info-ink",
+        outline: "border-foreground/80 bg-transparent text-foreground [a&]:hover:bg-accent",
         ghost: "border-transparent text-muted-foreground [a&]:hover:bg-accent [a&]:hover:text-foreground",
         link: "border-transparent px-0 text-foreground underline decoration-brand underline-offset-4"
       }

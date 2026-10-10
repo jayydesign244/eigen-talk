@@ -19,13 +19,16 @@ const focusRing = 'outline-2 outline-solid outline-offset-[5px] outline-ring'
 
 function ButtonPage() {
   const [loading, setLoading] = useState(false)
-  const variants = ['default', 'brand', 'secondary', 'destructive', 'outline', 'ghost', 'link']
+  const variants = ['default', 'pill', 'chip', 'gold', 'brand', 'secondary', 'destructive', 'outline', 'ghost', 'link']
   return (
     <>
-      <PageHeader eyebrow="Actions" title="Button" description="Solid keys carry NeoPOP's plunk edge and sink when pressed. Quiet variants stay flat so a screen has one obvious next step." />
+      <PageHeader eyebrow="Actions" title="Button" description="Every button type in CRED's 2026 app: the black block CTA, the dark pill, the ice chip, the raised gold key (and Sonic aqua brand key), the grey trail CTA, a red-label destructive, and quiet outline / ghost / link." />
       <Section title="Variants">
         <Preview>
           <Button>Continue</Button>
+          <Button variant="pill">Check now</Button>
+          <Button variant="chip">garage</Button>
+          <Button variant="gold">Play now</Button>
           <Button variant="brand"><SparklesIcon />Enhance</Button>
           <Button variant="secondary">Compare</Button>
           <Button variant="destructive"><TrashIcon />Delete</Button>
@@ -46,15 +49,15 @@ function ButtonPage() {
           <Button size="icon-lg" variant="brand" aria-label="Record"><MicIcon /></Button>
         </Preview>
       </Section>
-      <Section title="States" description="Hover lifts the face 1px; pressed collapses the edge; focus draws a ring clear of the edge.">
+      <Section title="States" description="Hover deepens the fill; pressed settles the button (the raised key drops into its 3px edge); focus draws a ring; disabled fades to 50%, while a busy button keeps its colour.">
         <Preview center={false} contentClassName="flex-col gap-8">
-          {variants.slice(0, 5).map((v) => (
+          {variants.slice(0, 8).map((v) => (
             <StateGrid
               key={v}
               columns={5}
               states={[
                 { label: `${v} · default`, node: <Button variant={v}>Export</Button> },
-                { label: 'Hover', node: <Button variant={v} style={hover} className={v === 'outline' ? 'border-foreground bg-accent' : ''}>Export</Button> },
+                { label: 'Hover', node: <Button variant={v} style={hover} className={v === 'outline' ? 'bg-accent' : ''}>Export</Button> },
                 { label: 'Focus', node: <Button variant={v} className={focusRing}>Export</Button> },
                 { label: 'Pressed', node: <Button variant={v} data-pressed="true" className={v === 'outline' ? 'bg-surface-2' : ''}>Export</Button> },
                 { label: 'Disabled', node: <Button variant={v} disabled>Export</Button> },
@@ -67,12 +70,19 @@ function ButtonPage() {
         <Preview>
           <Button
             disabled={loading}
+            aria-busy={loading}
             onClick={() => { setLoading(true); setTimeout(() => setLoading(false), 1800) }}
           >
             {loading ? <><Spinner />Rendering…</> : <><DownloadIcon />Export MP3</>}
           </Button>
-          <Button variant="brand" disabled><Loader2Icon className="animate-spin" />Cleaning audio</Button>
+          <Button variant="brand" disabled aria-busy><Loader2Icon className="animate-spin" />Cleaning audio</Button>
           <Button variant="outline" disabled><Spinner />Uploading 64%</Button>
+        </Preview>
+      </Section>
+      <Section title="Glint" description="A 45° light band sweeps the button in 1.5s, then rests 5s. Add the pop-shimmer class to the one CTA that should catch the eye.">
+        <Preview>
+          <Button size="lg" className="pop-shimmer">Start for free</Button>
+          <Button size="lg" variant="brand" className="pop-shimmer">Enhance audio</Button>
         </Preview>
       </Section>
       <Section title="API">
@@ -85,7 +95,7 @@ function ButtonPage() {
       <Section title="Usage">
         <Usage
           dos={['One raised key per area — the next step.', 'Use brand only for the AI / enhance action.', 'Label destructive actions with the object: "Delete project".']}
-          donts={['Stack two plunk buttons edge to edge — leave 6px+ so edges don’t collide.', 'Use ghost for the primary action.', 'Disable a button without saying why nearby.']}
+          donts={['Put two dark pills or raised keys side by side — one hero action per screen.', 'Use ghost for the primary action.', 'Disable a button without saying why nearby.']}
         />
       </Section>
     </>
@@ -95,7 +105,7 @@ function ButtonPage() {
 function ButtonGroupPage() {
   return (
     <>
-      <PageHeader eyebrow="Actions" title="Button group" description="Related flat actions share edges. Groups use outline buttons so the joined rules line up; raise only a standalone key." />
+      <PageHeader eyebrow="Actions" title="Button group" description="Related actions share edges: inner corners go square, the outer corners keep their 8px radius." />
       <Section title="Transport">
         <Preview>
           <ButtonGroup>
@@ -145,7 +155,7 @@ function ButtonGroupPage() {
 function TogglePage() {
   return (
     <>
-      <PageHeader eyebrow="Actions" title="Toggle" description="A two-state key. On is an inverted (solid) key, so the state reads instantly even in peripheral vision." />
+      <PageHeader eyebrow="Actions" title="Toggle" description="A two-state button with 8px corners. On fills with the soft accent and darkens the label; the outline style lifts onto a white card with an ink hairline." />
       <Section title="Variants & sizes">
         <Preview>
           <Toggle aria-label="Bold"><BoldIcon /></Toggle>
@@ -174,7 +184,7 @@ function ToggleGroupPage() {
   const [view, setView] = useState('grid')
   return (
     <>
-      <PageHeader eyebrow="Actions" title="Toggle group" description="With no spacing it becomes a segmented control — one outer rule, the active cell inverted." />
+      <PageHeader eyebrow="Actions" title="Toggle group" description="With no spacing it becomes a segmented control — one outer rule, rounded at the ends, the active cell lifted." />
       <Section title="Segmented (single)">
         <Preview>
           <ToggleGroup type="single" variant="outline" value={view} onValueChange={(v) => v && setView(v)}>
@@ -214,7 +224,7 @@ function ToggleGroupPage() {
 function BadgePage() {
   return (
     <>
-      <PageHeader eyebrow="Display" title="Badge" description="Extra-bold caps on a square tag. Status badges always pair colour with a word." />
+      <PageHeader eyebrow="Display" title="Badge" description="CRED's tags: the black pill tag (“EARN ₹100”), gradient status chips with a hairline rim and 4px corners, and soft tinted tags. Status badges always pair colour with a word." />
       <Section title="Variants">
         <Preview>
           {['default', 'brand', 'secondary', 'outline', 'success', 'warning', 'destructive', 'info', 'ghost'].map((v) => (
@@ -240,7 +250,7 @@ function BadgePage() {
 function KbdPage() {
   return (
     <>
-      <PageHeader eyebrow="Display" title="Kbd" description="Keyboard keys drawn as tiny keycaps with a 2px bottom edge — the plunk at its smallest." />
+      <PageHeader eyebrow="Display" title="Kbd" description="Keyboard keys drawn as tiny rounded keycaps with a 2px bottom edge." />
       <Section title="Shortcuts">
         <Preview>
           <KbdGroup><Kbd>⌘</Kbd><Kbd>K</Kbd></KbdGroup>

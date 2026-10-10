@@ -60,7 +60,7 @@ function Dropzone({ file, onFile, disabled }) {
         over ? 'border-brand bg-brand-soft' : 'border-input hover:border-foreground'
       )}
     >
-      <span className={cn('plunk edge-card flex size-12 items-center justify-center border border-border bg-card transition-transform', over && 'scale-110')}>
+      <span className={cn('surface-tile flex size-12 items-center justify-center rounded-full transition-transform', over && 'scale-110')}>
         <UploadIcon className="size-5" />
       </span>
       <span className="text-sm font-bold">{over ? 'Drop it' : 'Drop an audio or video file, or browse'}</span>

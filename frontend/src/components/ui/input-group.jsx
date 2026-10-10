@@ -8,7 +8,7 @@ function InputGroup({ className, ...props }) {
     data-slot="input-group"
     role="group"
     className={cn(
-      "group/input-group relative flex w-full items-center border border-input bg-card transition-[border-color,box-shadow] duration-150 outline-hidden hover:border-muted-foreground/60",
+      "group/input-group relative flex w-full items-center rounded-md border border-input bg-card transition-[border-color,box-shadow] duration-150 outline-hidden hover:border-muted-foreground/60",
       "h-10 min-w-0 has-[>textarea]:h-auto",
 
       // Variants based on alignment.
@@ -18,7 +18,7 @@ function InputGroup({ className, ...props }) {
       "has-[>[data-align=block-end]]:h-auto has-[>[data-align=block-end]]:flex-col has-[>[data-align=block-end]]:[&>input]:pt-3",
 
       // Focus state.
-      "has-[[data-slot=input-group-control]:focus-visible]:border-foreground has-[[data-slot=input-group-control]:focus-visible]:shadow-[inset_0_-2px_0_0_var(--foreground)]",
+      "has-[[data-slot=input-group-control]:focus-visible]:border-foreground",
 
       // Error state.
       "has-[[data-slot][aria-invalid=true]]:border-destructive has-[[data-slot][aria-invalid=true]]:shadow-[inset_0_-2px_0_0_var(--destructive)]",

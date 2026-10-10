@@ -43,7 +43,7 @@ const NOTE = 'Floating layers render at the top of the page, so they follow the 
 function DialogPage() {
   return (
     <>
-      <PageHeader eyebrow="Overlays" title="Dialog" description={`A floating card with a 6px solid extrusion over a dark scrim. Rises 8px as it fades in. ${NOTE}`} />
+      <PageHeader eyebrow="Overlays" title="Dialog" description={`A floating card with 22px corners and a soft shadow over a dark scrim. Pops from 90% scale in 220ms, as in CRED. ${NOTE}`} />
       <Section title="Example">
         <Preview>
           <Dialog>
@@ -126,7 +126,7 @@ function AlertDialogPage() {
 function SheetPage() {
   return (
     <>
-      <PageHeader eyebrow="Overlays" title="Sheet" description="A panel that slides in from an edge with an expo-out ease. Used for version history and settings on the editor." />
+      <PageHeader eyebrow="Overlays" title="Sheet" description="A panel that slides in from an edge: 350ms decelerating in, accelerating out (CRED's sheet timing). Panels round their inner corners to 22px. Used for version history and settings on the editor." />
       <Section title="Sides">
         <Preview>
           {['right', 'left', 'top', 'bottom'].map((side) => (
@@ -158,7 +158,7 @@ function DrawerPage() {
   const [vol, setVol] = useState([70])
   return (
     <>
-      <PageHeader eyebrow="Overlays" title="Drawer" description="A draggable bottom sheet (NeoPOP's BottomSheet) for mobile. Drag the handle down to dismiss." />
+      <PageHeader eyebrow="Overlays" title="Drawer" description="A draggable bottom sheet for mobile: 22px rounded top, a hairline and a soft shadow, with a small pill handle. Drag down to dismiss." />
       <Section title="Example">
         <Preview>
           <Drawer>
@@ -241,7 +241,7 @@ function HoverCardPage() {
 function TooltipPage() {
   return (
     <>
-      <PageHeader eyebrow="Overlays" title="Tooltip" description="A solid inverted label that names an icon button and shows its shortcut." />
+      <PageHeader eyebrow="Overlays" title="Tooltip" description="A small rounded ink label that names an icon button and shows its shortcut." />
       <Section title="Sides">
         <Preview>
           {['top', 'right', 'bottom', 'left'].map((side) => (
@@ -261,7 +261,7 @@ function DropdownMenuPage() {
   const [sort, setSort] = useState('edited')
   return (
     <>
-      <PageHeader eyebrow="Overlays" title="Dropdown menu" description="Rows invert to a solid bar on highlight. Destructive rows go red only when highlighted, so they don't shout at rest." />
+      <PageHeader eyebrow="Overlays" title="Dropdown menu" description="A rounded floating panel; rows highlight on a soft grey pill. Destructive rows tint red only when highlighted, so they don't shout at rest." />
       <Section title="Example">
         <Preview>
           <DropdownMenu>
@@ -302,7 +302,7 @@ function DropdownMenuPage() {
           </DropdownMenu>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <button className="flex items-center gap-2.5 border border-border bg-card px-2.5 py-2 text-left transition-colors hover:border-muted-foreground/60">
+              <button className="flex items-center gap-2.5 rounded-lg border-[0.8px] border-border bg-card px-2.5 py-2 text-left transition-colors hover:border-muted-foreground/60">
                 <Avatar size="sm"><AvatarFallback>KB</AvatarFallback></Avatar>
                 <span className="text-[13px] font-bold">Kishan</span>
               </button>
@@ -327,7 +327,7 @@ function ContextMenuPage() {
       <Section title="Example">
         <Preview>
           <ContextMenu>
-            <ContextMenuTrigger className="flex h-36 w-full max-w-md items-center justify-center border border-dashed border-input hatch text-[13px] font-semibold text-muted-foreground">
+            <ContextMenuTrigger className="flex h-36 w-full max-w-md items-center justify-center rounded-2xl border border-dashed border-input hatch text-[13px] font-semibold text-muted-foreground">
               Right-click this transcript line
             </ContextMenuTrigger>
             <ContextMenuContent className="w-56">
@@ -347,7 +347,7 @@ function ContextMenuPage() {
 function MenubarPage() {
   return (
     <>
-      <PageHeader eyebrow="Overlays" title="Menubar" description="Desktop-style menus for dense tools. The open menu's trigger inverts." />
+      <PageHeader eyebrow="Overlays" title="Menubar" description="Desktop-style menus for dense tools. The open menu's trigger sits on a soft highlight." />
       <Section title="Example">
         <Preview>
           <Menubar>
@@ -418,7 +418,7 @@ function CommandPage() {
       <PageHeader eyebrow="Overlays" title="Command" description="The ⌘K palette: fuzzy search across projects and actions." />
       <Section title="Inline">
         <Preview>
-          <Command className="w-full max-w-md border border-border">{list}</Command>
+          <Command className="w-full max-w-md rounded-2xl border-[0.8px] border-border">{list}</Command>
         </Preview>
       </Section>
       <Section title="Dialog">
@@ -434,7 +434,7 @@ function CommandPage() {
 function ToastPage() {
   return (
     <>
-      <PageHeader eyebrow="Feedback" title="Toast" description="Sonner toasts as hard-edged cards. A 4px left bar carries the status alongside the icon and words." />
+      <PageHeader eyebrow="Feedback" title="Toast" description="Sonner toasts as rounded floating cards (12px, hairline, soft shadow). The tinted icon and the words carry the status." />
       <Section title="Types">
         <Preview>
           <Button variant="outline" onClick={() => toast('Project duplicated')}>Default</Button>

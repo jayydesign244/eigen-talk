@@ -22,13 +22,13 @@ function ItemSeparator({
   />;
 }
 const itemVariants = cva(
-  "group/item flex flex-wrap items-center border border-transparent text-sm transition-colors duration-100 outline-hidden focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-ring [a]:transition-colors [a]:hover:bg-accent/60 [button]:hover:bg-accent/60",
+  "group/item flex flex-wrap items-center rounded-xl border-[0.8px] border-transparent text-sm transition-colors duration-100 outline-hidden focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-ring [a]:transition-colors [a]:hover:bg-accent [button]:hover:bg-accent",
   {
     variants: {
       variant: {
         default: "bg-transparent",
-        outline: "border-border",
-        muted: "bg-muted/50"
+        outline: "border-border bg-card",
+        muted: "bg-surface-2"
       },
       size: {
         default: "gap-4 p-4",
@@ -63,8 +63,8 @@ const itemMediaVariants = cva(
     variants: {
       variant: {
         default: "bg-transparent",
-        icon: "size-9 border border-border bg-muted [&_svg:not([class*='size-'])]:size-4",
-        image: "size-10 overflow-hidden rounded-sm [&_img]:size-full [&_img]:object-cover"
+        icon: "surface-tile size-11 rounded-full text-foreground group-data-[size=sm]/item:size-9 [&_svg:not([class*='size-'])]:size-4",
+        image: "size-11 overflow-hidden rounded-lg group-data-[size=sm]/item:size-9 [&_img]:size-full [&_img]:object-cover"
       }
     },
     defaultVariants: {
@@ -98,7 +98,7 @@ function ItemTitle({ className, ...props }) {
   return <div
     data-slot="item-title"
     className={cn(
-      "flex w-fit items-center gap-2 text-sm leading-snug font-bold",
+      "flex w-fit items-center gap-2 text-[13px] leading-snug font-bold tracking-[0.2px]",
       className
     )}
     {...props}
@@ -108,7 +108,7 @@ function ItemDescription({ className, ...props }) {
   return <p
     data-slot="item-description"
     className={cn(
-      "line-clamp-2 text-[13px] leading-normal font-normal text-balance text-muted-foreground",
+      "line-clamp-2 text-xs leading-normal font-medium tracking-[0.4px] text-balance text-muted-foreground",
       "[&>a]:underline [&>a]:underline-offset-4 [&>a:hover]:text-primary",
       className
     )}

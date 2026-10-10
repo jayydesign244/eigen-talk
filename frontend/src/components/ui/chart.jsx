@@ -102,7 +102,7 @@ function ChartTooltipContent({
   const nestLabel = payload.length === 1 && indicator !== "dot";
   return <div
     className={cn(
-      "grid min-w-[8rem] items-start gap-1.5 border bg-popover px-2.5 py-2 text-xs pop-float",
+      "grid min-w-[8rem] items-start gap-1.5 rounded-xl border bg-popover px-3 py-2.5 text-xs text-popover-foreground pop-float",
       className
     )}
   >{!nestLabel ? tooltipLabel : null}<div className="grid gap-1.5">{payload.filter((item) => item.type !== "none").map((item, index) => {
@@ -117,7 +117,7 @@ function ChartTooltipContent({
       )}
     >{formatter && item?.value !== void 0 && item.name ? formatter(item.value, item.name, item, index, item.payload) : <>{itemConfig?.icon ? <itemConfig.icon /> : !hideIndicator && <div
       className={cn(
-        "shrink-0 border-(--color-border) bg-(--color-bg)",
+        "shrink-0 rounded-[2px] border-(--color-border) bg-(--color-bg)",
         {
           "h-2.5 w-2.5": indicator === "dot",
           "w-1": indicator === "line",
@@ -164,7 +164,7 @@ function ChartLegendContent({
         "flex items-center gap-1.5 [&>svg]:h-3 [&>svg]:w-3 [&>svg]:text-muted-foreground"
       )}
     >{itemConfig?.icon && !hideIcon ? <itemConfig.icon /> : <div
-      className="h-2 w-2 shrink-0"
+      className="h-2 w-2 shrink-0 rounded-sm"
       style={{
         backgroundColor: item.color
       }}

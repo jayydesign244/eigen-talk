@@ -16,11 +16,11 @@ import { cn } from '@/lib/utils'
 /* ─── Overview ─────────────────────────────────────────────────── */
 
 const PRINCIPLES = [
-  ['Monochrome first', 'Black and paper carry the interface. Colour is a signal, not decoration.'],
+  ['Calm and monochrome', 'White pages, ink type and hairlines at 10% do the work. Colour is a signal, not decoration.'],
   ['One accent, used rarely', 'Sonic aqua marks focus, live states and the single most important number on a screen.'],
-  ['Depth is solid', 'Raised things have real edges — 3px at 45°. Nothing floats on a blur.'],
-  ['Every press is physical', 'Keys lift a hair on hover and sink into their edge when pressed.'],
-  ['Serif to speak, sans to work', 'Gloock for headlines that set the tone; Plus Jakarta Sans for everything you read and use.'],
+  ['Soft, not flat', 'Cards round to 16px, buttons to 8px, chips to pills. Depth comes from gentle gradients and two soft shadows.'],
+  ['One key still clicks', 'The raised key keeps NeoPOP’s hard 3px edge and sinks into it when pressed — save it for the moment that matters.'],
+  ['Serif to speak, sans to work', 'Fraunces for headlines that set the tone; Plus Jakarta Sans for everything you read and use.'],
   ['Motion explains', 'Things rise in, land, and snap — always under 450ms, always respecting reduced motion.'],
 ]
 
@@ -29,8 +29,8 @@ export function OverviewPage({ counts }) {
     <>
       <PageHeader
         eyebrow="Sonicly Design System · v1"
-        title={<>Built like hardware.<br />Calm like a studio.</>}
-        description="Every shadcn/ui component, rebuilt in the structure of CRED's NeoPOP — monochrome base, solid plunk edges, extra-bold caps and a serif voice — with Sonicly's own accent. Light and dark are both first-class."
+        title={<>Soft to the touch.<br />Calm like a studio.</>}
+        description="Every shadcn/ui component, rebuilt in CRED's 2026 language — white space, rounded cards on hairlines, pill chips, gradient icon tiles and a serif voice — with Sonicly's own accent. Light and dark are both first-class."
       >
         <div className="flex flex-wrap items-center gap-4">
           <Button asChild variant="brand" size="lg"><Link to="/design-system/components/button">Browse components</Link></Button>
@@ -61,15 +61,16 @@ export function OverviewPage({ counts }) {
           ))}
         </motion.div>
       </Section>
-      <Section title="The signature: plunk" description="Try pressing these. The face travels into its own edge.">
+      <Section title="The signature" description="The block CTA, the dark pill, the ice chip and the raised key — try pressing them.">
         <Preview>
-          <Button size="lg">Primary key</Button>
-          <Button size="lg" variant="brand">Brand key</Button>
-          <Button size="lg" variant="secondary">Secondary key</Button>
+          <Button size="lg">Proceed</Button>
+          <Button size="lg" variant="pill">Check now</Button>
+          <Button variant="chip">Explore</Button>
+          <Button variant="gold">Play now</Button>
           <Card variant="interactive" className="w-56 py-4">
             <CardContent className="px-4">
-              <p className="text-caps text-muted-foreground">Interactive card</p>
-              <p className="mt-2 text-sm font-bold">Clickable surfaces sink too.</p>
+              <p className="text-caps text-label">Interactive card</p>
+              <p className="mt-2 text-sm font-bold">Lifts on hover, settles when pressed.</p>
             </CardContent>
           </Card>
         </Preview>
@@ -102,7 +103,7 @@ function Swatch({ token, name, note, fg }) {
     <div className="min-w-0">
       <div
         ref={ref}
-        className="flex h-20 items-end border border-border p-2.5"
+        className="flex h-20 items-end rounded-lg border-[0.8px] border-border p-2.5"
         style={{ background: `var(--${token})`, color: fg ? `var(--${fg})` : undefined }}
       >
         {fg && <span className="text-sm font-bold">Aa</span>}
@@ -131,6 +132,7 @@ const COLOR_GROUPS = [
     ['input', 'Input border'],
     ['border-strong', 'Strong border'],
     ['ring', 'Focus ring'],
+    ['caret', 'Text cursor', null, 'CRED\'s blue cursor.'],
   ]],
   ['Action', 'Keys people press. Primary inverts with the theme.', [
     ['primary', 'Primary', 'primary-foreground'],
@@ -138,6 +140,7 @@ const COLOR_GROUPS = [
     ['brand', 'Sonic (brand)', 'brand-foreground', 'Use once per screen at most.'],
     ['brand-soft', 'Sonic soft', 'foreground'],
     ['brand-ink', 'Sonic ink', null, 'Brand-coloured text that passes contrast.'],
+    ['disabled', 'Disabled key', 'disabled-foreground', 'CRED\'s grey key for any disabled solid button.'],
   ]],
   ['Status', 'Never reused as the accent. Each has a solid, a soft and an ink tone.', [
     ['success', 'Success'], ['success-soft', 'Success soft', 'success-ink'],
@@ -150,6 +153,7 @@ const COLOR_GROUPS = [
     ['edge-brand-r', 'Brand · right'], ['edge-brand-b', 'Brand · bottom'],
     ['edge-card-r', 'Card · right'], ['edge-card-b', 'Card · bottom'],
     ['edge-destructive-r', 'Danger · right'], ['edge-destructive-b', 'Danger · bottom'],
+    ['edge-disabled-r', 'Disabled · right'], ['edge-disabled-b', 'Disabled · bottom'],
   ]],
   ['Data', 'Chart series, drawn from the NeoPOP accent palette.', [
     ['chart-1', 'Series 1'], ['chart-2', 'Series 2'], ['chart-3', 'Series 3'], ['chart-4', 'Series 4'], ['chart-5', 'Series 5'],
@@ -162,7 +166,7 @@ export function ColorsPage() {
       <PageHeader
         eyebrow="Foundations"
         title="Colour"
-        description="Pop Black and paper do almost all the work. Sonic aqua is the one accent; status colours come from NeoPOP's main palette and are never used decoratively."
+        description="White pages, ink type and hairlines at 10% of the ink colour do almost all the work, as in CRED 2026; a cool grey-blue (#E5ECF0) and ice gradients add the softness. Sonic aqua is the one accent; status colours come from NeoPOP's main palette and are never used decoratively."
       />
       {COLOR_GROUPS.map(([title, description, tokens]) => (
         <Section key={title} title={title} description={description}>
@@ -203,17 +207,17 @@ export function ColorsPage() {
 /* ─── Typography ───────────────────────────────────────────────── */
 
 const TYPE_SCALE = [
-  ['Display', 'font-display text-6xl leading-[1.02]', 'Gloock 60/62', 'Sounds exactly right.'],
-  ['Heading 1', 'font-display text-[40px] leading-[1.08]', 'Gloock 40/44', 'Your episodes, cleaned up'],
-  ['Heading 2', 'font-display text-3xl leading-tight', 'Gloock 30/36', 'Recent projects'],
-  ['Heading 3', 'text-xl font-bold tracking-tight', 'Jakarta Bold 20/28', 'Export settings'],
-  ['Heading 4', 'text-base font-bold tracking-tight', 'Jakarta Bold 16/24', 'Version history'],
-  ['Body large', 'text-[15px] leading-relaxed', 'Jakarta Regular 15/24', 'Describe the change in plain English and Sonicly handles the rest.'],
-  ['Body', 'text-sm leading-relaxed', 'Jakarta Regular 14/22', 'Removed 34 filler words and balanced the loudness to −16 LUFS.'],
-  ['Small', 'text-[13px] text-muted-foreground', 'Jakarta Regular 13/20', 'Edited 2 hours ago · 12:04'],
-  ['Caps label', 'text-caps', 'Jakarta ExtraBold 11 · 0.16em', 'Quality score'],
+  ['Display', 'font-display text-6xl leading-[1.2]', 'Fraunces 60/72', 'Sounds exactly right.'],
+  ['Heading 1', 'font-display text-[40px] leading-[1.25]', 'Fraunces 40/50', 'Your episodes, cleaned up'],
+  ['Heading 2', 'font-display text-3xl leading-[1.25]', 'Fraunces 30/38', 'Recent projects'],
+  ['Heading 3', 'text-xl font-bold leading-[1.25] tracking-[0.01em]', 'Jakarta Bold 20/25 · 0.01em', 'Export settings'],
+  ['Heading 4', 'text-base font-bold leading-[1.25] tracking-[0.01em]', 'Jakarta Bold 16/20 · 0.01em', 'Version history'],
+  ['Body large', 'text-[15px] leading-normal', 'Jakarta Medium 15/22 · 0.02em', 'Describe the change in plain English and Sonicly handles the rest.'],
+  ['Body', 'text-sm leading-normal', 'Jakarta Medium 14/21 · 0.02em', 'Removed 34 filler words and balanced the loudness to −16 LUFS.'],
+  ['Small', 'text-xs leading-normal text-muted-foreground', 'Jakarta Medium 12/18 · 0.02em', 'Edited 2 hours ago · 12:04'],
+  ['Caps label', 'text-caps', 'Jakarta Bold 11 · 0.2em', 'Quality score'],
   ['Number', 'text-4xl font-extrabold tracking-tight tabular', 'Jakarta ExtraBold · tabular', '87'],
-  ['Timecode', 'font-mono text-sm tabular', 'JetBrains Mono 14', '00:03:42.180'],
+  ['Timecode', 'font-mono text-sm tabular', 'Overpass Mono 14', '00:03:42.180'],
 ]
 
 export function TypographyFoundationPage() {
@@ -222,7 +226,7 @@ export function TypographyFoundationPage() {
       <PageHeader
         eyebrow="Foundations"
         title="Type"
-        description="Gloock stands in for CRED's Cirka (sharp, high-contrast serif) and Plus Jakarta Sans for Gilroy (geometric, wide). Both are free to use commercially. JetBrains Mono is reserved for timecodes and keys."
+        description="Fraunces stands in for CRED's Denton (a variable, high-contrast serif) and Plus Jakarta Sans for Gilroy (geometric, wide). Overpass Mono is the same mono CRED uses, reserved for timecodes and keys. All three are free to use commercially."
       />
       <Section title="Scale">
         <Preview center={false} padded={false} contentClassName="flex-col gap-0">
@@ -240,9 +244,9 @@ export function TypographyFoundationPage() {
       <Section title="Typefaces">
         <div className="grid gap-5 md:grid-cols-3">
           {[
-            ['Gloock', 'font-display', 'Display & headings', 'Aa'],
+            ['Fraunces', 'font-display', 'Display & headings', 'Aa'],
             ['Plus Jakarta Sans', 'font-sans font-extrabold', 'Interface & reading', 'Aa'],
-            ['JetBrains Mono', 'font-mono font-bold', 'Timecodes & keys', '00:42'],
+            ['Overpass Mono', 'font-mono font-bold', 'Timecodes & keys', '00:42'],
           ].map(([name, cls, role, glyph]) => (
             <Card key={name} variant="elevated" className="py-6">
               <CardContent className="px-6">
@@ -266,7 +270,7 @@ export function ElevationPage() {
       <PageHeader
         eyebrow="Foundations"
         title="Shape & depth"
-        description="Radius is zero. Depth comes from NeoPOP's plunk: two solid parallelogram edges, 3px deep at 45°. Floating layers (menus, dialogs) use the same extrusion drawn with stacked hard shadows."
+        description="CRED 2026 is soft: cards round to 16px on a 0.8px hairline, buttons to 8px, icon tiles to 10px and chips to full pills. Depth comes from gentle gradients and two soft shadows; only the raised key keeps a hard 3px edge."
       />
       <Section title="Levels">
         <Preview contentClassName="gap-10">
@@ -275,6 +279,7 @@ export function ElevationPage() {
             ['Elevated', 'Cards that group content', <Card key="e" variant="elevated" className="w-44 py-6"><CardContent className="px-5 text-sm font-bold">Level 1</CardContent></Card>],
             ['Interactive', 'Anything clickable', <Card key="i" variant="interactive" className="w-44 py-6"><CardContent className="px-5 text-sm font-bold">Level 1 · press me</CardContent></Card>],
             ['Floating', 'Menus, popovers, dialogs', <div key="p" className="w-44 border bg-popover px-5 py-6 text-sm font-bold pop-float">Level 2</div>],
+            ['Pop', 'The one dark pill CTA', <div key="d" className="flex h-[76px] w-44 items-center justify-center rounded-full surface-pop text-sm font-semibold">Level 3</div>],
           ].map(([name, note, node]) => (
             <div key={name} className="flex flex-col gap-3">
               {node}
@@ -286,21 +291,39 @@ export function ElevationPage() {
           ))}
         </Preview>
       </Section>
-      <Section title="Plunk states" description="Rest → hover lifts to 4px → press collapses to 0 and the face moves into the gap.">
+      <Section title="Surfaces" description="The three fills from CRED's templates: the circular icon tile, the ice pill / square tile and the dark pill.">
         <Preview contentClassName="gap-10">
-          {[['Rest', {}], ['Hover', { '--plunk': '4px' }], ['Pressed', { '--plunk': '0px' }]].map(([label, style]) => (
+          {[
+            ['Tile', 'Circle 44 · white → warm white', <div key="t" className="size-11 rounded-full surface-tile" />],
+            ['Ice', 'Square 44 · white → ice, cool hairline', <div key="i" className="size-11 rounded-lg surface-pill" />],
+            ['Chip', 'Pill · ice with a light bottom edge', <span key="c" className="inline-flex h-9 items-center rounded-full px-4 text-[13px] font-semibold surface-pill shadow-[0_2px_0_var(--pill-border)]">garage</span>],
+            ['Pop', 'Pill · graphite, rim, sheen', <span key="p" className="inline-flex h-10 items-center rounded-full px-5 text-[13px] font-semibold surface-pop">Check now</span>],
+          ].map(([name, note, node]) => (
+            <div key={name} className="flex flex-col items-start gap-3">
+              {node}
+              <div>
+                <p className="text-[13px] font-bold">{name}</p>
+                <p className="text-[12px] text-muted-foreground">{note}</p>
+              </div>
+            </div>
+          ))}
+        </Preview>
+      </Section>
+      <Section title="Raised key states" description="The one hard edge left: rest → press collapses the 3px edge in 50ms and the face drops into the gap.">
+        <Preview contentClassName="gap-10">
+          {[['Rest', {}], ['Pressed', { '--plunk': '0px' }], ['Disabled', {}, true]].map(([label, style, disabled]) => (
             <div key={label} className="flex flex-col items-start gap-3">
-              <span className="text-caps text-[9px] text-muted-foreground">{label}</span>
-              <Button size="lg" style={style}>Continue</Button>
+              <span className="text-caps text-[9px] text-label">{label}</span>
+              <Button variant="gold" style={style} disabled={disabled}>Play now</Button>
             </div>
           ))}
         </Preview>
       </Section>
       <Section title="Radius">
         <Preview contentClassName="gap-8">
-          {[['0 · everything', ''], ['full · avatars, radios, dots', 'rounded-full']].map(([label, cls]) => (
+          {[['2 · raised key', 'rounded-xs'], ['4 · badges', 'rounded-sm'], ['8 · buttons, inputs', 'rounded-md'], ['10 · icon tiles', 'rounded-lg'], ['12 · menus', 'rounded-xl'], ['16 · cards', 'rounded-2xl'], ['22 · sheets, dialogs', 'rounded-3xl'], ['full · chips, pills', 'rounded-full']].map(([label, cls]) => (
             <div key={label} className="flex flex-col items-center gap-3">
-              <div className={cn('size-20 border-2 border-foreground bg-muted', cls)} />
+              <div className={cn('size-20 border-[0.8px] border-border bg-surface-2', cls)} />
               <span className="font-mono text-[11px] text-muted-foreground">{label}</span>
             </div>
           ))}
@@ -330,7 +353,7 @@ export function SpacingPage() {
                 initial={{ width: 0 }}
                 whileInView={{ width: s * 4 * 2 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1], delay: s * 0.01 }}
+                transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1], delay: s * 0.01 }}
                 className="h-3 bg-foreground"
               />
               <span className="font-mono text-[11px] text-muted-foreground">space-{s}</span>
@@ -356,12 +379,14 @@ export function SpacingPage() {
 /* ─── Motion ───────────────────────────────────────────────────── */
 
 const MOTION_TOKENS = [
-  ['Press', '140ms', 'cubic-bezier(.4,0,.2,1)', 'Plunk edges, toggles'],
+  ['Press', '50ms', 'accelerate-decelerate (.37,0,.63,1)', 'Plunk keys sinking into their edge'],
   ['Hover', '150ms', 'ease', 'Colour, border changes'],
-  ['Enter', '220–420ms', 'expo out (.16,1,.3,1)', 'Pages, cards, sections rising in'],
-  ['Snap', '300ms', 'back out (.34,1.56,.64,1)', 'Switch thumbs, ticks, badges popping'],
-  ['Spring', 'stiffness 260 · damping 28', 'motion/react', 'Cards landing, lists reordering'],
-  ['Loop', '1.1–1.6s', 'ease-in-out', 'Equaliser spinner, live dot, shimmer'],
+  ['Fast', '200ms', 'FastOutSlowIn (.4,0,.2,1)', 'Switch thumbs, ticks, small state changes'],
+  ['Enter', '300ms', 'FastOutSlowIn (.4,0,.2,1)', 'Pages, cards, sections rising in'],
+  ['Dialog', '220ms', 'decelerate (0,0,.2,1) · scale 0.9 → 1', 'Dialogs and alerts popping in'],
+  ['Sheet', '350ms', 'decelerate in · accelerate out', 'Bottom sheets and side panels'],
+  ['Spring', 'damping 0.75 · stiffness 200', 'motion/react', 'Cards landing, lists reordering'],
+  ['Loop', '1.5s', 'linear', 'Shimmer; the NeoPOP glint rests 5s between sweeps'],
 ]
 
 export function MotionPage() {
@@ -376,7 +401,7 @@ export function MotionPage() {
         description="Motion explains what happened: a key went down, a card arrived, a list changed. It is short, physical and never decorative. Everything collapses to instant when the OS asks for reduced motion."
       />
       <Section title="Tokens">
-        <div className="overflow-x-auto border border-border">
+        <div className="overflow-x-auto rounded-2xl border-[0.8px] border-border">
           <table className="w-full text-[13px]">
             <tbody>
               {MOTION_TOKENS.map(([n, d, e, u]) => (
@@ -420,7 +445,7 @@ export function MotionPage() {
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: 12 }}
                   transition={spring.soft}
-                  className="flex items-center justify-between border border-border bg-card px-4 py-3 text-sm font-semibold"
+                  className="flex items-center justify-between rounded-2xl border-[0.8px] border-border bg-card px-4 py-3 text-sm font-semibold"
                 >
                   {t}
                   <Icons.GripVerticalIcon className="size-4 text-muted-foreground" />

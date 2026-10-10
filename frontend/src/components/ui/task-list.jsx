@@ -4,10 +4,10 @@ import { CheckIcon, ChevronDownIcon, FileAudioIcon, OctagonXIcon } from "lucide-
 import { AgentThinking } from "@/components/ui/agent-thinking";
 import { cn } from "@/lib/utils";
 
-/** Small square chip naming a resource a step touched (a file, a version…). */
+/** Small rounded chip naming a resource a step touched (a file, a version…). */
 function ResourceChip({ icon: Icon = FileAudioIcon, children }) {
   return (
-    <span className="inline-flex items-center gap-1 border border-border bg-muted px-1.5 py-0.5 font-mono text-[10px] font-bold text-foreground">
+    <span className="inline-flex items-center gap-1 rounded-full border-[0.8px] border-border-cool bg-chip px-2 py-0.5 font-mono text-[10px] font-bold text-foreground">
       <Icon className="size-3 text-muted-foreground" />{children}
     </span>
   );
@@ -16,7 +16,7 @@ function ResourceChip({ icon: Icon = FileAudioIcon, children }) {
 const reveal = {
   initial: { opacity: 0, y: 4, filter: "blur(3px)", height: 0 },
   animate: { opacity: 1, y: 0, filter: "blur(0px)", height: "auto" },
-  transition: { duration: 0.32, ease: [0.16, 1, 0.3, 1] },
+  transition: { duration: 0.3, ease: [0.4, 0, 0.2, 1] },
 };
 
 /**
@@ -38,7 +38,7 @@ function TaskList({ tasks = [], running = false, since, summary, className }) {
           type="button"
           onClick={() => setOpen((o) => !o)}
           aria-expanded={isOpen}
-          className="mb-1.5 flex items-center gap-2 text-[12px] font-semibold text-muted-foreground outline-hidden hover:text-foreground focus-visible:underline"
+          className="mb-1.5 -ml-1.5 flex items-center gap-2 rounded-md px-1.5 py-0.5 text-[12px] font-semibold text-muted-foreground outline-hidden transition-colors hover:bg-accent hover:text-foreground focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-ring"
         >
           {failed ? <OctagonXIcon className="size-3.5 text-destructive-ink" /> : <CheckIcon className="size-3.5 text-success-ink" strokeWidth={3} />}
           {summary || `${tasks.length} task${tasks.length === 1 ? "" : "s"}`}

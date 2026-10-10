@@ -2,14 +2,14 @@ import { cva } from "class-variance-authority";
 import { Toggle as TogglePrimitive } from "radix-ui";
 import { cn } from "@/lib/utils";
 
-/** Pressed state inverts the key (solid foreground) — unmistakable at a glance. */
+/** Toggle in the CRED 2026 style: 8px corners; "on" fills with the soft accent and darkens the label. */
 const toggleVariants = cva(
-  "inline-flex items-center justify-center gap-2 text-sm font-semibold whitespace-nowrap transition-colors duration-150 outline-hidden hover:bg-accent focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-45 data-[state=on]:bg-foreground data-[state=on]:text-background [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+  "inline-flex items-center justify-center gap-2 rounded-md text-sm font-semibold whitespace-nowrap transition-colors duration-150 outline-hidden hover:bg-accent focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-50 data-[state=on]:bg-accent data-[state=on]:text-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
   {
     variants: {
       variant: {
         default: "bg-transparent text-foreground",
-        outline: "border border-input bg-transparent text-foreground hover:border-foreground data-[state=on]:border-foreground",
+        outline: "border-[0.8px] border-border-cool bg-transparent text-muted-foreground hover:text-foreground data-[state=on]:border-foreground/80 data-[state=on]:bg-card data-[state=on]:shadow-soft",
       },
       size: {
         default: "h-10 min-w-10 px-2.5",

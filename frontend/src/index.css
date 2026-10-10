@@ -2,21 +2,22 @@
 @import "tw-animate-css";
 
 /*
- * Sonicly design system — CRED NeoPOP structure, Sonicly accent.
+ * Sonicly design system — the CRED 2026 look, Sonicly accent.
  *
- * Rules of the system:
- *  - Monochrome base. Black in dark mode, warm paper in light mode.
- *  - One accent ("sonic" aqua), used rarely: focus, live/active states, key numbers.
- *  - Status colours (success / warning / danger / info) never double as the accent.
- *  - Hard edges: radius 0 everywhere except true circles (avatars, radio, dots).
- *  - Depth comes from solid "plunk" edges (3px, 45°), never from blurred shadows.
- *  - Serif (Gloock) for display headings, geometric sans (Plus Jakarta Sans) for
- *    everything else, extra-bold caps for labels, JetBrains Mono for timecodes.
+ * Values come from CRED 6.1's own server-driven templates (home, search, more,
+ * profile). See docs/design/cred-latest-tokens.md.
+ *  - Soft and rounded: cards 16px, buttons 8px, tiles 10px, chips are pills.
+ *  - Hairlines, not heavy borders: 0.8px at 10% ink, or cool grey #E5ECF0.
+ *  - Depth from gentle gradients (white → ice / warm white) and two soft
+ *    shadows; one hard 3px edge survives on the raised (NeoPOP) key.
+ *  - Serif (Fraunces, for CRED's Denton) for statements, geometric sans for
+ *    everything else, wide-tracked caps for section labels.
+ *  - One accent ("sonic" aqua), used rarely.
  */
 
 @custom-variant dark (&:where(.dark, .dark *):not(:where(.light, .light *)));
 
-/* Lets the plunk depth animate when a button is pressed. */
+/* Lets the raised key's edge animate when it is pressed. */
 @property --plunk {
   syntax: "<length>";
   inherits: true;
@@ -26,62 +27,92 @@
 /* ─── Light theme ─────────────────────────────────────────────── */
 :root,
 .light {
-  --radius: 0px;
+  --radius: 8px;
 
-  --background: #f4f4f1;
+  --background: #ffffff;
   --foreground: #0d0d0d;
   --card: #ffffff;
   --card-foreground: #0d0d0d;
   --popover: #ffffff;
   --popover-foreground: #0d0d0d;
-  --surface-2: #ebebe6;
+  --surface-2: #f9f9f9;
 
   --primary: #0d0d0d;
   --primary-foreground: #ffffff;
-  --secondary: #ffffff;
+  --secondary: #f6f6f6;
   --secondary-foreground: #0d0d0d;
-  --muted: #ebebe6;
-  --muted-foreground: #5c5c5c;
-  --accent: #ebebe6;
+  --muted: #f6f7f9;
+  --muted-foreground: #767676;
+  --accent: #eef0f3;
   --accent-foreground: #0d0d0d;
+  --label: rgb(13 13 13 / 0.7);
 
   --brand: #2ce6e0;
   --brand-foreground: #0d0d0d;
   --brand-ink: #12706c;
   --brand-soft: #dcfaf8;
 
-  --destructive: #ee4d37;
+  --destructive: #e14848;
   --destructive-foreground: #ffffff;
-  --destructive-ink: #c4321e;
-  --destructive-soft: #fce2dd;
+  --destructive-ink: #c42b2b;
+  --destructive-soft: #fdecec;
   --success: #06c270;
   --success-ink: #057a47;
   --success-soft: #e6f9f1;
+  --success-track: #b4edd4;
   --warning: #f08d32;
   --warning-ink: #a85a12;
-  --warning-soft: #fdeedd;
+  --warning-soft: #ffefe6;
   --info: #144cc7;
   --info-ink: #144cc7;
-  --info-soft: #e3eafa;
+  --info-soft: #ebf1fe;
 
-  --border: #e0e0da;
+  --border: rgb(13 13 13 / 0.1);
+  --border-cool: #e5ecf0;
   --border-strong: #0d0d0d;
-  --input: #c7c7c2;
+  --input: #c8d1d7;
   --ring: #0d0d0d;
+  --caret: #144cc7;
 
-  /* Plunk edges: right edge lighter, bottom edge darker (NeoPOP rule). */
-  --edge-primary-r: #8a8a8a;
-  --edge-primary-b: #3d3d3d;
-  --edge-secondary-r: #e0e0e0;
-  --edge-secondary-b: #8a8a8a;
-  --edge-brand-r: #1fa19d;
-  --edge-brand-b: #167370;
-  --edge-destructive-r: #f47564;
-  --edge-destructive-b: #a63626;
-  --edge-card-r: #e0e0dc;
-  --edge-card-b: #c7c7c2;
-  --edge-muted-r: #d2d2cc;
-  --edge-muted-b: #b5b5ae;
+  /* Surfaces from the templates */
+  --chip: rgb(236 238 241 / 0.5);        /* grey trail CTA / chip fill */
+  --tile-from: #ffffff;                  /* circular icon tile */
+  --tile-to: #fbf9f9;
+  --tile-border: rgb(200 200 200 / 0.2);
+  --pill-from: #ffffff;                  /* ice pill / square icon tile */
+  --pill-to: #e2ecf0;
+  --pill-border: #d0d9de;
+  --pop-from: #474747;                   /* dark pill CTA */
+  --pop-to: #161616;
+  --pop-rim: rgb(255 255 255 / 0.7);
+  --raised-from: #ffeb88;                /* raised gold key */
+  --raised-to: #f6b800;
+  --raised-rim: #fee67d;
+  --raised-ink: #552a12;
+  --raised-edge: #0d0d0d;
+
+  /* Shadows: soft lift, the dark-pill pair, floating layers */
+  --elev-soft: 0 1px 2px rgb(0 0 0 / 0.04), 0 6px 16px rgb(0 0 0 / 0.06);
+  --elev-pop: 0 4px 10px rgb(0 0 0 / 0.2), 0 14px 10px rgb(0 0 0 / 0.1);
+  --elev-float: 0 2px 6px rgb(0 0 0 / 0.06), 0 12px 32px rgb(0 0 0 / 0.12);
+
+  /* Legacy NeoPOP edges, kept for the raised key and old call sites. */
+  --edge-primary-r: #404040;
+  --edge-primary-b: #272727;
+  --edge-secondary-r: #e6e6e6;
+  --edge-secondary-b: #cccccc;
+  --edge-brand-r: #18c7c2;
+  --edge-brand-b: #129a95;
+  --edge-destructive-r: #b0220f;
+  --edge-destructive-b: #81190b;
+  --edge-card-r: #e6e6e6;
+  --edge-card-b: #cccccc;
+  --edge-muted-r: #d6d6d6;
+  --edge-muted-b: #bcbcbc;
+  --disabled: #e7e7e7;
+  --disabled-foreground: #8a8a8a;
+  --edge-disabled-r: #d2d2d2;
+  --edge-disabled-b: #bcbcbc;
 
   --chart-1: #12b5b0;
   --chart-2: #ff8744;
@@ -89,19 +120,21 @@
   --chart-4: #f0b400;
   --chart-5: #ff426f;
 
-  --sidebar: #ffffff;
+  --sidebar: #f9f9f9;
   --sidebar-foreground: #0d0d0d;
   --sidebar-primary: #0d0d0d;
   --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #ebebe6;
+  --sidebar-accent: #eef0f3;
   --sidebar-accent-foreground: #0d0d0d;
-  --sidebar-border: #e0e0da;
+  --sidebar-border: rgb(13 13 13 / 0.1);
   --sidebar-ring: #0d0d0d;
 
-  --scrollbar: #c7c7c2;
-  --float-border: #0d0d0d;
+  --scrollbar: #d2d2d2;
+  --float-border: rgb(13 13 13 / 0.08);
   --float-edge: #0d0d0d;
-  --overlay: rgb(13 13 13 / 0.45);
+  --overlay: rgb(0 0 0 / 0.6);
+  --sheet-handle: #d2d2d2;
+  --sheet-edge: rgb(13 13 13 / 0.08);
 }
 
 /* ─── Dark theme (default) ────────────────────────────────────── */
@@ -112,29 +145,31 @@
   --card-foreground: #ffffff;
   --popover: #1a1a1a;
   --popover-foreground: #ffffff;
-  --surface-2: #1f1f1f;
+  --surface-2: #121212;
 
   --primary: #ffffff;
   --primary-foreground: #0d0d0d;
-  --secondary: #0d0d0d;
+  --secondary: #1f1f1f;
   --secondary-foreground: #ffffff;
-  --muted: #1c1c1c;
-  --muted-foreground: #8a8a8a;
-  --accent: #232323;
+  --muted: #1a1a1a;
+  --muted-foreground: #9a9a9a;
+  --accent: #262626;
   --accent-foreground: #ffffff;
+  --label: rgb(255 255 255 / 0.6);
 
   --brand: #2ce6e0;
   --brand-foreground: #0d0d0d;
   --brand-ink: #2ce6e0;
   --brand-soft: #0d3332;
 
-  --destructive: #ee4d37;
+  --destructive: #e14848;
   --destructive-foreground: #ffffff;
-  --destructive-ink: #f47564;
-  --destructive-soft: #3a1611;
+  --destructive-ink: #f08b7b;
+  --destructive-soft: #3a1414;
   --success: #06c270;
   --success-ink: #4fe3a3;
   --success-soft: #0b2e1f;
+  --success-track: #124d34;
   --warning: #f08d32;
   --warning-ink: #f5ac6a;
   --warning-soft: #33200d;
@@ -142,23 +177,49 @@
   --info-ink: #89a5e3;
   --info-soft: #121f3d;
 
-  --border: #262626;
+  --border: rgb(255 255 255 / 0.1);
+  --border-cool: rgb(255 255 255 / 0.12);
   --border-strong: #ffffff;
-  --input: #3d3d3d;
+  --input: #3a3a3a;
   --ring: #2ce6e0;
+  --caret: #2ce6e0;
 
-  --edge-primary-r: #e0e0e0;
-  --edge-primary-b: #8a8a8a;
-  --edge-secondary-r: #e0e0e0;
-  --edge-secondary-b: #8a8a8a;
-  --edge-brand-r: #1fa19d;
-  --edge-brand-b: #167370;
-  --edge-destructive-r: #f47564;
-  --edge-destructive-b: #a63626;
-  --edge-card-r: #333333;
-  --edge-card-b: #262626;
-  --edge-muted-r: #3d3d3d;
-  --edge-muted-b: #2a2a2a;
+  --chip: rgb(255 255 255 / 0.06);
+  --tile-from: #222222;
+  --tile-to: #181818;
+  --tile-border: rgb(255 255 255 / 0.08);
+  --pill-from: #232527;
+  --pill-to: #17191b;
+  --pill-border: rgb(255 255 255 / 0.12);
+  --pop-from: #474747;
+  --pop-to: #161616;
+  --pop-rim: rgb(255 255 255 / 0.5);
+  --raised-from: #ffeb88;
+  --raised-to: #f6b800;
+  --raised-rim: #fee67d;
+  --raised-ink: #552a12;
+  --raised-edge: #000000;
+
+  --elev-soft: 0 1px 2px rgb(0 0 0 / 0.3), 0 6px 16px rgb(0 0 0 / 0.35);
+  --elev-pop: 0 4px 10px rgb(0 0 0 / 0.45), 0 14px 10px rgb(0 0 0 / 0.3);
+  --elev-float: 0 2px 6px rgb(0 0 0 / 0.4), 0 12px 32px rgb(0 0 0 / 0.5);
+
+  --edge-primary-r: #e6e6e6;
+  --edge-primary-b: #cccccc;
+  --edge-secondary-r: #e6e6e6;
+  --edge-secondary-b: #cccccc;
+  --edge-brand-r: #18c7c2;
+  --edge-brand-b: #129a95;
+  --edge-destructive-r: #b0220f;
+  --edge-destructive-b: #81190b;
+  --edge-card-r: #303030;
+  --edge-card-b: #242424;
+  --edge-muted-r: #494949;
+  --edge-muted-b: #303030;
+  --disabled: #262626;
+  --disabled-foreground: #6b6b6b;
+  --edge-disabled-r: #3a3a3a;
+  --edge-disabled-b: #1a1a1a;
 
   --chart-1: #2ce6e0;
   --chart-2: #ff8744;
@@ -170,30 +231,33 @@
   --sidebar-foreground: #ffffff;
   --sidebar-primary: #ffffff;
   --sidebar-primary-foreground: #0d0d0d;
-  --sidebar-accent: #1f1f1f;
+  --sidebar-accent: #262626;
   --sidebar-accent-foreground: #ffffff;
-  --sidebar-border: #262626;
+  --sidebar-border: rgb(255 255 255 / 0.1);
   --sidebar-ring: #2ce6e0;
 
-  --scrollbar: #3d3d3d;
-  --float-border: #333333;
-  --float-edge: #2e2e2e;
-  --overlay: rgb(0 0 0 / 0.7);
+  --scrollbar: #3a3a3a;
+  --float-border: rgb(255 255 255 / 0.1);
+  --float-edge: #000000;
+  --overlay: rgb(0 0 0 / 0.75);
+  --sheet-handle: #4a4a4a;
+  --sheet-edge: rgb(255 255 255 / 0.08);
 }
 
 @theme inline {
   --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
-  --font-serif: "Gloock", "Times New Roman", serif;
-  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  --font-serif: "Fraunces", "Times New Roman", serif;
+  --font-mono: "Overpass Mono", ui-monospace, monospace;
 
-  --radius-xs: 0px;
-  --radius-sm: 0px;
-  --radius-md: 0px;
-  --radius-lg: 0px;
-  --radius-xl: 0px;
-  --radius-2xl: 0px;
-  --radius-3xl: 0px;
-  --radius-4xl: 0px;
+  /* CRED 2026 radius scale (template usage in brackets) */
+  --radius-xs: 2px;   /* raised key, flags */
+  --radius-sm: 4px;   /* badges */
+  --radius-md: 8px;   /* buttons, trail CTAs, inputs */
+  --radius-lg: 10px;  /* icon tiles */
+  --radius-xl: 12px;  /* menus, small cards */
+  --radius-2xl: 16px; /* cards, sections */
+  --radius-3xl: 22px; /* grouped cards, sheets */
+  --radius-4xl: 28px;
 
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -221,6 +285,7 @@
   --color-success: var(--success);
   --color-success-ink: var(--success-ink);
   --color-success-soft: var(--success-soft);
+  --color-success-track: var(--success-track);
   --color-warning: var(--warning);
   --color-warning-ink: var(--warning-ink);
   --color-warning-soft: var(--warning-soft);
@@ -231,6 +296,18 @@
   --color-border-strong: var(--border-strong);
   --color-input: var(--input);
   --color-ring: var(--ring);
+  --color-caret: var(--caret);
+  --color-label: var(--label);
+  --color-border-cool: var(--border-cool);
+  --color-chip: var(--chip);
+  --color-raised-ink: var(--raised-ink);
+  --shadow-soft: var(--elev-soft);
+  --shadow-pop: var(--elev-pop);
+  --shadow-float: var(--elev-float);
+  --color-disabled: var(--disabled);
+  --color-disabled-foreground: var(--disabled-foreground);
+  --color-sheet-handle: var(--sheet-handle);
+  --color-sheet-edge: var(--sheet-edge);
   --color-chart-1: var(--chart-1);
   --color-chart-2: var(--chart-2);
   --color-chart-3: var(--chart-3);
@@ -259,14 +336,17 @@
   --color-sonic-700: #167370;
   --color-sonic-800: #0d4543;
 
-  /* Motion */
+  /* Motion (CRED: 200 / 300 / 500ms, FastOutSlowIn by default) */
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-decelerate: cubic-bezier(0, 0, 0.2, 1);
+  --ease-accelerate: cubic-bezier(0.4, 0, 1, 1);
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-snap: cubic-bezier(0.34, 1.56, 0.64, 1);
-  --ease-plunk: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-plunk: cubic-bezier(0.37, 0, 0.63, 1); /* Android AccelerateDecelerate */
 
-  --animate-rise: rise 0.42s var(--ease-out-expo) both;
-  --animate-pop: pop 0.32s var(--ease-snap) both;
-  --animate-shimmer: shimmer 1.6s linear infinite;
+  --animate-rise: rise 0.3s var(--ease-standard) both;
+  --animate-pop: pop 0.22s var(--ease-decelerate) both;
+  --animate-shimmer: shimmer 1.5s linear infinite;
   --animate-eq: eq 1.1s ease-in-out infinite;
   --animate-blink: blink 1s step-end infinite;
   --animate-live: live 1.6s ease-in-out infinite;
@@ -278,7 +358,7 @@
   to { opacity: 1; transform: translateY(0); }
 }
 @keyframes pop {
-  from { opacity: 0; transform: scale(0.94); }
+  from { opacity: 0; transform: scale(0.9); }
   to { opacity: 1; transform: scale(1); }
 }
 @keyframes shimmer {
@@ -312,10 +392,19 @@
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
   }
+  /* CRED body: Gilroy Medium, a touch of tracking, 1.5 line height. */
   body {
     @apply bg-background text-foreground font-sans;
     font-feature-settings: "ss01", "cv11";
-    letter-spacing: 0.005em;
+    font-weight: 500;
+    letter-spacing: 0.015em;
+    line-height: 1.5;
+  }
+  /* CRED's text cursor: Pop blue on light, the accent on dark. */
+  input,
+  textarea,
+  [contenteditable="true"] {
+    caret-color: var(--caret);
   }
   ::selection {
     background: var(--brand);
@@ -342,9 +431,10 @@
   position: relative;
   isolation: isolate;
   transform: translate(calc(3px - var(--plunk)), calc(3px - var(--plunk)));
+  /* CRED presses in 50ms with an accelerate-decelerate curve. */
   transition:
-    --plunk 0.14s var(--ease-plunk),
-    transform 0.14s var(--ease-plunk),
+    --plunk 0.05s var(--ease-plunk),
+    transform 0.05s var(--ease-plunk),
     background-color 0.15s ease,
     color 0.15s ease,
     border-color 0.15s ease,
@@ -375,6 +465,42 @@
     clip-path: polygon(0 0, calc(100% - var(--plunk)) 0, 100% 100%, var(--plunk) 100%);
     margin-top: var(--plunk-border-offset, 0px);
   }
+}
+
+/* Disabled keys keep their depth but turn grey (CRED: #8A8A8A face, light right, dark bottom edge). */
+@utility plunk-disable {
+  /* A busy key (aria-busy) keeps its colour while a spinner replaces the label, as in CRED. */
+  &:disabled:not([aria-busy="true"]),
+  &[aria-disabled="true"]:not([aria-busy="true"]) {
+    --edge-r: var(--edge-disabled-r);
+    --edge-b: var(--edge-disabled-b);
+    background-color: var(--disabled);
+    border-color: var(--disabled);
+    color: var(--disabled-foreground);
+  }
+}
+
+/*
+ * NeoPOP shimmer: a 20px light band and a thin trailing band at 45° sweep across
+ * a key in 1.5s, then rest for 5s. Opt-in, for the one CTA that should glint.
+ */
+@utility pop-shimmer {
+  overflow: hidden;
+  background-image: linear-gradient(
+    -45deg,
+    transparent calc(50% - 16px),
+    rgb(255 255 255 / 0.28) calc(50% - 16px) calc(50% + 4px),
+    transparent calc(50% + 4px) calc(50% + 9px),
+    rgb(255 255 255 / 0.28) calc(50% + 9px) calc(50% + 15px),
+    transparent calc(50% + 15px)
+  );
+  background-size: 300% 100%;
+  background-repeat: no-repeat;
+  animation: pop-shimmer 6.5s linear infinite;
+}
+@keyframes pop-shimmer {
+  0% { background-position: 100% 0; }
+  23%, 100% { background-position: 0% 0; }
 }
 
 /* A plunk that reacts: lifts a hair on hover, sinks fully when pressed. */
@@ -418,42 +544,81 @@
   --edge-b: var(--edge-muted-b);
 }
 
-/*
- * Floating layers (menus, popovers, dialogs) scroll, which would clip plunk
- * pseudo-edges — so they get the same 45° extrusion from stacked hard shadows.
- */
+/* Floating layers (menus, popovers, dialogs): rounded, hairline, soft shadow. */
 @utility pop-float {
   border-color: var(--float-border);
-  box-shadow:
-    1px 1px 0 var(--float-edge),
-    2px 2px 0 var(--float-edge),
-    3px 3px 0 var(--float-edge),
-    4px 4px 0 var(--float-edge);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--elev-float);
 }
 @utility pop-float-lg {
   border-color: var(--float-border);
-  box-shadow:
-    1px 1px 0 var(--float-edge),
-    2px 2px 0 var(--float-edge),
-    3px 3px 0 var(--float-edge),
-    4px 4px 0 var(--float-edge),
-    5px 5px 0 var(--float-edge),
-    6px 6px 0 var(--float-edge);
+  border-radius: var(--radius-3xl);
+  box-shadow: var(--elev-float);
+}
+
+/* ─── CRED 2026 surfaces (values from the app's templates) ─── */
+
+/* Circular icon tile: white → warm white, faint grey rim. */
+@utility surface-tile {
+  background-image: linear-gradient(to bottom, var(--tile-from), var(--tile-to));
+  border: 0.75px solid var(--tile-border);
+}
+
+/* Ice pill / square icon tile: white (to 41%) → ice, cool hairline. */
+@utility surface-pill {
+  background-image: linear-gradient(to bottom, var(--pill-from) 40.87%, var(--pill-to));
+  border: 0.5px solid var(--pill-border);
+}
+
+/* Dark pill CTA: graphite gradient, 70% white rim, bottom sheen, two soft shadows. */
+@utility surface-pop {
+  color: #ffffff;
+  background-image:
+    radial-gradient(89% 57% at 50% 100%, rgb(255 255 255 / 0.48), rgb(255 255 255 / 0.06) 50%, transparent 80%),
+    linear-gradient(to bottom, var(--pop-from), var(--pop-to) 70.68%);
+  border: 1px solid var(--pop-rim);
+  box-shadow: var(--elev-pop);
+}
+
+/*
+ * Raised key (CRED's milestone / "Play now" CTA): a gradient face with a 1px rim
+ * and a hard 3px edge underneath. Pressing collapses the edge (--plunk → 0) and
+ * the face travels down into the gap. Face colours default to gold; set
+ * --raised-from / --raised-to / --raised-rim to re-tint (the brand key does).
+ */
+@utility raised {
+  background-image: linear-gradient(to bottom, var(--raised-from), var(--raised-to));
+  border: 1px solid var(--raised-rim);
+  box-shadow: 0 var(--plunk) 0 var(--raised-edge);
+  transform: translateY(calc(3px - var(--plunk)));
+  transition:
+    --plunk 0.05s var(--ease-plunk),
+    transform 0.05s var(--ease-plunk),
+    filter 0.15s ease;
+  &:hover:not(:disabled):not([aria-disabled="true"]) {
+    filter: brightness(1.03);
+  }
+  &:active:not(:disabled):not([aria-disabled="true"]),
+  &[data-pressed="true"] {
+    --plunk: 0px;
+  }
 }
 
 /* Typography helpers that match NeoPOP's type roles. */
+/* CRED's section label ("MONEY MATTERS"): bold caps, 0.12em tracking. */
 @utility text-caps {
-  font-weight: 800;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.12em;
   font-size: 0.6875rem;
   line-height: 1.25;
 }
 @utility font-display {
   font-family: var(--font-serif);
   font-weight: 400;
-  letter-spacing: 0.005em;
-  line-height: 1.1;
+  font-variation-settings: "SOFT" 0, "WONK" 0;
+  letter-spacing: 0;
+  line-height: 1.2;
 }
 @utility tabular {
   font-variant-numeric: tabular-nums;
@@ -487,7 +652,7 @@
   }
 }
 
-/* Thin square scrollbars */
+/* Thin rounded scrollbars */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
@@ -498,6 +663,7 @@
 ::-webkit-scrollbar-thumb {
   background: var(--scrollbar);
   border: 2px solid transparent;
+  border-radius: 999px;
   background-clip: padding-box;
 }
 

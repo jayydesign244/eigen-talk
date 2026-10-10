@@ -84,7 +84,7 @@ export function Preview({ children, className, contentClassName, center = true, 
     </div>
   )
   return (
-    <div className={cn('overflow-hidden border border-border', className)}>
+    <div className={cn('overflow-hidden rounded-2xl border-[0.8px] border-border', className)}>
       {mode === 'split' ? (
         <div className="grid divide-border lg:grid-cols-2 lg:divide-x max-lg:divide-y">
           <ThemeScope theme="dark">{body('dark')}</ThemeScope>
@@ -126,7 +126,7 @@ export function Row({ label, children, className }) {
 export function Usage({ dos = [], donts = [] }) {
   return (
     <div className="grid gap-4 md:grid-cols-2">
-      <div className="border border-border border-t-4 border-t-success bg-card p-5">
+      <div className="rounded-2xl border-[0.8px] border-border border-t-4 border-t-success bg-card p-5">
         <p className="text-caps mb-3 text-success-ink">Do</p>
         <ul className="space-y-2 text-[13px] leading-relaxed text-muted-foreground">
           {dos.map((d) => (
@@ -134,7 +134,7 @@ export function Usage({ dos = [], donts = [] }) {
           ))}
         </ul>
       </div>
-      <div className="border border-border border-t-4 border-t-destructive bg-card p-5">
+      <div className="rounded-2xl border-[0.8px] border-border border-t-4 border-t-destructive bg-card p-5">
         <p className="text-caps mb-3 text-destructive-ink">Don&rsquo;t</p>
         <ul className="space-y-2 text-[13px] leading-relaxed text-muted-foreground">
           {donts.map((d) => (
@@ -149,7 +149,7 @@ export function Usage({ dos = [], donts = [] }) {
 export function CodeLine({ children }) {
   const [copied, setCopied] = useState(false)
   return (
-    <div className="flex items-center justify-between gap-3 border border-border bg-muted px-3.5 py-2.5 font-mono text-[12px]">
+    <div className="flex items-center justify-between gap-3 rounded-xl border-[0.8px] border-border bg-muted px-3.5 py-2.5 font-mono text-[12px]">
       <code className="truncate">{children}</code>
       <button
         type="button"
@@ -170,7 +170,7 @@ export function CodeLine({ children }) {
 /** Props table for a component's main options. */
 export function PropsTable({ rows }) {
   return (
-    <div className="overflow-x-auto border border-border">
+    <div className="overflow-x-auto rounded-2xl border-[0.8px] border-border">
       <table className="w-full text-[13px]">
         <thead>
           <tr className="border-b border-border bg-muted/60 text-left">

@@ -36,7 +36,7 @@ import { PageHeader, Preview, Section } from './kit'
 function TabsPage() {
   return (
     <>
-      <PageHeader eyebrow="Navigation" title="Tabs" description="Two flavours: a segmented block whose active tab inverts, and editorial line tabs whose 3px rule slides in from the left." />
+      <PageHeader eyebrow="Navigation" title="Tabs" description="Two flavours: a pill segmented control whose active tab lifts onto a white pill (CRED’s “recent spends” switcher), and editorial line tabs with a rounded 2px rule." />
       <Section title="Default (segmented)">
         <Preview center={false}>
           <Tabs defaultValue="transcript" className="w-full max-w-lg">
@@ -80,7 +80,7 @@ function TabsPage() {
 function AccordionPage() {
   return (
     <>
-      <PageHeader eyebrow="Navigation" title="Accordion" description="The square plus turns into a cross and fills solid as the panel opens." />
+      <PageHeader eyebrow="Navigation" title="Accordion" description="The round plus turns into a cross and fills with ink as the panel opens." />
       <Section title="Single">
         <Preview center={false}>
           <Accordion type="single" collapsible defaultValue="a" className="w-full max-w-lg">
@@ -115,10 +115,10 @@ function CollapsiblePage() {
               <p className="text-sm font-bold">3 changes applied</p>
               <CollapsibleTrigger asChild><Button variant="ghost" size="icon-sm" aria-label="Toggle"><ChevronsUpDownIcon /></Button></CollapsibleTrigger>
             </div>
-            <div className="border border-border px-3 py-2 text-[13px]">Removed 34 filler words</div>
+            <div className="rounded-lg border-[0.8px] border-border px-3 py-2 text-[13px]">Removed 34 filler words</div>
             <CollapsibleContent className="space-y-2 overflow-hidden data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down">
-              <div className="border border-border px-3 py-2 text-[13px]">Reduced background noise by 14 dB</div>
-              <div className="border border-border px-3 py-2 text-[13px]">Normalised to −16 LUFS</div>
+              <div className="rounded-lg border-[0.8px] border-border px-3 py-2 text-[13px]">Reduced background noise by 14 dB</div>
+              <div className="rounded-lg border-[0.8px] border-border px-3 py-2 text-[13px]">Normalised to −16 LUFS</div>
             </CollapsibleContent>
           </Collapsible>
         </Preview>
@@ -175,7 +175,7 @@ function PaginationPage() {
 function NavigationMenuPage() {
   return (
     <>
-      <PageHeader eyebrow="Navigation" title="Navigation menu" description="Marketing-style top navigation with rich dropdowns. The open trigger inverts." />
+      <PageHeader eyebrow="Navigation" title="Navigation menu" description="Marketing-style top navigation with rich dropdowns on a soft floating panel." />
       <Section title="Example">
         <Preview single className="min-h-80" contentClassName="items-start pt-8">
           <NavigationMenu viewport={false}>
@@ -215,7 +215,7 @@ function SidebarPage() {
   const nav = [[HomeIcon, 'Home'], [LayoutGridIcon, 'Projects', '12'], [StarIcon, 'Starred'], [MicIcon, 'Recordings', '3'], [Trash2Icon, 'Trash']]
   return (
     <>
-      <PageHeader eyebrow="Navigation" title="Sidebar" description="The app shell's left rail. Active items invert to a solid key; caps labels group sections." />
+      <PageHeader eyebrow="Navigation" title="Sidebar" description="The app shell's left rail. Active items sit on a soft rounded highlight; caps labels group sections." />
       <Section title="App shell">
         <Preview single padded={false} center={false}>
           <SidebarProvider className="min-h-0 h-[540px]" style={{ '--sidebar-width': '15rem' }}>
@@ -279,16 +279,16 @@ function ScrollAreaPage() {
   const tags = Array.from({ length: 40 }, (_, i) => `v${40 - i} · edit ${String(i + 1).padStart(2, '0')}`)
   return (
     <>
-      <PageHeader eyebrow="Layout" title="Scroll area" description="Custom square scrollbars that brighten on hover." />
+      <PageHeader eyebrow="Layout" title="Scroll area" description="Thin rounded scrollbars that brighten on hover." />
       <Section title="Vertical & horizontal">
         <Preview>
-          <ScrollArea className="h-56 w-56 border border-border">
+          <ScrollArea className="h-56 w-56 rounded-2xl border-[0.8px] border-border">
             <div className="p-3">
               <p className="text-caps mb-2 text-muted-foreground">Versions</p>
               {tags.map((t) => <div key={t} className="border-b border-border py-2 font-mono text-[12px]">{t}</div>)}
             </div>
           </ScrollArea>
-          <ScrollArea className="w-80 border border-border whitespace-nowrap">
+          <ScrollArea className="w-80 rounded-2xl border-[0.8px] border-border whitespace-nowrap">
             <div className="flex gap-3 p-3">
               {Array.from({ length: 10 }, (_, i) => (
                 <div key={i} className="flex size-24 shrink-0 items-end bg-muted p-2 font-mono text-[11px]">Clip {i + 1}</div>
@@ -352,7 +352,7 @@ function AspectRatioPage() {
       <Section title="Example">
         <Preview>
           <div className="w-44"><AspectRatio ratio={1} className="flex items-end bg-foreground p-3 text-background"><span className="font-display text-2xl leading-none">The Quiet Room</span></AspectRatio><p className="mt-2 font-mono text-[11px] text-muted-foreground">1:1 cover</p></div>
-          <div className="w-72"><AspectRatio ratio={16 / 9} className="hatch flex items-center justify-center border border-border"><span className="text-caps text-muted-foreground">16:9 clip</span></AspectRatio></div>
+          <div className="w-72"><AspectRatio ratio={16 / 9} className="hatch flex items-center justify-center rounded-2xl border-[0.8px] border-border"><span className="text-caps text-muted-foreground">16:9 clip</span></AspectRatio></div>
         </Preview>
       </Section>
     </>
@@ -367,7 +367,7 @@ function DirectionPage() {
         <Preview>
           {['ltr', 'rtl'].map((dir) => (
             <DirectionProvider key={dir} dir={dir}>
-              <div dir={dir} className="w-72 space-y-3 border border-border p-4">
+              <div dir={dir} className="w-72 space-y-3 rounded-2xl border-[0.8px] border-border p-4">
                 <Badge variant="outline">{dir}</Badge>
                 <Input placeholder={dir === 'rtl' ? 'ابحث عن مشروع' : 'Search a project'} />
                 <div className="flex gap-2"><Button size="sm"><PlusIcon />{dir === 'rtl' ? 'جديد' : 'New'}</Button><Button size="sm" variant="ghost">{dir === 'rtl' ? 'إلغاء' : 'Cancel'}</Button></div>

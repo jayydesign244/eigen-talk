@@ -29,7 +29,7 @@ function BreadcrumbLink({
   const Comp = asChild ? Slot.Root : "a";
   return <Comp
     data-slot="breadcrumb-link"
-    className={cn("underline-offset-4 transition-colors hover:text-foreground hover:underline hover:decoration-brand", className)}
+    className={cn("rounded-xs underline-offset-4 transition-colors hover:text-foreground hover:underline hover:decoration-brand focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring", className)}
     {...props}
   />;
 }
@@ -39,7 +39,7 @@ function BreadcrumbPage({ className, ...props }) {
     role="link"
     aria-disabled="true"
     aria-current="page"
-    className={cn("font-bold text-foreground", className)}
+    className={cn("font-semibold text-foreground", className)}
     {...props}
   />;
 }
@@ -64,7 +64,7 @@ function BreadcrumbEllipsis({
     data-slot="breadcrumb-ellipsis"
     role="presentation"
     aria-hidden="true"
-    className={cn("flex size-9 items-center justify-center", className)}
+    className={cn("flex size-9 items-center justify-center rounded-md transition-colors hover:bg-accent hover:text-foreground", className)}
     {...props}
   ><MoreHorizontal className="size-4" /><span className="sr-only">More</span></span>;
 }

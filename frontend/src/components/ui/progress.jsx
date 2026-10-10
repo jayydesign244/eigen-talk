@@ -18,13 +18,13 @@ function Progress({ className, value, tone = "brand", ...props }) {
     <ProgressPrimitive.Root
       data-slot="progress"
       value={indeterminate ? null : value}
-      className={cn("relative h-1.5 w-full overflow-hidden bg-muted", className)}
+      className={cn("relative h-1.5 w-full overflow-hidden rounded-full bg-muted", className)}
       {...props}
     >
       <ProgressPrimitive.Indicator
         data-slot="progress-indicator"
         className={cn(
-          "h-full w-full flex-1 transition-transform duration-500 ease-[var(--ease-out-expo)]",
+          "h-full w-full flex-1 rounded-full transition-transform duration-500 ease-[var(--ease-standard)]",
           fill,
           indeterminate && "w-1/3 animate-[progress-sweep_1.2s_ease-in-out_infinite]"
         )}

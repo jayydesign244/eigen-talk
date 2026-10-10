@@ -10,13 +10,13 @@ function RadioGroupItem({ className, ...props }) {
     <RadioGroupPrimitive.Item
       data-slot="radio-group-item"
       className={cn(
-        "aspect-square size-[18px] shrink-0 rounded-full border-[1.5px] border-input bg-card transition-[border-color] duration-150 outline-hidden hover:border-foreground focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring disabled:cursor-not-allowed disabled:opacity-45 aria-invalid:border-destructive data-[state=checked]:border-foreground",
+        "aspect-square size-5 shrink-0 rounded-full border border-foreground/70 bg-card transition-[background-color] duration-150 outline-hidden hover:bg-accent active:bg-foreground focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring disabled:cursor-not-allowed disabled:opacity-45 aria-invalid:border-destructive data-[state=checked]:bg-foreground",
         className
       )}
       {...props}
     >
       <RadioGroupPrimitive.Indicator data-slot="radio-group-indicator" className="flex size-full items-center justify-center">
-        <span className="size-2 animate-pop rounded-full bg-foreground" />
+        <span className="size-[7px] animate-pop rounded-full bg-card" />
       </RadioGroupPrimitive.Indicator>
     </RadioGroupPrimitive.Item>
   );

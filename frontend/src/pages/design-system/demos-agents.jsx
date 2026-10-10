@@ -427,7 +427,7 @@ function NotificationCenterPage() {
         </Preview>
       </Section>
       <Section title="Empty">
-        <Preview><div className="w-full max-w-sm border border-border"><NotificationCenter items={[]} onMarkAllRead={() => {}} /></div></Preview>
+        <Preview><div className="w-full max-w-sm rounded-2xl border-[0.8px] border-border"><NotificationCenter items={[]} onMarkAllRead={() => {}} /></div></Preview>
       </Section>
     </>
   )

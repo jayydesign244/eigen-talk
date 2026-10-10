@@ -13,7 +13,7 @@ function DeltaPill({ value, suffix = "%", invert = false }) {
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-0.5 border px-1.5 py-[2px] font-mono text-[10px] font-bold tabular",
+        "inline-flex items-center gap-0.5 rounded-full border-[0.8px] px-1.5 py-[2px] font-mono text-[10px] font-bold tabular",
         value === 0 ? "border-border bg-muted text-muted-foreground" : good ? "border-success/40 bg-success-soft text-success-ink" : "border-destructive/40 bg-destructive-soft text-destructive-ink"
       )}
     >
@@ -53,14 +53,14 @@ function StatCards({ items = [], variant = "compact", className }) {
         {items.map((s) => {
           const Icon = s.icon;
           return (
-            <motion.div key={s.label} variants={land} className="plunk edge-card flex flex-col border border-border bg-card">
+            <motion.div key={s.label} variants={land} className="flex flex-col overflow-hidden rounded-2xl border-[0.8px] border-border bg-card shadow-soft">
               <div className="flex-1 p-4">
                 <div className="flex items-start justify-between">
-                  {Icon && <span className={cn("flex size-9 items-center justify-center", ICON_TONES[s.tone || "default"])}><Icon className="size-4" /></span>}
+                  {Icon && <span className={cn("flex size-11 items-center justify-center rounded-full", ICON_TONES[s.tone || "default"])}><Icon className="size-4" /></span>}
                   {s.info && (
                     <Tooltip>
                       <TooltipTrigger asChild>
-                        <button className="text-muted-foreground hover:text-foreground" aria-label={`About ${s.label}`}><InfoIcon className="size-4" /></button>
+                        <button className="rounded-full text-muted-foreground outline-hidden hover:text-foreground focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-ring" aria-label={`About ${s.label}`}><InfoIcon className="size-4" /></button>
                       </TooltipTrigger>
                       <TooltipContent className="max-w-56">{s.info}</TooltipContent>
                     </Tooltip>
@@ -70,7 +70,7 @@ function StatCards({ items = [], variant = "compact", className }) {
                 <p className="mt-1 text-3xl leading-none font-extrabold tracking-tight tabular">{s.value}</p>
               </div>
               {(s.caption || s.delta !== undefined) && (
-                <div className="flex items-center justify-between gap-2 border-t border-border bg-muted/50 px-4 py-2.5">
+                <div className="flex items-center justify-between gap-2 border-t-[0.8px] border-border bg-muted/50 px-4 py-2.5">
                   <span className="truncate text-[11px] text-muted-foreground">{s.caption}</span>
                   <DeltaPill value={s.delta} invert={s.deltaInvert} />
                 </div>
@@ -101,11 +101,11 @@ function StatCards({ items = [], variant = "compact", className }) {
             i % 2 === 0 && i > 0 && "@3xl:border-l @3xl:pl-5"
           )}
         >
-          <p className="text-caps flex items-center gap-1.5 text-muted-foreground">
+          <p className="text-caps flex items-center gap-1.5 text-label">
             {s.label}
             {s.info && (
               <Tooltip>
-                <TooltipTrigger asChild><button aria-label={`About ${s.label}`}><InfoIcon className="size-3" /></button></TooltipTrigger>
+                <TooltipTrigger asChild><button className="rounded-full outline-hidden focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-ring" aria-label={`About ${s.label}`}><InfoIcon className="size-3" /></button></TooltipTrigger>
                 <TooltipContent className="max-w-56 normal-case tracking-normal">{s.info}</TooltipContent>
               </Tooltip>
             )}

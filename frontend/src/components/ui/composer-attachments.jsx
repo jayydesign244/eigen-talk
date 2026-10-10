@@ -22,7 +22,7 @@ function AttachmentTile({ item, onRemove }) {
       className="group relative size-14 shrink-0"
       title={item.name}
     >
-      <div className="flex size-full flex-col items-center justify-center overflow-hidden border border-border bg-muted">
+      <div className="flex size-full flex-col items-center justify-center overflow-hidden rounded-xl border-[0.8px] border-border bg-muted">
         {item.kind === "image" && item.url ? (
           <img src={item.url} alt="" className="size-full object-cover" />
         ) : (
@@ -35,7 +35,7 @@ function AttachmentTile({ item, onRemove }) {
       {uploading && (
         <svg className="pointer-events-none absolute -inset-[3px] size-[calc(100%+6px)]" viewBox="0 0 62 62" aria-hidden="true">
           <rect
-            x="1.5" y="1.5" width="59" height="59"
+            x="1.5" y="1.5" width="59" height="59" rx="13.5" ry="13.5"
             fill="none"
             stroke="var(--brand)"
             strokeWidth="2"
@@ -51,7 +51,7 @@ function AttachmentTile({ item, onRemove }) {
           <motion.span
             key="pct"
             exit={{ opacity: 0, filter: "blur(3px)" }}
-            className="absolute right-0.5 bottom-0.5 bg-background/90 px-0.5 font-mono text-[9px] font-bold tabular"
+            className="absolute right-1 bottom-1 rounded-xs bg-background/90 px-0.5 font-mono text-[9px] font-bold tabular"
           >
             {Math.round(item.progress)}%
           </motion.span>
@@ -63,7 +63,7 @@ function AttachmentTile({ item, onRemove }) {
               initial={{ opacity: 0, filter: "blur(3px)" }}
               animate={{ opacity: 1, filter: "blur(0px)" }}
               onClick={() => onRemove(item.id)}
-              className="absolute -top-1.5 -right-1.5 flex size-5 items-center justify-center bg-foreground text-background outline-hidden focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-ring"
+              className="absolute -top-1.5 -right-1.5 flex size-5 items-center justify-center rounded-full bg-foreground text-background shadow-soft outline-hidden focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-ring"
               aria-label={`Remove ${item.name}`}
             >
               <XIcon className="size-3" strokeWidth={3} />

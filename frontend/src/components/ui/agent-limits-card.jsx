@@ -23,17 +23,17 @@ function AgentLimitsCard({ context, limits = [], plan, limitsTitle = "Plan usage
   const pct = context ? Math.round((context.used / context.max) * 100) : 0;
   const free = context ? Math.max(0, context.max - context.used) : 0;
   return (
-    <div data-slot="agent-limits-card" className={cn("w-full max-w-sm border border-border bg-card", className)}>
+    <div data-slot="agent-limits-card" className={cn("w-full max-w-sm overflow-hidden rounded-2xl border-[0.8px] border-border bg-card", className)}>
       {context && (
         <div className="border-b border-border">
           <button
             type="button"
             onClick={() => setOpen((o) => !o)}
             aria-expanded={open}
-            className="w-full px-4 pt-3.5 pb-3 text-left outline-hidden focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-ring"
+            className="w-full px-4 pt-3.5 pb-3 text-left outline-hidden transition-colors hover:bg-accent/50 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-solid focus-visible:outline-ring"
           >
             <span className="flex items-center justify-between">
-              <span className="text-caps text-muted-foreground">Context window</span>
+              <span className="text-caps text-label">Context window</span>
               <span className="flex items-center gap-1.5 font-mono text-[12px] tabular">
                 <span className="font-bold">{compact(context.used)}</span>
                 <span className="text-muted-foreground">/ {compact(context.max)}</span>
@@ -41,13 +41,13 @@ function AgentLimitsCard({ context, limits = [], plan, limitsTitle = "Plan usage
                 <ChevronDownIcon className={cn("size-3.5 text-muted-foreground transition-transform", open && "rotate-180")} />
               </span>
             </span>
-            <span className="mt-2.5 flex h-2 w-full gap-px bg-muted">
+            <span className="mt-2.5 flex h-2 w-full gap-px overflow-hidden rounded-full bg-muted">
               {context.buckets.map((b) => (
                 <motion.span
                   key={b.label}
                   initial={{ width: 0 }}
                   animate={{ width: `${(b.value / context.max) * 100}%` }}
-                  transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                  transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
                   className="h-full"
                   style={{ background: b.color }}
                 />
@@ -64,13 +64,13 @@ function AgentLimitsCard({ context, limits = [], plan, limitsTitle = "Plan usage
               >
                 {context.buckets.map((b) => (
                   <li key={b.label} className="flex items-center gap-2 text-[12px]">
-                    <span className="size-2.5" style={{ background: b.color }} />
+                    <span className="size-2.5 rounded-full" style={{ background: b.color }} />
                     <span className="flex-1">{b.label}</span>
                     <span className="font-mono tabular text-muted-foreground">{compact(b.value)}</span>
                   </li>
                 ))}
                 <li className="flex items-center gap-2 border-t border-border pt-1.5 text-[12px]">
-                  <span className="size-2.5 border border-input" />
+                  <span className="size-2.5 rounded-full border border-input" />
                   <span className="flex-1 text-muted-foreground">Free space</span>
                   <span className="font-mono tabular text-muted-foreground">{compact(free)}</span>
                 </li>
@@ -81,7 +81,7 @@ function AgentLimitsCard({ context, limits = [], plan, limitsTitle = "Plan usage
       )}
       {limits.length > 0 && (
         <div className="px-4 py-3.5">
-          <p className="text-caps text-muted-foreground">{limitsTitle}{plan ? ` · ${plan}` : ""}</p>
+          <p className="text-caps text-label">{limitsTitle}{plan ? ` · ${plan}` : ""}</p>
           <ul className="mt-3 space-y-3">
             {limits.map((l) => (
               <li key={l.label}>
@@ -93,12 +93,12 @@ function AgentLimitsCard({ context, limits = [], plan, limitsTitle = "Plan usage
                     <span className={cn("font-mono font-bold tabular", l.percent > 85 ? "text-warning-ink" : "text-foreground")}>{l.percent}%</span>
                   </span>
                 </div>
-                <div className="mt-1.5 h-1.5 bg-muted">
+                <div className="mt-1.5 h-1.5 overflow-hidden rounded-full bg-muted">
                   <motion.div
                     initial={{ width: 0 }}
                     animate={{ width: `${l.percent}%` }}
-                    transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                    className={cn("h-full", l.percent > 85 ? "bg-warning" : "bg-foreground")}
+                    transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
+                    className={cn("h-full rounded-full", l.percent > 85 ? "bg-warning" : "bg-foreground")}
                   />
                 </div>
               </li>

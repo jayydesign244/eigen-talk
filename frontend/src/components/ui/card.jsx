@@ -2,20 +2,20 @@ import { cva } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 /**
- * Card surfaces:
- *  - flat: a hairline box (default, for dense layouts)
- *  - elevated: NeoPOP ElevatedCard — solid plunk edges, no blur
- *  - interactive: elevated + lifts on hover and sinks on press (clickable cards)
+ * Card surfaces (CRED 2026: 16px corners, 0.8px hairline at 10% ink):
+ *  - flat: the hairline card (default, for dense layouts)
+ *  - elevated: the same card lifted on a soft shadow
+ *  - interactive: elevated, lifts further on hover, settles when pressed
  */
 const cardVariants = cva(
-  "flex flex-col gap-5 border bg-card py-5 text-card-foreground",
+  "flex flex-col gap-5 rounded-2xl border-[0.8px] bg-card py-5 text-card-foreground",
   {
     variants: {
       variant: {
         flat: "border-border",
-        elevated: "plunk edge-card border-border",
+        elevated: "border-border shadow-soft",
         interactive:
-          "plunk plunk-press edge-card cursor-pointer border-border hover:border-muted-foreground/40",
+          "cursor-pointer border-border shadow-soft transition-[box-shadow,transform] duration-200 hover:-translate-y-px hover:shadow-float active:translate-y-0 active:scale-[0.99]",
         ghost: "border-transparent bg-transparent",
       },
     },

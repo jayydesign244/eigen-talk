@@ -43,15 +43,15 @@ function SheetContent({
   return <SheetPortal><SheetOverlay /><SheetPrimitive.Content
     data-slot="sheet-content"
     className={cn(
-      "fixed z-50 flex flex-col gap-4 bg-card transition ease-[var(--ease-out-expo)] data-[state=closed]:animate-out data-[state=closed]:duration-200 data-[state=open]:animate-in data-[state=open]:duration-300",
-      side === "right" && "inset-y-0 right-0 h-full w-3/4 border-l border-float-border data-[state=closed]:slide-out-to-right data-[state=open]:slide-in-from-right sm:max-w-sm",
-      side === "left" && "inset-y-0 left-0 h-full w-3/4 border-r border-float-border data-[state=closed]:slide-out-to-left data-[state=open]:slide-in-from-left sm:max-w-sm",
-      side === "top" && "inset-x-0 top-0 h-auto border-b border-float-border data-[state=closed]:slide-out-to-top data-[state=open]:slide-in-from-top",
-      side === "bottom" && "inset-x-0 bottom-0 h-auto border-t border-float-border data-[state=closed]:slide-out-to-bottom data-[state=open]:slide-in-from-bottom",
+      "fixed z-50 flex flex-col gap-4 bg-card transition data-[state=closed]:animate-out data-[state=closed]:duration-[350ms] data-[state=closed]:ease-[var(--ease-accelerate)] data-[state=open]:animate-in data-[state=open]:duration-[350ms] data-[state=open]:ease-[var(--ease-decelerate)]",
+      side === "right" && "inset-y-0 right-0 h-full w-3/4 rounded-l-3xl border-l border-float-border shadow-float data-[state=closed]:slide-out-to-right data-[state=open]:slide-in-from-right sm:max-w-sm",
+      side === "left" && "inset-y-0 left-0 h-full w-3/4 rounded-r-3xl border-r border-float-border shadow-float data-[state=closed]:slide-out-to-left data-[state=open]:slide-in-from-left sm:max-w-sm",
+      side === "top" && "inset-x-0 top-0 h-auto rounded-b-3xl border-b border-float-border shadow-float data-[state=closed]:slide-out-to-top data-[state=open]:slide-in-from-top",
+      side === "bottom" && "inset-x-0 bottom-0 h-auto rounded-t-3xl border-t border-sheet-edge shadow-float data-[state=closed]:slide-out-to-bottom data-[state=open]:slide-in-from-bottom",
       className
     )}
     {...props}
-  >{children}{showCloseButton && <SheetPrimitive.Close className="absolute top-3.5 right-3.5 inline-flex size-8 items-center justify-center text-muted-foreground transition-colors hover:bg-accent hover:text-foreground focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-ring disabled:pointer-events-none [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"><XIcon className="size-4" /><span className="sr-only">Close</span></SheetPrimitive.Close>}</SheetPrimitive.Content></SheetPortal>;
+  >{children}{showCloseButton && <SheetPrimitive.Close className="absolute top-3.5 right-3.5 inline-flex size-8 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-accent hover:text-foreground focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-ring disabled:pointer-events-none [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"><XIcon className="size-4" /><span className="sr-only">Close</span></SheetPrimitive.Close>}</SheetPrimitive.Content></SheetPortal>;
 }
 function SheetHeader({ className, ...props }) {
   return <div

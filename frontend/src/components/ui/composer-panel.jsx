@@ -17,7 +17,7 @@ function ComposerPicker({ value, onChange, options = [], label, icon: Icon, side
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button type="button" variant="ghost" size="sm" className="h-8 gap-1.5 px-2 text-[12px] font-semibold text-muted-foreground hover:text-foreground data-[state=open]:bg-accent data-[state=open]:text-foreground">
+        <Button type="button" variant="ghost" size="sm" className="h-8 gap-1.5 rounded-full px-2.5 text-[12px] font-semibold text-muted-foreground hover:text-foreground data-[state=open]:bg-accent data-[state=open]:text-foreground">
           {CurrentIcon && <CurrentIcon className="size-3.5" />}
           {current?.label}
           <ChevronDownIcon className="size-3 opacity-60" />
@@ -33,7 +33,7 @@ function ComposerPicker({ value, onChange, options = [], label, icon: Icon, side
               {OIcon ? <OIcon className="mt-0.5" /> : <span className="size-4" />}
               <span className="flex min-w-0 flex-1 flex-col">
                 <span className="font-bold">{o.label}</span>
-                {o.description && <span className="text-[11px] font-normal text-muted-foreground in-data-[highlighted]:text-background/70">{o.description}</span>}
+                {o.description && <span className="text-[11px] font-normal text-muted-foreground in-data-[highlighted]:text-muted-foreground">{o.description}</span>}
               </span>
               {on && <CheckIcon className="mt-0.5 text-current!" strokeWidth={3} />}
             </DropdownMenuItem>
@@ -73,11 +73,11 @@ function ComposerPanel({
   return (
     <form onSubmit={send} data-slot="composer-panel" className={cn("relative", statusTab && "pt-7", className)}>
       {statusTab && (
-        <div className="absolute top-0 right-3 left-3 flex h-7 items-center gap-3 border border-b-0 border-border bg-muted px-2.5">
+        <div className="absolute top-0 right-4 left-4 flex h-7 items-center gap-3 rounded-t-xl border-[0.8px] border-b-0 border-border bg-muted px-3">
           {statusTab}
         </div>
       )}
-      <div className="relative border border-input bg-card transition-[border-color,box-shadow] focus-within:border-foreground focus-within:shadow-[inset_0_-2px_0_0_var(--foreground)]">
+      <div className="relative rounded-2xl border-[0.8px] border-border bg-card shadow-soft transition-[border-color,box-shadow] focus-within:border-foreground/60">
         <ComposerAttachments items={attachments} onRemove={onRemoveAttachment} className="px-3" />
         <textarea
           value={value}
@@ -97,7 +97,7 @@ function ComposerPanel({
         <div className="flex items-center gap-1 px-2 pb-2">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button type="button" variant="ghost" size="icon-sm" aria-label="Add" disabled={disabled}><PlusIcon /></Button>
+              <Button type="button" variant="ghost" size="icon-sm" aria-label="Add" disabled={disabled} className="rounded-full"><PlusIcon /></Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="start" side="top" className="w-56">
               {(addItems || [{ icon: PaperclipIcon, label: "Attach a file", disabled: true }]).map(({ icon: Icon, label, onSelect, disabled: d }, i) =>

@@ -56,7 +56,7 @@ function MessagePage() {
 function BubblePage() {
   return (
     <>
-      <PageHeader eyebrow="Chat" title="Bubble" description="Square speech blocks. The user's bubble is solid foreground; the assistant's sits on the card surface." />
+      <PageHeader eyebrow="Chat" title="Bubble" description="Rounded speech bubbles (16px) with one tighter corner on the speaker's side. The user's bubble is solid ink; the assistant's sits on the card surface." />
       <Section title="Variants">
         <Preview center={false} contentClassName="grid max-w-xl gap-3">
           {['default', 'secondary', 'muted', 'tinted', 'outline', 'destructive', 'ghost'].map((v, i) => (

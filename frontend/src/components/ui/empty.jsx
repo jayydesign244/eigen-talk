@@ -4,7 +4,7 @@ function Empty({ className, ...props }) {
   return <div
     data-slot="empty"
     className={cn(
-      "flex min-w-0 flex-1 flex-col items-center justify-center gap-6 border-dashed p-6 text-center text-balance md:p-12",
+      "flex min-w-0 flex-1 flex-col items-center justify-center gap-6 rounded-2xl border-dashed p-6 text-center text-balance md:p-12",
       className
     )}
     {...props}
@@ -26,7 +26,7 @@ const emptyMediaVariants = cva(
     variants: {
       variant: {
         default: "bg-transparent",
-        icon: "plunk edge-card flex size-12 shrink-0 items-center justify-center border border-border bg-card text-foreground [&_svg:not([class*='size-'])]:size-6"
+        icon: "surface-tile flex size-11 shrink-0 items-center justify-center rounded-full text-foreground [&_svg:not([class*='size-'])]:size-5"
       }
     },
     defaultVariants: {

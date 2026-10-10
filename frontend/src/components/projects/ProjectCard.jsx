@@ -49,7 +49,7 @@ export function ProjectCard({ project, onOpen, onDelete }) {
       tabIndex={0}
       onClick={() => onOpen(project)}
       onKeyDown={(e) => { if (e.key === 'Enter') onOpen(project) }}
-      className="group plunk plunk-press edge-card has-[button:active]:[--plunk:3px]! flex cursor-pointer flex-col border border-border bg-card outline-hidden transition-colors hover:border-muted-foreground/50 focus-visible:outline-2 focus-visible:outline-offset-[5px] focus-visible:outline-solid focus-visible:outline-ring"
+      className="group flex cursor-pointer flex-col overflow-hidden rounded-2xl border-[0.8px] border-border bg-card shadow-soft outline-hidden transition-[box-shadow,transform] duration-200 hover:-translate-y-px hover:shadow-float active:translate-y-0 active:scale-[0.99] has-[button:active]:scale-100 focus-visible:outline-2 focus-visible:outline-offset-[5px] focus-visible:outline-solid focus-visible:outline-ring"
       aria-label={`Open ${project.name}`}
     >
       <div className="relative flex h-28 items-center border-b border-border bg-muted/40 px-4">

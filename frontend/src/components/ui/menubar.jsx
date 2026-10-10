@@ -9,7 +9,7 @@ function Menubar({
   return <MenubarPrimitive.Root
     data-slot="menubar"
     className={cn(
-      "flex h-10 items-center gap-0.5 border border-border bg-card p-1",
+      "flex h-10 items-center gap-0.5 rounded-xl border-[0.8px] border-border bg-card p-1",
       className
     )}
     {...props}
@@ -42,7 +42,7 @@ function MenubarTrigger({
   return <MenubarPrimitive.Trigger
     data-slot="menubar-trigger"
     className={cn(
-      "flex items-center px-2.5 py-1 text-[13px] font-semibold outline-hidden select-none transition-colors hover:bg-accent focus:bg-accent data-[state=open]:bg-foreground data-[state=open]:text-background",
+      "flex h-8 items-center rounded-md px-2.5 text-[13px] font-semibold outline-hidden select-none transition-colors hover:bg-accent focus:bg-accent focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-ring data-[state=open]:bg-accent data-[state=open]:text-foreground",
       className
     )}
     {...props}
@@ -98,7 +98,7 @@ function MenubarCheckboxItem({
     )}
     checked={checked}
     {...props}
-  ><span className="pointer-events-none absolute left-2 flex size-3.5 items-center justify-center"><MenubarPrimitive.ItemIndicator><CheckIcon className="size-4 text-current!" strokeWidth={3} /></MenubarPrimitive.ItemIndicator></span>{children}</MenubarPrimitive.CheckboxItem>;
+  ><span className="pointer-events-none absolute left-2.5 flex size-3.5 items-center justify-center"><MenubarPrimitive.ItemIndicator><CheckIcon className="size-3.5 text-current!" strokeWidth={2.5} /></MenubarPrimitive.ItemIndicator></span>{children}</MenubarPrimitive.CheckboxItem>;
 }
 function MenubarRadioItem({
   className,
@@ -112,7 +112,7 @@ function MenubarRadioItem({
       className
     )}
     {...props}
-  ><span className="pointer-events-none absolute left-2 flex size-3.5 items-center justify-center"><MenubarPrimitive.ItemIndicator><span className="block size-2 rounded-full bg-current" /></MenubarPrimitive.ItemIndicator></span>{children}</MenubarPrimitive.RadioItem>;
+  ><span className="pointer-events-none absolute left-2.5 flex size-3.5 items-center justify-center"><MenubarPrimitive.ItemIndicator><span className="block size-1.5 rounded-full bg-current" /></MenubarPrimitive.ItemIndicator></span>{children}</MenubarPrimitive.RadioItem>;
 }
 function MenubarLabel({
   className,

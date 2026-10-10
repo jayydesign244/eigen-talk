@@ -23,14 +23,14 @@ function AccordionTrigger({ className, children, ...props }) {
       <AccordionPrimitive.Trigger
         data-slot="accordion-trigger"
         className={cn(
-          "group/accordion flex flex-1 items-center justify-between gap-4 py-4 text-left text-[15px] font-bold tracking-tight transition-colors outline-hidden hover:text-foreground/80 focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-45",
+          "group/accordion flex flex-1 items-center justify-between gap-4 py-4 text-left text-[15px] font-bold tracking-[0.01em] transition-colors outline-hidden hover:text-foreground/80 focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-45",
           className
         )}
         {...props}
       >
         {children}
-        <span className="flex size-6 shrink-0 items-center justify-center border border-border transition-colors group-hover/accordion:border-foreground group-data-[state=open]/accordion:border-foreground group-data-[state=open]/accordion:bg-foreground group-data-[state=open]/accordion:text-background">
-          <PlusIcon className="pointer-events-none size-3.5 transition-transform duration-300 ease-[var(--ease-snap)] group-data-[state=open]/accordion:rotate-45" strokeWidth={2.5} />
+        <span className="flex size-6 shrink-0 items-center justify-center rounded-full border-[0.8px] border-border transition-colors group-hover/accordion:border-foreground/60 group-data-[state=open]/accordion:border-foreground group-data-[state=open]/accordion:bg-foreground group-data-[state=open]/accordion:text-background">
+          <PlusIcon className="pointer-events-none size-3.5 transition-transform duration-300 ease-[var(--ease-standard)] group-data-[state=open]/accordion:rotate-45" strokeWidth={2.5} />
         </span>
       </AccordionPrimitive.Trigger>
     </AccordionPrimitive.Header>

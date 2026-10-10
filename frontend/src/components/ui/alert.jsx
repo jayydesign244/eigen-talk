@@ -3,16 +3,16 @@ import { cn } from "@/lib/utils";
 
 /** Status is carried by a solid 4px bar + icon + text, never colour alone. */
 const alertVariants = cva(
-  "relative grid w-full grid-cols-[0_1fr] items-start gap-y-1 border border-l-4 bg-card px-4 py-3 text-sm has-[>svg]:grid-cols-[calc(var(--spacing)*4)_1fr] has-[>svg]:gap-x-3 [&>svg]:size-4 [&>svg]:translate-y-0.5",
+  "relative grid w-full grid-cols-[0_1fr] items-start gap-y-1 rounded-xl border-[0.8px] bg-card px-4 py-3 text-sm has-[>svg]:grid-cols-[calc(var(--spacing)*4)_1fr] has-[>svg]:gap-x-3 [&>svg]:size-4 [&>svg]:translate-y-0.5",
   {
     variants: {
       variant: {
-        default: "border-border border-l-foreground [&>svg]:text-foreground",
-        info: "border-border border-l-info bg-info-soft/40 [&>svg]:text-info-ink",
-        success: "border-border border-l-success bg-success-soft/40 [&>svg]:text-success-ink",
-        warning: "border-border border-l-warning bg-warning-soft/40 [&>svg]:text-warning-ink",
+        default: "border-border [&>svg]:text-foreground",
+        info: "border-info/15 bg-info-soft [&>svg]:text-info-ink",
+        success: "border-success/15 bg-success-soft [&>svg]:text-success-ink",
+        warning: "border-warning/15 bg-warning-soft [&>svg]:text-warning-ink",
         destructive:
-          "border-border border-l-destructive bg-destructive-soft/40 [&>svg]:text-destructive-ink *:data-[slot=alert-title]:text-destructive-ink",
+          "border-destructive/15 bg-destructive-soft [&>svg]:text-destructive-ink *:data-[slot=alert-title]:text-destructive-ink",
       },
     },
     defaultVariants: { variant: "default" },

@@ -7,8 +7,8 @@ const buttonGroupVariants = cva(
   {
     variants: {
       orientation: {
-        horizontal: "[&>*:not(:first-child)]:-ml-px",
-        vertical: "flex-col [&>*:not(:first-child)]:-mt-px"
+        horizontal: "[&>*:not(:first-child)]:-ml-px [&>*:not(:first-child)]:rounded-l-none [&>*:not(:last-child)]:rounded-r-none [&>*]:rounded-md",
+        vertical: "flex-col [&>*:not(:first-child)]:-mt-px [&>*:not(:first-child)]:rounded-t-none [&>*:not(:last-child)]:rounded-b-none [&>*]:rounded-md"
       }
     },
     defaultVariants: {
@@ -37,7 +37,7 @@ function ButtonGroupText({
   const Comp = asChild ? Slot.Root : "div";
   return <Comp
     className={cn(
-      "flex items-center gap-2 border border-input bg-muted px-4 text-sm font-semibold text-muted-foreground [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4",
+      "flex items-center gap-2 rounded-md border-[0.8px] border-border-cool bg-chip px-4 text-[13px] font-semibold text-muted-foreground [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4",
       className
     )}
     {...props}

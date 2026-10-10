@@ -42,14 +42,14 @@ const W = 'w-full max-w-64'
 function InputPage() {
   return (
     <>
-      <PageHeader eyebrow="Forms" title="Input" description="A square field on a hairline. Focus turns the border solid and draws a 2px rule along the bottom — NeoPOP's input language." />
+      <PageHeader eyebrow="Forms" title="Input" description="An 8px-rounded field on a 1px border. Focus turns the border solid ink, as in CRED, and the text cursor is CRED's blue." />
       <Section title="States">
         <Preview>
           <StateGrid columns={3} states={[
             { label: 'Empty', node: <Input className={W} placeholder="Episode title" /> },
             { label: 'Filled', node: <Input className={W} defaultValue="Ep. 42 — The quiet room" /> },
             { label: 'Hover', node: <Input className={`${W} border-muted-foreground/60`} placeholder="Episode title" /> },
-            { label: 'Focus', node: <Input className={`${W} border-foreground shadow-[inset_0_-2px_0_0_var(--foreground)]`} defaultValue="Ep. 42" /> },
+            { label: 'Focus', node: <Input className={`${W} border-foreground`} defaultValue="Ep. 42" /> },
             { label: 'Invalid', node: <Input className={W} aria-invalid defaultValue="ep 42!!" /> },
             { label: 'Disabled', node: <Input className={W} disabled defaultValue="Locked while exporting" /> },
           ]} />
@@ -70,12 +70,12 @@ function InputPage() {
 function TextareaPage() {
   return (
     <>
-      <PageHeader eyebrow="Forms" title="Textarea" description="Grows with content. Same focus rule as inputs." />
+      <PageHeader eyebrow="Forms" title="Textarea" description="Grows with content. Same focus border and cursor as inputs." />
       <Section title="States">
         <Preview>
           <StateGrid columns={3} states={[
             { label: 'Default', node: <Textarea className="w-72" placeholder="Describe the change — e.g. 'remove the ums and make my voice warmer'" /> },
-            { label: 'Focus', node: <Textarea className="w-72 border-foreground shadow-[inset_0_-2px_0_0_var(--foreground)]" defaultValue="Cut the intro music after 0:12" /> },
+            { label: 'Focus', node: <Textarea className="w-72 border-foreground" defaultValue="Cut the intro music after 0:12" /> },
             { label: 'Invalid', node: <Textarea className="w-72" aria-invalid defaultValue="" placeholder="Required" /> },
             { label: 'Disabled', node: <Textarea className="w-72" disabled defaultValue="Read-only notes" /> },
           ]} />
@@ -197,12 +197,12 @@ function FieldPage() {
 function CheckboxPage() {
   return (
     <>
-      <PageHeader eyebrow="Forms" title="Checkbox" description="Square box; checking inverts it to solid and pops the tick in." />
+      <PageHeader eyebrow="Forms" title="Checkbox" description="A 20px box with softly rounded corners and a 1px ink border; checking fills it with ink and pops the tick in." />
       <Section title="States">
         <Preview>
           <StateGrid columns={6} states={[
             { label: 'Off', node: <Checkbox aria-label="off" /> },
-            { label: 'Hover', node: <Checkbox aria-label="hover" className="border-foreground" /> },
+            { label: 'Hover', node: <Checkbox aria-label="hover" className="bg-accent" /> },
             { label: 'On', node: <Checkbox aria-label="on" defaultChecked /> },
             { label: 'Mixed', node: <Checkbox aria-label="mixed" checked="indeterminate" /> },
             { label: 'Invalid', node: <Checkbox aria-label="invalid" aria-invalid /> },
@@ -231,7 +231,7 @@ function CheckboxPage() {
 function RadioGroupPage() {
   return (
     <>
-      <PageHeader eyebrow="Forms" title="Radio group" description="Circles stay circles — the one shape the grid allows besides avatars." />
+      <PageHeader eyebrow="Forms" title="Radio group" description="CRED's 20px circle with a 1px ink ring. Checked is a solid disc with a 7px dot; pressed is a solid disc. Circles are the one shape the grid allows besides avatars." />
       <Section title="Default">
         <Preview>
           {(sc) => (<>
@@ -240,9 +240,10 @@ function RadioGroupPage() {
               <div key={v} className="flex items-center gap-2.5"><RadioGroupItem value={v} id={`ds-r-${v}-${sc}`} /><Label htmlFor={`ds-r-${v}-${sc}`}>{l}</Label></div>
             ))}
           </RadioGroup>
-          <StateGrid columns={4} states={[
+          <StateGrid columns={5} states={[
             { label: 'Off', node: <RadioGroup><RadioGroupItem value="x" aria-label="off" /></RadioGroup> },
             { label: 'On', node: <RadioGroup defaultValue="x"><RadioGroupItem value="x" aria-label="on" /></RadioGroup> },
+            { label: 'Pressed', node: <RadioGroup><RadioGroupItem value="x" aria-label="pressed" className="bg-foreground" /></RadioGroup> },
             { label: 'Invalid', node: <RadioGroup><RadioGroupItem value="x" aria-invalid aria-label="invalid" /></RadioGroup> },
             { label: 'Disabled', node: <RadioGroup defaultValue="x" disabled><RadioGroupItem value="x" aria-label="disabled" /></RadioGroup> },
           ]} />
@@ -257,7 +258,7 @@ function SwitchPage() {
   const [on, setOn] = useState(true)
   return (
     <>
-      <PageHeader eyebrow="Forms" title="Switch" description="A square thumb that snaps across with a little overshoot. On lights the track in Sonic aqua." />
+      <PageHeader eyebrow="Forms" title="Switch" description="A pill track with a white round thumb on a soft shadow. Off is a quiet grey track; on turns CRED green." />
       <Section title="States">
         <Preview>
           <StateGrid columns={5} states={[
@@ -271,7 +272,7 @@ function SwitchPage() {
       </Section>
       <Section title="Setting row">
         <Preview center={false}>
-          <div className="flex w-full max-w-md items-center justify-between border border-border bg-card p-4">
+          <div className="flex w-full max-w-md items-center justify-between rounded-2xl border-[0.8px] border-border bg-card p-4">
             <div>
               <p className="text-sm font-bold">Auto-enhance on upload</p>
               <p className="text-[13px] text-muted-foreground">{on ? 'New uploads are cleaned automatically.' : 'You’ll clean audio manually.'}</p>
@@ -311,7 +312,7 @@ function SliderPage() {
 function SelectPage() {
   return (
     <>
-      <PageHeader eyebrow="Forms" title="Select" description="The list opens as a floating layer with a solid extrusion; the highlighted row inverts like a pressed key." />
+      <PageHeader eyebrow="Forms" title="Select" description="The list opens as a rounded floating panel with a soft shadow; the highlighted row sits on a soft grey pill." />
       <Section title="Default">
         <Preview>
           <Select defaultValue="16">
@@ -474,11 +475,11 @@ function CalendarPage() {
   const [range, setRange] = useState({ from: new Date(), to: new Date(Date.now() + 4 * 864e5) })
   return (
     <>
-      <PageHeader eyebrow="Forms" title="Calendar" description="Selected days invert; today gets an aqua base line; ranges fill with the hover surface." />
+      <PageHeader eyebrow="Forms" title="Calendar" description="Rounded day cells. The selected day fills with ink; today gets an aqua base line; ranges fill with the hover surface." />
       <Section title="Single & range">
         <Preview>
-          <Calendar mode="single" selected={date} onSelect={setDate} className="border border-border bg-card" />
-          <Calendar mode="range" selected={range} onSelect={setRange} numberOfMonths={1} className="border border-border bg-card" />
+          <Calendar mode="single" selected={date} onSelect={setDate} className="rounded-2xl border-[0.8px] border-border bg-card" />
+          <Calendar mode="range" selected={range} onSelect={setRange} numberOfMonths={1} className="rounded-2xl border-[0.8px] border-border bg-card" />
         </Preview>
       </Section>
     </>

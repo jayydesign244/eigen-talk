@@ -9,8 +9,8 @@ import { Toaster as Sonner } from "sonner";
 import { useTheme } from "@/components/theme-provider";
 
 /**
- * Toasts are hard-edged cards with a colour bar on the left that carries the
- * status, so meaning never depends on the icon colour alone.
+ * Toasts are rounded floating cards (12px, hairline, soft shadow). The status
+ * is carried by a tinted icon chip and the words, never by colour alone.
  */
 const Toaster = ({ ...props }) => {
   const { resolvedTheme } = useTheme();
@@ -32,12 +32,12 @@ const Toaster = ({ ...props }) => {
       toastOptions={{
         classNames: {
           toast:
-            "group toast !rounded-none !border !border-border !bg-popover !text-popover-foreground !shadow-none !font-sans border-l-4! data-[type=success]:!border-l-success data-[type=error]:!border-l-destructive data-[type=warning]:!border-l-warning data-[type=info]:!border-l-info data-[type=default]:!border-l-foreground",
-          title: "!font-bold !text-[13px]",
+            "group toast !rounded-xl !border-[0.8px] !border-border !bg-popover !text-popover-foreground !shadow-[var(--elev-float)] !font-sans",
+          title: "!font-semibold !text-[13px] !tracking-[0.03em]",
           description: "!text-muted-foreground !text-xs",
           actionButton:
-            "!rounded-none !bg-primary !text-primary-foreground !font-bold !text-xs !h-7 !px-3",
-          cancelButton: "!rounded-none !bg-muted !text-foreground !font-bold !text-xs !h-7 !px-3",
+            "!rounded-md !bg-primary !text-primary-foreground !font-bold !text-[11px] !h-8 !px-3",
+          cancelButton: "!rounded-md !bg-chip !text-foreground !font-bold !text-[11px] !h-8 !px-3",
           closeButton: "!rounded-none !border-border !bg-popover !text-muted-foreground hover:!text-foreground"
         }
       }}

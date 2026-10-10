@@ -71,7 +71,7 @@ function DropdownMenuCheckboxItem({
     )}
     checked={checked}
     {...props}
-  ><span className="pointer-events-none absolute left-2 flex size-3.5 items-center justify-center"><DropdownMenuPrimitive.ItemIndicator><CheckIcon className="size-4 text-current!" strokeWidth={3} /></DropdownMenuPrimitive.ItemIndicator></span>{children}</DropdownMenuPrimitive.CheckboxItem>;
+  ><span className="pointer-events-none absolute left-2.5 flex size-3.5 items-center justify-center"><DropdownMenuPrimitive.ItemIndicator><CheckIcon className="size-3.5 text-current!" strokeWidth={2.5} /></DropdownMenuPrimitive.ItemIndicator></span>{children}</DropdownMenuPrimitive.CheckboxItem>;
 }
 function DropdownMenuRadioGroup({
   ...props
@@ -93,7 +93,7 @@ function DropdownMenuRadioItem({
       className
     )}
     {...props}
-  ><span className="pointer-events-none absolute left-2 flex size-3.5 items-center justify-center"><DropdownMenuPrimitive.ItemIndicator><span className="block size-2 rounded-full bg-current" /></DropdownMenuPrimitive.ItemIndicator></span>{children}</DropdownMenuPrimitive.RadioItem>;
+  ><span className="pointer-events-none absolute left-2.5 flex size-3.5 items-center justify-center"><DropdownMenuPrimitive.ItemIndicator><span className="block size-1.5 rounded-full bg-current" /></DropdownMenuPrimitive.ItemIndicator></span>{children}</DropdownMenuPrimitive.RadioItem>;
 }
 function DropdownMenuLabel({
   className,

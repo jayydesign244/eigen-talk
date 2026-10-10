@@ -45,7 +45,7 @@ function MessageHeader({ className, ...props }) {
   return <div
     data-slot="message-header"
     className={cn(
-      "flex max-w-full min-w-0 items-center gap-2 px-0.5 text-[10px] font-extrabold tracking-[0.14em] text-muted-foreground uppercase",
+      "flex max-w-full min-w-0 items-center gap-2 px-0.5 text-[10px] font-bold tracking-[0.12em] text-label uppercase",
       className
     )}
     {...props}
@@ -55,7 +55,7 @@ function MessageFooter({ className, ...props }) {
   return <div
     data-slot="message-footer"
     className={cn(
-      "flex max-w-full min-w-0 items-center gap-2 px-0.5 text-[11px] font-medium text-muted-foreground group-data-[align=end]/message:justify-end",
+      "flex max-w-full min-w-0 items-center gap-2 px-0.5 text-[12px] font-medium tracking-[0.025em] text-muted-foreground group-data-[align=end]/message:justify-end",
       className
     )}
     {...props}

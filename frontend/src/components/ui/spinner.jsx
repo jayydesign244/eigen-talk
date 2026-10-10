@@ -16,7 +16,7 @@ function Spinner({ className, ...props }) {
       {[0, 1, 2].map((i) => (
         <span
           key={i}
-          className="h-full w-[22%] origin-center animate-eq bg-current"
+          className="h-full w-[22%] origin-center animate-eq rounded-full bg-current"
           style={{ animationDelay: `${i * 0.16}s` }}
         />
       ))}

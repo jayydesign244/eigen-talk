@@ -37,8 +37,8 @@ function NavItem({ to, children, end }) {
       end={end}
       className={({ isActive }) =>
         cn(
-          'flex h-8 items-center gap-2 px-3 text-[13px] font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground',
-          isActive && 'bg-foreground font-bold text-background hover:bg-foreground hover:text-background'
+          'flex h-8 items-center gap-2 rounded-md px-3 text-[13px] font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground',
+          isActive && 'bg-accent font-semibold text-foreground'
         )
       }
     >
@@ -66,7 +66,7 @@ function Nav({ onNavigate }) {
   return (
     <nav className="flex h-full flex-col" onClick={(e) => e.target.closest('a') && onNavigate?.()}>
       <Link to="/design-system" className={cn('flex h-14 shrink-0 items-center gap-2.5 border-b border-border px-4', onNavigate && 'pr-14')}>
-        <span className="flex size-7 items-center justify-center bg-foreground text-background"><AudioLinesIcon className="size-4" /></span>
+        <span className="flex size-7 items-center justify-center rounded-lg bg-foreground text-background"><AudioLinesIcon className="size-4" /></span>
         <span className="font-display text-lg leading-none">Sonicly</span>
         <span className="text-caps ml-auto text-[9px] text-muted-foreground">DS v1</span>
       </Link>
@@ -129,13 +129,13 @@ function PrevNext() {
   return (
     <div className="mt-16 grid gap-4 border-t border-border pt-8 sm:grid-cols-2">
       {prev ? (
-        <Link to={prev.to} className="group border border-border p-4 transition-colors hover:border-foreground">
+        <Link to={prev.to} className="group rounded-2xl border-[0.8px] border-border p-4 transition-[box-shadow,border-color] hover:border-foreground/30 hover:shadow-soft">
           <span className="text-caps flex items-center gap-1.5 text-[9px] text-muted-foreground"><ArrowLeftIcon className="size-3" />Previous</span>
           <span className="mt-1 block font-bold">{prev.title}</span>
         </Link>
       ) : <span />}
       {next && (
-        <Link to={next.to} className="group border border-border p-4 text-right transition-colors hover:border-foreground">
+        <Link to={next.to} className="group rounded-2xl border-[0.8px] border-border p-4 text-right transition-[box-shadow,border-color] hover:border-foreground/30 hover:shadow-soft">
           <span className="text-caps flex items-center justify-end gap-1.5 text-[9px] text-muted-foreground">Next<ArrowRightIcon className="size-3" /></span>
           <span className="mt-1 block font-bold">{next.title}</span>
         </Link>
@@ -194,7 +194,7 @@ export default function DesignSystem() {
             <span className="text-caps hidden text-muted-foreground sm:inline">Design system</span>
             <div className="ml-auto flex items-center gap-2">
               <span className="text-caps hidden text-[9px] text-muted-foreground md:inline">Previews</span>
-              <ToggleGroup type="single" variant="outline" size="sm" value={mode} onValueChange={(v) => v && setMode(v)} aria-label="Preview mode">
+              <ToggleGroup type="single" variant="outline" size="sm" spacing={1} className="rounded-full bg-chip p-0.5 [&>*]:rounded-full [&>*]:border-transparent" value={mode} onValueChange={(v) => v && setMode(v)} aria-label="Preview mode">
                 <ToggleGroupItem value="split" aria-label="Dark and light side by side"><ColumnsIcon />Both</ToggleGroupItem>
                 <ToggleGroupItem value="page" aria-label="Follow page theme"><SquareIcon />Page</ToggleGroupItem>
               </ToggleGroup>

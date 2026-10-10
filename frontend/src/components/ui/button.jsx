@@ -3,35 +3,48 @@ import { Slot } from "radix-ui";
 import { cn } from "@/lib/utils";
 
 /**
- * NeoPOP button. Solid variants carry the 3D "plunk" edge and sink when
- * pressed; quiet variants (outline, ghost, link) stay flat so a screen never
- * has more than one or two raised keys competing for attention.
+ * Buttons in CRED's 2026 language (values from the app's own templates):
+ *  - default: the black block CTA, 8px corners, semibold label.
+ *  - brand:   the raised key — gradient face, 1px rim, hard 3px edge that
+ *             collapses when pressed (Sonic aqua instead of CRED gold).
+ *  - gold:    the same raised key in CRED's reward gold.
+ *  - pill:    the dark pill CTA — graphite gradient, white rim, soft shadows.
+ *  - chip:    the white → ice pill used for shortcuts and filters.
+ *  - secondary: the grey trail CTA (50% #ECEEF1 with a cool hairline).
+ *  - destructive: red label on the grey CTA, as CRED does it.
+ *  - outline / ghost / link: quiet actions.
+ * Disabled buttons fade to 50%; a busy one (aria-busy) keeps full colour.
  */
 const buttonVariants = cva(
-  "inline-flex shrink-0 items-center justify-center gap-2 font-bold whitespace-nowrap select-none outline-hidden disabled:pointer-events-none disabled:opacity-45 aria-invalid:ring-2 aria-invalid:ring-destructive focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-[5px] focus-visible:outline-ring [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+  "inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap select-none outline-hidden transition-[background-color,color,border-color,box-shadow,filter,transform] duration-150 disabled:pointer-events-none disabled:not-aria-busy:opacity-50 aria-invalid:ring-2 aria-invalid:ring-destructive focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
   {
     variants: {
       variant: {
-        default: "plunk plunk-press edge-primary bg-primary text-primary-foreground",
-        brand: "plunk plunk-press edge-brand bg-brand text-brand-foreground",
+        default:
+          "rounded-md bg-primary font-semibold text-primary-foreground hover:bg-primary/88 active:scale-[0.98]",
+        brand:
+          "raised rounded-xs font-bold text-brand-foreground [--raised-from:#92f2ee] [--raised-to:#2ce6e0] [--raised-rim:#c2f8f6]",
+        gold: "raised rounded-xs font-bold text-raised-ink",
+        pill: "surface-pop rounded-full font-semibold hover:brightness-110 active:scale-[0.98]",
+        chip: "surface-pill rounded-full font-semibold text-foreground shadow-[0_2px_0_var(--pill-border)] hover:brightness-[0.98] active:translate-y-px active:shadow-[0_1px_0_var(--pill-border)]",
         secondary:
-          "plunk plunk-press plunk-bordered edge-secondary border border-border-strong bg-secondary text-secondary-foreground",
-        destructive: "plunk plunk-press edge-destructive bg-destructive text-destructive-foreground",
+          "rounded-md border-[0.8px] border-border-cool bg-chip font-bold text-secondary-foreground hover:bg-accent active:scale-[0.98]",
+        destructive:
+          "rounded-md bg-secondary font-semibold text-destructive-ink hover:bg-destructive-soft active:scale-[0.98]",
         outline:
-          "border border-input bg-transparent text-foreground transition-colors hover:border-foreground hover:bg-accent active:bg-surface-2",
-        ghost:
-          "bg-transparent text-foreground transition-colors hover:bg-accent active:bg-surface-2",
-        link: "h-auto! px-0! text-foreground underline decoration-2 decoration-brand underline-offset-4 transition-colors hover:text-brand-ink",
+          "rounded-md border border-foreground/80 bg-transparent font-semibold text-foreground hover:bg-accent active:scale-[0.98]",
+        ghost: "rounded-md bg-transparent font-semibold text-foreground hover:bg-accent active:bg-surface-2",
+        link: "h-auto! px-0! font-semibold text-foreground underline decoration-[1.5px] underline-offset-[5px] hover:decoration-brand",
       },
       size: {
-        default: "h-10 px-5 text-sm has-[>svg]:px-4",
-        xs: "h-7 gap-1.5 px-2.5 text-xs [&_svg:not([class*='size-'])]:size-3.5",
-        sm: "h-8 gap-1.5 px-3.5 text-[13px] has-[>svg]:px-3",
-        lg: "h-12 px-7 text-[15px] has-[>svg]:px-6 [&_svg:not([class*='size-'])]:size-5",
+        default: "h-10 px-5 text-[13px] tracking-[0.015em] has-[>svg]:px-4",
+        xs: "h-7 gap-1.5 px-2.5 text-[11px] [&_svg:not([class*='size-'])]:size-3.5",
+        sm: "h-9 gap-1.5 px-3 text-[11px] has-[>svg]:px-2.5",
+        lg: "h-[52px] px-6 text-sm tracking-[0.015em] [&_svg:not([class*='size-'])]:size-5",
         icon: "size-10",
         "icon-xs": "size-7 [&_svg:not([class*='size-'])]:size-3.5",
-        "icon-sm": "size-8",
-        "icon-lg": "size-12 [&_svg:not([class*='size-'])]:size-5",
+        "icon-sm": "size-9",
+        "icon-lg": "size-[52px] [&_svg:not([class*='size-'])]:size-5",
       },
     },
     defaultVariants: {

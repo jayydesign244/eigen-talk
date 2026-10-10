@@ -1,19 +1,25 @@
-// Shared motion language. Short, functional, and springy only where a
-// physical metaphor (a key being pressed, a card landing) earns it.
+// Shared motion language, tuned to CRED 6.1: 200 / 300 / 500ms with
+// FastOutSlowIn, sheets that decelerate in, and springs only where a physical
+// metaphor (a key being pressed, a card landing) earns it.
 
 export const ease = {
-  out: [0.16, 1, 0.3, 1],
-  inOut: [0.65, 0, 0.35, 1],
-  plunk: [0.4, 0, 0.2, 1],
+  out: [0.4, 0, 0.2, 1], // FastOutSlowIn, CRED's default
+  inOut: [0.43, 0, 0.58, 1], // CRED's one custom curve
+  decelerate: [0, 0, 0.2, 1],
+  accelerate: [0.4, 0, 1, 1],
+  plunk: [0.37, 0, 0.63, 1], // Android AccelerateDecelerate, 50ms key press
 }
 
 export const spring = {
-  snappy: { type: 'spring', stiffness: 520, damping: 34, mass: 0.7 },
-  soft: { type: 'spring', stiffness: 260, damping: 28 },
+  // Compose defaults CRED uses: damping ratio 1 / stiffness 1500, and 0.75 / 200.
+  snappy: { type: 'spring', stiffness: 1500, damping: 77 },
+  soft: { type: 'spring', stiffness: 200, damping: 21 },
   bouncy: { type: 'spring', stiffness: 420, damping: 18 },
+  // NeoPOP press: stiffness 6000, critically damped (no bounce).
+  press: { type: 'spring', stiffness: 6000, damping: 155 },
 }
 
-export const duration = { fast: 0.14, base: 0.22, slow: 0.42 }
+export const duration = { press: 0.05, fast: 0.2, base: 0.3, slow: 0.5, sheet: 0.35 }
 
 /** Page / section entrance: rise 10px and fade. */
 export const rise = {

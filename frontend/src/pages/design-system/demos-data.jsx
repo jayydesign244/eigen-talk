@@ -30,7 +30,7 @@ import { PageHeader, Preview, Section, Usage } from './kit'
 function CardPage() {
   return (
     <>
-      <PageHeader eyebrow="Display" title="Card" description="Three surfaces: flat (hairline), elevated (solid plunk edge) and interactive (sinks when clicked)." />
+      <PageHeader eyebrow="Display" title="Card" description="CRED's card: 16px corners on a 0.8px hairline. Flat for dense layouts, elevated on a soft shadow, interactive lifts on hover and settles when clicked." />
       <Section title="Variants">
         <Preview contentClassName="items-stretch gap-8">
           {[['flat', 'Flat', 'Dense content'], ['elevated', 'Elevated', 'Groups a task'], ['interactive', 'Interactive', 'The whole card is a link']].map(([v, t, d]) => (
@@ -146,7 +146,7 @@ function DataTablePage() {
             <Input placeholder="Filter projects…" value={filter} onChange={(e) => setFilter(e.target.value)} className="max-w-xs" />
             <span className="text-[13px] text-muted-foreground tabular">{table.getFilteredSelectedRowModel().rows.length} of {table.getFilteredRowModel().rows.length} selected</span>
           </div>
-          <div className="border border-border">
+          <div>
             <Table>
               <TableHeader>
                 {table.getHeaderGroups().map((hg) => (
@@ -188,7 +188,7 @@ const chartConfig = {
 function ChartPage() {
   return (
     <>
-      <PageHeader eyebrow="Data" title="Chart" description="Recharts with system colours: square bars, hairline grids, a floating tooltip with the same extrusion as menus." />
+      <PageHeader eyebrow="Data" title="Chart" description="Recharts with system colours: hairline grids and a floating tooltip with the same soft shadow as menus." />
       <Section title="Bar · Area · Line">
         <Preview center={false} contentClassName="grid gap-6 xl:grid-cols-3">
           {[
@@ -233,7 +233,7 @@ function ChartPage() {
 function AvatarPage() {
   return (
     <>
-      <PageHeader eyebrow="Display" title="Avatar" description="Circles (an allowed exception to zero radius). Fallbacks are inverted initials in extra-bold." />
+      <PageHeader eyebrow="Display" title="Avatar" description="Circles. Fallbacks are initials on a tinted circle, as in CRED's contact rows." />
       <Section title="Sizes & states">
         <Preview>
           <Avatar size="sm"><AvatarFallback>KB</AvatarFallback></Avatar>
@@ -267,7 +267,7 @@ function ItemPage() {
             <ItemMedia variant="icon"><MicIcon /></ItemMedia>
             <ItemContent><ItemTitle>Voice clone ready <Badge variant="brand">New</Badge></ItemTitle><ItemDescription>Edited words will be regenerated in your voice.</ItemDescription></ItemContent>
           </Item>
-          <ItemGroup className="border border-border">
+          <ItemGroup className="rounded-2xl border-[0.8px] border-border">
             {['Original upload', 'Noise reduction', 'Removed 34 fillers'].map((t, i, a) => (
               <div key={t}>
                 <Item asChild size="sm">
@@ -292,7 +292,7 @@ function EmptyPage() {
       <PageHeader eyebrow="Feedback" title="Empty" description="Every empty state says what this place is for and gives one way forward." />
       <Section title="Example">
         <Preview>
-          <Empty className="max-w-md border border-dashed border-input hatch">
+          <Empty className="max-w-md rounded-2xl border border-dashed border-input hatch">
             <EmptyHeader>
               <EmptyMedia variant="icon"><AudioLinesIcon /></EmptyMedia>
               <EmptyTitle>No projects yet</EmptyTitle>
@@ -315,7 +315,7 @@ function SkeletonPage() {
       <Section title="Project card loading">
         <Preview>
           {[0, 1].map((i) => (
-            <div key={i} className="w-64 space-y-3 border border-border p-4">
+            <div key={i} className="w-64 space-y-3 rounded-2xl border-[0.8px] border-border p-4">
               <Skeleton className="h-10 w-full" />
               <Skeleton className="h-4 w-3/4" />
               <Skeleton className="h-3 w-1/2" />
@@ -332,7 +332,7 @@ function ProgressPage() {
   const [v, setV] = useState(38)
   return (
     <>
-      <PageHeader eyebrow="Feedback" title="Progress" description="Flat and square. Omit the value for an indeterminate sweep while the server hasn't reported a percentage." />
+      <PageHeader eyebrow="Feedback" title="Progress" description="A rounded track and bar. Omit the value for an indeterminate sweep while the server hasn't reported a percentage." />
       <Section title="Tones & states">
         <Preview center={false} contentClassName="grid max-w-md gap-6">
           <div className="space-y-2">
@@ -422,7 +422,7 @@ function TypographyPage() {
             <h1 className="mt-3 font-display text-5xl leading-[1.04]">Edit audio like a document.</h1>
             <p className="mt-4 text-[17px] leading-relaxed text-muted-foreground">The lead paragraph sets context in one or two sentences, a size up from body.</p>
             <h2 className="mt-10 border-b border-border pb-2 font-display text-3xl">What changed</h2>
-            <p className="mt-4 text-sm leading-relaxed">Sonicly now detects <strong>false starts</strong> as well as fillers. Use <code className="border border-border bg-muted px-1.5 py-0.5 font-mono text-[12px]">⌘E</code> to enhance.</p>
+            <p className="mt-4 text-sm leading-relaxed">Sonicly now detects <strong>false starts</strong> as well as fillers. Use <code className="rounded-lg border-[0.8px] border-border bg-muted px-1.5 py-0.5 font-mono text-[12px]">⌘E</code> to enhance.</p>
             <h3 className="mt-8 text-xl font-bold tracking-tight">Under the hood</h3>
             <ul className="mt-3 ml-5 list-[square] space-y-1.5 text-sm leading-relaxed marker:text-brand">
               <li>Word timings accurate to 20 ms</li>
@@ -435,7 +435,7 @@ function TypographyPage() {
         </Preview>
       </Section>
       <Section title="Usage">
-        <Usage dos={['Use Gloock for page titles and one-line statements.', 'Use caps labels to name sections and data.']} donts={['Set body copy in the serif.', 'Use more than three sizes on one screen.']} />
+        <Usage dos={['Use Fraunces for page titles and one-line statements.', 'Use caps labels to name sections and data.']} donts={['Set body copy in the serif.', 'Use more than three sizes on one screen.']} />
       </Section>
     </>
   )

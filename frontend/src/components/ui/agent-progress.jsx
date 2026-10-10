@@ -22,16 +22,16 @@ function Ring({ value, size = 16, className }) {
 function StepIcon({ status, progress }) {
   if (status === "done") {
     return (
-      <span className="flex size-4 items-center justify-center bg-success text-background">
+      <span className="flex size-4 items-center justify-center rounded-sm bg-success text-background">
         <CheckIcon className="size-3 animate-pop" strokeWidth={3.5} />
       </span>
     );
   }
   if (status === "error") {
-    return <span className="flex size-4 items-center justify-center bg-destructive text-destructive-foreground"><OctagonXIcon className="size-3" /></span>;
+    return <span className="flex size-4 items-center justify-center rounded-sm bg-destructive text-destructive-foreground"><OctagonXIcon className="size-3" /></span>;
   }
   if (status === "active") return <Ring value={progress} className="text-brand" />;
-  return <span className="size-4 border-[1.5px] border-input" />;
+  return <span className="size-4 rounded-sm border border-input" />;
 }
 
 /**
@@ -55,17 +55,17 @@ function AgentProgress({ steps = [], title, duration, defaultOpen = true, classN
     (failed ? "Stopped with an error" : complete ? `Done${duration ? ` in ${duration}` : ""}` : `${left} step${left === 1 ? "" : "s"} left`);
 
   return (
-    <div data-slot="agent-progress" className={cn("border border-border bg-card", className)}>
+    <div data-slot="agent-progress" className={cn("overflow-hidden rounded-2xl border-[0.8px] border-border bg-card", className)}>
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
         aria-expanded={open}
-        className="flex w-full items-center gap-2.5 px-3.5 py-3 text-left outline-hidden focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-ring"
+        className="flex w-full items-center gap-2.5 px-3.5 py-3 text-left outline-hidden transition-colors hover:bg-accent/50 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-solid focus-visible:outline-ring"
       >
         {complete ? (
-          <span className="flex size-4 items-center justify-center bg-success text-background"><CheckIcon className="size-3" strokeWidth={3.5} /></span>
+          <span className="flex size-4 items-center justify-center rounded-sm bg-success text-background"><CheckIcon className="size-3" strokeWidth={3.5} /></span>
         ) : failed ? (
-          <span className="flex size-4 items-center justify-center bg-destructive text-destructive-foreground"><OctagonXIcon className="size-3" /></span>
+          <span className="flex size-4 items-center justify-center rounded-sm bg-destructive text-destructive-foreground"><OctagonXIcon className="size-3" /></span>
         ) : (
           <Ring value={active?.progress === undefined ? undefined : overall} className="text-brand" />
         )}
@@ -79,8 +79,8 @@ function AgentProgress({ steps = [], title, duration, defaultOpen = true, classN
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-            className="overflow-hidden border-t border-border"
+            transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
+            className="overflow-hidden border-t-[0.8px] border-border p-1"
           >
             {steps.map((s, i) => (
               <motion.li
@@ -88,7 +88,7 @@ function AgentProgress({ steps = [], title, duration, defaultOpen = true, classN
                 initial={{ opacity: 0, y: 6 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.06, duration: 0.3 }}
-                className={cn("flex items-center gap-2.5 px-3.5 py-2.5 transition-opacity", s.status === "pending" && "opacity-45")}
+                className={cn("flex items-center gap-2.5 rounded-md px-2.5 py-2 transition-[opacity,background-color] hover:bg-accent/50", s.status === "pending" && "opacity-45")}
               >
                 <StepIcon status={s.status} progress={s.progress} />
                 <span className={cn("text-[13px]", s.status === "active" ? "font-bold" : "font-medium")}>{s.label}</span>

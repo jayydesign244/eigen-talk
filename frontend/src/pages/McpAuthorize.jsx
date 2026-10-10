@@ -68,7 +68,7 @@ export default function McpAuthorize() {
         <motion.div variants={stagger(0.06)} initial="hidden" animate="show" className="w-full max-w-md">
           {/* Who is connecting to whom */}
           <motion.div variants={rise} className="flex items-center justify-center gap-3" aria-hidden="true">
-            <span className="plunk edge-card flex size-14 items-center justify-center border border-border bg-card"><BotIcon className="size-6" /></span>
+            <span className="surface-tile flex size-14 items-center justify-center rounded-full"><BotIcon className="size-6" /></span>
             <span className="flex items-center gap-1">
               {[0, 1, 2].map((i) => (
                 <motion.span
@@ -88,7 +88,7 @@ export default function McpAuthorize() {
                 />
               ))}
             </span>
-            <LogoMark className="plunk edge-card size-14" />
+            <LogoMark className="size-14 overflow-hidden rounded-2xl shadow-soft" />
           </motion.div>
 
           {error?.fatal ? (

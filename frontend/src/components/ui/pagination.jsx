@@ -42,6 +42,7 @@ function PaginationLink({
         variant: isActive ? "default" : "ghost",
         size
       }),
+      "rounded-md tabular-nums",
       className
     )}
     {...props}
@@ -76,7 +77,7 @@ function PaginationEllipsis({
   return <span
     aria-hidden
     data-slot="pagination-ellipsis"
-    className={cn("flex size-9 items-center justify-center", className)}
+    className={cn("flex size-9 items-center justify-center rounded-md text-muted-foreground", className)}
     {...props}
   ><MoreHorizontalIcon className="size-4" /><span className="sr-only">More pages</span></span>;
 }

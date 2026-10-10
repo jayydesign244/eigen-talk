@@ -151,7 +151,7 @@ export default function SignUp() {
                 {[1, 2, 3, 4].map((n) => (
                   <span key={n} className="h-1 flex-1 bg-muted">
                     <span
-                      className={cn('block h-full origin-left transition-transform duration-300 ease-[var(--ease-out-expo)]', STRENGTH_TONE[score])}
+                      className={cn('block h-full origin-left transition-transform duration-300 ease-[var(--ease-standard)]', STRENGTH_TONE[score])}
                       style={{ transform: `scaleX(${score >= n ? 1 : 0})` }}
                     />
                   </span>

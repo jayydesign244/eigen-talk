@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 
 /**
  * Step-by-step questions (onboarding, feedback, setup). Choices are full-width
- * keys: the selected one gets a solid border and a brand bar on its left.
+ * cards: the selected one gets an ink border and a soft lift.
  */
 function Questionnaire({ className, ...props }) {
   return (
@@ -23,7 +23,7 @@ function QuestionnaireProgress({ className, ...props }) {
     <QuestionnairePrimitive.Progress
       data-slot="questionnaire-progress"
       className={cn(
-        "min-h-[1lh] w-fit min-w-[14ch] text-[10px] font-extrabold tracking-[0.16em] text-muted-foreground uppercase tabular-nums",
+        "min-h-[1lh] w-fit min-w-[14ch] text-[10px] font-bold tracking-[0.12em] text-label uppercase tabular-nums",
         className
       )}
       {...props}
@@ -79,7 +79,7 @@ function QuestionnaireChoice({ children, className, ...props }) {
     <QuestionnairePrimitive.Choice
       data-slot="questionnaire-choice"
       className={cn(
-        "group/questionnaire-choice relative flex min-h-12 cursor-pointer items-start gap-3 border border-input bg-card px-3.5 py-3 text-start text-sm transition-[border-color,background-color,box-shadow] duration-150 outline-hidden select-none hover:border-muted-foreground/60 has-[>input:focus-visible]:outline-2 has-[>input:focus-visible]:outline-solid has-[>input:focus-visible]:outline-offset-2 has-[>input:focus-visible]:outline-ring data-invalid:border-destructive data-checked:border-foreground data-checked:shadow-[inset_3px_0_0_0_var(--brand)]",
+        "group/questionnaire-choice relative flex min-h-12 cursor-pointer items-start gap-3 rounded-xl border-[0.8px] border-border bg-card px-3.5 py-3 text-start text-sm transition-[border-color,background-color,box-shadow] duration-150 outline-hidden select-none hover:border-foreground/30 hover:bg-surface-2 has-[>input:focus-visible]:outline-2 has-[>input:focus-visible]:outline-solid has-[>input:focus-visible]:outline-offset-2 has-[>input:focus-visible]:outline-ring data-invalid:border-destructive data-checked:border-foreground data-checked:bg-card data-checked:shadow-soft",
         "data-disabled:pointer-events-none data-disabled:cursor-not-allowed data-disabled:opacity-45",
         className
       )}
@@ -92,11 +92,11 @@ function QuestionnaireChoice({ children, className, ...props }) {
       <span
         aria-hidden="true"
         data-slot="questionnaire-choice-indicator"
-        className="pointer-events-none relative flex size-[18px] shrink-0 items-center justify-center border-[1.5px] border-input bg-card group-data-[type=radio]/questionnaire-choice:rounded-full group-data-checked/questionnaire-choice:border-foreground group-data-[type=checkbox]/questionnaire-choice:group-data-checked/questionnaire-choice:bg-foreground group-data-[type=checkbox]/questionnaire-choice:group-data-checked/questionnaire-choice:text-background"
+        className="pointer-events-none relative flex size-5 shrink-0 items-center justify-center rounded-sm border border-input bg-card transition-colors group-data-[type=radio]/questionnaire-choice:rounded-full group-data-checked/questionnaire-choice:border-foreground group-data-checked/questionnaire-choice:bg-foreground group-data-checked/questionnaire-choice:text-background"
       >
         <span
           data-slot="questionnaire-choice-indicator-dot"
-          className="hidden size-2 animate-pop rounded-full bg-foreground group-data-[type=checkbox]/questionnaire-choice:hidden group-data-checked/questionnaire-choice:block"
+          className="hidden size-[7px] animate-pop rounded-full bg-card group-data-[type=checkbox]/questionnaire-choice:hidden group-data-checked/questionnaire-choice:block"
         />
         <CheckIcon
           data-slot="questionnaire-choice-indicator-check"
@@ -112,7 +112,7 @@ function QuestionnaireChoice({ children, className, ...props }) {
       </QuestionnairePrimitive.ChoiceLabel>
       <QuestionnairePrimitive.ChoiceShortcut
         data-slot="questionnaire-choice-shortcut"
-        className="pointer-events-none ms-auto hidden h-5 min-w-5 shrink-0 items-center justify-center border border-input border-b-2 bg-muted px-1 font-mono text-[10px] leading-none font-bold text-muted-foreground group-data-[shortcut]/questionnaire-choice:inline-flex"
+        className="pointer-events-none ms-auto hidden h-5 min-w-5 shrink-0 items-center justify-center rounded-sm border-[0.8px] border-border-cool bg-chip px-1 font-mono text-[10px] leading-none font-bold text-muted-foreground group-data-[shortcut]/questionnaire-choice:inline-flex"
       />
     </QuestionnairePrimitive.Choice>
   );

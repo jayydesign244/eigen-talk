@@ -4,11 +4,11 @@ import { ChevronDownIcon, GlobeIcon, SearchIcon } from "lucide-react";
 import { AgentThinking } from "@/components/ui/agent-thinking";
 import { cn } from "@/lib/utils";
 
-/** A square site mark: the site's initial on its colour, so sources read at a glance. */
+/** A round site mark: the site's initial on its colour, so sources read at a glance. */
 function SiteMark({ name, color = "var(--muted)", className }) {
   return (
     <span
-      className={cn("flex size-5 shrink-0 items-center justify-center border-2 border-card text-[9px] font-extrabold text-white", className)}
+      className={cn("flex size-5 shrink-0 items-center justify-center rounded-full border-2 border-card text-[9px] font-extrabold text-white", className)}
       style={{ background: color }}
       title={name}
     >
@@ -23,7 +23,7 @@ function SiteMarks({ sources = [], max = 4 }) {
     <span className="flex -space-x-1.5">
       {shown.map((s, i) => <SiteMark key={i} name={s.name} color={s.color} />)}
       {sources.length > max && (
-        <span className="flex size-5 items-center justify-center border-2 border-card bg-muted font-mono text-[9px] font-bold">+{sources.length - max}</span>
+        <span className="flex size-5 items-center justify-center rounded-full border-2 border-card bg-muted font-mono text-[9px] font-bold">+{sources.length - max}</span>
       )}
     </span>
   );
@@ -32,7 +32,7 @@ function SiteMarks({ sources = [], max = 4 }) {
 const reveal = {
   initial: { opacity: 0, y: 4, filter: "blur(3px)", height: 0 },
   animate: { opacity: 1, y: 0, filter: "blur(0px)", height: "auto" },
-  transition: { duration: 0.32, ease: [0.16, 1, 0.3, 1] },
+  transition: { duration: 0.3, ease: [0.4, 0, 0.2, 1] },
 };
 
 /**
@@ -53,7 +53,7 @@ function WebSearch({ steps = [], running = false, since, label, runningLabel = "
         type="button"
         onClick={() => setOpen((o) => !o)}
         aria-expanded={isOpen}
-        className="mb-1.5 flex items-center gap-2 text-[12px] font-semibold text-muted-foreground outline-hidden hover:text-foreground focus-visible:underline"
+        className="mb-1.5 -ml-1.5 flex items-center gap-2 rounded-md px-1.5 py-0.5 text-[12px] font-semibold text-muted-foreground outline-hidden transition-colors hover:bg-accent hover:text-foreground focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-ring"
       >
         <SearchIcon className="size-3.5" />
         {running ? runningLabel : label || `Ran ${searches} search${searches === 1 ? "" : "es"}`}
@@ -85,7 +85,7 @@ function WebSearch({ steps = [], running = false, since, label, runningLabel = "
                           onClick={l.onClick}
                           title={l.title}
                           aria-label={l.title}
-                          className="border border-border bg-muted px-1.5 py-[1px] font-mono text-[11px] tabular transition-colors outline-hidden hover:border-foreground focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-ring"
+                          className="rounded-full border-[0.8px] border-border-cool bg-chip px-2 py-[1px] font-mono text-[11px] tabular transition-colors outline-hidden hover:bg-accent focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-ring"
                         >
                           {l.label}
                         </button>

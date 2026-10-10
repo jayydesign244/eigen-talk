@@ -42,8 +42,8 @@ function QuickAction({ icon: Icon, title, body, onClick, tone = 'default', kbd }
     <button
       onClick={onClick}
       className={cn(
-        'group plunk plunk-press flex w-full items-start gap-4 border p-5 text-left outline-hidden focus-visible:outline-2 focus-visible:outline-offset-[5px] focus-visible:outline-solid focus-visible:outline-ring',
-        tone === 'brand' ? 'edge-brand border-brand bg-brand text-brand-foreground' : 'edge-card border-border bg-card hover:border-muted-foreground/50'
+        'group flex w-full items-start gap-4 rounded-2xl border-[0.8px] p-5 text-left outline-hidden transition-[box-shadow,transform,filter] duration-200 hover:-translate-y-px active:translate-y-0 active:scale-[0.99] focus-visible:outline-2 focus-visible:outline-offset-[5px] focus-visible:outline-solid focus-visible:outline-ring',
+        tone === 'brand' ? 'border-brand bg-brand text-brand-foreground shadow-soft hover:brightness-105' : 'border-border bg-card shadow-soft hover:shadow-float'
       )}
     >
       <span className={cn('flex size-11 shrink-0 items-center justify-center', tone === 'brand' ? 'bg-pop-black text-brand' : 'bg-foreground text-background')}>
@@ -63,7 +63,7 @@ function QuickAction({ icon: Icon, title, body, onClick, tone = 'default', kbd }
 function EmptyState({ onUpload, onRecord }) {
   return (
     <motion.div variants={rise} initial="hidden" animate="show" className="hatch flex flex-col items-center border border-dashed border-input px-6 py-16 text-center">
-      <span className="plunk edge-card flex size-14 items-center justify-center border border-border bg-card"><AudioLinesIcon className="size-6" /></span>
+      <span className="surface-tile flex size-14 items-center justify-center rounded-full"><AudioLinesIcon className="size-6" /></span>
       <h2 className="mt-6 font-display text-4xl leading-tight">Your first episode starts here</h2>
       <p className="mt-3 max-w-md text-sm text-muted-foreground">Drop an audio or video file anywhere on this page, or record straight from your browser. Sonicly transcribes it so you can edit the sound by editing the words.</p>
       <div className="mt-8 flex flex-wrap justify-center gap-3">

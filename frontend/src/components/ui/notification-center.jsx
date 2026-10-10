@@ -39,7 +39,7 @@ function NotificationCenter({ items = [], filters, onMarkAllRead, onItemClick, t
   }, [items, current]);
 
   return (
-    <div data-slot="notification-center" className={cn("flex w-full max-w-sm flex-col bg-card", className)}>
+    <div data-slot="notification-center" className={cn("flex w-full max-w-sm flex-col rounded-[inherit] bg-card", className)}>
       <div className="flex items-start justify-between gap-3 px-4 pt-4">
         <div>
           <p className="text-[15px] font-bold tracking-tight">{title}</p>
@@ -51,7 +51,7 @@ function NotificationCenter({ items = [], filters, onMarkAllRead, onItemClick, t
       </div>
 
       {tabs.length > 1 && (
-        <div role="tablist" className="mx-4 mt-3 flex border-b border-border">
+        <div role="tablist" className="mx-4 mt-3 flex gap-0.5 self-start rounded-full bg-chip p-0.5">
           {tabs.map((t) => {
             const count = items.filter(t.match).length;
             const on = t.value === tab;
@@ -61,11 +61,11 @@ function NotificationCenter({ items = [], filters, onMarkAllRead, onItemClick, t
                 role="tab"
                 aria-selected={on}
                 onClick={() => setTab(t.value)}
-                className={cn("relative flex items-center gap-1.5 px-2.5 pb-2 text-[12px] font-bold outline-hidden transition-colors focus-visible:underline", on ? "text-foreground" : "text-muted-foreground hover:text-foreground")}
+                className={cn("relative isolate flex h-7 items-center gap-1.5 rounded-full px-3 text-[12px] font-bold outline-hidden transition-colors focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-ring", on ? "text-foreground" : "text-muted-foreground hover:text-foreground")}
               >
                 {t.label}
-                <span className="bg-muted px-1 font-mono text-[10px] tabular">{count}</span>
-                {on && <motion.span layoutId="notification-tab" className="absolute inset-x-0 -bottom-px h-[3px] bg-foreground" />}
+                <span className="rounded-full bg-foreground/[0.06] px-1.5 font-mono text-[10px] tabular">{count}</span>
+                {on && <motion.span layoutId="notification-tab" className="absolute inset-0 -z-10 rounded-full bg-card shadow-soft dark:bg-accent" />}
               </button>
             );
           })}
@@ -76,14 +76,14 @@ function NotificationCenter({ items = [], filters, onMarkAllRead, onItemClick, t
         <AnimatePresence mode="popLayout" initial={false}>
           {groups.length === 0 ? (
             <motion.div key="empty" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col items-center px-6 py-10 text-center">
-              <span className="flex size-10 items-center justify-center border border-border bg-muted"><BellOffIcon className="size-4 text-muted-foreground" /></span>
+              <span className="surface-tile flex size-11 items-center justify-center rounded-full"><BellOffIcon className="size-4 text-muted-foreground" /></span>
               <p className="mt-3 text-sm font-bold">Nothing here yet</p>
               <p className="mt-1 text-[12px] text-muted-foreground">New activity will show up here.</p>
             </motion.div>
           ) : (
             groups.map(([group, list]) => (
               <motion.section key={group} layout initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-                <p className="text-caps px-2 pt-2 pb-1.5 text-[9px] text-muted-foreground">{group}</p>
+                <p className="text-caps px-2 pt-2 pb-1.5 text-[10px] text-label">{group}</p>
                 <ul>
                   {list.map((it, i) => {
                     const Icon = it.icon;
@@ -95,7 +95,7 @@ function NotificationCenter({ items = [], filters, onMarkAllRead, onItemClick, t
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: i * 0.03 }}
                         onClick={() => onItemClick?.(it)}
-                        className={cn("relative flex gap-3 px-2 py-2.5 transition-colors", onItemClick && "cursor-pointer hover:bg-accent/60", it.unread && "bg-brand-soft/40")}
+                        className={cn("relative flex gap-3 rounded-md px-2 py-2.5 transition-colors", onItemClick && "cursor-pointer hover:bg-accent", it.unread && "bg-brand-soft/40")}
                       >
                         {it.avatar ? (
                           <Avatar>
@@ -103,7 +103,7 @@ function NotificationCenter({ items = [], filters, onMarkAllRead, onItemClick, t
                             <AvatarFallback>{it.avatar.initials}</AvatarFallback>
                           </Avatar>
                         ) : (
-                          <span className={cn("flex size-8 shrink-0 items-center justify-center", TONES[it.tone || "default"])}>
+                          <span className={cn("flex size-8 shrink-0 items-center justify-center rounded-full", TONES[it.tone || "default"])}>
                             {Icon && <Icon className="size-4" />}
                           </span>
                         )}

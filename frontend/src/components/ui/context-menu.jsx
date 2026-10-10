@@ -108,7 +108,7 @@ function ContextMenuCheckboxItem({
     )}
     checked={checked}
     {...props}
-  ><span className="pointer-events-none absolute left-2 flex size-3.5 items-center justify-center"><ContextMenuPrimitive.ItemIndicator><CheckIcon className="size-4 text-current!" strokeWidth={3} /></ContextMenuPrimitive.ItemIndicator></span>{children}</ContextMenuPrimitive.CheckboxItem>;
+  ><span className="pointer-events-none absolute left-2.5 flex size-3.5 items-center justify-center"><ContextMenuPrimitive.ItemIndicator><CheckIcon className="size-3.5 text-current!" strokeWidth={2.5} /></ContextMenuPrimitive.ItemIndicator></span>{children}</ContextMenuPrimitive.CheckboxItem>;
 }
 function ContextMenuRadioItem({
   className,
@@ -122,7 +122,7 @@ function ContextMenuRadioItem({
       className
     )}
     {...props}
-  ><span className="pointer-events-none absolute left-2 flex size-3.5 items-center justify-center"><ContextMenuPrimitive.ItemIndicator><span className="block size-2 rounded-full bg-current" /></ContextMenuPrimitive.ItemIndicator></span>{children}</ContextMenuPrimitive.RadioItem>;
+  ><span className="pointer-events-none absolute left-2.5 flex size-3.5 items-center justify-center"><ContextMenuPrimitive.ItemIndicator><span className="block size-1.5 rounded-full bg-current" /></ContextMenuPrimitive.ItemIndicator></span>{children}</ContextMenuPrimitive.RadioItem>;
 }
 function ContextMenuLabel({
   className,
