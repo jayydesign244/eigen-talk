@@ -50,7 +50,7 @@ function BubbleContent({
   return <Comp
     data-slot="bubble-content"
     className={cn(
-      "w-fit max-w-full min-w-0 overflow-hidden rounded-2xl rounded-bl-md border-[0.8px] border-transparent px-3.5 py-2.5 group-data-[align=end]/bubble:rounded-bl-2xl group-data-[align=end]/bubble:rounded-br-md group-data-[align=end]/message:rounded-bl-2xl group-data-[align=end]/message:rounded-br-md text-sm leading-relaxed wrap-break-word group-data-[align=end]/bubble:self-end [button]:text-left [button,a]:transition-colors [button,a]:outline-hidden [button,a]:focus-visible:border-ring [button,a]:focus-visible:ring-3 [button,a]:focus-visible:ring-ring/50",
+      "w-fit max-w-full min-w-0 overflow-hidden rounded-2xl rounded-bl-md border-[0.8px] border-transparent px-3.5 py-2.5 group-data-[align=end]/bubble:rounded-bl-2xl group-data-[align=end]/bubble:rounded-br-md group-data-[align=end]/message:rounded-bl-2xl group-data-[align=end]/message:rounded-br-md text-sm leading-relaxed wrap-break-word group-data-[align=end]/bubble:self-end [button]:text-left [button,a]:transition-colors [button,a]:outline-hidden [button,a]:focus-visible:outline-2 [button,a]:focus-visible:outline-solid [button,a]:focus-visible:outline-offset-2 [button,a]:focus-visible:outline-ring",
       className
     )}
     {...props}

@@ -42,7 +42,7 @@ function QuickAction({ icon: Icon, title, body, onClick, tone = 'default', kbd }
     <button
       onClick={onClick}
       className={cn(
-        'group flex w-full items-start gap-4 rounded-2xl border-[0.8px] p-5 text-left outline-hidden transition-[box-shadow,transform,filter] duration-200 hover:-translate-y-px active:translate-y-0 active:scale-[0.99] focus-visible:outline-2 focus-visible:outline-offset-[5px] focus-visible:outline-solid focus-visible:outline-ring',
+        'group flex w-full items-start gap-4 rounded-2xl border-[0.8px] p-5 text-left outline-hidden transition-[box-shadow,filter] duration-150 focus-visible:outline-2 focus-visible:outline-offset-[5px] focus-visible:outline-solid focus-visible:outline-ring',
         tone === 'brand' ? 'border-brand bg-brand text-brand-foreground shadow-soft hover:brightness-105' : 'border-border bg-card shadow-soft hover:shadow-float'
       )}
     >

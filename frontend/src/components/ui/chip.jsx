@@ -12,7 +12,7 @@ import { cn } from "@/lib/utils";
  * Selectable chips take `aria-pressed` or `data-state="on"` and fill in.
  */
 const chipVariants = cva(
-  "inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap font-semibold outline-hidden transition-colors select-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-45 [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-3.5",
+  "inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap font-semibold outline-hidden transition-colors select-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-3.5",
   {
     variants: {
       variant: {

@@ -15,10 +15,10 @@ function AttachmentTile({ item, onRemove }) {
   return (
     <motion.div
       layout
-      initial={{ opacity: 0, scale: 0.85, y: 6 }}
+      initial={{ opacity: 0, scale: 0.96, y: 4 }}
       animate={{ opacity: 1, scale: 1, y: 0 }}
-      exit={{ opacity: 0, scale: 0.85 }}
-      transition={{ type: "spring", stiffness: 420, damping: 30 }}
+      exit={{ opacity: 0, scale: 0.96 }}
+      transition={{ type: "spring", stiffness: 420, damping: 41 }}
       className="group relative size-14 shrink-0"
       title={item.name}
     >

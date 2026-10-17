@@ -80,7 +80,7 @@ function QuestionnaireChoice({ children, className, ...props }) {
       data-slot="questionnaire-choice"
       className={cn(
         "group/questionnaire-choice relative flex min-h-12 cursor-pointer items-start gap-3 rounded-xl border-[0.8px] border-border bg-card px-3.5 py-3 text-start text-sm transition-[border-color,background-color,box-shadow] duration-150 outline-hidden select-none hover:border-foreground/30 hover:bg-surface-2 has-[>input:focus-visible]:outline-2 has-[>input:focus-visible]:outline-solid has-[>input:focus-visible]:outline-offset-2 has-[>input:focus-visible]:outline-ring data-invalid:border-destructive data-checked:border-foreground data-checked:bg-card data-checked:shadow-soft",
-        "data-disabled:pointer-events-none data-disabled:cursor-not-allowed data-disabled:opacity-45",
+        "data-disabled:pointer-events-none data-disabled:cursor-not-allowed data-disabled:opacity-50",
         className
       )}
       {...props}

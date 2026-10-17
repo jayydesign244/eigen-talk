@@ -307,7 +307,7 @@ export function AssistantPanel({
               key={label}
               onClick={run}
               disabled={disabled || !transcriptReady}
-              className="flex shrink-0 items-center gap-1.5 border border-input bg-card px-2.5 py-1.5 text-[12px] font-semibold transition-colors outline-hidden hover:border-foreground focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-40"
+              className="flex shrink-0 items-center gap-1.5 border border-input bg-card px-2.5 py-1.5 text-[12px] font-semibold transition-colors outline-hidden hover:border-foreground focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-50"
             >
               <Icon className="size-3.5" />{label}
             </button>

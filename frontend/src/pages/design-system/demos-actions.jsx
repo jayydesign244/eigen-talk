@@ -37,7 +37,7 @@ function ButtonPage() {
           <Button variant="link">Learn more</Button>
         </Preview>
       </Section>
-      <Section title="Elevated keys (NeoPOP)" description="From the Mobbin review, the most-used CTA on CRED's dark screens: a square key with a lighter right edge and a darker bottom edge. It is black on light pages and white on dark ones. It lifts on hover, sinks into its edge when pressed, and turns grey when disabled instead of fading. pay is the lime key used for “Pay ₹1”.">
+      <Section title="Elevated keys (NeoPOP)" description="From the Mobbin review, the most-used CTA on CRED's dark screens: a square key with a lighter right edge and a darker bottom edge. It is black on light pages and white on dark ones. Like NeoPOP's ElevatedButton it doesn't move on hover; pressing slides it 3px into its edge (120ms) and it turns grey when disabled instead of fading. pay is the lime key used for “Pay ₹1”.">
         <Preview center={false}>
           <StateGrid columns={2} states={[
             { label: 'elevated', node: <Button variant="elevated" size="lg">Refresh details<ArrowRightIcon /></Button> },

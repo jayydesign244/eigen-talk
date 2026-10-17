@@ -178,7 +178,7 @@ function Composer({
           placeholder={working ? "Working…" : placeholder}
           disabled={disabled}
           aria-label="Prompt"
-          className="h-full min-w-0 flex-1 bg-transparent px-1 text-sm outline-hidden placeholder:text-muted-foreground/80 disabled:opacity-60"
+          className="h-full min-w-0 flex-1 bg-transparent px-1 text-sm outline-hidden placeholder:text-muted-foreground/80 disabled:opacity-50"
         />
         {trailing}
         <ComposerMicButton onText={(t) => onChange?.((value ? value + " " : "") + t)} disabled={disabled || working} />

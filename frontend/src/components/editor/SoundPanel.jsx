@@ -562,7 +562,7 @@ export function SoundPanel({
                 aria-checked={ab === k}
                 disabled={k === 'after' && state.is_empty}
                 onClick={() => onAb(k)}
-                className={cn('flex-1 py-1.5 text-[12px] font-semibold disabled:opacity-40', ab === k ? 'bg-foreground text-background' : 'text-muted-foreground hover:text-foreground')}
+                className={cn('flex-1 py-1.5 text-[12px] font-semibold disabled:opacity-50', ab === k ? 'bg-foreground text-background' : 'text-muted-foreground hover:text-foreground')}
               >
                 {label}
               </button>

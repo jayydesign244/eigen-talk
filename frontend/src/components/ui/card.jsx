@@ -15,7 +15,7 @@ const cardVariants = cva(
         flat: "border-border",
         elevated: "border-border shadow-soft",
         interactive:
-          "cursor-pointer border-border shadow-soft transition-[box-shadow,transform] duration-200 hover:-translate-y-px hover:shadow-float active:translate-y-0 active:scale-[0.99]",
+          "cursor-pointer border-border shadow-soft transition-[box-shadow,border-color] duration-150 hover:shadow-float active:shadow-soft",
         ghost: "border-transparent bg-transparent",
       },
     },

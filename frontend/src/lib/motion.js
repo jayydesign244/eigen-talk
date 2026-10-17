@@ -7,19 +7,19 @@ export const ease = {
   inOut: [0.43, 0, 0.58, 1], // CRED's one custom curve
   decelerate: [0, 0, 0.2, 1],
   accelerate: [0.4, 0, 1, 1],
-  plunk: [0.37, 0, 0.63, 1], // Android AccelerateDecelerate, 50ms key press
+  plunk: [0.42, 0, 0.58, 1], // ease-in-out — NeoPOP's 120ms key press
 }
 
 export const spring = {
-  // Compose defaults CRED uses: damping ratio 1 / stiffness 1500, and 0.75 / 200.
+  // Every spring is critically damped (damping ≥ 2·√stiffness): it settles, never wobbles.
   snappy: { type: 'spring', stiffness: 1500, damping: 77 },
-  soft: { type: 'spring', stiffness: 200, damping: 21 },
-  bouncy: { type: 'spring', stiffness: 420, damping: 18 },
+  soft: { type: 'spring', stiffness: 200, damping: 29 },
+  bouncy: { type: 'spring', stiffness: 420, damping: 41 },
   // NeoPOP press: stiffness 6000, critically damped (no bounce).
   press: { type: 'spring', stiffness: 6000, damping: 155 },
 }
 
-export const duration = { press: 0.05, fast: 0.2, base: 0.3, slow: 0.5, sheet: 0.35 }
+export const duration = { press: 0.12, fast: 0.2, base: 0.3, slow: 0.5, sheet: 0.35 }
 
 /** Page / section entrance: rise 10px and fade. */
 export const rise = {

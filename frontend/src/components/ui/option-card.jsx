@@ -17,7 +17,7 @@ function OptionCardGroup({ className, ...props }) {
 }
 
 const optionCardVariants = cva(
-  "group/option relative flex w-full items-center gap-3.5 text-left outline-hidden transition-colors focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-45",
+  "group/option relative flex w-full items-center gap-3.5 text-left outline-hidden transition-colors focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-50",
   {
     variants: {
       variant: {
@@ -37,7 +37,7 @@ function Radio() {
       aria-hidden
       className="flex size-5 shrink-0 items-center justify-center rounded-full border border-foreground transition-colors group-data-[state=checked]/option:bg-foreground"
     >
-      <span className="size-[7px] scale-0 rounded-full bg-background transition-transform group-data-[state=checked]/option:scale-100" />
+      <span className="size-[7px] rounded-full bg-background opacity-0 transition-opacity duration-150 group-data-[state=checked]/option:opacity-100" />
     </span>
   );
 }

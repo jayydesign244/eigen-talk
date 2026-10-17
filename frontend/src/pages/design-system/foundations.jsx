@@ -21,7 +21,7 @@ const PRINCIPLES = [
   ['Soft, not flat', 'Cards round to 16px, buttons to 8px, chips to pills. Depth comes from gentle gradients and two soft shadows.'],
   ['One key still clicks', 'The raised key keeps NeoPOP’s hard 3px edge and sinks into it when pressed — save it for the moment that matters.'],
   ['Serif to speak, sans to work', 'Fraunces for headlines that set the tone; Plus Jakarta Sans for everything you read and use.'],
-  ['Motion explains', 'Things rise in, land, and snap — always under 450ms, always respecting reduced motion.'],
+  ['Motion explains', 'Things fade and settle — no bounce, no shrinking on click, always under 450ms, always respecting reduced motion.'],
 ]
 
 export function OverviewPage({ counts }) {
@@ -309,7 +309,7 @@ export function ElevationPage() {
           ))}
         </Preview>
       </Section>
-      <Section title="Raised key states" description="The one hard edge left: rest → press collapses the 3px edge in 50ms and the face drops into the gap.">
+      <Section title="Raised key states" description="The one hard edge left: rest → press slides the face 3px into its edge over 120ms (ease-in-out) and back on release, exactly like NeoPOP's ElevatedButton.">
         <Preview contentClassName="gap-10">
           {[['Rest', {}], ['Pressed', { '--plunk': '0px' }], ['Disabled', {}, true]].map(([label, style, disabled]) => (
             <div key={label} className="flex flex-col items-start gap-3">
@@ -379,13 +379,13 @@ export function SpacingPage() {
 /* ─── Motion ───────────────────────────────────────────────────── */
 
 const MOTION_TOKENS = [
-  ['Press', '50ms', 'accelerate-decelerate (.37,0,.63,1)', 'Plunk keys sinking into their edge'],
-  ['Hover', '150ms', 'ease', 'Colour, border changes'],
+  ['Press', '120ms', 'ease-in-out', 'NeoPOP keys sliding 3px into their edge — no hover lift, no size change']
+  ['Hover / press', '150ms', 'ease', 'Colour and border changes only — nothing grows or shrinks on click'],
   ['Fast', '200ms', 'FastOutSlowIn (.4,0,.2,1)', 'Switch thumbs, ticks, small state changes'],
   ['Enter', '300ms', 'FastOutSlowIn (.4,0,.2,1)', 'Pages, cards, sections rising in'],
-  ['Dialog', '220ms', 'decelerate (0,0,.2,1) · scale 0.9 → 1', 'Dialogs and alerts popping in'],
+  ['Dialog', '220ms', 'decelerate (0,0,.2,1) · fade + scale 0.97 → 1', 'Dialogs and alerts appearing'],
   ['Sheet', '350ms', 'decelerate in · accelerate out', 'Bottom sheets and side panels'],
-  ['Spring', 'damping 0.75 · stiffness 200', 'motion/react', 'Cards landing, lists reordering'],
+  ['Spring', 'critically damped (ratio ≥ 1)', 'motion/react', 'Cards landing, lists reordering — settles without wobble'],
   ['Loop', '1.5s', 'linear', 'Shimmer; the NeoPOP glint rests 5s between sweeps'],
 ]
 

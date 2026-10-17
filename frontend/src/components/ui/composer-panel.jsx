@@ -92,7 +92,7 @@ function ComposerPanel({
           disabled={disabled}
           placeholder={working ? "Working…" : placeholder}
           aria-label="Prompt"
-          className="field-sizing-content max-h-40 min-h-16 w-full resize-none bg-transparent px-3.5 pt-3 text-sm outline-hidden placeholder:text-muted-foreground/80 disabled:opacity-60"
+          className="field-sizing-content max-h-40 min-h-16 w-full resize-none bg-transparent px-3.5 pt-3 text-sm outline-hidden placeholder:text-muted-foreground/80 disabled:opacity-50"
         />
         <div className="flex items-center gap-1 px-2 pb-2">
           <DropdownMenu>

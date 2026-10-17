@@ -980,7 +980,7 @@ export default function Editor() {
                 initial={{ y: 24, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 exit={{ y: 24, opacity: 0 }}
-                transition={{ type: 'spring', stiffness: 420, damping: 32 }}
+                transition={{ type: 'spring', stiffness: 420, damping: 41 }}
                 className="pointer-events-none absolute inset-x-0 bottom-4 z-10 flex justify-center px-4"
               >
                 <div className="pointer-events-auto flex w-full max-w-xl flex-wrap items-center gap-3 border border-float-border bg-popover px-4 py-3 pop-float-lg" role="status">

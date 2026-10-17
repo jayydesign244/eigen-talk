@@ -19,7 +19,7 @@ function Slider({ className, defaultValue, value, min = 0, max = 100, tone = "fo
       min={min}
       max={max}
       className={cn(
-        "group/slider relative flex w-full touch-none items-center py-2 select-none data-[disabled]:opacity-45 data-[orientation=vertical]:h-full data-[orientation=vertical]:min-h-44 data-[orientation=vertical]:w-auto data-[orientation=vertical]:flex-col data-[orientation=vertical]:px-2 data-[orientation=vertical]:py-0",
+        "group/slider relative flex w-full touch-none items-center py-2 select-none data-[disabled]:opacity-50 data-[orientation=vertical]:h-full data-[orientation=vertical]:min-h-44 data-[orientation=vertical]:w-auto data-[orientation=vertical]:flex-col data-[orientation=vertical]:px-2 data-[orientation=vertical]:py-0",
         className
       )}
       {...props}
@@ -40,7 +40,7 @@ function Slider({ className, defaultValue, value, min = 0, max = 100, tone = "fo
         <SliderPrimitive.Thumb
           data-slot="slider-thumb"
           key={index}
-          className="relative block size-5 shrink-0 rounded-full border-[0.8px] border-border bg-white shadow-soft outline-hidden transition-transform duration-150 ease-[var(--ease-standard)] after:absolute after:inset-[6px] after:rounded-full after:bg-foreground hover:scale-110 focus-visible:scale-110 focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring active:scale-125 disabled:pointer-events-none"
+          className="relative block size-5 shrink-0 rounded-full border-[0.8px] border-border bg-white shadow-soft outline-hidden transition-shadow duration-150 ease-[var(--ease-standard)] cursor-grab active:cursor-grabbing after:absolute after:inset-[6px] after:rounded-full after:bg-foreground hover:ring-4 hover:ring-foreground/10 focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring active:ring-4 active:ring-foreground/15 disabled:pointer-events-none"
           aria-label={props["aria-label"] || "Value"}
         />
       ))}

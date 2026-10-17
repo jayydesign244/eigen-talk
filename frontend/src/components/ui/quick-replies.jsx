@@ -14,7 +14,7 @@ function QuickReplies({ className, options = [], onSelect, disabled, label = "Su
           type="button"
           disabled={disabled}
           onClick={() => onSelect?.(o)}
-          className="border-[0.8px] border-border-strong bg-transparent px-4 py-2.5 text-left text-[13px] font-medium text-foreground outline-hidden transition-colors hover:border-foreground hover:bg-accent focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-45"
+          className="border-[0.8px] border-border-strong bg-transparent px-4 py-2.5 text-left text-[13px] font-medium text-foreground outline-hidden transition-colors hover:border-foreground hover:bg-accent focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-50"
         >
           {o}
         </button>

@@ -43,7 +43,7 @@ const NOTE = 'Floating layers render at the top of the page, so they follow the 
 function DialogPage() {
   return (
     <>
-      <PageHeader eyebrow="Overlays" title="Dialog" description={`A floating card with 22px corners and a soft shadow over a dark scrim. Pops from 90% scale in 220ms, as in CRED. ${NOTE}`} />
+      <PageHeader eyebrow="Overlays" title="Dialog" description={`A floating card with 22px corners and a soft shadow over a dark scrim. Fades in from 97% scale in 220ms, as in CRED. ${NOTE}`} />
       <Section title="Example">
         <Preview>
           <Dialog>

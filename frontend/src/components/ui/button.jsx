@@ -25,22 +25,22 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          "rounded-md bg-primary font-semibold text-primary-foreground hover:bg-primary/88 active:scale-[0.98]",
+          "rounded-md bg-primary font-semibold text-primary-foreground hover:bg-primary/90 active:bg-primary/80",
         brand:
           "raised rounded-xs font-bold text-brand-foreground [--raised-from:#92f2ee] [--raised-to:#2ce6e0] [--raised-rim:#c2f8f6]",
         gold: "raised rounded-xs font-bold text-raised-ink",
-        pill: "surface-pop rounded-full font-semibold hover:brightness-110 active:scale-[0.98]",
-        chip: "surface-pill rounded-full font-semibold text-foreground shadow-[0_2px_0_var(--pill-border)] hover:brightness-[0.98] active:translate-y-px active:shadow-[0_1px_0_var(--pill-border)]",
+        pill: "surface-pop rounded-full font-semibold hover:brightness-110 active:brightness-95",
+        chip: "surface-pill rounded-full font-semibold text-foreground shadow-[0_2px_0_var(--pill-border)] hover:brightness-[0.98] active:brightness-95",
         secondary:
-          "rounded-md border-[0.8px] border-border-cool bg-chip font-bold text-secondary-foreground hover:bg-accent active:scale-[0.98]",
+          "rounded-md border-[0.8px] border-border-cool bg-chip font-bold text-secondary-foreground hover:bg-accent active:bg-surface-2",
         destructive:
-          "rounded-md bg-secondary font-semibold text-destructive-ink hover:bg-destructive-soft active:scale-[0.98]",
+          "rounded-md bg-secondary font-semibold text-destructive-ink hover:bg-destructive-soft active:brightness-95",
         outline:
-          "rounded-md border border-foreground/80 bg-transparent font-semibold text-foreground hover:bg-accent active:scale-[0.98]",
+          "rounded-md border border-foreground/80 bg-transparent font-semibold text-foreground hover:bg-accent active:bg-surface-2",
         ghost: "rounded-md bg-transparent font-semibold text-foreground hover:bg-accent active:bg-surface-2",
         link: "h-auto! px-0! font-semibold text-foreground underline decoration-[1.5px] underline-offset-[5px] hover:decoration-brand",
         elevated:
-          "plunk plunk-press plunk-disable edge-primary mr-[3px] mb-[3px] rounded-none disabled:not-aria-busy:opacity-100 bg-primary font-bold text-primary-foreground",
+          "plunk plunk-press plunk-disable edge-primary hover:bg-primary/92 mr-[3px] mb-[3px] rounded-none disabled:not-aria-busy:opacity-100 bg-primary font-bold text-primary-foreground",
         pay: "plunk plunk-press plunk-disable mr-[3px] mb-[3px] rounded-none disabled:not-aria-busy:opacity-100 bg-[#8fd14f] font-bold text-pop-black [--edge-r:#73b236] [--edge-b:#548a22] hover:bg-[#99d85c]",
       },
       size: {

@@ -51,7 +51,7 @@ function TabsTrigger({ className, ...props }) {
     <TabsPrimitive.Trigger
       data-slot="tabs-trigger"
       className={cn(
-        "relative inline-flex h-full flex-1 items-center justify-center gap-1.5 rounded-full px-3 text-[13px] font-semibold whitespace-nowrap text-muted-foreground transition-colors duration-150 outline-hidden hover:text-foreground focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-1 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-45 group-data-[orientation=vertical]/tabs:w-full group-data-[orientation=vertical]/tabs:justify-start group-data-[orientation=vertical]/tabs:py-2 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+        "relative inline-flex h-full flex-1 items-center justify-center gap-1.5 rounded-full px-3 text-[13px] font-semibold whitespace-nowrap text-muted-foreground transition-colors duration-150 outline-hidden hover:text-foreground focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-1 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-50 group-data-[orientation=vertical]/tabs:w-full group-data-[orientation=vertical]/tabs:justify-start group-data-[orientation=vertical]/tabs:py-2 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
         "group-data-[variant=default]/tabs-list:data-[state=active]:bg-card group-data-[variant=default]/tabs-list:data-[state=active]:text-foreground group-data-[variant=default]/tabs-list:data-[state=active]:shadow-soft",
         "group-data-[variant=line]/tabs-list:rounded-none group-data-[variant=line]/tabs-list:px-0 group-data-[variant=line]/tabs-list:data-[state=active]:text-foreground group-data-[orientation=vertical]/tabs:group-data-[variant=line]/tabs-list:pr-4",
         "group-data-[variant=pill]/tabs-list:flex-none group-data-[variant=pill]/tabs-list:px-4 group-data-[variant=pill]/tabs-list:text-[10px] group-data-[variant=pill]/tabs-list:font-bold group-data-[variant=pill]/tabs-list:tracking-[0.14em] group-data-[variant=pill]/tabs-list:uppercase group-data-[variant=pill]/tabs-list:data-[state=active]:bg-chip group-data-[variant=pill]/tabs-list:data-[state=active]:text-foreground",
@@ -70,7 +70,7 @@ function TabsContent({ className, ...props }) {
   return (
     <TabsPrimitive.Content
       data-slot="tabs-content"
-      className={cn("flex-1 outline-hidden data-[state=active]:animate-rise", className)}
+      className={cn("flex-1 outline-hidden data-[state=active]:animate-in data-[state=active]:fade-in-0 data-[state=active]:duration-150", className)}
       {...props}
     />
   );
